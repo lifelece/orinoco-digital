@@ -19,9 +19,11 @@ const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DESTINO = join(RAIZ, "data", "raw");
 
 // Varios mirrors: si uno esta caido o saturado, se prueba el siguiente.
+// Orden por fiabilidad observada en septiembre 2026: el mirror principal
+// (overpass-api.de) rechazaba la conexion mientras kumi.systems respondia bien.
 const OVERPASS_MIRRORS = [
-  "https://overpass-api.de/api/interpreter",
   "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass-api.de/api/interpreter",
   "https://overpass.private.coffee/api/interpreter",
 ];
 

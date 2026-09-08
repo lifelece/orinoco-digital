@@ -37,27 +37,30 @@ Al registrar un dataset, si el CRS de origen no esta documentado, se anota
 | **USGS FS 2009-3028** — Orinoco Oil Belt Assessment Unit | Petrofisica publicada (porosidad, saturacion de agua, espesor de arena neta), limites de la unidad | Documentado en la publicacion | Dominio publico (obra del gobierno de EE.UU.) | Cita recomendada, no exigida | **Descargado** en `data/raw/usgs-fs-2009-3028-orinoco-oil-belt.pdf` (917 KB) |
 | **Cesium World Terrain** | Elevacion y relieve global | EPSG:4326 / EGM96 | Terminos de Cesium ion | **Si** — el widget de creditos NO se oculta | En uso (runtime) |
 
-### Pendiente: OpenStreetMap
+### OpenStreetMap — descargado
 
 | Dataset | Aporta | CRS origen | Licencia | Atribucion obligatoria |
 |---|---|---|---|---|
 | **OpenStreetMap** (via Overpass API) | Ductos, pozos, refinerias, terminales etiquetados | EPSG:4326 nativo | **ODbL 1.0** | **Si** — "© OpenStreetMap contributors" |
 
-El script `scripts/descargar-fuentes.mjs` esta listo y probado, pero **la API de
-Overpass no era alcanzable desde el entorno donde se preparo el proyecto** (todos
-los mirrors fallaron, mientras que USGS y otros dominios respondian con
-normalidad). No es un fallo del script.
+Descargado con `node scripts/descargar-fuentes.mjs` el 2026-09-08:
 
-Ejecutalo tu desde tu red:
+| Archivo en `data/raw/` | Elementos | Tamano |
+|---|---|---|
+| `osm-pozos.json` | 461 pozos de petroleo | 91 KB |
+| `osm-ductos.json` | 490 ductos (con geometria) | 1,3 MB |
+| `osm-refinerias.json` | 51 instalaciones industriales de petroleo | 31 KB |
+| `osm-terminales.json` | 1.860 tanques de almacenamiento y puertos | 1,3 MB |
 
-```bash
-node scripts/descargar-fuentes.mjs
-```
+**Nota operativa:** el mirror principal `overpass-api.de` rechazaba la conexion;
+`overpass.kumi.systems` respondio sin problema. El script prueba tres mirrors en
+orden, con ese ya en primer lugar. Si los tres fallan, reintenta mas tarde:
+Overpass es un servicio publico gratuito y se satura.
 
-Prueba tres mirrors de Overpass en orden y descarga cuatro capas a `data/raw/`:
-`osm-pozos.json`, `osm-ductos.json`, `osm-refinerias.json` y
-`osm-terminales.json`. Si los tres fallan, reintenta mas tarde: Overpass es un
-servicio publico gratuito y se satura.
+**Antes de usar estos datos:** son crudos y sin curar. `osm-terminales.json`
+trae 1.860 elementos, muy por encima del presupuesto de 2.000 por capa una vez
+sumadas las demas — habra que filtrarlo a lo relevante del sector, no cargarlo
+entero.
 
 **Recordatorio ODbL:** lo derivado de OSM va en archivos `*-osm.geojson`
 separados, nunca fusionado con el resto del dataset. Ver seccion 4.
@@ -175,4 +178,4 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 | Fecha | Dataset | Version | Quien | Notas |
 |---|---|---|---|---|
 | 2026-09-08 | USGS FS 2009-3028 | 2009 | Setup inicial | PDF, 917 KB, dominio publico |
-| — | OpenStreetMap (Overpass) | pendiente | — | Script listo; Overpass inalcanzable desde el entorno de preparacion. Ejecutar `node scripts/descargar-fuentes.mjs` |
+| 2026-09-08 | OpenStreetMap (Overpass) | snapshot | Setup inicial | 461 pozos, 490 ductos, 51 refinerias, 1.860 terminales. Via mirror kumi.systems |
