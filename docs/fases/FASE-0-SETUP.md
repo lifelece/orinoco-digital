@@ -85,3 +85,25 @@ intencional: los errores se ven en la UI, no solo en consola.
 - [ ] **Globo visible en movil real, DevTools cerrado, consola limpia**
 
 Cuando marques las tres ultimas, la Fase 0 esta cerrada y pasas a la Fase 1.
+
+## Trampa verificada: el build sin token parece roto
+
+Si ejecutas `npm run build` con `VITE_CESIUM_TOKEN` vacio, el bundle sale de
+**~5 kB** y Cesium no aparece por ningun lado. Parece que el setup esta mal.
+No lo esta.
+
+Motivo: Vite sustituye `import.meta.env.VITE_CESIUM_TOKEN` en tiempo de build.
+Con el token vacio, la guarda de `iniciarMapa()`
+
+```js
+if (!CESIUM_TOKEN) throw new Error(...)
+```
+
+se resuelve estaticamente a "lanza siempre", y Rollup elimina como codigo
+muerto todo lo que viene despues — incluido `new Viewer(...)`.
+
+**Comprobado:** con un token cualquiera en `.env`, el mismo build produce
+**4,19 MB (1,13 MB gzip)**, con `CESIUM_BASE_URL` inyectado y los cuatro
+directorios de assets copiados a `cesiumStatic/`.
+
+Asi que si ves un bundle de 5 kB: te falta el token, no te falta configuracion.

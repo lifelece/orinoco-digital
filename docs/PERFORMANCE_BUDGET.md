@@ -63,3 +63,21 @@ existe justamente para forzar esa conversacion.
 
 Si un limite resulta genuinamente mal calibrado, se cambia **con un ADR** en
 `DECISIONS.md` que explique por que — no en silencio.
+
+## Medicion de referencia (Fase 0)
+
+Primer build real, para tener una linea base:
+
+| Recurso | Tamano | Gzip |
+|---|---|---|
+| JS (incluye Cesium completo) | 4,19 MB | **1,13 MB** |
+| CSS | 37 kB | 8,5 kB |
+| Assets estaticos de Cesium | 7,7 MB | (se sirven bajo demanda) |
+
+**1,13 MB comprimidos solo de JavaScript es demasiado** para el objetivo de
+5 segundos en 4G. El build ya avisa al superar el limite de 1.500 kB
+configurado en `vite.config.js`.
+
+Es esperable en la Fase 0 y es exactamente la razon por la que el
+code-splitting de Cesium esta en la lista de la Fase 6. La linea base queda
+anotada aqui para poder medir la mejora cuando se haga.
