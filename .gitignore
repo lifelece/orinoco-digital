@@ -1,0 +1,26 @@
+node_modules/
+dist/
+dist-ssr/
+.vite/
+
+# Secretos: jamas versionados.
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Descargas crudas de datasets. Pesan y sus licencias varian.
+# El GeoJSON curado en public/data/ SI se versiona: es la fuente de verdad.
+data/raw/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# Editores
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp

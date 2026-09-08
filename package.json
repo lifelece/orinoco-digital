@@ -1,0 +1,25 @@
+{
+  "name": "orinoco-digital",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gemelo digital 3D open-source de la industria petrolera y gasifera de Venezuela",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "vite",
+    "dev:host": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "data:gem": "node scripts/gem-to-geojson.mjs",
+    "data:validate": "node scripts/validate-geojson.mjs"
+  },
+  "dependencies": {
+    "cesium": "^1.135.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "vite": "^7.1.0",
+    "vite-plugin-static-copy": "^3.1.0"
+  }
+}

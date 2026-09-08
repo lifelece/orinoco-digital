@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0f172a;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#cesiumContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* La atribucion de Cesium y de los proveedores de terreno es obligatoria por
+   licencia. Se reposiciona para que no estorbe en movil, nunca se oculta. */
+.cesium-widget-credits {
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+/* Respeta a quien pidio menos movimiento en su sistema. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

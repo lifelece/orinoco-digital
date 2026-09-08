@@ -1,0 +1,44 @@
+# Licencia de los datos
+
+Los datos **originales de este proyecto** — es decir, la curacion, la
+estructura, las anotaciones y los archivos GeoJSON producidos por Orinoco
+Digital — se publican bajo:
+
+## Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+https://creativecommons.org/licenses/by/4.0/
+
+Eres libre de compartir y adaptar estos datos, incluso comercialmente, siempre
+que des credito adecuado:
+
+> Datos de Orinoco Digital (Luis Carlos Vasquez), CC BY 4.0
+> https://github.com/lifelece/orinoco-digital
+
+---
+
+## Importante: los datos de terceros NO estan cubiertos por esta licencia
+
+Este repositorio incorpora datos de terceros que **conservan su licencia de
+origen**. Algunas imponen obligaciones distintas y, en un caso, contagiosas:
+
+| Fuente | Licencia | Obligacion |
+|---|---|---|
+| OpenStreetMap | **ODbL 1.0** | Atribucion + **share-alike sobre bases de datos derivadas** |
+| U.S. Geological Survey | Dominio publico | Ninguna (cita recomendada) |
+| Global Energy Monitor | CC BY con condiciones | Atribucion visible con version |
+| VIIRS Nightfire / EOG | Libre con cita exigida | Cita especifica literal |
+| Copernicus / Sentinel | Licencia Copernicus | Segun sus terminos |
+| Cesium World Terrain | Terminos de Cesium ion | Creditos en pantalla, no ocultables |
+
+**Sobre OpenStreetMap:** ODbL es share-alike. Por eso las capas derivadas de OSM
+se mantienen en archivos **separados e identificados** (`*-osm.geojson`) y no se
+fusionan con el resto del dataset. Si reutilizas esos archivos, te aplica ODbL,
+no CC BY.
+
+La matriz completa, con CRS y fecha de verificacion de cada dataset, esta en
+[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md).
+
+---
+
+**El codigo fuente se licencia por separado bajo Apache-2.0.** Ver
+[LICENSE](LICENSE).

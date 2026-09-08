@@ -1,0 +1,7 @@
+Aqui vive el GeoJSON curado: la fuente de verdad de los datos del proyecto.
+
+Vacio hasta la Fase 2. Los archivos que llegen aqui deben pasar antes por
+`npm run data:validate` y estar registrados en docs/DATA_SOURCES.md.
+
+Las capas derivadas de OpenStreetMap van en archivos *-osm.geojson separados,
+por su licencia ODbL (share-alike). No las fusiones con el resto.

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Orinoco Digital — Gemelo digital de la industria petrolera venezolana</title>
+    <meta
+      name="description"
+      content="Mapa 3D abierto de la industria petrolera y gasifera de Venezuela: Faja del Orinoco, midstream y downstream, con datos publicos y trazables."
+    />
+
+    <!-- Open Graph / SEO (Fase 6-7: reemplazar la URL y la imagen reales) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Orinoco Digital" />
+    <meta
+      property="og:description"
+      content="Gemelo digital 3D open-source de la industria petrolera y gasifera de Venezuela."
+    />
+    <meta property="og:url" content="[URL_PRODUCCION]" />
+    <meta property="og:image" content="[URL_IMAGEN_OG]" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <!-- Contenedor del globo Cesium -->
+    <div id="cesiumContainer" role="application" aria-label="Mapa 3D de la industria petrolera venezolana"></div>
+
+    <!-- Alternativa accesible al globo 3D. Tambien sirve de fallback en redes lentas.
+         Ver docs/DECISIONS.md -> ADR-006. Se puebla en la Fase 2. -->
+    <noscript>
+      <p>Este mapa requiere JavaScript. La vista de tabla accesible estara disponible en /tabla.html</p>
+    </noscript>
+
+    <!-- Capa de interfaz (la construye ui.js) -->
+    <div id="ui-root"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

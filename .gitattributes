@@ -1,0 +1,11 @@
+# Finales de linea normalizados: el repo guarda LF, Windows trabaja con CRLF.
+* text=auto eol=lf
+
+# Binarios: no tocar.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.xlsx binary
+
+# GeoJSON: es la fuente de verdad de los datos y su diff debe ser legible.
+*.geojson text eol=lf diff
