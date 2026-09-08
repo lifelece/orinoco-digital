@@ -96,8 +96,9 @@ la lectura), rendimiento (archivos cacheados) y superficie de escritura.
 
 ## Estado actual
 
-**Fase 0 cerrada** (esqueleto + globo). Siguiente: Fase 1 — mapa base sobre la
-Faja. El plan completo esta en `docs/PLAN.md`; cada fase tiene su archivo en
+**Fase 1 en curso.** Codigo hecho: la app abre encuadrada sobre la Faja con
+FAJA_BBOX medida y con fuente (USGS FS 2009-3028, ver DATA_SOURCES.md seccion 9).
+Falta la verificacion en movil, que necesita el token de Cesium en .env. El plan completo esta en `docs/PLAN.md`; cada fase tiene su archivo en
 `docs/fases/`.
 
 ## Al empezar una sesion

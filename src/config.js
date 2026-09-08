@@ -24,17 +24,33 @@ export const CRS = "EPSG:4326";
 // --- Vista inicial ----------------------------------------------------------
 
 /**
- * Centro aproximado de la Faja Petrolifera del Orinoco.
+ * Extension de la Orinoco Oil Belt Assessment Unit.
  *
- * SIN VERIFICAR — valor de trabajo tomado de la documentacion del proyecto.
- * Antes de cerrar la Fase 1: confirmar contra el poligono del USGS Orinoco Oil
- * Belt Assessment Unit (FS 2009-3028) y registrar la fuente en DATA_SOURCES.md.
+ * VERIFICADO — medido sobre la figura 1 del USGS Fact Sheet 2009-3028
+ * ("An Estimate of Recoverable Heavy Oil Resources of the Orinoco Oil Belt,
+ * Venezuela"), calibrando la graticula del mapa por analisis de pixeles.
+ * Metodo y cifras en docs/DATA_SOURCES.md, seccion 9.
+ *
+ * Precision estimada: +-0,05 grados (~5 km). Suficiente para encuadrar la
+ * camara; NO usar como limite legal ni catastral.
+ */
+export const FAJA_BBOX = {
+  oeste: -67.34,
+  este: -62.08,
+  sur: 7.88,
+  norte: 9.37,
+};
+
+/**
+ * Centro de la Faja. Derivado de FAJA_BBOX, no escrito a mano.
+ *
+ * El encuadre de la camara lo calcula Cesium a partir de FAJA_BBOX
+ * (ver volarAFaja en map.js). Este centro queda para etiquetas, enlaces
+ * de "compartir vista" y consultas por proximidad.
  */
 export const VISTA_FAJA = {
-  lng: -64.5,
-  lat: 8.5,
-  altura: 400000, // metros sobre el terreno
-  pitch: -45, // grados
+  lng: (FAJA_BBOX.oeste + FAJA_BBOX.este) / 2, // -64.71
+  lat: (FAJA_BBOX.sur + FAJA_BBOX.norte) / 2, //   8.63
 };
 
 /** Limites de camara: evita que el usuario se pierda en el espacio. */
@@ -45,8 +61,13 @@ export const CAMARA = {
 };
 
 /**
- * Los 4 bloques de la Faja. Coordenadas PENDIENTES de fuente verificada.
- * No inventar: se rellenan en la Fase 1 desde el shapefile del USGS.
+ * Los 4 bloques de la Faja, en orden geografico de oeste a este.
+ *
+ * Coordenadas PENDIENTES de fuente verificada. La figura del USGS dibuja la
+ * unidad completa, no la subdivide en bloques, y el poligono oficial de la AU
+ * no esta publicado como GIS (comprobado en ScienceBase, ver DATA_SOURCES.md).
+ *
+ * `centro: null` es la respuesta correcta hasta encontrar fuente. No inventar.
  */
 export const BLOQUES = [
   { id: "boyaca", nombre: "Boyaca", centro: null },

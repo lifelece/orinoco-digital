@@ -179,3 +179,82 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 |---|---|---|---|---|
 | 2026-09-08 | USGS FS 2009-3028 | 2009 | Setup inicial | PDF, 917 KB, dominio publico |
 | 2026-09-08 | OpenStreetMap (Overpass) | snapshot | Setup inicial | 461 pozos, 490 ductos, 51 refinerias, 1.860 terminales. Via mirror kumi.systems |
+
+---
+
+## 9. Extension de la Faja: como se obtuvo
+
+**Dato en uso:** `FAJA_BBOX` en `src/config.js`.
+
+| | Valor |
+|---|---|
+| Oeste | -67,34 |
+| Este | -62,08 |
+| Sur | 7,88 |
+| Norte | 9,37 |
+| Centro | 8,62 N, -64,71 |
+| Extension | 579 km E-O x 165 km N-S |
+
+**Fuente:** U.S. Geological Survey, Fact Sheet 2009-3028, *An Estimate of
+Recoverable Heavy Oil Resources of the Orinoco Oil Belt, Venezuela*, figura 1
+(linea azul = Orinoco Oil Belt Assessment Unit). Dominio publico.
+**Confianza:** media. **Verificado:** 2026-09-08.
+
+### Por que hubo que medirlo
+
+El poligono oficial de la AU **no esta publicado como GIS**. Se comprobo:
+
+- El shapefile del USGS para Suramerica (`SouthAmericaConventionalAUs`,
+  ScienceBase `699dc33db66b018a7ec1013f`) contiene solo assessment units
+  **convencionales**. Sus 6 unidades de la cuenca de Venezuela Oriental son
+  Fold and Thrust Belt, Gulf of Paria, Orinoco Delta, Trinidad Columbus,
+  Maturin Sub-basin y Guarico Sub-basin. **Ninguna es la Faja**, que es una
+  unidad *continua* de crudo pesado.
+- Busquedas en ScienceBase por `60980182`, "Orinoco Oil Belt" y variantes de
+  "continuous assessment unit boundaries" no devuelven ningun dataset con ese
+  poligono.
+- El texto del Fact Sheet da el area (~50.000 km2) y la geologia, pero **no da
+  coordenadas**: el limite solo aparece dibujado en el mapa de la figura 1.
+- OpenStreetMap no tiene la Faja ni sus bloques mapeados (consultado via
+  Overpass por nombre y por `industrial=oilfield`).
+
+### Metodo
+
+`scripts/analisis/medir-faja-usgs.mjs`, reproducible:
+
+1. Renderiza la pagina 1 del PDF a 6x (~137 px por grado de longitud).
+2. Detecta el marco del mapa y sus marcas de graduacion.
+   - Longitud: 8 marcas, espaciado 274,6 px por cada 2 grados, regular
+     (274, 276, 275, 274, 274, 275, 274). Ajuste lineal.
+   - Latitud: 6 marcas, espaciado **creciente** (216, 219, 223, 226, 231 px).
+     El mapa no es equirectangular, asi que se interpola **entre las dos marcas
+     que rodean cada valor**, no con una escala global.
+3. Localiza la linea de la AU por su color exacto, `rgb(24,72,160)`, tomado de
+   la propia leyenda del mapa.
+4. Separa esa linea del recuadro de localizacion, que usa el mismo azul,
+   mediante un perfil por filas: se toma el bloque contiguo mas denso
+   (18.280 px).
+5. Convierte los pixeles extremos a grados.
+
+### Control de coherencia
+
+La caja mide 95.680 km2 y la AU declara ~50.000 km2: la unidad ocupa el **52%**
+de su caja envolvente. Es lo esperable en una franja larga y sinuosa, y
+descarta un error de escala grueso.
+
+### Limites de este dato
+
+- Precision estimada **+-0,05 grados (~5 km)**, por el grosor de la linea
+  impresa y la resolucion del render.
+- Es una **caja envolvente, no el poligono**. La Faja no es rectangular.
+- Sirve para encuadrar la camara. **No es un limite legal, catastral ni de
+  concesion**, y no debe presentarse como tal.
+- Los 4 bloques (Boyaca, Junin, Ayacucho, Carabobo) siguen **sin fuente**: la
+  figura del USGS no los subdivide. En `config.js` estan como `centro: null`.
+
+### Como mejorarlo
+
+Sustituir esta medicion por el poligono real en cuanto se consiga: solicitandolo
+al USGS Energy Resources Program, o desde mapas oficiales de PDVSA o del
+Ministerio de Petroleo si publican los limites de bloques con coordenadas.
+Cuando ocurra, `confianza` pasa a `alta`.

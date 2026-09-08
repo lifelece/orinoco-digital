@@ -11,49 +11,60 @@
 Camara inicial sobre la Faja Petrolifera del Orinoco, terreno mundial activo,
 controles limitados y un boton "Volar a la Faja".
 
-## Tarea bloqueante: verificar el centro de la Faja
+## Tarea bloqueante: verificar el centro de la Faja — HECHA
 
-`config.js` usa **8.5 N, -64.5 O** y esta marcado **SIN VERIFICAR**. Viene de la
-documentacion del proyecto, no de una fuente primaria.
+El valor **8.5 N, -64.5 O** estaba marcado SIN VERIFICAR. Ya se sustituyo por
+una medicion con fuente.
 
-Antes de cerrar esta fase:
+`FAJA_BBOX` en `config.js`: oeste -67,34 | este -62,08 | sur 7,88 | norte 9,37.
+Centro **8,62 N, -64,71**. Extension 579 km E-O x 165 km N-S.
 
-1. Abrir `data/raw/usgs-fs-2009-3028-orinoco-oil-belt.pdf` (ya descargado).
-2. Localizar el mapa de la Orinoco Oil Belt Assessment Unit y sus limites.
-3. Derivar un centro y una altura de camara que encuadren la Faja completa.
-4. Actualizar `VISTA_FAJA` y **quitar la marca de SIN VERIFICAR**.
-5. Registrar la fuente en [../DATA_SOURCES.md](../DATA_SOURCES.md).
+Fuente: USGS Fact Sheet 2009-3028, figura 1. Medido con
+`scripts/analisis/medir-faja-usgs.mjs`. Metodo, controles y limites en
+[../DATA_SOURCES.md](../DATA_SOURCES.md) seccion 9.
 
-Lo mismo con los cuatro bloques: `BLOQUES` en `config.js` tiene `centro: null` a
-proposito. **Null es correcto; un numero inventado es un fallo grave.**
+El valor antiguo estaba a 15 km en latitud y 23 km en longitud: era una buena
+aproximacion, pero ahora es un dato defendible con fuente.
 
-## Implementacion
+**Hallazgo:** el poligono oficial de la AU no esta publicado como GIS. El
+shapefile del USGS para Suramerica solo trae unidades convencionales, y la Faja
+es una unidad continua. Queda documentado para no repetir la busqueda.
 
-- `config.js` — `VISTA_FAJA` verificada y centros de los 4 bloques.
-- `map.js` — `volarAFaja()` ya existe. Ajustar duracion y pitch al dato real.
-- `ui.js` — el boton ya existe. Revisar que sea comodo con el pulgar en movil.
-- Opcional: poligono de la Faja como referencia visual, si el USGS lo permite
-  extraer con precision razonable.
+**Sigue pendiente:** los cuatro bloques. `BLOQUES` mantiene `centro: null`
+porque la figura del USGS no los subdivide y no hay otra fuente publica
+localizada. **Null es correcto; un numero inventado es un fallo grave.**
 
-## Prompt de arranque
+## Implementacion — hecha
 
-```
-Lee CLAUDE.md y docs/fases/FASE-1-MAPA-BASE.md.
-Trabajamos la Fase 1. Ya verifique el centro de la Faja: es [lat], [lng].
-Actualiza VISTA_FAJA en config.js con ese dato y quita la marca SIN VERIFICAR.
-Ajusta volarAFaja() para que el encuadre muestre la Faja completa.
-No toques la estructura de modulos. PARA en el STOP gate.
-```
+- `config.js` — `FAJA_BBOX` medida y con fuente; `VISTA_FAJA` derivada de ella,
+  no escrita a mano.
+- `map.js` — `volarAFaja()` usa `Rectangle.fromDegrees(...)` en vez de punto mas
+  altura. Asi Cesium calcula la distancia y la franja entera entra en cuadro sea
+  cual sea la relacion de aspecto: con punto mas altura, un telefono en vertical
+  recortaria los extremos este y oeste. Contrapartida asumida: el vuelo a un
+  rectangulo es cenital y no admite `pitch`, que por eso se quito de `config.js`.
+- `map.js` — `encuadrarFaja()` deja la vista inicial sobre la Faja al arrancar,
+  sin animacion. La app ya no abre sobre el globo entero.
+- `ui.js` — el boton ya existia y sigue igual.
 
-## Verificacion
+## Verificacion — pendiente, la haces tu
 
-En movil real, DevTools cerrado: abre sobre Venezuela oriental, el terreno tiene
-relieve visible, el boton vuela a la Faja con fluidez y sin tirones.
+En movil real, DevTools cerrado:
+
+1. La app abre directamente sobre la Faja, no sobre el globo.
+2. El terreno tiene relieve visible.
+3. Alejar la camara y pulsar "Volar a la Faja" devuelve el encuadre con fluidez.
+4. En vertical, los extremos este y oeste de la franja siguen visibles.
 
 ## STOP GATE
 
-- [ ] Centro de la Faja **verificado contra fuente** y registrado
-- [ ] Vista inicial sobre la FPO
-- [ ] Terreno 3D con relieve visible
+- [x] Centro de la Faja **verificado contra fuente** y registrado
+- [x] Vista inicial sobre la FPO
+- [ ] Terreno 3D con relieve visible *(requiere el token de Cesium)*
 - [ ] Boton de vuelo funcional en movil
 - [ ] Rendimiento aceptable (> 30 FPS al interactuar)
+
+## Queda abierto para mas adelante
+
+- Centros de los 4 bloques: sin fuente publica localizada.
+- Poligono real de la AU en vez de la caja envolvente, si aparece el GIS.

@@ -5,16 +5,10 @@
  * Fases siguientes anaden capas AQUI, sin tocar api.js ni ui.js.
  */
 
-import {
-  Ion,
-  Viewer,
-  Terrain,
-  Cartesian3,
-  Math as CesiumMath,
-} from "cesium";
+import { Ion, Viewer, Terrain, Rectangle } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
-import { CESIUM_TOKEN, VISTA_FAJA, CAMARA, PRESUPUESTO } from "./config.js";
+import { CESIUM_TOKEN, FAJA_BBOX, CAMARA, PRESUPUESTO } from "./config.js";
 
 /** @type {Viewer | null} */
 let viewer = null;
@@ -60,29 +54,51 @@ export function iniciarMapa() {
   // Ocultar el creditContainer por defecto no: la atribucion de Cesium y de los
   // proveedores de terreno es OBLIGATORIA por licencia. Ver DATA_SOURCES.md.
 
+  // La aplicacion abre directamente sobre la Faja, no sobre el globo entero.
+  encuadrarFaja();
+
   return viewer;
 }
 
 /**
- * Vuela la camara a la vista inicial de la Faja Petrolifera del Orinoco.
+ * Rectangulo de la Faja, listo para Cesium.
+ * @returns {Rectangle}
+ */
+function rectanguloFaja() {
+  return Rectangle.fromDegrees(
+    FAJA_BBOX.oeste,
+    FAJA_BBOX.sur,
+    FAJA_BBOX.este,
+    FAJA_BBOX.norte
+  );
+}
+
+/**
+ * Vuela la camara para encuadrar la Faja Petrolifera del Orinoco completa.
+ *
+ * Se usa un Rectangle en vez de punto + altura: asi Cesium calcula la
+ * distancia necesaria y la franja entera entra en cuadro sea cual sea la
+ * relacion de aspecto de la pantalla. Con punto + altura, un telefono en
+ * vertical recortaria los extremos este y oeste.
+ *
+ * Contrapartida: el vuelo a un Rectangle es cenital, no admite pitch.
  * Fase 1.
  */
 export function volarAFaja() {
   if (!viewer) return;
 
   viewer.camera.flyTo({
-    destination: Cartesian3.fromDegrees(
-      VISTA_FAJA.lng,
-      VISTA_FAJA.lat,
-      VISTA_FAJA.altura
-    ),
-    orientation: {
-      heading: CesiumMath.toRadians(0),
-      pitch: CesiumMath.toRadians(VISTA_FAJA.pitch),
-      roll: 0,
-    },
+    destination: rectanguloFaja(),
     duration: CAMARA.duracionVuelo,
   });
+}
+
+/**
+ * Coloca la camara sobre la Faja sin animacion. Para la vista de arranque.
+ */
+export function encuadrarFaja() {
+  if (!viewer) return;
+  viewer.camera.setView({ destination: rectanguloFaja() });
 }
 
 /** @returns {Viewer | null} */

@@ -24,3 +24,9 @@ npm-debug.log*
 !.vscode/extensions.json
 .idea/
 *.swp
+
+# Herramientas de analisis puntual: se instalan aparte con npx y NO son
+# dependencias del proyecto. Ver scripts/analisis/medir-faja-usgs.mjs
+scripts/analisis/node_modules/
+scripts/analisis/package.json
+scripts/analisis/package-lock.json
