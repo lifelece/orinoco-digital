@@ -21,6 +21,7 @@ import {
   HeightReference,
   NearFarScalar,
   JulianDate,
+  DistanceDisplayCondition,
 } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
@@ -78,6 +79,10 @@ export function iniciarMapa() {
   controlador.maximumZoomDistance = CAMARA.alturaMaxima;
   controlador.minimumZoomDistance = CAMARA.alturaMinima;
 
+  ajustarCalidad();
+  // Girar el telefono cambia el ancho y con el, el presupuesto aplicable.
+  window.addEventListener("resize", ajustarCalidad);
+
   // Ocultar el creditContainer por defecto no: la atribucion de Cesium y de los
   // proveedores de terreno es OBLIGATORIA por licencia. Ver DATA_SOURCES.md.
 
@@ -86,6 +91,34 @@ export function iniciarMapa() {
   conectarSeleccion();
 
   return viewer;
+}
+
+/** @returns {boolean} pantalla pequena = presupuesto de movil */
+function esMovil() {
+  return window.innerWidth < PRESUPUESTO.umbralMovil;
+}
+
+/**
+ * Ajusta la calidad del terreno al dispositivo.
+ *
+ * `maximumScreenSpaceError` es la palanca de mayor impacto en fluidez: subirlo
+ * reduce mucho las teselas de terreno que Cesium descarga y tesela. En un
+ * telefono de gama media la diferencia entre 2 y 4 se nota mas que cualquier
+ * otro ajuste. Ver docs/PERFORMANCE_BUDGET.md.
+ */
+function ajustarCalidad() {
+  if (!viewer) return;
+  const escena = viewer.scene;
+  const movil = esMovil();
+
+  escena.globe.maximumScreenSpaceError = movil
+    ? PRESUPUESTO.errorTerrenoMovil
+    : PRESUPUESTO.errorTerrenoEscritorio;
+
+  // Efectos atmosfericos: bonitos y caros. En movil no compensan.
+  escena.globe.showGroundAtmosphere = !movil;
+  escena.fog.enabled = !movil;
+  escena.skyAtmosphere.show = !movil;
 }
 
 /**
@@ -151,6 +184,17 @@ export function encuadrarFaja() {
 /** @returns {Viewer | null} */
 export function obtenerViewer() {
   return viewer;
+}
+
+/**
+ * Quita la seleccion actual.
+ *
+ * Es imprescindible al cerrar el panel: si la entidad sigue seleccionada,
+ * volver a tocarla no dispara selectedEntityChanged y parece que el mapa se
+ * ha quedado bloqueado.
+ */
+export function deseleccionar() {
+  if (viewer) viewer.selectedEntity = undefined;
 }
 
 // --- Capa de campos (Fase 2) -------------------------------------------------
@@ -270,6 +314,13 @@ export function dibujarCampos(featureCollection) {
           width: 2,
           material: color,
           clampToGround: true,
+          // Solo de cerca: cada polilinea pegada al terreno es una primitiva
+          // de clasificacion, y son caras. En la vista general no aportan
+          // nada y penalizan la fluidez en movil.
+          distanceDisplayCondition: new DistanceDisplayCondition(
+            0,
+            PRESUPUESTO.distanciaBordes
+          ),
         },
       });
       dibujados += 1;

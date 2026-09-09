@@ -5,27 +5,23 @@
   "boton.idioma": "English",
   "boton.verTabla": "Ver tabla",
   "boton.verMapa": "Ver mapa",
-
   "capa.campos": "Campos (upstream)",
   "capa.upstream": "Upstream (campos)",
   "capa.midstream": "Midstream (ductos)",
   "capa.downstream": "Downstream (refinerias y puertos)",
-
   "estado.activo": "Activo",
   "estado.inactivo": "Inactivo",
   "estado.abandonado": "Abandonado",
   "estado.desconocido": "Sin datos",
-
   "confianza.alta": "alta",
   "confianza.media": "media",
   "confianza.baja": "baja",
-
   "panel.nombre": "Campo",
   "panel.tipo": "Tipo",
   "panel.fluido": "Fluido",
   "panel.operadora": "Operadora",
   "panel.propietarios": "Propietarios",
-  "panel.cuenca": "Cuenca",
+  "panel.cuenca": "Cuenca sedimentaria",
   "panel.bloque": "Bloque",
   "panel.estado": "Estado",
   "panel.inicioProduccion": "Inicio de produccion",
@@ -38,20 +34,17 @@
   "panel.sinDato": "sin dato",
   "panel.extensionReal": "Extension real cartografiada",
   "panel.soloPunto": "Solo se conoce su ubicacion aproximada, no su extension",
-
   "leyenda.titulo": "Leyenda",
   "leyenda.conPoligono": "Extension conocida",
   "leyenda.soloPunto": "Ubicacion aproximada",
-
   "tabla.titulo": "Campos petroliferos y gasiferos de Venezuela",
   "tabla.descripcion": "Vista alternativa al mapa 3D, accesible con lector de pantalla y mas ligera en redes lentas.",
   "tabla.total": "campos",
-
   "demo.banner": "CAPA DEMOSTRATIVA — modelo ilustrativo, no es un dato real ni asesoria de inversion",
   "frescura.etiqueta": "Datos actualizados el",
   "atribucion.datos": "Datos de campos: Global Energy Monitor, Global Oil and Gas Extraction Tracker, marzo 2026 (CC BY 4.0)",
-
   "error.tokenFaltante": "Falta el token de Cesium ion. Revisa tu archivo .env.",
   "error.cargaDatos": "No se pudieron cargar los datos de esta capa.",
-  "a11y.verTabla": "Ver los datos en tabla accesible"
+  "a11y.verTabla": "Ver los datos en tabla accesible",
+  "panel.noPublicado": "La fuente no publica"
 }

@@ -93,6 +93,24 @@ export const PRESUPUESTO = {
   distanciaClustering: 40, // pixeles
   usarClustering: true,
   requestRenderMode: true, // Cesium solo redibuja cuando algo cambia
+
+  /**
+   * Error maximo de pantalla del terreno. Es la palanca de rendimiento mas
+   * potente: cuanto mas alto, menos teselas carga Cesium y mas fluido va, a
+   * costa de detalle. 2 es el valor por defecto de Cesium.
+   */
+  errorTerrenoEscritorio: 2,
+  errorTerrenoMovil: 4,
+
+  /** Ancho de pantalla, en px CSS, por debajo del cual aplicamos ajustes de movil. */
+  umbralMovil: 820,
+
+  /**
+   * Distancia (m) por debajo de la cual se dibujan los bordes de los campos.
+   * Las polilineas pegadas al terreno son primitivas de clasificacion y son
+   * caras: en la vista general no aportan y si cuestan fluidez.
+   */
+  distanciaBordes: 400000,
 };
 
 // --- Capas ------------------------------------------------------------------

@@ -5,12 +5,50 @@
  */
 
 import { t, idioma, cambiarIdioma } from "./i18n/index.js";
-import { volarAFaja } from "./map.js";
+import { volarAFaja, deseleccionar } from "./map.js";
 import { COLOR_ESTADO } from "./config.js";
 
 /** Ultima coleccion recibida, para poder redibujar al cambiar de idioma. */
 let campos = { type: "FeatureCollection", features: [] };
 let tablaVisible = false;
+
+// --- Integracion con el historial del navegador ------------------------------
+//
+// En movil, el gesto de retroceso es la forma natural de cerrar cualquier cosa
+// que se abre encima. Sin esto, el retroceso saca al usuario de la aplicacion
+// entera en vez de cerrar el panel, que es justo lo que no espera.
+
+/** @type {"panel" | "tabla" | null} */
+let vistaApilada = null;
+/** Evita que cerrar desde popstate vuelva a tocar el historial. */
+let cerrandoPorHistorial = false;
+
+/** @param {"panel" | "tabla"} vista */
+function apilarVista(vista) {
+  if (vistaApilada) history.replaceState({ orinoco: vista }, "");
+  else history.pushState({ orinoco: vista }, "");
+  vistaApilada = vista;
+}
+
+/** Cierra la vista apilada usando el historial, para que el gesto sea coherente. */
+function desapilarVista() {
+  if (vistaApilada && !cerrandoPorHistorial) history.back();
+}
+
+window.addEventListener("popstate", () => {
+  if (!vistaApilada) return;
+  cerrandoPorHistorial = true;
+  vistaApilada = null;
+
+  ocultarPanel();
+  deseleccionar();
+  if (tablaVisible) {
+    tablaVisible = false;
+    montarUI();
+  }
+
+  cerrandoPorHistorial = false;
+});
 
 /** Escapa texto antes de meterlo en innerHTML. */
 function esc(valor) {
@@ -133,6 +171,14 @@ function montarLeyenda() {
 
 // --- Panel de detalle --------------------------------------------------------
 
+/** Oculta el panel sin tocar el historial. Para cambios internos de vista. */
+function ocultarPanel() {
+  const nodo = document.getElementById("panel-activo");
+  if (!nodo) return;
+  nodo.hidden = true;
+  nodo.innerHTML = "";
+}
+
 /**
  * Muestra el panel con las propiedades del activo seleccionado.
  * @param {Object | null} activo
@@ -142,21 +188,31 @@ export function mostrarPanelActivo(activo) {
   if (!nodo) return;
 
   if (!activo) {
-    nodo.hidden = true;
-    nodo.innerHTML = "";
+    ocultarPanel();
+    desapilarVista();
     return;
   }
 
+  apilarVista("panel");
+
   const dato = (valor) =>
-    valor
-      ? `<span class="text-slate-100">${esc(valor)}</span>`
-      : `<span class="italic text-slate-500">${esc(t("panel.sinDato"))}</span>`;
+    `<span class="text-slate-100">${esc(valor)}</span>`;
 
   const fila = (clave, valor) => `
     <div class="flex gap-3 py-1.5">
       <dt class="w-32 shrink-0 text-slate-400">${esc(t(clave))}</dt>
       <dd class="min-w-0 flex-1 break-words">${valor}</dd>
     </div>`;
+
+  /**
+   * Fila que solo aparece si hay dato.
+   *
+   * Los datos de GEM son desiguales: la operadora esta en el 63% de los campos,
+   * la cuenca en el 42% y el bloque en el 9%. Una retahila de "sin dato" hace
+   * que el panel parezca vacio y esconde lo que si sabemos. Lo que falta se
+   * resume abajo, contado, en vez de ocupar una linea cada uno.
+   */
+  const filaSiHay = (clave, valor) => (valor ? fila(clave, dato(valor)) : "");
 
   const color = COLOR_ESTADO[activo.estado] ?? COLOR_ESTADO.desconocido;
 
@@ -171,17 +227,33 @@ export function mostrarPanelActivo(activo) {
          ${esc(t("panel.soloPunto"))}
        </p>`;
 
+  // Cuenta lo que la fuente no trae, para decirlo una vez en vez de repetirlo.
+  const ausentes = [
+    ["panel.operadora", activo.operadora],
+    ["panel.propietarios", activo.propietarios],
+    ["panel.cuenca", activo.cuenca],
+    ["panel.bloque", activo.bloque],
+    ["panel.inicioProduccion", activo.inicio_produccion],
+    ["panel.descubrimiento", activo.descubrimiento],
+  ]
+    .filter(([, v]) => !v)
+    .map(([clave]) => t(clave));
+
   nodo.hidden = false;
+  // Altura contenida en movil: el panel no puede comerse el mapa, o se vuelve
+  // imposible tocar otro campo sin cerrarlo antes.
   nodo.className =
-    "fixed inset-x-0 bottom-0 z-30 max-h-[70vh] overflow-y-auto " +
-    "rounded-t-2xl bg-slate-900/95 p-4 backdrop-blur ring-1 ring-white/10 " +
-    "sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-96 " +
-    "sm:rounded-l-2xl sm:rounded-tr-none";
+    "fixed inset-x-0 bottom-0 z-30 max-h-[48vh] overflow-y-auto " +
+    "rounded-t-2xl bg-slate-900/95 px-4 pb-4 pt-2 backdrop-blur " +
+    "ring-1 ring-white/10 sm:inset-y-0 sm:left-auto sm:right-0 " +
+    "sm:max-h-none sm:w-96 sm:rounded-l-2xl sm:rounded-tr-none sm:pt-4";
   nodo.setAttribute("role", "dialog");
   nodo.setAttribute("aria-label", String(activo.nombre ?? ""));
 
   nodo.innerHTML = `
-    <div class="mb-3 flex items-start gap-3">
+    <div class="mx-auto mb-2 h-1 w-10 rounded-full bg-white/20 sm:hidden"></div>
+
+    <div class="mb-3 flex items-start gap-2">
       <span class="mt-1.5 inline-block h-3 w-3 shrink-0 rounded-sm"
             style="background:${color}99;border:1px solid ${color}"></span>
       <h2 class="min-w-0 flex-1 text-base font-semibold leading-snug text-white">
@@ -189,8 +261,8 @@ export function mostrarPanelActivo(activo) {
       </h2>
       <button id="btn-cerrar-panel" type="button"
         aria-label="${esc(t("panel.cerrar"))}"
-        class="shrink-0 rounded-md px-2 py-1 text-slate-400 transition
-               hover:bg-white/10 hover:text-white
+        class="-mr-1 shrink-0 rounded-lg px-3 py-2 text-lg leading-none
+               text-slate-300 transition hover:bg-white/10 hover:text-white
                focus-visible:outline focus-visible:outline-2
                focus-visible:outline-offset-2 focus-visible:outline-slate-400">
         &#10005;
@@ -201,14 +273,22 @@ export function mostrarPanelActivo(activo) {
 
     <dl class="mt-3 divide-y divide-white/5 text-sm">
       ${fila("panel.estado", dato(t(`estado.${activo.estado ?? "desconocido"}`)))}
-      ${fila("panel.fluido", dato(activo.fluido))}
-      ${fila("panel.operadora", dato(activo.operadora))}
-      ${fila("panel.propietarios", dato(activo.propietarios))}
-      ${fila("panel.cuenca", dato(activo.cuenca))}
-      ${fila("panel.bloque", dato(activo.bloque))}
-      ${fila("panel.inicioProduccion", dato(activo.inicio_produccion))}
-      ${fila("panel.descubrimiento", dato(activo.descubrimiento))}
+      ${filaSiHay("panel.fluido", activo.fluido)}
+      ${filaSiHay("panel.operadora", activo.operadora)}
+      ${filaSiHay("panel.propietarios", activo.propietarios)}
+      ${filaSiHay("panel.cuenca", activo.cuenca)}
+      ${filaSiHay("panel.bloque", activo.bloque)}
+      ${filaSiHay("panel.inicioProduccion", activo.inicio_produccion)}
+      ${filaSiHay("panel.descubrimiento", activo.descubrimiento)}
     </dl>
+
+    ${
+      ausentes.length
+        ? `<p class="mt-2 text-xs leading-relaxed text-slate-500">
+             ${esc(t("panel.noPublicado"))}: ${esc(ausentes.join(", "))}.
+           </p>`
+        : ""
+    }
 
     <div class="mt-4 rounded-lg bg-slate-950/60 p-3 text-xs ring-1 ring-white/5">
       <dl class="space-y-1.5">
@@ -227,9 +307,12 @@ export function mostrarPanelActivo(activo) {
     }
   `;
 
-  document
-    .getElementById("btn-cerrar-panel")
-    ?.addEventListener("click", () => mostrarPanelActivo(null));
+  // Cerrar deselecciona tambien en el mapa: si la entidad sigue seleccionada,
+  // volver a tocarla no dispara ningun evento y parece que se ha bloqueado.
+  document.getElementById("btn-cerrar-panel")?.addEventListener("click", () => {
+    deseleccionar();
+    mostrarPanelActivo(null);
+  });
 }
 
 // --- Vista de tabla accesible (ADR-006) --------------------------------------
@@ -244,7 +327,20 @@ export function fijarCampos(featureCollection) {
 }
 
 function alternarTabla() {
-  tablaVisible = !tablaVisible;
+  if (tablaVisible) {
+    // Cerrar por el historial, para que coincida con el gesto de retroceso.
+    desapilarVista();
+    tablaVisible = false;
+    montarUI();
+    return;
+  }
+  // Abrir la tabla cierra el panel: una sola cosa encima del mapa a la vez.
+  // Se cierra en silencio y apilarVista() reutiliza la entrada del historial
+  // con replaceState, para no acumular pasos de retroceso.
+  deseleccionar();
+  ocultarPanel();
+  tablaVisible = true;
+  apilarVista("tabla");
   montarUI();
 }
 
