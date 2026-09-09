@@ -66,7 +66,7 @@ create policy "lectura publica" on activos
 
 ## Frontend
 
-`api.js` es el unico archivo que cambia. `getPozos()` pasa a consultar Supabase
+`api.js` es el unico archivo que cambia. `getCampos()` pasa a consultar Supabase
 y devuelve **la misma FeatureCollection** que antes.
 
 Si tienes que tocar `map.js` o `ui.js`, algo se hizo mal: el contrato de `api.js`
@@ -87,7 +87,7 @@ proyecto activo y evita que se pause por inactividad.
 ```
 Lee CLAUDE.md, docs/fases/FASE-4-BACKEND.md y src/api.js.
 Trabajamos la Fase 4. Ya tengo la tabla activos en Supabase con RLS de solo
-lectura. Reemplaza el cuerpo de getPozos() para que consulte Supabase con
+lectura. Reemplaza el cuerpo de getCampos() para que consulte Supabase con
 supabase-js y devuelva una FeatureCollection identica en forma a la anterior.
 Usa VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY desde config.js.
 NO toques map.js ni ui.js. PARA en el STOP gate.
@@ -99,7 +99,7 @@ NO toques map.js ni ui.js. PARA en el STOP gate.
 - [ ] Tabla + PostGIS + indice GIST
 - [ ] RLS activo, solo SELECT, **verificado con un INSERT que falla**
 - [ ] Solo la anon key en el frontend
-- [ ] `getPozos()` consume Supabase
+- [ ] `getCampos()` consume Supabase
 - [ ] **`map.js` y `ui.js` sin cambios**
 - [ ] Datos identicos a los de la version estatica
 - [ ] Verificado en movil real

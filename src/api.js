@@ -33,15 +33,19 @@ async function cargarGeoJSON(ruta) {
 }
 
 /**
- * Activos upstream (pozos). Fase 2.
+ * Activos upstream: campos petroliferos y gasiferos. Fase 2.
+ *
+ * Son CAMPOS, no pozos. La mayoria llega con poligono real (Polygon o
+ * MultiPolygon); los que no, con un punto en su centro aproximado.
+ * map.js debe manejar ambas geometrias.
  *
  * Fase 4 reemplaza el cuerpo de esta funcion por una consulta a Supabase
  * (supabase-js + ST_AsGeoJSON). La firma y el valor de retorno NO cambian.
  *
  * @returns {Promise<FeatureCollection>}
  */
-export async function getPozos() {
-  return cargarGeoJSON(RUTAS_DATOS.pozos);
+export async function getCampos() {
+  return cargarGeoJSON(RUTAS_DATOS.campos);
 }
 
 /**

@@ -10,8 +10,21 @@ import { CRS, PRESUPUESTO } from "./config.js";
 /** Estados validos de un activo. */
 export const ESTADOS = ["activo", "inactivo", "abandonado", "desconocido"];
 
-/** Tipos validos de activo. */
-export const TIPOS = ["pozo", "ducto", "refineria", "puerto", "mejorador"];
+/**
+ * Tipos validos de activo.
+ *
+ * "campo" es un yacimiento con extension propia (poligono); "pozo" es una
+ * perforacion puntual. No son lo mismo y no se mezclan: las fuentes publicas
+ * disponibles son de campos, y presentarlos como pozos falsearia el dato.
+ */
+export const TIPOS = [
+  "campo",
+  "pozo",
+  "ducto",
+  "refineria",
+  "puerto",
+  "mejorador",
+];
 
 /**
  * Valida que un objeto sea una FeatureCollection GeoJSON usable.

@@ -101,7 +101,8 @@ export const COLOR_ESTADO = {
 // --- Rutas de datos ---------------------------------------------------------
 
 export const RUTAS_DATOS = {
-  pozos: "/data/pozos.geojson",
+  // Campos (yacimientos), no pozos: las fuentes publicas son de campos.
+  campos: "/data/campos.geojson",
   ductos: "/data/ductos.geojson",
   downstream: "/data/downstream.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)

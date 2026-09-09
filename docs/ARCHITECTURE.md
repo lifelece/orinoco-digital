@@ -85,7 +85,7 @@ obliga a tocar toda la UI.
 
 ```
 public/data/          GeoJSON curado. Versionado. Se sirve al navegador.
-  pozos.geojson
+  campos.geojson
   ductos.geojson
   downstream.geojson
   prob_grid.geojson   Fase 5. DEMO.

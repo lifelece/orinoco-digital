@@ -67,9 +67,10 @@ separados, nunca fusionado con el resto del dataset. Ver seccion 4.
 
 ### Pendientes de descarga manual (requieren registro)
 
+*(GOGET ya no esta aqui: descargado y convertido, ver seccion 10.)*
+
 | Dataset | Aporta | Licencia | Como obtenerlo |
 |---|---|---|---|
-| **Global Energy Monitor — GOGET** | Coordenadas y estado de campos de petroleo y gas. La mejor fuente estructurada gratis para el MVP | CC BY 4.0 con condiciones | Ver seccion 3 |
 | **VIIRS Nightfire (EOG, Colorado School of Mines)** | Coordenadas y volumen de quema de gas. **Actividad real vista desde el espacio** | Libre con cita especifica exigida | Cuenta gratuita en EOG Earth Observation Group |
 | **Copernicus Sentinel-2 / Sentinel-1** | Cambios de suelo, posibles derrames | Licencia Copernicus | Copernicus Data Space Ecosystem |
 | **Sentinel-5P TROPOMI** | Metano y NO2 (emisiones) | Licencia Copernicus | Copernicus Data Space Ecosystem |
@@ -79,22 +80,33 @@ separados, nunca fusionado con el resto del dataset. Ver seccion 4.
 
 ---
 
-## 3. Global Energy Monitor — como descargarlo
+## 3. Global Energy Monitor — como actualizarlo
+
+**Ya descargado y convertido.** Ver seccion 10 para el resultado. Este
+procedimiento sirve para la proxima version del tracker.
 
 GEM exige rellenar un formulario antes de entregar el archivo, asi que este paso
-es manual. Es la fuente mas valiosa para las Fases 2 y 3.
+es manual.
 
 1. Ir a: https://globalenergymonitor.org/projects/global-oil-gas-extraction-tracker/
-2. Buscar el enlace de descarga del **Global Oil and Gas Extraction Tracker
-   (GOGET)**. La ultima version conocida es de **marzo 2026**.
+2. Descargar el **Global Oil and Gas Extraction Tracker (GOGET)**. La version en
+   uso es la de **marzo de 2026**.
 3. Rellenar el formulario (nombre, email, organizacion, uso previsto). Para "uso
    previsto" sirve: *proyecto educativo open-source de visualizacion de datos
    energeticos*.
-4. Guardar el `.xlsx` en `data/raw/gem-goget-<AAAA-MM>.xlsx`.
+4. Abrir el `.xlsx` y guardar **la hoja `Field-level main data`** — no la hoja
+   `About`, que es solo documentacion — como **CSV UTF-8** en
+   `data/raw/gem-goget.csv`.
 5. Ejecutar: `npm run data:gem`
+6. Ejecutar: `npm run data:validate`
 
-El script `scripts/gem-to-geojson.mjs` filtra Venezuela, valida coordenadas y
-genera GeoJSON con los campos de trazabilidad ya rellenos.
+El libro trae 7 hojas. La que lleva las unidades con coordenadas y poligonos es
+`Field-level main data` (7.673 filas, 27 columnas). Las de reservas y produccion
+son tablas largas por ano, utiles mas adelante.
+
+El script `scripts/gem-to-geojson.mjs` filtra Venezuela, prefiere el poligono
+WKT al punto, valida el rango de coordenadas y rellena los campos de
+trazabilidad.
 
 Trackers adicionales del mismo proveedor, utiles para la Fase 3: el de ductos
 (pipelines) y el de refinerias, en el mismo sitio y con el mismo procedimiento.
@@ -178,6 +190,7 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 | Fecha | Dataset | Version | Quien | Notas |
 |---|---|---|---|---|
 | 2026-09-08 | USGS FS 2009-3028 | 2009 | Setup inicial | PDF, 917 KB, dominio publico |
+| 2026-09-08 | GEM GOGET | marzo 2026 | Setup inicial | 105 campos de Venezuela, 67 con poligono. CC BY 4.0 |
 | 2026-09-08 | OpenStreetMap (Overpass) | snapshot | Setup inicial | 461 pozos, 490 ductos, 51 refinerias, 1.860 terminales. Via mirror kumi.systems |
 
 ---
@@ -258,3 +271,73 @@ Sustituir esta medicion por el poligono real en cuanto se consiga: solicitandolo
 al USGS Energy Resources Program, o desde mapas oficiales de PDVSA o del
 Ministerio de Petroleo si publican los limites de bloques con coordenadas.
 Cuando ocurra, `confianza` pasa a `alta`.
+
+---
+
+## 10. Global Energy Monitor — GOGET, descargado y convertido
+
+**Version:** Global Oil and Gas Extraction Tracker, **release de marzo de 2026**.
+**Licencia:** Creative Commons Attribution 4.0 International (CC BY 4.0),
+declarada en la hoja *About* del propio libro.
+**Contacto del proyecto:** Scott Zimmerman, GOGET Project Manager, GEM.
+**CRS:** WGS84 (EPSG:4326), longitud primero tanto en las columnas de
+coordenadas como en los poligonos WKT. Sin transformacion necesaria.
+**Confianza:** media / baja segun registro. **Verificado:** 2026-09-08.
+
+### Atribucion obligatoria
+
+> Global Energy Monitor, *Global Oil and Gas Extraction Tracker*, marzo 2026.
+> Distribuido bajo licencia CC BY 4.0.
+
+Debe aparecer en la interfaz y en el README.
+
+### Lo que este dataset ES y lo que NO es
+
+**Son CAMPOS (yacimientos), no pozos.** Es la aclaracion mas importante y viene
+de la propia documentacion de GEM: cada unidad abarca kilometros y la coordenada
+puntual es *"aproximadamente el centro de la unidad"*. Presentarlos como pozos
+seria falsear el dato.
+
+Por eso el activo lleva `tipo: "campo"` y la salida se llama `campos.geojson`.
+
+**No es un inventario completo.** GEM solo incluye unidades con produccion de
+1 millon de boe/ano o mas, o reservas de 25 millones de boe, o que ya estaban en
+versiones anteriores. Los campos pequenos no aparecen. La ausencia de un campo
+en el mapa **no significa que no exista**.
+
+### Resultado de la conversion
+
+`npm run data:gem` -> `public/data/campos.geojson`
+
+| | |
+|---|---|
+| Unidades de Venezuela en el tracker | 138 |
+| Escritas al GeoJSON | **105** |
+| Con poligono real (WKT) | 67 (60 MultiPolygon + 7 Polygon) |
+| Solo con punto | 38 |
+| Descartadas por no tener geometria | 33 |
+| Fuera del rango de Venezuela | 0 |
+| Peso | 239 KB (presupuesto: 2 MB) |
+
+Estados tras normalizar: 99 activo, 5 inactivo, 1 desconocido.
+Confianza: 75 media (ubicacion *exact* segun GEM), 30 baja (*approximate*).
+
+El techo de confianza es **media** a proposito: GOGET es una fuente curada y
+fiable, pero secundaria y aqui no se ha contrastado contra una primaria.
+
+### Comprobacion cruzada con la extension de la Faja
+
+54 de los 105 campos caen dentro de `FAJA_BBOX` (seccion 9), y son los
+orientales: Bare, Acema, Adas, Aguasay, Araibel, Boca, Bella Vista y otros. Los
+51 restantes estan en Maracaibo, Falcon y costa afuera.
+
+Es una corroboracion independiente de que la caja medida sobre la figura del
+USGS esta donde debe. **Matiz necesario:** la caja abarca tambien campos
+convencionales situados al norte de la Faja propiamente dicha, asi que "54
+campos dentro de la caja" **no equivale a** "54 campos de la Faja".
+
+### Lo que GOGET no aporta
+
+La columna `Block(s)` **esta vacia en las 138 unidades de Venezuela**. No sirve
+para asignar los bloques Boyaca, Junin, Ayacucho y Carabobo, que siguen sin
+fuente. En `config.js` continuan como `centro: null`.
