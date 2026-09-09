@@ -53,11 +53,20 @@ export const VISTA_FAJA = {
   lat: (FAJA_BBOX.sur + FAJA_BBOX.norte) / 2, //   8.63
 };
 
-/** Limites de camara: evita que el usuario se pierda en el espacio. */
+/** Limites y encuadre de camara. */
 export const CAMARA = {
+  // Evita que el usuario se pierda en el espacio o atraviese el suelo.
   alturaMaxima: 12000000,
   alturaMinima: 500,
   duracionVuelo: 3, // segundos
+
+  rumbo: 0, // grados. 0 = norte arriba.
+  // Vista oblicua, no cenital: en vertical el relieve del terreno no se
+  // percibe. Ojo, la Faja es una llanura sedimentaria y es plana de verdad;
+  // el relieve fuerte esta en la Serrania del Interior, al norte.
+  inclinacion: -35, // grados
+  // Multiplo del radio de la esfera envolvente. Mas alto = mas margen.
+  margen: 1.9,
 };
 
 /**
