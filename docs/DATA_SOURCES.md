@@ -192,6 +192,7 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 | 2026-09-08 | USGS FS 2009-3028 | 2009 | Setup inicial | PDF, 917 KB, dominio publico |
 | 2026-09-08 | GEM GOGET | marzo 2026 | Setup inicial | 105 campos de Venezuela, 67 con poligono. CC BY 4.0 |
 | 2026-09-08 | OpenStreetMap (Overpass) | snapshot | Setup inicial | 461 pozos, 490 ductos, 51 refinerias, 1.860 terminales. Via mirror kumi.systems |
+| 2026-09-08 | OpenStreetMap (2a consulta) | snapshot | Fase 3 | 79 elementos. Recupera Amuay, El Palito y Punta Cardon, ausentes en la 1a |
 
 ---
 
@@ -341,3 +342,84 @@ campos dentro de la caja" **no equivale a** "54 campos de la Faja".
 La columna `Block(s)` **esta vacia en las 138 unidades de Venezuela**. No sirve
 para asignar los bloques Boyaca, Junin, Ayacucho y Carabobo, que siguen sin
 fuente. En `config.js` continuan como `centro: null`.
+
+---
+
+## 11. OpenStreetMap — capas midstream y downstream (Fase 3)
+
+**Fuente:** OpenStreetMap contributors, consulta Overpass del 2026-09-08.
+**Licencia:** **ODbL 1.0** — share-alike sobre bases de datos.
+**Atribucion obligatoria:** "© OpenStreetMap contributors", visible en la
+interfaz. **CRS:** EPSG:4326 nativo. **Confianza:** baja (dato colaborativo,
+sin auditar). **Verificado:** 2026-09-08.
+
+Generado con `node scripts/osm-to-geojson.mjs` a archivos **separados** con
+sufijo `-osm`, por la clausula share-alike. Ver seccion 4.
+
+### Resultado
+
+| Capa | Archivo | Elementos | Peso |
+|---|---|---|---|
+| Ductos | `ductos-osm.geojson` | 346 | 847 KB |
+| Downstream + terminales | `downstream-osm.geojson` | 97 | 62 KB |
+
+Instalaciones por tipo: 5 refinerias, 2 petroquimicas, 1 planta de gas,
+4 puertos, 60 instalaciones sin clasificar mejor, 25 parques de tanques.
+
+### Lo que se descarto, y por que
+
+**Ductos.** OSM etiqueta como `man_made=pipeline` tambien los acueductos:
+**78 eran de agua o alcantarillado**. Un acueducto no es infraestructura
+petrolera y pintarlo como tal seria un error de datos.
+
+Otros **66 ductos no declaran `substance`**. Tampoco entran: un ducto sin
+sustancia declarada no es *verificablemente* de hidrocarburos, y la regla del
+proyecto es no afirmar lo que no se puede sostener. Se pierden ductos reales
+por prudencia; es el lado correcto en el que equivocarse.
+
+**Tanques.** De 1.856 tanques, **507 son de agua** y 645 no declaran contenido.
+Quedan 704 de hidrocarburos.
+
+**Instalaciones.** Se excluyen centrales electricas (`power=plant`) y zonas
+francas: estan etiquetadas como industria pero no son cadena de hidrocarburos.
+Y las 43 sin nombre, porque una instalacion sin nombre no es identificable ni
+verificable.
+
+### Dato DERIVADO: los parques de tanques
+
+Los 704 tanques individuales se agrupan por proximidad (~1,5 km) en **25
+parques de tanques**. El mayor reune 397 tanques.
+
+**Esto no existe como entidad en OSM: lo hemos construido nosotros.** Cada
+registro lleva `derivado: true`, el numero de tanques agrupados y una nota que
+lo dice; el punto es el **centroide del grupo**, no la ubicacion de nada
+concreto. La interfaz muestra un aviso ambar al seleccionarlo.
+
+Se agrupa porque 704 tanques sueltos no son informativos a escala de pais y
+reventarian el presupuesto de rendimiento; un parque de tanques si lo es.
+
+### Aviso: la primera consulta se dejaba fuera las refinerias grandes
+
+La consulta inicial (`industrial=oil`, `man_made=works`) **no devolvia Amuay,
+El Palito ni Punta Cardon**, las tres mayores del pais. Estan etiquetadas como
+`industrial=refinery` o solo por nombre. Hizo falta una segunda consulta
+(`osm-refinerias-2.json`).
+
+Y clasificar por el termino ingles "refiner" tampoco basta: el **Centro de
+Refinacion Paraguana** se colaba como instalacion generica. El clasificador
+cubre ahora "refinac" y "refineria" sin tildes.
+
+**Leccion, anotada para las proximas capas:** en OSM, la ausencia de un activo
+casi nunca significa que no exista; significa que esta etiquetado de otra
+forma. Comprobar siempre contra una lista de activos conocidos antes de dar una
+capa por completa.
+
+### Limites de esta capa
+
+- Cobertura **desigual**: OSM depende de quien haya mapeado cada zona.
+- OSM **no publica el estado operativo** de los ductos. Todos van con
+  `estado: "desconocido"` y se colorean por fluido, no por estado. Fingir un
+  estado seria inventar.
+- 60 de las 72 instalaciones quedan como `instalacion` generica porque las
+  etiquetas no permiten afirmar que sean refinerias. Es preferible a
+  clasificarlas mal.

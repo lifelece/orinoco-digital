@@ -5,8 +5,8 @@
  */
 
 import { t, idioma, cambiarIdioma } from "./i18n/index.js";
-import { volarAFaja, deseleccionar } from "./map.js";
-import { COLOR_ESTADO } from "./config.js";
+import { volarAFaja, deseleccionar, alternarCapa } from "./map.js";
+import { COLOR_ESTADO, COLOR_FLUIDO, COLOR_TIPO } from "./config.js";
 
 /** Ultima coleccion recibida, para poder redibujar al cambiar de idioma. */
 let campos = { type: "FeatureCollection", features: [] };
@@ -109,11 +109,12 @@ export function montarUI() {
     <div id="leyenda"></div>
     <div id="vista-tabla" hidden></div>
 
-    <p class="pointer-events-none fixed bottom-8 left-1/2 z-10 w-full max-w-md
-              -translate-x-1/2 px-3 text-center text-[10px] leading-tight
-              text-slate-300/70 sm:bottom-9 sm:text-[11px]">
-      ${esc(t("atribucion.datos"))}
-    </p>
+    <div class="pointer-events-none fixed bottom-7 left-1/2 z-10 w-full max-w-lg
+                -translate-x-1/2 space-y-0.5 px-3 text-center text-[10px]
+                leading-tight text-slate-300/70 sm:bottom-9 sm:text-[11px]">
+      <p>${esc(t("atribucion.datos"))}</p>
+      <p>${esc(t("atribucion.osm"))}</p>
+    </div>
   `;
 
   document.getElementById("btn-faja")?.addEventListener("click", volarAFaja);
@@ -126,47 +127,99 @@ export function montarUI() {
   if (tablaVisible) montarTabla();
 }
 
-// --- Leyenda -----------------------------------------------------------------
+// --- Filtros por sector y leyenda --------------------------------------------
+
+/** Sectores visibles. Fase 3. */
+const sectores = { upstream: true, midstream: true, downstream: true };
+
+/** Leyenda desplegable: en movil ocupa demasiado si esta siempre abierta. */
+let leyendaAbierta = false;
 
 function montarLeyenda() {
   const nodo = document.getElementById("leyenda");
   if (!nodo) return;
 
-  const estados = ["activo", "inactivo", "abandonado", "desconocido"];
-
   nodo.className =
-    "pointer-events-none fixed bottom-16 left-3 z-10 rounded-lg " +
-    "bg-slate-900/80 px-3 py-2.5 text-xs backdrop-blur ring-1 ring-white/10 " +
-    "sm:bottom-20 sm:left-4";
+    "fixed bottom-16 left-3 z-10 max-w-[15rem] rounded-lg bg-slate-900/85 " +
+    "text-xs backdrop-blur ring-1 ring-white/10 sm:bottom-20 sm:left-4";
+
+  const interruptor = (sector) => `
+    <label class="flex cursor-pointer items-center gap-2 py-1 text-slate-200">
+      <input type="checkbox" data-sector="${sector}"
+             ${sectores[sector] ? "checked" : ""}
+             class="h-3.5 w-3.5 shrink-0 accent-emerald-500">
+      <span>${esc(t(`capa.${sector}`))}</span>
+    </label>`;
+
+  const item = (color, texto, forma = "rounded-sm") => `
+    <li class="flex items-center gap-2 text-slate-300">
+      <span class="inline-block h-2.5 w-2.5 shrink-0 ${forma}"
+            style="background:${color}99;border:1px solid ${color}"></span>
+      <span class="leading-tight">${esc(texto)}</span>
+    </li>`;
 
   nodo.innerHTML = `
-    <p class="mb-1.5 font-medium text-slate-200">${esc(t("leyenda.titulo"))}</p>
-    <ul class="space-y-1">
-      ${estados
-        .map(
-          (e) => `
-        <li class="flex items-center gap-2 text-slate-300">
-          <span class="inline-block h-2.5 w-2.5 rounded-sm"
-                style="background:${COLOR_ESTADO[e]}99;border:1px solid ${COLOR_ESTADO[e]}"></span>
-          ${esc(t(`estado.${e}`))}
-        </li>`
-        )
-        .join("")}
-    </ul>
-    <hr class="my-2 border-white/10">
-    <ul class="space-y-1">
-      <li class="flex items-center gap-2 text-slate-300">
-        <span class="inline-block h-2.5 w-3.5 rounded-sm"
-              style="background:#94a3b899;border:1px solid #94a3b8"></span>
-        ${esc(t("leyenda.conPoligono"))}
-      </li>
-      <li class="flex items-center gap-2 text-slate-300">
-        <span class="inline-block h-2.5 w-2.5 rounded-full"
-              style="background:#94a3b826;border:2px solid #94a3b8"></span>
-        ${esc(t("leyenda.soloPunto"))}
-      </li>
-    </ul>
+    <div class="px-3 py-2.5">
+      ${["upstream", "midstream", "downstream"].map(interruptor).join("")}
+    </div>
+
+    <button id="btn-leyenda" type="button"
+      aria-expanded="${leyendaAbierta}"
+      class="flex w-full items-center justify-between gap-2 border-t
+             border-white/10 px-3 py-2 text-left font-medium text-slate-200
+             transition hover:bg-white/5">
+      <span>${esc(t("leyenda.titulo"))}</span>
+      <span aria-hidden="true">${leyendaAbierta ? "&#9662;" : "&#9656;"}</span>
+    </button>
+
+    ${
+      leyendaAbierta
+        ? `<div class="max-h-[40vh] overflow-y-auto border-t border-white/10 px-3 py-2">
+             <p class="mb-1 text-[11px] uppercase tracking-wide text-slate-500">
+               ${esc(t("capa.upstream"))}
+             </p>
+             <ul class="space-y-1">
+               ${["activo", "inactivo", "abandonado", "desconocido"]
+                 .map((e) => item(COLOR_ESTADO[e], t(`estado.${e}`)))
+                 .join("")}
+               ${item("#94a3b8", t("leyenda.soloPunto"), "rounded-full")}
+             </ul>
+
+             <p class="mb-1 mt-2.5 text-[11px] uppercase tracking-wide text-slate-500">
+               ${esc(t("capa.midstream"))}
+             </p>
+             <ul class="space-y-1">
+               ${["oil", "gas", "hydrocarbons"]
+                 .map((f) => item(COLOR_FLUIDO[f], t(`fluido.${f}`)))
+                 .join("")}
+               ${item(COLOR_TIPO.terminal, t("tipo.terminal"), "rounded-full")}
+             </ul>
+
+             <p class="mb-1 mt-2.5 text-[11px] uppercase tracking-wide text-slate-500">
+               ${esc(t("capa.downstream"))}
+             </p>
+             <ul class="space-y-1">
+               ${["refineria", "petroquimica", "planta_gas", "puerto", "instalacion"]
+                 .map((k) => item(COLOR_TIPO[k], t(`tipo.${k}`), "rounded-full"))
+                 .join("")}
+             </ul>
+           </div>`
+        : ""
+    }
   `;
+
+  nodo.querySelectorAll("input[data-sector]").forEach((entrada) => {
+    entrada.addEventListener("change", (ev) => {
+      const sector = ev.target.dataset.sector;
+      sectores[sector] = ev.target.checked;
+      alternarCapa(sector, ev.target.checked);
+    });
+  });
+
+  document.getElementById("btn-leyenda")?.addEventListener("click", () => {
+    leyendaAbierta = !leyendaAbierta;
+    montarLeyenda();
+  });
 }
 
 // --- Panel de detalle --------------------------------------------------------
@@ -216,16 +269,25 @@ export function mostrarPanelActivo(activo) {
 
   const color = COLOR_ESTADO[activo.estado] ?? COLOR_ESTADO.desconocido;
 
-  // Aviso honesto sobre la calidad de la ubicacion.
-  const aviso = activo.tieneExtension
-    ? `<p class="mt-3 rounded-md bg-emerald-950/60 px-2.5 py-1.5 text-xs
-                 text-emerald-200 ring-1 ring-emerald-500/30">
-         ${esc(t("panel.extensionReal"))}
-       </p>`
-    : `<p class="mt-3 rounded-md bg-amber-950/60 px-2.5 py-1.5 text-xs
+  // Aviso honesto sobre la naturaleza del dato.
+  // El caso mas delicado es el parque de tanques: no existe como entidad en
+  // ninguna fuente, lo hemos agrupado nosotros. Decirlo es obligatorio.
+  const aviso = activo.derivado
+    ? `<p class="mt-3 rounded-md bg-amber-950/60 px-2.5 py-1.5 text-xs
                  text-amber-200 ring-1 ring-amber-500/30">
-         ${esc(t("panel.soloPunto"))}
-       </p>`;
+         ${esc(t("panel.derivado"))}
+       </p>`
+    : activo.tipo === "campo"
+      ? activo.tieneExtension
+        ? `<p class="mt-3 rounded-md bg-emerald-950/60 px-2.5 py-1.5 text-xs
+                     text-emerald-200 ring-1 ring-emerald-500/30">
+             ${esc(t("panel.extensionReal"))}
+           </p>`
+        : `<p class="mt-3 rounded-md bg-amber-950/60 px-2.5 py-1.5 text-xs
+                     text-amber-200 ring-1 ring-amber-500/30">
+             ${esc(t("panel.soloPunto"))}
+           </p>`
+      : "";
 
   // Cuenta lo que la fuente no trae, para decirlo una vez en vez de repetirlo.
   const ausentes = [
@@ -272,8 +334,15 @@ export function mostrarPanelActivo(activo) {
     ${aviso}
 
     <dl class="mt-3 divide-y divide-white/5 text-sm">
-      ${fila("panel.estado", dato(t(`estado.${activo.estado ?? "desconocido"}`)))}
+      ${fila("panel.tipo", dato(t(`tipo.${activo.tipo ?? "instalacion"}`)))}
+      ${
+        activo.estado && activo.estado !== "desconocido"
+          ? fila("panel.estado", dato(t(`estado.${activo.estado}`)))
+          : ""
+      }
       ${filaSiHay("panel.fluido", activo.fluido)}
+      ${filaSiHay("panel.nTanques", activo.n_tanques)}
+      ${filaSiHay("panel.diametro", activo.diametro)}
       ${filaSiHay("panel.operadora", activo.operadora)}
       ${filaSiHay("panel.propietarios", activo.propietarios)}
       ${filaSiHay("panel.cuenca", activo.cuenca)}

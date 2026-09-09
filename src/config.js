@@ -130,9 +130,31 @@ export const COLOR_ESTADO = {
 export const RUTAS_DATOS = {
   // Campos (yacimientos), no pozos: las fuentes publicas son de campos.
   campos: "/data/campos.geojson",
-  ductos: "/data/ductos.geojson",
-  downstream: "/data/downstream.geojson",
+  // El sufijo -osm no es decorativo: marca las capas derivadas de
+  // OpenStreetMap, que van bajo ODbL (share-alike) y por eso se mantienen
+  // separadas del resto. Ver docs/DATA_SOURCES.md seccion 4.
+  ductos: "/data/ductos-osm.geojson",
+  downstream: "/data/downstream-osm.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
+};
+
+/** Color por fluido transportado. Fase 3. */
+export const COLOR_FLUIDO = {
+  oil: "#f59e0b",
+  hydrocarbons: "#fb923c",
+  gas: "#38bdf8",
+  fuel: "#a78bfa",
+  desconocido: "#94a3b8",
+};
+
+/** Color por tipo de instalacion downstream. Fase 3. */
+export const COLOR_TIPO = {
+  refineria: "#ef4444",
+  petroquimica: "#a855f7",
+  planta_gas: "#38bdf8",
+  puerto: "#14b8a6",
+  terminal: "#f59e0b",
+  instalacion: "#94a3b8",
 };
 
 // --- Idioma -----------------------------------------------------------------

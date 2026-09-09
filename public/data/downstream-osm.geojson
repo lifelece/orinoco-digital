@@ -1,0 +1,2286 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.0644345,
+          9.7841913
+        ]
+      },
+      "properties": {
+        "id": "OSM-W101895443",
+        "nombre": "Antigua Refinería de San Lorenzo",
+        "tipo": "refineria",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.5358336,
+          10.7643647
+        ]
+      },
+      "properties": {
+        "id": "OSM-W188187734",
+        "nombre": "Complejo Petroquímico El Tablazo",
+        "tipo": "petroquimica",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.6206369,
+          10.2207474
+        ]
+      },
+      "properties": {
+        "id": "OSM-W218817950",
+        "nombre": "Refinería Puerto La Cruz",
+        "tipo": "refineria",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": "wikidata:Q6103449",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.8643818,
+          10.0692199
+        ]
+      },
+      "properties": {
+        "id": "OSM-W265071557",
+        "nombre": "Complejo Petroquímico José Antonio Anzoátegui",
+        "tipo": "petroquimica",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "Pequiven",
+        "notas": "wikidata:Q30902777",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0349896,
+          10.5984402
+        ]
+      },
+      "properties": {
+        "id": "OSM-W306846804",
+        "nombre": "Planta de Distribución de Combustible Catia La Mar",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0150942,
+          10.6001748
+        ]
+      },
+      "properties": {
+        "id": "OSM-W307093471",
+        "nombre": "Fundalanavial",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.239111,
+          10.0052769
+        ]
+      },
+      "properties": {
+        "id": "OSM-W307468389",
+        "nombre": "Plataforma Petrolera",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4674981,
+          9.7294449
+        ]
+      },
+      "properties": {
+        "id": "OSM-W474715882",
+        "nombre": "PDVSA Jusepín",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.174875,
+          9.9065445
+        ]
+      },
+      "properties": {
+        "id": "OSM-W569768667",
+        "nombre": "Planta de distribución PDVSA",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.0244089,
+          10.8773011
+        ]
+      },
+      "properties": {
+        "id": "OSM-W575144079",
+        "nombre": "PDVSA El Guamache",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.769394,
+          9.4492635
+        ]
+      },
+      "properties": {
+        "id": "OSM-W618608243",
+        "nombre": "Edificio Sede PDVSA",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7170633,
+          9.2667383
+        ]
+      },
+      "properties": {
+        "id": "OSM-W676570445",
+        "nombre": "PDVSA San Roque",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7054251,
+          8.8556998
+        ]
+      },
+      "properties": {
+        "id": "OSM-W835524368",
+        "nombre": "PDVSA",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7061508,
+          8.8501302
+        ]
+      },
+      "properties": {
+        "id": "OSM-W835524369",
+        "nombre": "TALPIN",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7065104,
+          8.8511574
+        ]
+      },
+      "properties": {
+        "id": "OSM-W835524371",
+        "nombre": "PETROCEDEÑO",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.7157228,
+          8.8582661
+        ]
+      },
+      "properties": {
+        "id": "OSM-W835531226",
+        "nombre": "SAICA",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.0562793,
+          8.363422
+        ]
+      },
+      "properties": {
+        "id": "OSM-W976032322",
+        "nombre": "PDVSA Socony",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.0735903,
+          8.3091185
+        ]
+      },
+      "properties": {
+        "id": "OSM-W976129786",
+        "nombre": "PDVSA Sinclair",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.274536,
+          8.5073006
+        ]
+      },
+      "properties": {
+        "id": "OSM-W977564959",
+        "nombre": "PDVSA Borburata",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.1116347,
+          8.4428453
+        ]
+      },
+      "properties": {
+        "id": "OSM-W977566095",
+        "nombre": "PDVSA Silvana",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.8906072,
+          10.8767284
+        ]
+      },
+      "properties": {
+        "id": "OSM-W979663993",
+        "nombre": "PDVSA Mara",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.0280034,
+          9.565823
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1010251375",
+        "nombre": "Macolla TOM-19",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.9940841,
+          9.5832353
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1010251376",
+        "nombre": "Macolla FRA-2",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.0472482,
+          9.5759489
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1010251377",
+        "nombre": "Macolla TOM-8",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.431609,
+          10.0029402
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1089956934",
+        "nombre": "PDVSA Villa de Cura",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.3192433,
+          9.872102
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1089968258",
+        "nombre": "PDVSA Orituco",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.1088912,
+          8.8387675
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1094260588",
+        "nombre": "PDVSA Morichal",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4563232,
+          9.0417603
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1094268582",
+        "nombre": "PDVSA Oritupano",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.1163947,
+          7.5487445
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1511655360",
+        "nombre": "Planta de Llenado de Gas Comunal",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5545122,
+          8.0930315
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524928575",
+        "nombre": "Tigasco",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.4465235,
+          10.1753025
+        ]
+      },
+      "properties": {
+        "id": "OSM-N3220188390",
+        "nombre": "Azucarera",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.4453896,
+          10.1734029
+        ]
+      },
+      "properties": {
+        "id": "OSM-N3220188392",
+        "nombre": "Plumrose",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.3082206,
+          8.9263036
+        ]
+      },
+      "properties": {
+        "id": "OSM-N5767229591",
+        "nombre": "Chocolates El Andinito",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.1541335,
+          7.365683
+        ]
+      },
+      "properties": {
+        "id": "OSM-N9989274040",
+        "nombre": "EC 1",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "cattle",
+        "estado": "desconocido",
+        "operadora": "El Caibón",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.1769817,
+          7.3892075
+        ]
+      },
+      "properties": {
+        "id": "OSM-N9989293019",
+        "nombre": "SP",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food;beef;cattle",
+        "estado": "desconocido",
+        "operadora": "FOGASOA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.1695431,
+          7.3743798
+        ]
+      },
+      "properties": {
+        "id": "OSM-N9989293020",
+        "nombre": "EC 2",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "cattle",
+        "estado": "desconocido",
+        "operadora": "El Caibón",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.4512512,
+          8.8981154
+        ]
+      },
+      "properties": {
+        "id": "OSM-N10634745524",
+        "nombre": "Fábrica de Hielo Calabozo",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "ice",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5802311,
+          8.1185228
+        ]
+      },
+      "properties": {
+        "id": "OSM-N10994103042",
+        "nombre": "Velas 3N, CA",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "candles;cleaners",
+        "estado": "desconocido",
+        "operadora": "Velas 3N",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.6232003,
+          10.4748644
+        ]
+      },
+      "properties": {
+        "id": "OSM-N11075091242",
+        "nombre": "Bimbo de Venezuela",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "bread",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.5889801,
+          5.6631696
+        ]
+      },
+      "properties": {
+        "id": "OSM-N11673334871",
+        "nombre": "Bloqueras y Agregados Amazonas",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "bricks",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.6741693,
+          10.470998
+        ]
+      },
+      "properties": {
+        "id": "OSM-N13319505776",
+        "nombre": "Kentucky Fried Chicken",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.1976179,
+          11.7457941
+        ]
+      },
+      "properties": {
+        "id": "OSM-W102819548",
+        "nombre": "Refinería Amuay",
+        "tipo": "refineria",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5818624,
+          8.1568452
+        ]
+      },
+      "properties": {
+        "id": "OSM-W110154990",
+        "nombre": "Planta Propulso",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "wood",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.1220096,
+          10.4808728
+        ]
+      },
+      "properties": {
+        "id": "OSM-W157032682",
+        "nombre": "Refinería El Palito",
+        "tipo": "refineria",
+        "sector": "downstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": "wikidata:Q5779953",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.0924626,
+          8.7711953
+        ]
+      },
+      "properties": {
+        "id": "OSM-W237600095",
+        "nombre": "Planta de Gas Josefa Camejo",
+        "tipo": "planta_gas",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.8256504,
+          10.4800118
+        ]
+      },
+      "properties": {
+        "id": "OSM-W245008057",
+        "nombre": "Cervecería Polar (Planta)",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "beer",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.7692756,
+          10.463487
+        ]
+      },
+      "properties": {
+        "id": "OSM-W438542624",
+        "nombre": "Fábrica de muebles Madera Viva",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "furniture",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9669142,
+          10.1812877
+        ]
+      },
+      "properties": {
+        "id": "OSM-W518802706",
+        "nombre": "Firestone",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "Tires",
+        "estado": "desconocido",
+        "operadora": "Firestone",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.2799411,
+          10.6218215
+        ]
+      },
+      "properties": {
+        "id": "OSM-W524642913",
+        "nombre": "Alfareria La Carupanera",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "bricks",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.1557232,
+          10.4003315
+        ]
+      },
+      "properties": {
+        "id": "OSM-W565574528",
+        "nombre": "Estación de Bombeo Cumaná",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0292998,
+          10.6042462
+        ]
+      },
+      "properties": {
+        "id": "OSM-W595650459",
+        "nombre": "Hielo Sol el Litoral",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "ice",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.0712544,
+          10.5523431
+        ]
+      },
+      "properties": {
+        "id": "OSM-W764353405",
+        "nombre": "PDVSA Carenero",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "Pdvsa",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.1898355,
+          9.6683834
+        ]
+      },
+      "properties": {
+        "id": "OSM-W776264750",
+        "nombre": "Premezclados Pidemca",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "concrete",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.1912268,
+          9.6679388
+        ]
+      },
+      "properties": {
+        "id": "OSM-W776264751",
+        "nombre": "Construcciones y Asfaltos Orientales C.A.",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "Asphalt",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.6420148,
+          8.3363012
+        ]
+      },
+      "properties": {
+        "id": "OSM-W890683741",
+        "nombre": "Coca-Cola FEMSA",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "beverage",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.6313952,
+          10.2452762
+        ]
+      },
+      "properties": {
+        "id": "OSM-W931552006",
+        "nombre": "FIMACA - Fundición Industrial Mecánica y Artística C. A.",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "valves;fittings;hydrant;hubs;drum_brake;metal;steel",
+        "estado": "desconocido",
+        "operadora": "Fundición Industrial Mecánica y Artística C. A.",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.3566968,
+          10.3007772
+        ]
+      },
+      "properties": {
+        "id": "OSM-W972134587",
+        "nombre": "Estación de Bombeo Mochima",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4624901,
+          10.2112915
+        ]
+      },
+      "properties": {
+        "id": "OSM-W972135986",
+        "nombre": "Estación de Bombeo Santa Fe",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.9497748,
+          10.5045466
+        ]
+      },
+      "properties": {
+        "id": "OSM-W998708682",
+        "nombre": "Onduven",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "packaging",
+        "estado": "desconocido",
+        "operadora": "Ondulados de Venezuela, S.A.",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.6631878,
+          10.1296047
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1126265050",
+        "nombre": "Café Anzoátegui",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "coffee",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.51424,
+          10.1688813
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1212465726",
+        "nombre": "Frutícola Caripe",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.7305255,
+          10.2889397
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1291166815",
+        "nombre": "Lámparas Mariara",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "furniture;lamp;tables;chairs",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9186047,
+          10.1992773
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1321847901",
+        "nombre": "Alfarería Hispano Venezolana",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "bricks",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.7339391,
+          9.3840889
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1415711502",
+        "nombre": "Cafe San Benito C.A",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "cafe",
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.8442712,
+          8.9499835
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1481991378",
+        "nombre": "Sistema de Inyección SIAE",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.2241136,
+          11.6298442
+        ]
+      },
+      "properties": {
+        "id": "OSM-R3438667",
+        "nombre": "Centro de Refinación Paraguaná",
+        "tipo": "refineria",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.9506394,
+          10.521932
+        ]
+      },
+      "properties": {
+        "id": "OSM-R13436010",
+        "nombre": "Cargill Gramoven",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "food",
+        "estado": "desconocido",
+        "operadora": "Cargill de Venezuela",
+        "notas": "wikidata:Q109772732",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.9474763,
+          10.5219266
+        ]
+      },
+      "properties": {
+        "id": "OSM-R13436208",
+        "nombre": "Shellmar Papelera Industrial, C.A.",
+        "tipo": "instalacion",
+        "sector": "downstream",
+        "fluido": "packaging",
+        "estado": "desconocido",
+        "operadora": "Shellmar Papelera Industrial, C.A.",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9989137,
+          10.4733383
+        ]
+      },
+      "properties": {
+        "id": "OSM-W157864713",
+        "nombre": "Puertos de Puerto Cabello",
+        "tipo": "puerto",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.6912224,
+          8.3594639
+        ]
+      },
+      "properties": {
+        "id": "OSM-W646425832",
+        "nombre": "Puerto de Palua",
+        "tipo": "puerto",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": "COPAL, C.A.",
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.6582676,
+          8.3780017
+        ]
+      },
+      "properties": {
+        "id": "OSM-W892475256",
+        "nombre": "Muelle de San Félix",
+        "tipo": "puerto",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.5597092,
+          10.2427271
+        ]
+      },
+      "properties": {
+        "id": "OSM-W969631281",
+        "nombre": "Muelle de Pertigalete",
+        "tipo": "puerto",
+        "sector": "downstream",
+        "fluido": null,
+        "estado": "desconocido",
+        "operadora": null,
+        "notas": null,
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.1672301,
+          8.76339
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-001",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 1,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.1147579,
+          10.4806176
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-002",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 1,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.22384522569268,
+          11.63112393954661
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-003",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil, hydrocarbons",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 397,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0328106,
+          10.5985864
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-004",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "fuel",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 1,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.810697,
+          10.442275
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-005",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "gas",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 1,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.02668634444444,
+          10.877104172222223
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-006",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 18,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.97106658,
+          10.9174712
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-007",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 5,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.36459935,
+          9.330977350000001
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-008",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 2,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.19830954,
+          8.568473000000001
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-009",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "gas",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 5,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.1956085472222,
+          11.747871387500005
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-010",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil, hydrocarbons",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 144,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.06449961249999,
+          9.785146903125
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-011",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 32,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.9358480111111,
+          9.809170766666664
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-012",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 9,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.53242382500001,
+          10.476487474999999
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-013",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "gas",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 4,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.55775997272727,
+          10.490293172727272
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-014",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 11,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.27466116666666,
+          8.5072829
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-015",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 3,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.95192045,
+          10.490608825
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-016",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 4,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.97348767999999,
+          10.706836540000001
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-017",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 5,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.6797342625,
+          10.794916087499999
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-018",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 8,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.88910812499999,
+          10.878094775000001
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-019",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 4,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.8429343,
+          9.6750066
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-020",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 2,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.68367621666667,
+          11.954172900000001
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-021",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "fuel",
+        "estado": "desconocido",
+        "operadora": null,
+        "n_tanques": 6,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -62.6376504,
+          8.34229515
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-022",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "gas",
+        "estado": "desconocido",
+        "operadora": "Bolivar GAS",
+        "n_tanques": 2,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.11930403333334,
+          9.965408333333334
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-023",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 6,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.14476203999997,
+          9.950704425
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-024",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "oil",
+        "estado": "desconocido",
+        "operadora": "PDVSA",
+        "n_tanques": 20,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.46514407692308,
+          10.37114626923077
+        ]
+      },
+      "properties": {
+        "id": "OSM-TANQUES-025",
+        "nombre": null,
+        "tipo": "terminal",
+        "sector": "midstream",
+        "fluido": "hydrocarbons",
+        "estado": "desconocido",
+        "operadora": "Petroleos de Venezuela",
+        "n_tanques": 13,
+        "derivado": true,
+        "notas": "Agrupacion propia por proximidad de tanques individuales de OSM. El punto es el centroide del grupo, no una entidad cartografiada.",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08",
+        "confianza": "baja",
+        "ultima_verificacion": "2026-09-08"
+      }
+    }
+  ]
+}

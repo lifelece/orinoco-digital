@@ -21,9 +21,16 @@ export const TIPOS = [
   "campo",
   "pozo",
   "ducto",
+  "terminal",
   "refineria",
+  "petroquimica",
+  "planta_gas",
   "puerto",
   "mejorador",
+  // Instalacion industrial petrolera que las fuentes no permiten clasificar
+  // con mas precision. Es preferible a llamar "refineria" a lo que no consta
+  // que lo sea.
+  "instalacion",
 ];
 
 /**

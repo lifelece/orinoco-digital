@@ -3,47 +3,69 @@
  */
 
 import "./style.css";
-import { iniciarMapa, dibujarCampos, alSeleccionarActivo } from "./map.js";
+import {
+  iniciarMapa,
+  dibujarCampos,
+  dibujarDuctos,
+  dibujarDownstream,
+  alSeleccionarActivo,
+} from "./map.js";
 import {
   montarUI,
   mostrarError,
   mostrarPanelActivo,
   fijarCampos,
 } from "./ui.js";
-import { getCampos } from "./api.js";
+import { getCampos, getDuctos, getDownstream } from "./api.js";
 import { tieneProcedencia, normalizarActivo } from "./data.js";
 import { t } from "./i18n/index.js";
 
 /**
- * Carga la capa upstream. Fase 2.
+ * Regla del proyecto: un activo sin fuente no se dibuja.
+ * @param {{features: Array<Object>}} coleccion
+ * @param {string} etiqueta — para el aviso en consola
+ * @returns {{type: "FeatureCollection", features: Array<Object>}}
+ */
+function soloConFuente(coleccion, etiqueta) {
+  const features = coleccion.features.filter((f) =>
+    tieneProcedencia(normalizarActivo(f.properties))
+  );
+  const descartados = coleccion.features.length - features.length;
+  if (descartados > 0) {
+    console.warn(`${descartados} de ${etiqueta} sin fuente: no se dibujan.`);
+  }
+  return { type: "FeatureCollection", features };
+}
+
+/**
+ * Carga las capas de datos. Fases 2 y 3.
  *
  * El mapa arranca antes de que lleguen los datos: si la red falla, el usuario
  * se queda con un globo usable y un aviso, no con una pantalla en blanco.
+ *
+ * Cada capa se carga por separado a proposito: que falle una no puede dejar
+ * sin las otras.
  */
-async function cargarCampos() {
-  try {
-    const coleccion = await getCampos();
+async function cargarCapas() {
+  const capas = [
+    ["campos", getCampos, (fc) => {
+      dibujarCampos(fc);
+      fijarCampos(fc);
+    }],
+    ["ductos", getDuctos, dibujarDuctos],
+    ["downstream", getDownstream, dibujarDownstream],
+  ];
 
-    // Regla del proyecto: un activo sin fuente no se dibuja.
-    const publicables = {
-      type: "FeatureCollection",
-      features: coleccion.features.filter((f) =>
-        tieneProcedencia(normalizarActivo(f.properties))
-      ),
-    };
+  const resultados = await Promise.allSettled(
+    capas.map(async ([etiqueta, cargar, pintar]) => {
+      const coleccion = await cargar();
+      pintar(soloConFuente(coleccion, etiqueta));
+    })
+  );
 
-    const descartados =
-      coleccion.features.length - publicables.features.length;
-    if (descartados > 0) {
-      console.warn(`${descartados} campos sin fuente: no se dibujan.`);
-    }
-
-    dibujarCampos(publicables);
-    fijarCampos(publicables);
-  } catch (error) {
-    console.error(error);
-    mostrarError(t("error.cargaDatos"));
-  }
+  const fallidas = resultados.filter((r) => r.status === "rejected");
+  for (const r of fallidas) console.error(r.reason);
+  if (fallidas.length) mostrarError(t("error.cargaDatos"));
 }
 
 function arrancar() {
@@ -51,7 +73,7 @@ function arrancar() {
     iniciarMapa();
     montarUI();
     alSeleccionarActivo(mostrarPanelActivo);
-    cargarCampos();
+    cargarCapas();
   } catch (error) {
     console.error(error);
     mostrarError(

@@ -96,9 +96,12 @@ la lectura), rendimiento (archivos cacheados) y superficie de escritura.
 
 ## Estado actual
 
-**Fase 1 en curso.** Codigo hecho: la app abre encuadrada sobre la Faja con
-FAJA_BBOX medida y con fuente (USGS FS 2009-3028, ver DATA_SOURCES.md seccion 9).
-Falta la verificacion en movil, que necesita el token de Cesium en `.env`.
+**Fase 3 en curso.** Tres capas dibujadas: 105 campos (GEM GOGET), 346 ductos y
+97 activos downstream incluidos 25 parques de tanques (OSM, ODbL). Filtros por
+sector, leyenda desplegable y tabla accesible.
+
+**Pendiente:** verificacion en movil de las fases 2 y 3. Los STOP gates de ambas
+siguen abiertos hasta que se haga en dispositivo real con DevTools cerrado.
 
 El plan completo esta en `docs/PLAN.md`; cada fase tiene su archivo en
 `docs/fases/`.

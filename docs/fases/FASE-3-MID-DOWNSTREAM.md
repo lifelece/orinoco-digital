@@ -56,11 +56,33 @@ muestran al instante, la leyenda es legible sin zoom.
 
 ## STOP GATE
 
-- [ ] Ductos como lineas, con estilo por tipo
-- [ ] Refinerias, mejoradores y puertos como nodos
-- [ ] Filtros por sector funcionales
+- [x] Datos convertidos y validados (346 ductos, 97 activos downstream)
+- [x] Ductos como lineas, con estilo por fluido
+- [x] Refinerias, petroquimicas, puertos y parques de tanques como nodos
+- [x] Filtros por sector funcionales
+- [x] Capas OSM separadas y atribuidas (ODbL)
+- [x] Dataset registrado en DATA_SOURCES.md (seccion 11)
 - [ ] Leyenda clara en pantalla de telefono
 - [ ] Carga perezosa: no se descarga todo al inicio
-- [ ] Capas OSM separadas y atribuidas
-- [ ] Presupuesto de rendimiento respetado
-- [ ] **MVP navegable de punta a punta**
+- [ ] Presupuesto de rendimiento respetado en movil
+- [ ] **MVP navegable de punta a punta, verificado en dispositivo real**
+
+## Decisiones tomadas en esta fase
+
+- **Color de ductos por fluido, no por estado.** OSM no publica el estado
+  operativo de los ductos; colorearlos por estado seria inventarlo.
+- **Los 66 ductos sin `substance` no entran.** No son verificablemente de
+  hidrocarburos. Se pierden ductos reales por prudencia, que es el lado
+  correcto en el que equivocarse.
+- **704 tanques agrupados en 25 parques.** Dato derivado, marcado como tal en
+  el registro y con aviso ambar en el panel. Ver DATA_SOURCES.md seccion 11.
+- **60 instalaciones quedan como tipo generico** en vez de llamarlas
+  refinerias sin que conste que lo sean.
+
+## Queda abierto
+
+- Carga perezosa por capa: hoy se cargan las tres al arrancar.
+- `ductos-osm.geojson` pesa 847 KB. Dentro del presupuesto de 2 MB por
+  archivo, pero es el candidato numero uno a simplificar geometrias si el
+  rendimiento en movil no cuadra.
+- Rutas de exportacion: no hay fuente publica localizada todavia.

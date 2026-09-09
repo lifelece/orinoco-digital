@@ -31,6 +31,8 @@ import {
   CAMARA,
   PRESUPUESTO,
   COLOR_ESTADO,
+  COLOR_FLUIDO,
+  COLOR_TIPO,
 } from "./config.js";
 
 /** @type {Viewer | null} */
@@ -354,7 +356,137 @@ function conectarSeleccion() {
   });
 }
 
+// --- Capas midstream y downstream (Fase 3) -----------------------------------
+
+/** Capas por sector, para poder encenderlas y apagarlas. */
+const capas = new Map();
+
+/**
+ * Crea (o reemplaza) una capa con nombre y la registra.
+ * @param {string} nombre
+ * @returns {CustomDataSource}
+ */
+function nuevaCapa(nombre) {
+  const previa = capas.get(nombre);
+  if (previa && viewer) viewer.dataSources.remove(previa, true);
+  const capa = new CustomDataSource(nombre);
+  capas.set(nombre, capa);
+  return capa;
+}
+
+/**
+ * Dibuja los ductos como polilineas pegadas al terreno. Fase 3.
+ *
+ * Color por fluido transportado, no por estado: OSM no publica el estado
+ * operativo de los ductos y fingir que si lo hace seria inventar.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ */
+export function dibujarDuctos(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("ductos");
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) continue;
+
+    const color = Color.fromCssColorString(
+      COLOR_FLUIDO[props.fluido] ?? COLOR_FLUIDO.desconocido
+    );
+
+    capa.entities.add({
+      name: props.nombre ?? props.id ?? "",
+      properties: { ...props },
+      polyline: {
+        positions: aPosiciones(coords),
+        width: 2.5,
+        material: color,
+        clampToGround: true,
+      },
+    });
+    n += 1;
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+/**
+ * Dibuja refinerias, petroquimicas, plantas de gas, puertos y parques de
+ * tanques. Fase 3.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ */
+export function dibujarDownstream(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("downstream");
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) continue;
+
+    const color = Color.fromCssColorString(
+      COLOR_TIPO[props.tipo] ?? COLOR_TIPO.instalacion
+    );
+
+    // Las refinerias y los grandes parques de tanques son los hitos de la
+    // cadena: se dibujan mas grandes para que se distingan del resto.
+    const destacado = props.tipo === "refineria" || (props.n_tanques ?? 0) > 50;
+
+    capa.entities.add({
+      name: props.nombre ?? props.id ?? "",
+      properties: { ...props },
+      position: Cartesian3.fromDegrees(coords[0], coords[1]),
+      point: {
+        pixelSize: destacado ? 13 : 9,
+        color: color.withAlpha(0.85),
+        outlineColor: Color.WHITE.withAlpha(0.7),
+        outlineWidth: destacado ? 2 : 1,
+        heightReference: HeightReference.CLAMP_TO_GROUND,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        scaleByDistance: new NearFarScalar(1.0e4, 1.3, 2.0e6, 0.55),
+      },
+    });
+    n += 1;
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+/**
+ * Enciende o apaga una capa por sector.
+ * @param {"upstream" | "midstream" | "downstream"} sector
+ * @param {boolean} visible
+ */
+export function alternarCapa(sector, visible) {
+  if (sector === "upstream" && capaCampos) capaCampos.show = visible;
+
+  if (sector === "midstream") {
+    const ductos = capas.get("ductos");
+    if (ductos) ductos.show = visible;
+  }
+
+  // La capa "downstream" mezcla dos sectores: refinerias, petroquimicas y
+  // puertos son downstream, pero los parques de tanques son midstream. Por eso
+  // se controla entidad por entidad y no con el interruptor de la capa: si no,
+  // apagar un sector escondería activos del otro.
+  const mixta = capas.get("downstream");
+  if (mixta) {
+    const ahora = JulianDate.now();
+    for (const entidad of mixta.entities.values) {
+      const tipo = entidad.properties?.tipo?.getValue?.(ahora);
+      const suSector = tipo === "terminal" ? "midstream" : "downstream";
+      if (suSector === sector) entidad.show = visible;
+    }
+  }
+
+  viewer?.scene.requestRender();
+}
+
 // --- Pendiente por fase ------------------------------------------------------
-// Fase 3: dibujarDuctos(featureCollection), dibujarDownstream(featureCollection)
-// Fase 3: alternarCapa(sector, visible)
 // Fase 5: dibujarGridProbabilidad(featureCollection)  <- SIEMPRE con banner DEMO
