@@ -10,6 +10,8 @@ import {
   dibujarDownstream,
   dibujarLimites,
   dibujarZonaDisputada,
+  dibujarToponimia,
+  dibujarHidrografia,
   dibujarReferenciaFaja,
   dibujarGridProbabilidad,
   registrarBannerDemo,
@@ -29,10 +31,19 @@ import {
   getDownstream,
   getLimites,
   getZonaDisputada,
+  getToponimia,
+  getHidrografia,
   getGridProbabilidadDemo,
 } from "./api.js";
 import { tieneProcedencia, normalizarActivo } from "./data.js";
-import { t } from "./i18n/index.js";
+import { t, idioma } from "./i18n/index.js";
+
+/**
+ * Capas cuyo TEXTO depende del idioma, guardadas para poder redibujarlas al
+ * cambiarlo sin volver a pedirlas por red. Los toponimos son dato bilingue del
+ * propio GeoJSON, no cadenas de interfaz: no pasan por t().
+ */
+const contextoCargado = { toponimia: null, hidrografia: null };
 
 /**
  * Regla del proyecto: un activo sin fuente no se dibuja.
@@ -63,9 +74,21 @@ function soloConFuente(coleccion, etiqueta) {
 async function cargarCapas() {
   // Los limites van primero: dan referencia espacial de inmediato aunque los
   // datos de activos tarden, y son el archivo mas ligero.
+  const lang = idioma();
+
   const capas = [
     ["limites", getLimites, dibujarLimites],
     ["zona en disputa", getZonaDisputada, dibujarZonaDisputada],
+    // La hidrografia va pronto y antes que los activos: el agua es el fondo
+    // sobre el que se lee todo lo demas, y ademas se dibuja por debajo.
+    ["hidrografia", getHidrografia, (fc) => {
+      contextoCargado.hidrografia = fc;
+      dibujarHidrografia(fc, lang);
+    }],
+    ["toponimia", getToponimia, (fc) => {
+      contextoCargado.toponimia = fc;
+      dibujarToponimia(fc, lang);
+    }],
     ["campos", getCampos, (fc) => {
       dibujarCampos(fc);
       fijarCampos(fc);
@@ -129,5 +152,24 @@ function arrancar() {
     );
   }
 }
+
+/**
+ * Al cambiar de idioma, los rotulos del mapa se redibujan con el otro nombre.
+ *
+ * Se hace desde aqui y no desde ui.js porque ui.js no puede tocar el mapa, y
+ * no desde map.js porque map.js no decide cuando se cargan los datos. Es
+ * orquestacion, que es justo lo que main.js hace.
+ *
+ * No hay peticion de red: las colecciones ya estan en memoria.
+ */
+window.addEventListener("idioma:cambiado", (evento) => {
+  const lang = evento.detail ?? idioma();
+  if (contextoCargado.hidrografia) {
+    dibujarHidrografia(contextoCargado.hidrografia, lang);
+  }
+  if (contextoCargado.toponimia) {
+    dibujarToponimia(contextoCargado.toponimia, lang);
+  }
+});
 
 arrancar();

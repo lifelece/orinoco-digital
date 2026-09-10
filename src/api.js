@@ -82,6 +82,22 @@ export async function getZonaDisputada() {
 }
 
 /**
+ * Toponimia: paises, estados y ciudades. Contexto cartografico.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getToponimia() {
+  return cargarGeoJSON(RUTAS_DATOS.toponimia);
+}
+
+/**
+ * Hidrografia: rios, lagos y embalses. Contexto cartografico.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getHidrografia() {
+  return cargarGeoJSON(RUTAS_DATOS.hidrografia);
+}
+
+/**
  * Grid de probabilidad del modelo DEMO. Fase 5.
  *
  * ATENCION: la capa que consume esto DEBE mostrar el banner DEMO.

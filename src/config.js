@@ -149,6 +149,9 @@ export const RUTAS_DATOS = {
   downstream: "/data/downstream-osm.geojson",
   limites: "/data/limites-venezuela.geojson",
   zonaDisputada: "/data/zona-disputada.geojson",
+  // Contexto cartografico: sin esto el mapa es geometria correcta pero muda.
+  toponimia: "/data/toponimia.geojson",
+  hidrografia: "/data/hidrografia.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
 };
 
@@ -181,6 +184,49 @@ export const COLOR_FLUIDO = {
   gas: "#38bdf8",
   fuel: "#a78bfa",
   desconocido: "#94a3b8",
+};
+
+/** Color de los rotulos, por clase de toponimo. */
+export const COLOR_TOPONIMIA = {
+  pais: "#e2e8f0",
+  estado: "#a8b6c8",
+  ciudad: "#f1f5f9",
+  /** Punto que acompana al nombre de la ciudad. */
+  marca: "#cbd5e1",
+};
+
+/**
+ * Color del agua.
+ *
+ * OJO con la coincidencia: el gas de los ductos es `#38bdf8`, un azul cian.
+ * Los rios usan un azul mas frio y translucido y una linea mas ancha y suave
+ * para no confundirse con un gasoducto, que es fino y saturado. Es la unica
+ * pareja de colores del mapa que se parece, y esta puesta a proposito: el agua
+ * tiene que leerse como agua.
+ */
+export const COLOR_AGUA = {
+  rio: "#60a5fa",
+  lago: "#3b82f6",
+  etiqueta: "#93c5fd",
+};
+
+/**
+ * Distancias de camara, en metros, entre las que se ve cada rotulo.
+ *
+ * Es el mecanismo que evita que el mapa se convierta en una sopa de letras:
+ * los paises se ven de lejos y desaparecen al acercarse, las ciudades hacen lo
+ * contrario, y cada ciudad aparece segun el `rango` que trae del SCALERANK de
+ * Natural Earth. Es lo mismo que hace un atlas al cambiar de escala.
+ */
+export const ZOOM_ETIQUETA = {
+  pais: [400000, 25000000],
+  estado: [80000, 2500000],
+  ciudad: {
+    1: [0, 2000000],
+    2: [0, 500000],
+    3: [0, 160000],
+  },
+  agua: [0, 2500000],
 };
 
 /** Tamano en pixeles de los simbolos del mapa. */

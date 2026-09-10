@@ -4,9 +4,9 @@
  * Uso:  npm run data:validate
  *
  * Aplica las reglas del proyecto: geometria valida, coordenadas en WGS84
- * dentro de Venezuela, y trazabilidad obligatoria (fuente, confianza,
- * ultima_verificacion). Sale con codigo 1 si algo falla, para poder usarlo
- * en un hook o en CI.
+ * dentro de la ventana que le corresponda a la capa, y trazabilidad
+ * obligatoria (fuente, confianza, ultima_verificacion). Sale con codigo 1 si
+ * algo falla, para poder usarlo en un hook o en CI.
  */
 
 import { readdir, readFile } from "node:fs/promises";
@@ -18,6 +18,27 @@ const DIRECTORIO = join(RAIZ, "public", "data");
 
 // Venezuela continental con margen. Fuera de esto, hay un error de CRS.
 const LIMITES = { latMin: 0, latMax: 13, lngMin: -74, lngMax: -59 };
+
+/**
+ * Capas de CONTEXTO: se salen de Venezuela A PROPOSITO.
+ *
+ * Rotular GUYANA, dibujar el Orinoco hasta su nacimiento o trazar una zona en
+ * disputa exige cruzar la frontera; ese es justamente su trabajo. Aplicarles
+ * el limite de las capas de activos no detectaria ningun error real, solo
+ * castigaria el comportamiento correcto — y una validacion que da falsos
+ * positivos acaba ignorandose, que es la peor forma de perderla.
+ *
+ * Lo que si se comprueba es que no se vayan a otro continente: sigue habiendo
+ * ventana, solo que es la del mapa y no la del pais.
+ */
+const CAPAS_CONTEXTO = [
+  "toponimia.geojson",
+  "hidrografia.geojson",
+  "zona-disputada.geojson",
+];
+
+/** La ventana de scripts/contexto-to-geojson.mjs, con un grado de holgura. */
+const LIMITES_CONTEXTO = { latMin: 0, latMax: 14, lngMin: -75, lngMax: -58 };
 
 const ESTADOS = ["activo", "inactivo", "abandonado", "desconocido"];
 const CONFIANZAS = ["alta", "media", "baja"];
@@ -46,7 +67,7 @@ function primeraPosicion(coords) {
   return Array.isArray(actual) && actual.length >= 2 ? actual : null;
 }
 
-function validarFeature(feature, indice, esCapaOSM) {
+function validarFeature(feature, indice, esCapaOSM, limites = LIMITES, ambito = "Venezuela") {
   const id = feature?.properties?.id ?? `#${indice}`;
 
   const posicion = primeraPosicion(feature?.geometry?.coordinates);
@@ -60,9 +81,9 @@ function validarFeature(feature, indice, esCapaOSM) {
     error(`${id}: coordenadas no numericas`);
     return;
   }
-  if (lat < LIMITES.latMin || lat > LIMITES.latMax ||
-      lng < LIMITES.lngMin || lng > LIMITES.lngMax) {
-    error(`${id}: fuera de Venezuela (${lat}, ${lng}) — revisa el CRS de origen`);
+  if (lat < limites.latMin || lat > limites.latMax ||
+      lng < limites.lngMin || lng > limites.lngMax) {
+    error(`${id}: fuera de ${ambito} (${lat}, ${lng}) — revisa el CRS de origen`);
   }
   // Sintoma clasico de coordenadas invertidas.
   if (lng > 0 && lat < 0) {
@@ -107,6 +128,9 @@ if (archivos.length === 0) {
 for (const archivo of archivos) {
   console.log(`\n${archivo}`);
   const esCapaOSM = archivo.includes("-osm");
+  const esContexto = CAPAS_CONTEXTO.includes(archivo);
+  const limites = esContexto ? LIMITES_CONTEXTO : LIMITES;
+  const ambito = esContexto ? "la ventana del mapa" : "Venezuela";
 
   let json;
   try {
@@ -130,7 +154,9 @@ for (const archivo of archivos) {
     aviso(`supera el presupuesto de 2000 entidades por capa`);
   }
 
-  json.features.forEach((f, i) => validarFeature(f, i, esCapaOSM));
+  json.features.forEach((f, i) =>
+    validarFeature(f, i, esCapaOSM, limites, ambito)
+  );
 }
 
 console.log(`\n${errores} errores, ${avisos} avisos.`);

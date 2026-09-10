@@ -520,3 +520,101 @@ La respuesta esta en el dato: el proyecto muestra la zona con la clasificacion
 que le da Natural Earth y con el administrador de facto que la propia fuente
 registra. No hay afirmacion propia sobre la soberania, ni a favor ni en contra.
 Quien discrepe, discrepa con Natural Earth, y el enlace a la fuente esta aqui.
+
+---
+
+## 14. Contexto cartografico: toponimia e hidrografia
+
+**Fuente:** Natural Earth 1:10m, **dominio publico**.
+**CRS:** EPSG:4326. **Confianza:** media. **Verificado:** 2026-09-09.
+**Generado con:** `npm run data:contexto`
+(`scripts/contexto-to-geojson.mjs`).
+
+### Por que se anadio
+
+El mapa dibujaba geometria correcta pero muda. Un campo petrolifero flotaba
+sobre una mancha verde sin decir en que estado estaba, y el rio Orinoco —que da
+nombre al proyecto— no aparecia por ninguna parte.
+
+Los mapas de divulgacion del sector son legibles justamente por lo contrario:
+rotulan y situan. Esta capa es lo que separa un render 3D de un mapa.
+
+### Resultado
+
+| Archivo | Elementos | Peso |
+|---|---|---|
+| `toponimia.geojson` | 83 rotulos | 25 KB |
+| `hidrografia.geojson` | 24 elementos | 112 KB |
+
+**Toponimia:** 8 paises, 25 estados de Venezuela y 50 ciudades.
+**Hidrografia:** 20 rios (entre ellos Orinoco, Caroni, Apure, Meta, Casiquiare,
+Cuyuni y Essequibo) y 4 lagos y embalses, incluido el **embalse de Guri**.
+
+### Por que Natural Earth y no otra fuente
+
+1. **Los puntos de etiqueta vienen calculados en el dato** (`latitude`,
+   `longitude` en admin-1; `LABEL_X`, `LABEL_Y` en admin-0). Derivar centroides
+   por nuestra cuenta habria puesto el nombre de un estado con forma de C fuera
+   del propio estado.
+2. **Trae los nombres en espanol y en ingles**, asi que la capa es bilingue sin
+   que nadie traduzca a mano. Los toponimos son dato, no cadenas de interfaz:
+   viajan en el GeoJSON y no pasan por `t()`.
+3. **Es dominio publico**: no arrastra share-alike como OSM, asi que no hay que
+   aislarla en archivos aparte.
+4. Ya se usaba en el proyecto para `zona-disputada.geojson`. Una fuente menos
+   que auditar.
+
+### Lo que esta capa NO hace
+
+**No toca los limites administrativos.** Esos siguen viniendo de geoBoundaries
+(seccion 12). De Natural Earth se toman UNICAMENTE los puntos de etiqueta. Dos
+fuentes distintas para la misma frontera se contradirian sobre el mapa, y la
+linea visible tiene que tener un solo origen rastreable.
+
+### Decisiones que conviene conocer
+
+**Solo se rotulan los estados de Venezuela.** Este es un mapa DE Venezuela: los
+paises vecinos son contexto, no sujeto. Rotular sus divisiones internas metia 42
+etiquetas mas —16 solo de las regiones de Trinidad— y tapaba lo que el mapa
+viene a mostrar.
+
+**Que ciudad aparece a que zoom lo decide Natural Earth**, no nosotros: se
+reutiliza su campo `SCALERANK`, que es el criterio con el que la propia fuente
+decide a que escala sale cada ciudad en un mapa impreso. Es reproducible y no
+introduce un juicio propio sobre que ciudad importa mas.
+
+**Un dato DERIVADO: la etiqueta de Brasil.** Natural Earth situa el rotulo de
+Brasil en Mato Grosso, a 2.000 km de aqui, asi que fuera de la ventana del mapa
+el pais mas grande del continente se quedaba sin nombre. Su punto se calcula
+promediando los vertices brasilenos que si caen en la ventana — cae en Roraima —
+y el registro lleva `derivado: true`, `confianza: baja` y una nota que lo dice.
+Posicionar un rotulo es una decision de diseno y no una afirmacion sobre el
+territorio, pero en este proyecto eso se documenta igual.
+
+**El lago de Maracaibo no esta en esta capa.** Natural Earth lo clasifica como
+masa marina, no como lago, asi que no entra en `ne_10m_lakes`. Se ve igualmente
+porque la imagen de satelite del globo lo muestra; lo que falta es su rotulo.
+Pendiente de resolver con `ne_10m_geography_marine_polys` o equivalente.
+
+**Dos rios llegan sin nombre desde la fuente.** Se dibujan igual: la linea es
+informacion aunque no se pueda rotular. No se les inventa un nombre.
+
+### El validador tuvo que aprender la diferencia
+
+`npm run data:validate` daba error en estas capas: comprobaba que **toda**
+coordenada cayese dentro de Venezuela, y rotular GUYANA o dibujar el Orinoco
+hasta su nacimiento exige cruzar la frontera.
+
+No se relajo la regla: se distinguio. `scripts/validate-geojson.mjs` mantiene la
+ventana estrecha para las capas de activos —donde salirse de Venezuela **si** es
+sintoma de un CRS mal transformado— y aplica la ventana del mapa a las capas de
+contexto, que se salen a proposito. Una validacion con falsos positivos acaba
+ignorandose, que es la peor forma de perderla.
+
+### Aviso de estilo: el rio y el gasoducto se parecen
+
+El gas de los ductos usa `#38bdf8` y los rios `#60a5fa`. Son dos azules. Para
+que no se confundan, el rio va mas ancho (3 px), translucido (alpha 0,55) y en
+un azul mas frio; el gasoducto va fino y saturado. La leyenda lo dice
+explicitamente. Es la unica pareja de colores del mapa que se roza, y esta
+puesta a sabiendas: el agua tiene que leerse como agua.

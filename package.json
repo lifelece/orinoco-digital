@@ -14,6 +14,7 @@
     "data:validate": "node scripts/validate-geojson.mjs",
     "data:osm": "node scripts/osm-to-geojson.mjs",
     "data:limites": "node scripts/limites-to-geojson.mjs",
+    "data:contexto": "node scripts/contexto-to-geojson.mjs",
     "data:demo": "node scripts/generar-features-demo.mjs",
     "data:disputa": "node scripts/zona-disputada.mjs"
   },

@@ -80,5 +80,12 @@
   "hidrocarburo.gas": "Gas",
   "hidrocarburo.mixto": "Oil and gas",
   "hidrocarburo.desconocido": "No data",
-  "leyenda.noActivo": "Field not producing (dashed outline)"
+  "leyenda.noActivo": "Field not producing (dashed outline)",
+  "contexto.toponimia": "Place names",
+  "contexto.hidrografia": "Rivers and lakes",
+  "leyenda.contexto": "Geographic context",
+  "leyenda.rio": "River",
+  "leyenda.lago": "Lake or reservoir",
+  "leyenda.rioVsGasoducto": "Rivers are wide and translucent; gas pipelines, thin and bright.",
+  "atribucion.naturalEarth": "Place names, rivers and disputed area: Natural Earth (public domain)"
 }

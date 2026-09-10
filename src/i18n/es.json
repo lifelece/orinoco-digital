@@ -80,5 +80,12 @@
   "hidrocarburo.gas": "Gas",
   "hidrocarburo.mixto": "Petroleo y gas",
   "hidrocarburo.desconocido": "Sin datos",
-  "leyenda.noActivo": "Campo sin produccion (trazo discontinuo)"
+  "leyenda.noActivo": "Campo sin produccion (trazo discontinuo)",
+  "contexto.toponimia": "Nombres de lugares",
+  "contexto.hidrografia": "Rios y lagos",
+  "leyenda.contexto": "Contexto geografico",
+  "leyenda.rio": "Rio",
+  "leyenda.lago": "Lago o embalse",
+  "leyenda.rioVsGasoducto": "El rio es una linea ancha y translucida; el gasoducto, fina y viva.",
+  "atribucion.naturalEarth": "Nombres, rios y zona en disputa: Natural Earth (dominio publico)"
 }

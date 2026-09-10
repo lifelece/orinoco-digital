@@ -23,6 +23,9 @@ import {
   JulianDate,
   DistanceDisplayCondition,
   VerticalOrigin,
+  HorizontalOrigin,
+  LabelStyle,
+  Cartesian2,
   PolylineDashMaterialProperty,
 } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
@@ -39,6 +42,9 @@ import {
   COLOR_FLUIDO,
   COLOR_TIPO,
   COLOR_LIMITE,
+  COLOR_TOPONIMIA,
+  COLOR_AGUA,
+  ZOOM_ETIQUETA,
   TAMANO_ICONO,
 } from "./config.js";
 
@@ -423,8 +429,13 @@ const capas = new Map();
  */
 function nuevaCapa(nombre) {
   const previa = capas.get(nombre);
+  // Redibujar una capa NO puede volver a encenderla. Pasa al cambiar de idioma
+  // con la toponimia apagada: sin esto, reaparecia sola y el interruptor de la
+  // leyenda se quedaba mintiendo.
+  const visible = previa ? previa.show : true;
   if (previa && viewer) viewer.dataSources.remove(previa, true);
   const capa = new CustomDataSource(nombre);
+  capa.show = visible;
   capas.set(nombre, capa);
   return capa;
 }
@@ -676,13 +687,261 @@ export function dibujarReferenciaFaja() {
 
 /**
  * Enciende o apaga una capa de contexto por nombre.
- * @param {"limites" | "faja"} nombre
+ * @param {"limites" | "disputa" | "faja" | "toponimia" | "hidrografia"} nombre
  * @param {boolean} visible
  */
 export function alternarContexto(nombre, visible) {
   const capa = capas.get(nombre);
   if (capa) capa.show = visible;
   viewer?.scene.requestRender();
+}
+
+// --- Toponimia e hidrografia -------------------------------------------------
+
+/**
+ * Nombre a mostrar segun el idioma activo.
+ *
+ * Los toponimos son DATO, no cadenas de interfaz: no pasan por t(). Natural
+ * Earth ya trae la version de cada idioma, asi que se elige aqui. Si falta la
+ * inglesa se usa la local, que es lo que hace cualquier atlas serio: no se
+ * traduce a la fuerza lo que no tiene exonimo.
+ *
+ * @param {Object} props
+ * @param {string} lang
+ * @returns {string}
+ */
+function nombreSegunIdioma(props, lang) {
+  return (lang === "en" ? props.nombre_en : props.nombre) ?? props.nombre ?? "";
+}
+
+/**
+ * Estilo comun de todos los rotulos.
+ *
+ * El contorno oscuro no es decoracion: el mapa se dibuja sobre terreno real,
+ * que puede ser arena clara o selva oscura en la misma pantalla. Sin contorno,
+ * la mitad de los nombres desaparece.
+ *
+ * @param {string} fuente — font CSS
+ * @param {string} color
+ * @param {[number, number]} rango — [cerca, lejos] en metros
+ * @returns {Object}
+ */
+function estiloRotulo(fuente, color, rango) {
+  return {
+    font: fuente,
+    fillColor: Color.fromCssColorString(color),
+    outlineColor: Color.fromCssColorString("#0f172a").withAlpha(0.9),
+    outlineWidth: 3,
+    style: LabelStyle.FILL_AND_OUTLINE,
+    verticalOrigin: VerticalOrigin.CENTER,
+    horizontalOrigin: HorizontalOrigin.CENTER,
+    heightReference: HeightReference.CLAMP_TO_GROUND,
+    // Los rotulos no los tapa el relieve: un nombre medio escondido detras de
+    // una montana es peor que no ponerlo.
+    disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    distanceDisplayCondition: new DistanceDisplayCondition(rango[0], rango[1]),
+    // Se desvanecen en el ultimo tramo en vez de desaparecer de golpe, para
+    // que cambiar de escala no sea un parpadeo.
+    translucencyByDistance: new NearFarScalar(rango[1] * 0.75, 1, rango[1], 0.15),
+  };
+}
+
+/**
+ * Dibuja los nombres de paises, estados y ciudades.
+ *
+ * Es la diferencia mas grande entre este mapa y los mapas 2D de divulgacion
+ * del sector: alli se sabe siempre en que estado esta cada cosa. Aqui, hasta
+ * ahora, un campo flotaba sobre una mancha verde sin nombre.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @param {string} lang — idioma activo
+ * @returns {number} rotulos dibujados
+ */
+export function dibujarToponimia(featureCollection, lang = "es") {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("toponimia");
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) continue;
+
+    const texto = nombreSegunIdioma(props, lang);
+    if (!texto) continue;
+
+    const esCiudad = props.clase === "ciudad";
+    const rango = esCiudad
+      ? (ZOOM_ETIQUETA.ciudad[props.rango] ?? ZOOM_ETIQUETA.ciudad[3])
+      : ZOOM_ETIQUETA[props.clase];
+    if (!rango) continue;
+
+    // Paises y estados en mayusculas: son areas, no lugares. Es la convencion
+    // cartografica de siempre, y ahorra explicar en la leyenda que un rotulo
+    // suelto sin punto nombra un territorio y no un sitio concreto.
+    const entidad = {
+      name: texto,
+      position: Cartesian3.fromDegrees(coords[0], coords[1]),
+      label: {
+        ...estiloRotulo(
+          props.clase === "pais"
+            ? "600 13px system-ui, -apple-system, sans-serif"
+            : props.clase === "estado"
+              ? "500 11px system-ui, -apple-system, sans-serif"
+              : "500 12px system-ui, -apple-system, sans-serif",
+          COLOR_TOPONIMIA[props.clase] ?? COLOR_TOPONIMIA.ciudad,
+          rango
+        ),
+        text: esCiudad ? texto : texto.toUpperCase(),
+        // La ciudad lleva punto, asi que su nombre se aparta para no taparlo.
+        ...(esCiudad
+          ? {
+              pixelOffset: new Cartesian2(0, -11),
+              verticalOrigin: VerticalOrigin.BOTTOM,
+            }
+          : {}),
+      },
+    };
+
+    if (esCiudad) {
+      entidad.point = {
+        // La capital se marca algo mas grande. Lo declara la fuente en
+        // FEATURECLA; no lo decidimos nosotros.
+        pixelSize: props.capital ? 5 : 4,
+        color: Color.fromCssColorString(COLOR_TOPONIMIA.marca),
+        outlineColor: Color.fromCssColorString("#0f172a"),
+        outlineWidth: 1.5,
+        heightReference: HeightReference.CLAMP_TO_GROUND,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        distanceDisplayCondition: new DistanceDisplayCondition(rango[0], rango[1]),
+      };
+    }
+
+    capa.entities.add(entidad);
+    n += 1;
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+/**
+ * Centro medio de un anillo, solo para colocar un rotulo.
+ *
+ * No es un centroide de area ni pretende serlo: los cuatro lagos de esta capa
+ * son convexos y la media de sus vertices cae dentro del agua. Si algun dia
+ * entra uno con forma de herradura, su rotulo caera en el hueco y habra que
+ * calcular el punto de inaccesibilidad de verdad.
+ *
+ * @param {Array<Array<number>>} anillo
+ * @returns {[number, number]}
+ */
+function centroDe(anillo) {
+  let lng = 0;
+  let lat = 0;
+  for (const [x, y] of anillo) {
+    lng += x;
+    lat += y;
+  }
+  return [lng / anillo.length, lat / anillo.length];
+}
+
+/**
+ * Dibuja rios, lagos y embalses.
+ *
+ * El rio Orinoco da nombre al proyecto y no estaba en el mapa. Y no es solo
+ * simbolico: la Faja se llama asi porque bordea el rio, los puertos de
+ * exportacion estan donde estan por el, y el embalse de Guri —que entra en
+ * esta misma capa— es lo que da electricidad al oriente del pais.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @param {string} lang — idioma activo
+ * @returns {number} elementos dibujados
+ */
+export function dibujarHidrografia(featureCollection, lang = "es") {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("hidrografia");
+  const rango = ZOOM_ETIQUETA.agua;
+  let n = 0;
+
+  /** Anade el rotulo de un elemento de agua, si la fuente le da nombre. */
+  const rotular = (texto, lng, lat) => {
+    if (!texto) return;
+    capa.entities.add({
+      name: texto,
+      position: Cartesian3.fromDegrees(lng, lat),
+      label: {
+        ...estiloRotulo(
+          "italic 500 11px system-ui, -apple-system, sans-serif",
+          COLOR_AGUA.etiqueta,
+          rango
+        ),
+        text: texto,
+      },
+    });
+  };
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const geometria = feature.geometry;
+    if (!geometria?.coordinates) continue;
+
+    const texto = nombreSegunIdioma(props, lang);
+
+    if (props.clase === "rio") {
+      const coords = geometria.coordinates;
+      if (!Array.isArray(coords) || coords.length < 2) continue;
+
+      capa.entities.add({
+        name: texto,
+        polyline: {
+          positions: aPosiciones(coords),
+          // Mas ancho y mas translucido que un ducto: asi el agua se lee como
+          // agua y no como infraestructura. Ver COLOR_AGUA en config.js.
+          width: 3,
+          material: Color.fromCssColorString(COLOR_AGUA.rio).withAlpha(0.55),
+          clampToGround: true,
+        },
+      });
+
+      // El nombre va en el vertice central, que es lo mas parecido a "sobre el
+      // rio" que se puede hacer sin texto curvado. Los dos rios que la fuente
+      // deja sin nombre se dibujan igual: la linea informa aunque no se pueda
+      // rotular, y no se les inventa uno.
+      const medio = coords[Math.floor(coords.length / 2)];
+      rotular(texto, medio[0], medio[1]);
+      n += 1;
+      continue;
+    }
+
+    // Lagos y embalses.
+    const partes = poligonosDe(geometria);
+    for (const [exterior, ...agujeros] of partes) {
+      if (!exterior || exterior.length < 4) continue;
+
+      capa.entities.add({
+        name: texto,
+        polygon: {
+          hierarchy: new PolygonHierarchy(
+            aPosiciones(exterior),
+            agujeros.map((a) => new PolygonHierarchy(aPosiciones(a)))
+          ),
+          material: Color.fromCssColorString(COLOR_AGUA.lago).withAlpha(0.5),
+          outline: false,
+        },
+      });
+      n += 1;
+    }
+
+    const anillo = partes[0]?.[0];
+    if (anillo?.length) {
+      const [lng, lat] = centroDe(anillo);
+      rotular(texto, lng, lat);
+    }
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
 }
 
 // --- Capa demostrativa (Fase 5) ----------------------------------------------

@@ -17,6 +17,7 @@ import {
   COLOR_HIDROCARBURO,
   COLOR_FLUIDO,
   COLOR_TIPO,
+  COLOR_AGUA,
   REPO,
   FECHA_DATOS,
 } from "./config.js";
@@ -183,6 +184,7 @@ export function montarUI() {
                 leading-tight text-slate-300/70 sm:bottom-9 sm:text-[11px]">
       <p>${esc(t("atribucion.datos"))}</p>
       <p>${esc(t("atribucion.osm"))}</p>
+      <p>${esc(t("atribucion.naturalEarth"))}</p>
       <p class="pointer-events-auto">
         <a href="${REPO}/blob/main/DISCLAIMER.md" target="_blank"
            rel="noopener noreferrer" class="underline hover:text-slate-100">
@@ -213,7 +215,16 @@ export function montarUI() {
 const sectores = { upstream: true, midstream: true, downstream: true };
 
 /** Capas de contexto geografico visibles. */
-const contexto = { limites: true, disputa: true, faja: true };
+const contexto = {
+  toponimia: true,
+  hidrografia: true,
+  limites: true,
+  disputa: true,
+  faja: true,
+};
+
+/** Orden en el que se listan en la leyenda: del fondo del mapa hacia arriba. */
+const CAPAS_CONTEXTO = ["toponimia", "hidrografia", "limites", "disputa", "faja"];
 
 /** La capa DEMO nace apagada: se enciende a proposito, nunca por defecto. */
 let demoActiva = false;
@@ -265,7 +276,7 @@ function montarLeyenda() {
     <div class="px-3 py-2.5">
       ${["upstream", "midstream", "downstream"].map(interruptor).join("")}
       <div class="my-1.5 border-t border-white/10"></div>
-      ${["limites", "disputa", "faja"].map(interruptorContexto).join("")}
+      ${CAPAS_CONTEXTO.map(interruptorContexto).join("")}
       ${
         // El interruptor DEMO solo existe si el grid llego a cargarse. Sin
         // notebook ejecutado no hay capa, y un interruptor que no hace nada
@@ -322,6 +333,17 @@ function montarLeyenda() {
                  .map((k) => item(COLOR_TIPO[k], t(`tipo.${k}`), "rounded-full"))
                  .join("")}
              </ul>
+
+             <p class="mb-1 mt-2.5 text-[11px] uppercase tracking-wide text-slate-500">
+               ${esc(t("leyenda.contexto"))}
+             </p>
+             <ul class="space-y-1">
+               ${item(COLOR_AGUA.rio, t("leyenda.rio"))}
+               ${item(COLOR_AGUA.lago, t("leyenda.lago"))}
+             </ul>
+             <p class="mt-1.5 text-[11px] leading-tight text-slate-500">
+               ${esc(t("leyenda.rioVsGasoducto"))}
+             </p>
            </div>`
         : ""
     }
