@@ -28,6 +28,7 @@ import {
   getDuctos,
   getDownstream,
   getLimites,
+  getZonaDisputada,
   getGridProbabilidadDemo,
 } from "./api.js";
 import { tieneProcedencia, normalizarActivo } from "./data.js";
