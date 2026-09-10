@@ -74,5 +74,11 @@
   "panel.score": "Demonstration probability",
   "pie.disclaimer": "Important notice",
   "pie.codigo": "Source code",
-  "contexto.disputa": "Disputed area (Essequibo)"
+  "contexto.disputa": "Disputed area (Essequibo)",
+  "panel.hidrocarburo": "Hydrocarbon",
+  "hidrocarburo.petroleo": "Oil",
+  "hidrocarburo.gas": "Gas",
+  "hidrocarburo.mixto": "Oil and gas",
+  "hidrocarburo.desconocido": "No data",
+  "leyenda.noActivo": "Field not producing (dashed outline)"
 }

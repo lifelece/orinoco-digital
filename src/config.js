@@ -136,13 +136,6 @@ export const PRESUPUESTO = {
 
 export const SECTORES = ["upstream", "midstream", "downstream"];
 
-/** Color por estado del activo. Fase 2. */
-export const COLOR_ESTADO = {
-  activo: "#22c55e",
-  inactivo: "#eab308",
-  abandonado: "#ef4444",
-  desconocido: "#94a3b8",
-};
 
 // --- Rutas de datos ---------------------------------------------------------
 
@@ -157,6 +150,28 @@ export const RUTAS_DATOS = {
   limites: "/data/limites-venezuela.geojson",
   zonaDisputada: "/data/zona-disputada.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
+};
+
+/**
+ * Color por hidrocarburo del campo.
+ *
+ * Los campos se colorean por lo que producen, NO por su estado operativo. El
+ * motivo esta en el propio dato: 99 de los 105 campos de GOGET estan "activo",
+ * asi que colorear por estado pinta un mapa de un solo color y no informa de
+ * nada. El hidrocarburo si reparte: 64 petroleo, 35 ambos, 6 gas.
+ * Ver docs/DECISIONS.md -> ADR-012.
+ *
+ * Los tonos son los mismos que COLOR_FLUIDO usa en los ductos —ambar el crudo,
+ * azul el gas— para que el mapa se lea como un solo sistema: si un ducto azul
+ * sale de un campo azul, se entiende sin leer la leyenda.
+ */
+export const COLOR_HIDROCARBURO = {
+  petroleo: "#f59e0b",
+  gas: "#38bdf8",
+  // Ni ambar ni azul: violeta se distingue de ambos tambien con los tipos de
+  // daltonismo mas frecuentes, cosa que un verde intermedio no lograria.
+  mixto: "#c084fc",
+  desconocido: "#94a3b8",
 };
 
 /** Color por fluido transportado. Fase 3. */

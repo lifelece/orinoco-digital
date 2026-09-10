@@ -225,3 +225,50 @@ por dato.
 **Condicion:** si alguna vez se regenera el grid con otro modelo o con otros
 datos, se actualiza `MODEL_CARD.md` en el mismo commit. El archivo y su ficha
 viajan juntos o no viajan.
+
+---
+
+## ADR-012 — Los campos se colorean por hidrocarburo, no por estado
+
+**Fecha:** 2026-09-09 · **Estado:** aceptada · **Supersede** el criterio de
+color de la Fase 2
+
+La Fase 2 pinto los campos con `COLOR_ESTADO`: verde activo, amarillo inactivo,
+rojo abandonado, gris sin datos.
+
+**El problema esta en el propio dato.** De los 105 campos de GOGET:
+
+| Estado | Campos |
+|---|---|
+| activo | 99 (94%) |
+| inactivo | 5 |
+| desconocido | 1 |
+
+Un canal visual que reparte 94-5-1 no informa de nada: el mapa sale verde entero
+y el usuario no puede leer diferencia alguna entre un campo y el de al lado.
+
+El hidrocarburo si reparte, y ademas es lo que un mapa de esta industria tiene
+que decir: **64 petroleo, 35 petroleo y gas, 6 gas**.
+
+**Decision:** el relleno de los campos codifica el hidrocarburo. El estado pasa
+a un segundo canal —relleno mas apagado y borde discontinuo cuando el campo no
+esta en produccion— y sigue completo en el panel y en la tabla.
+
+**Por que estos tonos:** ambar el petroleo y azul el gas, exactamente los mismos
+que `COLOR_FLUIDO` ya usaba para los ductos. Asi el mapa se lee como un solo
+sistema: un ducto azul saliendo de un campo azul se entiende sin abrir la
+leyenda. Para "petroleo y gas" se usa violeta y no un verde intermedio, porque
+un verde entre ambar y azul se confunde con el ambar en los tipos de daltonismo
+mas frecuentes.
+
+**Referencia externa:** es el mismo criterio que usan los mapas de divulgacion
+del sector — El Orden Mundial separa "area de extraccion de petroleo" de "area
+de extraccion de gas" y no cartografia el estado operativo.
+
+**Consecuencia:** el estado deja de verse de un vistazo para los 6 campos que no
+producen. Se acepta: se sigue viendo en el borde discontinuo, y se gana la
+distincion que aplica a los 105.
+
+**Cuando reconsiderar:** si una fuente futura trae estados repartidos de verdad
+(por ejemplo un historico con campos cerrados), volver a evaluar cual de los dos
+merece el canal principal — o permitir que el usuario elija.

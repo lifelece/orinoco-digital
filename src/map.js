@@ -28,13 +28,14 @@ import {
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
 import { icono, iconoAproximado } from "./iconos.js";
+import { hidrocarburoDe } from "./data.js";
 
 import {
   CESIUM_TOKEN,
   FAJA_BBOX,
   CAMARA,
   PRESUPUESTO,
-  COLOR_ESTADO,
+  COLOR_HIDROCARBURO,
   COLOR_FLUIDO,
   COLOR_TIPO,
   COLOR_LIMITE,
@@ -297,20 +298,31 @@ export function dibujarCampos(featureCollection) {
 
   for (const feature of featureCollection.features) {
     const props = feature.properties ?? {};
-    const color = Color.fromCssColorString(
-      COLOR_ESTADO[props.estado] ?? COLOR_ESTADO.desconocido
-    );
+    const hidrocarburo = hidrocarburoDe(props.fluido);
+    const cssColor =
+      COLOR_HIDROCARBURO[hidrocarburo] ?? COLOR_HIDROCARBURO.desconocido;
+    const color = Color.fromCssColorString(cssColor);
+
+    // Segundo canal visual, independiente del color: un campo que no esta en
+    // produccion se dibuja mas apagado y con el borde discontinuo. Son solo 6
+    // de 105, pero perderlos al pasar a colorear por hidrocarburo habria sido
+    // cambiar un dato por otro en vez de anadir uno.
+    const enProduccion = props.estado === "activo";
 
     const comun = {
       name: props.nombre ?? props.id ?? "",
       // Las propiedades viajan con la entidad para que el panel las lea sin
-      // volver a consultar el GeoJSON.
-      properties: { ...props, tieneExtension: feature.geometry.type !== "Point" },
+      // volver a consultar el GeoJSON. `hidrocarburo` se normaliza una sola
+      // vez aqui y viaja con ellas: ui.js no repite la clasificacion.
+      properties: {
+        ...props,
+        hidrocarburo,
+        tieneExtension: feature.geometry.type !== "Point",
+      },
     };
 
     if (feature.geometry.type === "Point") {
       const [lng, lat] = feature.geometry.coordinates;
-      const cssColor = COLOR_ESTADO[props.estado] ?? COLOR_ESTADO.desconocido;
       capaCampos.entities.add({
         ...comun,
         position: Cartesian3.fromDegrees(lng, lat),
@@ -343,7 +355,7 @@ export function dibujarCampos(featureCollection) {
             aPosiciones(exterior),
             agujeros.map((a) => new PolygonHierarchy(aPosiciones(a)))
           ),
-          material: color.withAlpha(0.45),
+          material: color.withAlpha(enProduccion ? 0.45 : 0.2),
           // Sin altura ni extrusion: Cesium lo drapea sobre el terreno.
           // `outline` NO se usa: los contornos de poligono sobre terreno no
           // estan soportados y Cesium avisa en consola. El borde se dibuja
@@ -353,7 +365,11 @@ export function dibujarCampos(featureCollection) {
         polyline: {
           positions: aPosiciones(exterior),
           width: 2,
-          material: color,
+          // Discontinuo = no esta en produccion. Misma convencion que ya usan
+          // los limites en disputa y la caja de referencia de la Faja.
+          material: enProduccion
+            ? color
+            : new PolylineDashMaterialProperty({ color, dashLength: 14 }),
           clampToGround: true,
           // Solo de cerca: cada polilinea pegada al terreno es una primitiva
           // de clasificacion, y son caras. En la vista general no aportan

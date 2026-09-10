@@ -33,6 +33,33 @@ export const TIPOS = [
   "instalacion",
 ];
 
+/** Claves de hidrocarburo con las que el mapa colorea los campos. */
+export const HIDROCARBUROS = ["petroleo", "gas", "mixto", "desconocido"];
+
+/**
+ * Traduce el "Fuel type" de GOGET a la clave de hidrocarburo del proyecto.
+ *
+ * GOGET escribe "oil", "gas" y "oil and gas". Se comprueba primero el caso
+ * mixto: "oil and gas" contiene ambas palabras y un orden de comprobacion
+ * ingenuo lo clasificaria como petroleo, perdiendo 35 de los 105 campos.
+ *
+ * Un valor que no se reconoce devuelve "desconocido". No se adivina: un campo
+ * mal clasificado en el mapa es peor que uno gris.
+ *
+ * @param {string | null | undefined} fluido — valor crudo de la fuente
+ * @returns {"petroleo" | "gas" | "mixto" | "desconocido"}
+ */
+export function hidrocarburoDe(fluido) {
+  const texto = String(fluido ?? "").toLowerCase();
+  const hayPetroleo = texto.includes("oil") || texto.includes("petrol");
+  const hayGas = texto.includes("gas");
+
+  if (hayPetroleo && hayGas) return "mixto";
+  if (hayGas) return "gas";
+  if (hayPetroleo) return "petroleo";
+  return "desconocido";
+}
+
 /**
  * Valida que un objeto sea una FeatureCollection GeoJSON usable.
  * @param {unknown} json

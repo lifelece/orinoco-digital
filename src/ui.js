@@ -14,12 +14,68 @@ import {
   hayCapaDemo,
 } from "./map.js";
 import {
-  COLOR_ESTADO,
+  COLOR_HIDROCARBURO,
   COLOR_FLUIDO,
   COLOR_TIPO,
   REPO,
   FECHA_DATOS,
 } from "./config.js";
+import { hidrocarburoDe } from "./data.js";
+
+/**
+ * Color con el que el mapa esta pintando este activo.
+ *
+ * El punto de color del panel tiene que coincidir con lo que el usuario acaba
+ * de tocar. Cada capa colorea con un criterio distinto —los campos por
+ * hidrocarburo, los ductos por fluido, las instalaciones por tipo— asi que el
+ * panel replica esa misma logica en vez de usar un unico color para todo.
+ *
+ * @param {Object} activo
+ * @returns {string} color CSS
+ */
+function colorDeActivo(activo) {
+  if (activo.tipo === "campo" || activo.tipo === "pozo") {
+    const clave = activo.hidrocarburo ?? hidrocarburoDe(activo.fluido);
+    return COLOR_HIDROCARBURO[clave] ?? COLOR_HIDROCARBURO.desconocido;
+  }
+  if (activo.tipo === "ducto") {
+    return COLOR_FLUIDO[activo.fluido] ?? COLOR_FLUIDO.desconocido;
+  }
+  return COLOR_TIPO[activo.tipo] ?? COLOR_TIPO.instalacion;
+}
+
+/** Fluidos de ducto que el proyecto sabe nombrar en los dos idiomas. */
+const FLUIDOS_CONOCIDOS = ["oil", "gas", "hydrocarbons", "fuel"];
+
+/**
+ * Etiqueta traducida de lo que un activo produce o transporta.
+ *
+ * El valor crudo de la fuente viene en ingles ("oil and gas") y no puede salir
+ * a pantalla tal cual: regla 9 del proyecto, todo texto visible pasa por t().
+ *
+ * Ademas cada capa tiene su vocabulario: un campo produce un hidrocarburo, un
+ * ducto transporta un fluido. Y solo se etiqueta lo que se sabe traducir —
+ * escupir la clave sin traducir es peor que no mostrar la fila.
+ *
+ * @param {Object} activo
+ * @returns {string | null}
+ */
+function etiquetaFluido(activo) {
+  if (!activo.fluido) return null;
+
+  if (activo.tipo === "campo" || activo.tipo === "pozo") {
+    const clave = activo.hidrocarburo ?? hidrocarburoDe(activo.fluido);
+    return clave === "desconocido" ? null : t(`hidrocarburo.${clave}`);
+  }
+
+  if (activo.tipo === "ducto" && FLUIDOS_CONOCIDOS.includes(activo.fluido)) {
+    return t(`fluido.${activo.fluido}`);
+  }
+
+  // Para el resto, el campo `fluido` es el tag `product` de OSM en crudo y no
+  // describe un fluido: no se muestra.
+  return null;
+}
 
 /** Ultima coleccion recibida, para poder redibujar al cambiar de idioma. */
 let campos = { type: "FeatureCollection", features: [] };
@@ -188,6 +244,15 @@ function montarLeyenda() {
       <span class="leading-tight">${esc(texto)}</span>
     </li>`;
 
+  // Muestra apagada y de borde discontinuo: el segundo canal visual con el que
+  // el mapa marca lo que no esta en produccion, sin gastar un color en ello.
+  const itemDiscontinuo = (color, texto) => `
+    <li class="flex items-center gap-2 text-slate-300">
+      <span class="inline-block h-2.5 w-2.5 shrink-0 rounded-sm"
+            style="background:${color}33;border:1px dashed ${color}"></span>
+      <span class="leading-tight">${esc(texto)}</span>
+    </li>`;
+
   const interruptorContexto = (clave) => `
     <label class="flex cursor-pointer items-center gap-2 py-1 text-slate-300">
       <input type="checkbox" data-contexto="${clave}"
@@ -232,10 +297,11 @@ function montarLeyenda() {
                ${esc(t("capa.upstream"))}
              </p>
              <ul class="space-y-1">
-               ${["activo", "inactivo", "abandonado", "desconocido"]
-                 .map((e) => item(COLOR_ESTADO[e], t(`estado.${e}`)))
+               ${["petroleo", "mixto", "gas"]
+                 .map((h) => item(COLOR_HIDROCARBURO[h], t(`hidrocarburo.${h}`)))
                  .join("")}
-               ${item("#94a3b8", t("leyenda.soloPunto"), "rounded-full")}
+               ${item(COLOR_HIDROCARBURO.desconocido, t("leyenda.soloPunto"), "rounded-full")}
+               ${itemDiscontinuo(COLOR_HIDROCARBURO.desconocido, t("leyenda.noActivo"))}
              </ul>
 
              <p class="mb-1 mt-2.5 text-[11px] uppercase tracking-wide text-slate-500">
@@ -333,7 +399,7 @@ export function mostrarPanelActivo(activo) {
    */
   const filaSiHay = (clave, valor) => (valor ? fila(clave, dato(valor)) : "");
 
-  const color = COLOR_ESTADO[activo.estado] ?? COLOR_ESTADO.desconocido;
+  const color = colorDeActivo(activo);
 
   // Aviso honesto sobre la naturaleza del dato.
   // El caso mas delicado es el parque de tanques: no existe como entidad en
@@ -406,7 +472,12 @@ export function mostrarPanelActivo(activo) {
           ? fila("panel.estado", dato(t(`estado.${activo.estado}`)))
           : ""
       }
-      ${filaSiHay("panel.fluido", activo.fluido)}
+      ${filaSiHay(
+        activo.tipo === "campo" || activo.tipo === "pozo"
+          ? "panel.hidrocarburo"
+          : "panel.fluido",
+        etiquetaFluido(activo)
+      )}
       ${filaSiHay("panel.nTanques", activo.n_tanques)}
       ${filaSiHay("panel.diametro", activo.diametro)}
       ${filaSiHay("panel.operadora", activo.operadora)}
@@ -500,7 +571,7 @@ function montarTabla() {
           ${esc(p.nombre ?? p.id ?? "")}
         </th>
         <td class="py-2 pr-3 text-slate-300">${esc(t(`estado.${p.estado ?? "desconocido"}`))}</td>
-        <td class="py-2 pr-3 text-slate-300">${esc(p.fluido ?? "-")}</td>
+        <td class="py-2 pr-3 text-slate-300">${esc(t(`hidrocarburo.${hidrocarburoDe(p.fluido)}`))}</td>
         <td class="py-2 pr-3 text-slate-300">${esc(p.operadora ?? "-")}</td>
         <td class="py-2 pr-3 text-slate-300">${esc(p.cuenca ?? "-")}</td>
         <td class="py-2 pr-3 text-slate-400">${esc(t(`confianza.${p.confianza ?? "baja"}`))}</td>
@@ -524,7 +595,7 @@ function montarTabla() {
             <tr class="border-b border-white/20 text-left text-xs uppercase tracking-wide text-slate-400">
               <th scope="col" class="py-2 pr-3">${esc(t("panel.nombre"))}</th>
               <th scope="col" class="py-2 pr-3">${esc(t("panel.estado"))}</th>
-              <th scope="col" class="py-2 pr-3">${esc(t("panel.fluido"))}</th>
+              <th scope="col" class="py-2 pr-3">${esc(t("panel.hidrocarburo"))}</th>
               <th scope="col" class="py-2 pr-3">${esc(t("panel.operadora"))}</th>
               <th scope="col" class="py-2 pr-3">${esc(t("panel.cuenca"))}</th>
               <th scope="col" class="py-2 pr-3">${esc(t("panel.confianza"))}</th>

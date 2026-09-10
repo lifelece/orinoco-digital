@@ -74,5 +74,11 @@
   "panel.score": "Probabilidad demostrativa",
   "pie.disclaimer": "Aviso importante",
   "pie.codigo": "Codigo fuente",
-  "contexto.disputa": "Zona en disputa (Esequibo)"
+  "contexto.disputa": "Zona en disputa (Esequibo)",
+  "panel.hidrocarburo": "Hidrocarburo",
+  "hidrocarburo.petroleo": "Petroleo",
+  "hidrocarburo.gas": "Gas",
+  "hidrocarburo.mixto": "Petroleo y gas",
+  "hidrocarburo.desconocido": "Sin datos",
+  "leyenda.noActivo": "Campo sin produccion (trazo discontinuo)"
 }
