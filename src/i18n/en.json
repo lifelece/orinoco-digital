@@ -71,5 +71,7 @@
   "leyenda.limites": "Venezuela and state boundaries",
   "capa.demo": "DEMO layer (model)",
   "demo.masInfo": "Model card",
-  "panel.score": "Demonstration probability"
+  "panel.score": "Demonstration probability",
+  "pie.disclaimer": "Important notice",
+  "pie.codigo": "Source code"
 }

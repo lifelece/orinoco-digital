@@ -194,3 +194,34 @@ cambio de nada. La arquitectura static-first ya cubre lo que hace falta.
 **Cuando reconsiderar:** en cuanto se cumpla cualquiera de los cuatro criterios.
 El candidato mas probable es la primera serie temporal de produccion, o que
 `ductos-osm.geojson` crezca al anadir mas trackers.
+
+---
+
+## ADR-011 — `prob_grid.geojson` SI se versiona
+
+**Fecha:** 2026-09-09 · **Estado:** aceptada · **Supersede** la decision tomada
+al cerrar la Fase 5
+
+Al montar la Fase 5 se puso `public/data/prob_grid.geojson` en `.gitignore`
+razonando que es salida de un modelo y no un dato de fuente, y que versionarlo
+lo haria parecer un dato heredado sin procedencia.
+
+**El problema:** Vercel despliega desde el repositorio. Un archivo ignorado no
+llega a produccion. La consecuencia real de aquella decision es que **la capa
+DEMO no existiria en la web publica** — solo en la maquina de quien ejecutase
+el notebook. Se pierde la pieza que da nombre a la fase.
+
+**Decision:** se versiona.
+
+**Por que ya no aplica el razonamiento anterior:** el artefacto se describe a si
+mismo. Cada una de sus 1.254 celdas lleva `demo: true`, `confianza: "baja"` y un
+campo `fuente` que dice literalmente que procede de un modelo sobre datos
+sinteticos y que no es un dato observado. Ademas el codigo se niega a dibujarlo
+sin banner (ADR de la Fase 5, garantia en `dibujarGridProbabilidad`).
+
+Nadie puede "heredarlo sin saber de donde sale": lo dice el propio archivo, dato
+por dato.
+
+**Condicion:** si alguna vez se regenera el grid con otro modelo o con otros
+datos, se actualiza `MODEL_CARD.md` en el mismo commit. El archivo y su ficha
+viajan juntos o no viajan.

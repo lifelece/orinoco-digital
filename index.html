@@ -9,16 +9,34 @@
       content="Mapa 3D abierto de la industria petrolera y gasifera de Venezuela: Faja del Orinoco, midstream y downstream, con datos publicos y trazables."
     />
 
-    <!-- Open Graph / SEO (Fase 6-7: reemplazar la URL y la imagen reales) -->
+    <meta name="author" content="Luis Carlos Vasquez" />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph. La URL absoluta se inyecta en el build desde VITE_SITIO_URL
+         (ver vite.config.js): las redes sociales exigen URL absoluta y el
+         dominio no se conoce hasta desplegar. -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Orinoco Digital" />
     <meta property="og:title" content="Orinoco Digital" />
     <meta
       property="og:description"
-      content="Gemelo digital 3D open-source de la industria petrolera y gasifera de Venezuela."
+      content="Mapa 3D abierto de la industria petrolera y gasifera de Venezuela: 105 campos, 346 ductos y 5 refinerias, con datos publicos y trazables."
     />
-    <meta property="og:url" content="[URL_PRODUCCION]" />
-    <meta property="og:image" content="[URL_IMAGEN_OG]" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:image" content="%SITIO_URL%/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="%SITIO_URL%/" />
 
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Orinoco Digital" />
+    <meta
+      name="twitter:description"
+      content="Mapa 3D abierto de la industria petrolera y gasifera de Venezuela, con datos publicos y trazables."
+    />
+    <meta name="twitter:image" content="%SITIO_URL%/og.png" />
+
+    <link rel="canonical" href="%SITIO_URL%/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>

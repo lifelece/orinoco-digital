@@ -31,7 +31,3 @@ scripts/analisis/node_modules/
 scripts/analisis/package.json
 scripts/analisis/package-lock.json
 
-# Salida del modelo DEMO, no un dato de fuente. Lo genera el notebook de
-# Colab; versionarlo haria que pareciera un dato heredado sin procedencia.
-# Ver MODEL_CARD.md.
-public/data/prob_grid.geojson

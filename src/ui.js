@@ -13,7 +13,13 @@ import {
   alternarDemo,
   hayCapaDemo,
 } from "./map.js";
-import { COLOR_ESTADO, COLOR_FLUIDO, COLOR_TIPO } from "./config.js";
+import {
+  COLOR_ESTADO,
+  COLOR_FLUIDO,
+  COLOR_TIPO,
+  REPO,
+  FECHA_DATOS,
+} from "./config.js";
 
 /** Ultima coleccion recibida, para poder redibujar al cambiar de idioma. */
 let campos = { type: "FeatureCollection", features: [] };
@@ -121,6 +127,17 @@ export function montarUI() {
                 leading-tight text-slate-300/70 sm:bottom-9 sm:text-[11px]">
       <p>${esc(t("atribucion.datos"))}</p>
       <p>${esc(t("atribucion.osm"))}</p>
+      <p class="pointer-events-auto">
+        <a href="${REPO}/blob/main/DISCLAIMER.md" target="_blank"
+           rel="noopener noreferrer" class="underline hover:text-slate-100">
+          ${esc(t("pie.disclaimer"))}
+        </a>
+        <span aria-hidden="true"> · </span>
+        <a href="${REPO}" target="_blank" rel="noopener noreferrer"
+           class="underline hover:text-slate-100">${esc(t("pie.codigo"))}</a>
+        <span aria-hidden="true"> · </span>
+        <span>${esc(t("frescura.etiqueta"))} ${esc(FECHA_DATOS)}</span>
+      </p>
     </div>
   `;
 
@@ -549,7 +566,7 @@ export function montarBannerDemo() {
 
   nodo.innerHTML = `
     <span>${esc(t("demo.banner"))}</span>
-    <a href="https://github.com/lifelece/orinoco-digital/blob/main/MODEL_CARD.md"
+    <a href="${REPO}/blob/main/MODEL_CARD.md"
        target="_blank" rel="noopener noreferrer"
        class="ml-1 whitespace-nowrap underline hover:text-amber-800">
       ${esc(t("demo.masInfo"))}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Torre de perforacion sobre disco oscuro: el mismo simbolo que usa el mapa
+       para los campos, para que el icono de pestana y el mapa hablen igual. -->
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <g fill="none" stroke="#22c55e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 14 L43 46 L21 46 Z"/>
+    <path d="M25.6 34 L38.4 34"/>
+    <path d="M27.8 27.5 L36.2 27.5"/>
+    <path d="M17 46 L47 46"/>
+    <path d="M32 14 L32 9"/>
+  </g>
+</svg>

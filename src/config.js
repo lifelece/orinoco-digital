@@ -187,6 +187,21 @@ export const COLOR_TIPO = {
   instalacion: "#94a3b8",
 };
 
+// --- Proyecto ---------------------------------------------------------------
+
+export const REPO = "https://github.com/lifelece/orinoco-digital";
+
+/**
+ * Fecha de la ultima actualizacion de los datos.
+ *
+ * Se muestra en el pie para que un dato viejo se NOTE. Es la defensa contra el
+ * peor final de un proyecto de datos: seguir en linea mostrando cifras de hace
+ * anos como si fueran de hoy.
+ *
+ * Actualizar en el mismo commit en que se actualicen los GeoJSON.
+ */
+export const FECHA_DATOS = "2026-09-09";
+
 // --- Idioma -----------------------------------------------------------------
 
 export const IDIOMA_POR_DEFECTO = "es";
