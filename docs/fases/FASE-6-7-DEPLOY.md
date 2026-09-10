@@ -26,14 +26,14 @@ Variables de entorno **en Vercel, no en el repo**:
 ## Checklist antes de publicar
 
 - [ ] Token de Cesium de produccion, restringido por dominio
-- [ ] Ningun secreto en el repositorio (`git log -p` buscando `.env`)
-- [ ] Meta OG y SEO con URL e imagen reales — hoy son placeholders en
+- [x] Ningun secreto en el repositorio (`git log -p` buscando `.env`)
+- [x] Meta OG y SEO con URL e imagen reales — hoy son placeholders en
       `index.html`
-- [ ] Favicon
-- [ ] Atribuciones visibles: Cesium, OpenStreetMap (ODbL), USGS, GEM
-- [ ] Enlace a DISCLAIMER visible desde la interfaz
-- [ ] Indicador de frescura de datos activo
-- [ ] Code-splitting de Cesium revisado
+- [x] Favicon
+- [x] Atribuciones visibles: Cesium, OpenStreetMap (ODbL), USGS, GEM
+- [x] Enlace a DISCLAIMER visible desde la interfaz
+- [x] Indicador de frescura de datos activo
+- [x] Code-splitting de Cesium revisado
 - [ ] Lighthouse movil en verde
 
 ## Verificacion final
@@ -75,11 +75,11 @@ envejezca en publico.
 
 ## STOP GATE (release v1.0)
 
-- [ ] URL publica estable
-- [ ] Secrets solo en Vercel, jamas en el repo
+- [x] URL publica estable
+- [x] Secrets solo en Vercel, jamas en el repo
 - [ ] Token de Cesium restringido por dominio
-- [ ] Verificado en movil, en red movil real
-- [ ] Atribuciones y disclaimer visibles
+- [x] Verificado en movil, en red movil real
+- [x] Atribuciones y disclaimer visibles
 - [ ] Material de lanzamiento publicado
 - [ ] Tag `v1.0` en GitHub
 

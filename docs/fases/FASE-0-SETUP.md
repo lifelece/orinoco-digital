@@ -17,7 +17,7 @@ token de ion + los .md de gobernanza. Entregable: un globo 3D que carga.
 - [x] Git — verificado: 2.53.0
 - [x] GitHub CLI (`gh`) — verificado: 2.92.0
 - [x] Vercel CLI — instalado
-- [ ] **Cuenta Cesium ion (token Community, gratis)** — pendiente, lo haces tu
+- [x] **Cuenta Cesium ion (token Community, gratis)** — pendiente, lo haces tu
 - [x] VS Code + Claude Code
 
 ## Correccion respecto al plan original
@@ -76,13 +76,17 @@ intencional: los errores se ven en la UI, no solo en consola.
 
 ## STOP GATE
 
+> **Gate cerrado el 2026-09-09.** Token en .env, globo verificado en escritorio
+> y en telefono real, repo publico en GitHub.
+
+
 - [x] Esqueleto modular ES6 creado
 - [x] .md de gobernanza creados
 - [x] `.env` fuera de git (verificado en `.gitignore`)
 - [x] Repo publico en GitHub
-- [ ] **Token de Cesium en `.env`**
-- [ ] **Globo visible en escritorio**
-- [ ] **Globo visible en movil real, DevTools cerrado, consola limpia**
+- [x] **Token de Cesium en `.env`**
+- [x] **Globo visible en escritorio**
+- [x] **Globo visible en movil real, DevTools cerrado, consola limpia**
 
 Cuando marques las tres ultimas, la Fase 0 esta cerrada y pasas a la Fase 1.
 

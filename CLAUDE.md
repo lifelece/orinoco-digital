@@ -96,12 +96,21 @@ la lectura), rendimiento (archivos cacheados) y superficie de escritura.
 
 ## Estado actual
 
-**Fase 3 en curso.** Tres capas dibujadas: 105 campos (GEM GOGET), 346 ductos y
-97 activos downstream incluidos 25 parques de tanques (OSM, ODbL). Filtros por
-sector, leyenda desplegable y tabla accesible.
+**En produccion:** https://orinoco-digital.vercel.app
 
-**Pendiente:** verificacion en movil de las fases 2 y 3. Los STOP gates de ambas
-siguen abiertos hasta que se haga en dispositivo real con DevTools cerrado.
+Fases 0, 1, 2, 3 y 5 **cerradas**, verificadas por el autor en telefono real el
+2026-09-09. La Fase 4 se salto (ADR-010): ninguno de sus criterios se cumplia.
+
+Capas: 105 campos (GEM GOGET), 346 ductos, 97 activos downstream con 25 parques
+de tanques (OSM, ODbL), limites nacionales y estatales, la Guayana Esequiba
+marcada como zona en disputa, y la capa DEMO del modelo.
+
+**Pendiente inmediato — token de Cesium sin restringir.** Esta desplegado sin
+restriccion de dominio: cualquiera puede copiarlo del bundle y consumir los
+15 GB/mes gratuitos. Pasos en `docs/fases/FASE-6-7-DEPLOY.md`.
+
+**Fase 6-7 a medias:** el sitio esta publicado, falta Lighthouse, el material de
+divulgacion y el tag v1.0.
 
 El plan completo esta en `docs/PLAN.md`; cada fase tiene su archivo en
 `docs/fases/`.

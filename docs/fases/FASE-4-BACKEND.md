@@ -1,4 +1,13 @@
-# Fase 4 — Backend Supabase + PostGIS *(OPCIONAL)*
+# Fase 4 — Backend Supabase + PostGIS *(SALTADA)*
+
+> **Esta fase NO se hizo.** Se evaluaron sus cuatro criterios el 2026-09-09 y
+> ninguno se cumplia: el mayor GeoJSON son 847 KB de 2 MB, no hay consulta
+> espacial dinamica, no hay series temporales y los aportes entran por Pull
+> Request. Ver **ADR-010** en [../DECISIONS.md](../DECISIONS.md).
+>
+> Las casillas de abajo estan sin marcar porque el trabajo no se hizo, no
+> porque este pendiente. Este documento queda como guia para cuando alguno de
+> los criterios se cumpla.
 
 > **Gate de entrada:** Fase 3 cerrada.
 > **Gate de salida:** datos servidos desde Supabase; el frontend consume la API

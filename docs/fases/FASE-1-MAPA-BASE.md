@@ -58,11 +58,16 @@ En movil real, DevTools cerrado:
 
 ## STOP GATE
 
+> **Gate cerrado el 2026-09-09.** Verificado por Luis Carlos Vasquez en telefono
+> real con DevTools cerrado. Es la atestacion del autor, no una prueba
+> automatizada: si algo se rompe mas adelante, este gate se reabre.
+
+
 - [x] Centro de la Faja **verificado contra fuente** y registrado
 - [x] Vista inicial sobre la FPO
-- [ ] Terreno 3D con relieve visible *(requiere el token de Cesium)*
-- [ ] Boton de vuelo funcional en movil
-- [ ] Rendimiento aceptable (> 30 FPS al interactuar)
+- [x] Terreno 3D con relieve visible *(requiere el token de Cesium)*
+- [x] Boton de vuelo funcional en movil
+- [x] Rendimiento aceptable (> 30 FPS al interactuar)
 
 ## Queda abierto para mas adelante
 

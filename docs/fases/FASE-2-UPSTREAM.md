@@ -108,14 +108,19 @@ distingue de uno con solo punto. La tabla accesible es navegable con teclado.
 
 ## STOP GATE
 
+> **Gate cerrado el 2026-09-09.** Verificado por Luis Carlos Vasquez en telefono
+> real con DevTools cerrado. Es la atestacion del autor, no una prueba
+> automatizada: si algo se rompe mas adelante, este gate se reabre.
+
+
 - [x] Datos obtenidos, convertidos y validados (105 campos)
 - [x] Dataset registrado en DATA_SOURCES.md (seccion 10)
-- [ ] Campos visibles y correctamente posicionados
-- [ ] Poligonos y puntos distinguibles entre si
-- [ ] Estilo por estado distinguible
-- [ ] Panel de datos al tocar, funcional en movil
-- [ ] **Fuente y fecha visibles en el panel**
-- [ ] Atribucion de GEM visible en la interfaz (CC BY 4.0)
-- [ ] Ningun activo sin fuente llega al mapa
-- [ ] Vista de tabla accesible funcionando
-- [ ] `api.js` sigue devolviendo FeatureCollection (contrato intacto)
+- [x] Campos visibles y correctamente posicionados
+- [x] Poligonos y puntos distinguibles entre si
+- [x] Estilo por estado distinguible
+- [x] Panel de datos al tocar, funcional en movil
+- [x] **Fuente y fecha visibles en el panel**
+- [x] Atribucion de GEM visible en la interfaz (CC BY 4.0)
+- [x] Ningun activo sin fuente llega al mapa
+- [x] Vista de tabla accesible funcionando
+- [x] `api.js` sigue devolviendo FeatureCollection (contrato intacto)

@@ -85,15 +85,20 @@ Si duda aunque sea un segundo, el etiquetado no es suficiente. Refuerzalo.
 
 ## STOP GATE
 
+> **Gate cerrado el 2026-09-09.** Verificado por Luis Carlos Vasquez en telefono
+> real con DevTools cerrado. Es la atestacion del autor, no una prueba
+> automatizada: si algo se rompe mas adelante, este gate se reabre.
+
+
 - [x] Dataset de features generado (1.254 celdas, 47,2% positivas)
 - [x] Notebook de Colab listo
 - [x] Capa y rampa de color implementadas
 - [x] Banner DEMO permanente y no cerrable
 - [x] Enlace visible a MODEL_CARD.md
 - [x] MODEL_CARD.md actualizado con los valores reales del USGS
-- [ ] **Modelo entrenado en Colab** (lo ejecutas tu)
-- [ ] Grid renderizado sobre el mapa
-- [ ] Prueba de honestidad superada con una persona real
+- [x] **Modelo entrenado en Colab** (lo ejecutas tu)
+- [x] Grid renderizado sobre el mapa
+- [x] Prueba de honestidad superada con una persona real
 
 ## Lo que quedo hecho
 
@@ -125,5 +130,11 @@ npm run data:demo          # genera data/raw/features-demo.csv
 Sube ese CSV a `notebooks/modelo-demo.ipynb` en Google Colab, ejecuta, descarga
 `prob_grid.geojson` y guardalo en `public/data/`. Aparece el interruptor.
 
-`prob_grid.geojson` esta en `.gitignore` a proposito: es salida de un modelo,
-no un dato de fuente.
+`prob_grid.geojson` **si se versiona**. Al principio se puso en `.gitignore`
+razonando que es salida de un modelo y no un dato de fuente, pero Vercel
+despliega desde el repositorio: ignorarlo dejaba la capa DEMO fuera de la web
+publica. Ver ADR-011.
+
+El artefacto se describe a si mismo —cada celda lleva `demo: true`, `confianza`
+baja y una `fuente` que dice que es sintetica— asi que nadie puede heredarlo sin
+saber de donde sale.

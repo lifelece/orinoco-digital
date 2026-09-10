@@ -56,16 +56,21 @@ muestran al instante, la leyenda es legible sin zoom.
 
 ## STOP GATE
 
+> **Gate cerrado el 2026-09-09.** Verificado por Luis Carlos Vasquez en telefono
+> real con DevTools cerrado. Es la atestacion del autor, no una prueba
+> automatizada: si algo se rompe mas adelante, este gate se reabre.
+
+
 - [x] Datos convertidos y validados (346 ductos, 97 activos downstream)
 - [x] Ductos como lineas, con estilo por fluido
 - [x] Refinerias, petroquimicas, puertos y parques de tanques como nodos
 - [x] Filtros por sector funcionales
 - [x] Capas OSM separadas y atribuidas (ODbL)
 - [x] Dataset registrado en DATA_SOURCES.md (seccion 11)
-- [ ] Leyenda clara en pantalla de telefono
-- [ ] Carga perezosa: no se descarga todo al inicio
-- [ ] Presupuesto de rendimiento respetado en movil
-- [ ] **MVP navegable de punta a punta, verificado en dispositivo real**
+- [x] Leyenda clara en pantalla de telefono
+- [x] Carga perezosa: no se descarga todo al inicio
+- [x] Presupuesto de rendimiento respetado en movil
+- [x] **MVP navegable de punta a punta, verificado en dispositivo real**
 
 ## Decisiones tomadas en esta fase
 
