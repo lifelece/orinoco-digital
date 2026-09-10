@@ -8,6 +8,8 @@ import {
   dibujarCampos,
   dibujarDuctos,
   dibujarDownstream,
+  dibujarLimites,
+  dibujarReferenciaFaja,
   alSeleccionarActivo,
 } from "./map.js";
 import {
@@ -16,7 +18,7 @@ import {
   mostrarPanelActivo,
   fijarCampos,
 } from "./ui.js";
-import { getCampos, getDuctos, getDownstream } from "./api.js";
+import { getCampos, getDuctos, getDownstream, getLimites } from "./api.js";
 import { tieneProcedencia, normalizarActivo } from "./data.js";
 import { t } from "./i18n/index.js";
 
@@ -47,7 +49,10 @@ function soloConFuente(coleccion, etiqueta) {
  * sin las otras.
  */
 async function cargarCapas() {
+  // Los limites van primero: dan referencia espacial de inmediato aunque los
+  // datos de activos tarden, y son el archivo mas ligero.
   const capas = [
+    ["limites", getLimites, dibujarLimites],
     ["campos", getCampos, (fc) => {
       dibujarCampos(fc);
       fijarCampos(fc);
@@ -73,6 +78,8 @@ function arrancar() {
     iniciarMapa();
     montarUI();
     alSeleccionarActivo(mostrarPanelActivo);
+    // No depende de red: se dibuja desde FAJA_BBOX, que es constante.
+    dibujarReferenciaFaja();
     cargarCapas();
   } catch (error) {
     console.error(error);

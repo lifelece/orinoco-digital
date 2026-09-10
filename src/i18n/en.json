@@ -64,5 +64,9 @@
   "panel.diametro": "Diameter",
   "panel.nTanques": "Tanks grouped",
   "panel.derivado": "Derived data: our own proximity grouping, not a mapped entity",
-  "atribucion.osm": "Pipelines and facilities: © OpenStreetMap contributors (ODbL)"
+  "atribucion.osm": "Pipelines and facilities: © OpenStreetMap contributors (ODbL)",
+  "contexto.limites": "Borders and states",
+  "contexto.faja": "Orinoco Belt (reference box)",
+  "leyenda.faja": "Reference box for the Belt, not its actual outline",
+  "leyenda.limites": "Venezuela and state boundaries"
 }

@@ -64,5 +64,9 @@
   "panel.diametro": "Diametro",
   "panel.nTanques": "Tanques agrupados",
   "panel.derivado": "Dato derivado: agrupacion propia por proximidad, no una entidad cartografiada",
-  "atribucion.osm": "Ductos e instalaciones: © OpenStreetMap contributors (ODbL)"
+  "atribucion.osm": "Ductos e instalaciones: © OpenStreetMap contributors (ODbL)",
+  "contexto.limites": "Fronteras y estados",
+  "contexto.faja": "Faja (caja de referencia)",
+  "leyenda.faja": "Caja de referencia de la Faja, no su contorno real",
+  "leyenda.limites": "Limites de Venezuela y sus estados"
 }

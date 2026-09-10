@@ -22,8 +22,12 @@ import {
   NearFarScalar,
   JulianDate,
   DistanceDisplayCondition,
+  VerticalOrigin,
+  PolylineDashMaterialProperty,
 } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
+
+import { icono, iconoAproximado } from "./iconos.js";
 
 import {
   CESIUM_TOKEN,
@@ -33,6 +37,8 @@ import {
   COLOR_ESTADO,
   COLOR_FLUIDO,
   COLOR_TIPO,
+  COLOR_LIMITE,
+  TAMANO_ICONO,
 } from "./config.js";
 
 /** @type {Viewer | null} */
@@ -81,9 +87,8 @@ export function iniciarMapa() {
   controlador.maximumZoomDistance = CAMARA.alturaMaxima;
   controlador.minimumZoomDistance = CAMARA.alturaMinima;
 
-  ajustarCalidad();
-  // Girar el telefono cambia el ancho y con el, el presupuesto aplicable.
-  window.addEventListener("resize", ajustarCalidad);
+  ajustarCalidad(false);
+  conectarCalidadAdaptativa();
 
   // Ocultar el creditContainer por defecto no: la atribucion de Cesium y de los
   // proveedores de terreno es OBLIGATORIA por licencia. Ver DATA_SOURCES.md.
@@ -100,27 +105,60 @@ function esMovil() {
   return window.innerWidth < PRESUPUESTO.umbralMovil;
 }
 
+/** @type {number | undefined} */
+let temporizadorReposo;
+
 /**
- * Ajusta la calidad del terreno al dispositivo.
+ * Calidad adaptativa: fluidez mientras la camara se mueve, nitidez al parar.
  *
- * `maximumScreenSpaceError` es la palanca de mayor impacto en fluidez: subirlo
- * reduce mucho las teselas de terreno que Cesium descarga y tesela. En un
- * telefono de gama media la diferencia entre 2 y 4 se nota mas que cualquier
- * otro ajuste. Ver docs/PERFORMANCE_BUDGET.md.
+ * Un unico `maximumScreenSpaceError` obliga a elegir entre un mapa borroso o
+ * uno con tirones. Con dos valores no hay que elegir: el ojo no aprecia el
+ * detalle mientras algo se mueve, asi que se baja la calidad solo durante el
+ * movimiento y se recupera 350 ms despues de soltar.
+ *
+ * Ver docs/PERFORMANCE_BUDGET.md.
+ *
+ * @param {boolean} enMovimiento
  */
-function ajustarCalidad() {
+function ajustarCalidad(enMovimiento = false) {
   if (!viewer) return;
   const escena = viewer.scene;
   const movil = esMovil();
+  const perfil = movil
+    ? PRESUPUESTO.errorTerreno.movil
+    : PRESUPUESTO.errorTerreno.escritorio;
 
-  escena.globe.maximumScreenSpaceError = movil
-    ? PRESUPUESTO.errorTerrenoMovil
-    : PRESUPUESTO.errorTerrenoEscritorio;
+  escena.globe.maximumScreenSpaceError = enMovimiento
+    ? perfil.enMovimiento
+    : perfil.enReposo;
 
-  // Efectos atmosfericos: bonitos y caros. En movil no compensan.
-  escena.globe.showGroundAtmosphere = !movil;
-  escena.fog.enabled = !movil;
-  escena.skyAtmosphere.show = !movil;
+  // La atmosfera y la niebla dan profundidad y casi no cuestan en reposo.
+  // Solo se apagan en movil mientras hay movimiento.
+  const efectos = !(movil && enMovimiento);
+  escena.globe.showGroundAtmosphere = efectos;
+  escena.fog.enabled = efectos;
+  escena.skyAtmosphere.show = true;
+}
+
+/** Conecta la calidad adaptativa a los eventos de camara. */
+function conectarCalidadAdaptativa() {
+  if (!viewer) return;
+
+  viewer.camera.moveStart.addEventListener(() => {
+    clearTimeout(temporizadorReposo);
+    ajustarCalidad(true);
+  });
+
+  viewer.camera.moveEnd.addEventListener(() => {
+    clearTimeout(temporizadorReposo);
+    temporizadorReposo = setTimeout(() => {
+      ajustarCalidad(false);
+      viewer?.scene.requestRender();
+    }, PRESUPUESTO.esperaReposo);
+  });
+
+  // Girar el telefono cambia el ancho y con el, el perfil aplicable.
+  window.addEventListener("resize", () => ajustarCalidad(false));
 }
 
 /**
@@ -272,19 +310,20 @@ export function dibujarCampos(featureCollection) {
 
     if (feature.geometry.type === "Point") {
       const [lng, lat] = feature.geometry.coordinates;
+      const cssColor = COLOR_ESTADO[props.estado] ?? COLOR_ESTADO.desconocido;
       capaCampos.entities.add({
         ...comun,
         position: Cartesian3.fromDegrees(lng, lat),
-        point: {
-          pixelSize: 9,
-          // Relleno casi transparente y borde marcado: lee como "hueco", que
-          // es justamente el mensaje —no sabemos su extension.
-          color: color.withAlpha(0.15),
-          outlineColor: color,
-          outlineWidth: 2,
+        billboard: {
+          // Torre de perforacion en disco casi transparente: se reconoce de un
+          // vistazo, y lo translucido comunica "ubicacion aproximada" sin
+          // tener que abrir el panel.
+          image: iconoAproximado("campo", cssColor),
+          width: TAMANO_ICONO,
+          height: TAMANO_ICONO,
           heightReference: HeightReference.CLAMP_TO_GROUND,
-          // Se encoge al alejar para no saturar la vista general.
-          scaleByDistance: new NearFarScalar(1.0e4, 1.4, 1.5e6, 0.5),
+          verticalOrigin: VerticalOrigin.BOTTOM,
+          scaleByDistance: new NearFarScalar(1.0e4, 1.1, 2.5e6, 0.42),
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
       });
@@ -429,26 +468,25 @@ export function dibujarDownstream(featureCollection) {
     const coords = feature.geometry?.coordinates;
     if (!Array.isArray(coords) || coords.length < 2) continue;
 
-    const color = Color.fromCssColorString(
-      COLOR_TIPO[props.tipo] ?? COLOR_TIPO.instalacion
-    );
+    const cssColor = COLOR_TIPO[props.tipo] ?? COLOR_TIPO.instalacion;
 
     // Las refinerias y los grandes parques de tanques son los hitos de la
     // cadena: se dibujan mas grandes para que se distingan del resto.
     const destacado = props.tipo === "refineria" || (props.n_tanques ?? 0) > 50;
+    const escala = destacado ? 1.25 : 1;
 
     capa.entities.add({
       name: props.nombre ?? props.id ?? "",
       properties: { ...props },
       position: Cartesian3.fromDegrees(coords[0], coords[1]),
-      point: {
-        pixelSize: destacado ? 13 : 9,
-        color: color.withAlpha(0.85),
-        outlineColor: Color.WHITE.withAlpha(0.7),
-        outlineWidth: destacado ? 2 : 1,
+      billboard: {
+        image: icono(props.tipo, cssColor),
+        width: TAMANO_ICONO * escala,
+        height: TAMANO_ICONO * escala,
         heightReference: HeightReference.CLAMP_TO_GROUND,
+        verticalOrigin: VerticalOrigin.BOTTOM,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        scaleByDistance: new NearFarScalar(1.0e4, 1.3, 2.0e6, 0.55),
+        scaleByDistance: new NearFarScalar(1.0e4, 1.1, 2.5e6, 0.45),
       },
     });
     n += 1;
@@ -485,6 +523,94 @@ export function alternarCapa(sector, visible) {
     }
   }
 
+  viewer?.scene.requestRender();
+}
+
+// --- Contexto geografico -----------------------------------------------------
+
+/**
+ * Dibuja fronteras y limites estatales.
+ *
+ * Dan referencia espacial: sin ellos, un pozo flota sobre una mancha verde y
+ * no se sabe en que estado esta.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ */
+export function dibujarLimites(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("limites");
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) continue;
+
+    const esPais = props.nivel === "pais";
+
+    capa.entities.add({
+      name: props.nombre ?? "",
+      properties: { ...props },
+      polyline: {
+        positions: aPosiciones(coords),
+        width: esPais ? 2.5 : 1.2,
+        material: Color.fromCssColorString(
+          esPais ? COLOR_LIMITE.pais : COLOR_LIMITE.estado
+        ).withAlpha(esPais ? 0.85 : 0.5),
+        clampToGround: true,
+      },
+    });
+    n += 1;
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+/**
+ * Dibuja la caja de referencia de la Faja.
+ *
+ * IMPORTANTE: es la caja envolvente medida sobre la figura del USGS, NO el
+ * contorno real. La Faja es sinuosa y solo ocupa el 52% de esta caja. Se
+ * dibuja discontinua y con etiqueta explicita para que nadie la lea como el
+ * limite oficial. Ver docs/DATA_SOURCES.md seccion 9.
+ */
+export function dibujarReferenciaFaja() {
+  if (!viewer) return;
+  const capa = nuevaCapa("faja");
+  const { oeste, este, sur, norte } = FAJA_BBOX;
+
+  capa.entities.add({
+    name: "faja-referencia",
+    properties: { tipo: "referencia", nivel: "faja" },
+    polyline: {
+      positions: aPosiciones([
+        [oeste, sur],
+        [este, sur],
+        [este, norte],
+        [oeste, norte],
+        [oeste, sur],
+      ]),
+      width: 2,
+      material: new PolylineDashMaterialProperty({
+        color: Color.fromCssColorString(COLOR_LIMITE.faja).withAlpha(0.9),
+        dashLength: 18,
+      }),
+      clampToGround: true,
+    },
+  });
+
+  viewer.dataSources.add(capa);
+}
+
+/**
+ * Enciende o apaga una capa de contexto por nombre.
+ * @param {"limites" | "faja"} nombre
+ * @param {boolean} visible
+ */
+export function alternarContexto(nombre, visible) {
+  const capa = capas.get(nombre);
+  if (capa) capa.show = visible;
   viewer?.scene.requestRender();
 }
 

@@ -55,9 +55,17 @@ export const VISTA_FAJA = {
 
 /** Limites y encuadre de camara. */
 export const CAMARA = {
-  // Evita que el usuario se pierda en el espacio o atraviese el suelo.
-  alturaMaxima: 12000000,
-  alturaMinima: 500,
+  /**
+   * Navegacion libre: se puede salir de Venezuela y dar la vuelta al globo.
+   *
+   * Antes habia un tope de 12.000 km que anclaba la vista a la zona y hacia
+   * que el mapa se sintiera enjaulado. El proyecto puede crecer a otros paises
+   * y rubros, asi que la camara no debe presuponer que la Faja es el mundo.
+   * "Volar a la Faja" sigue estando a un toque.
+   */
+  alturaMaxima: 50000000,
+  // Se mantiene un minimo para no atravesar el terreno.
+  alturaMinima: 120,
   duracionVuelo: 3, // segundos
 
   rumbo: 0, // grados. 0 = norte arriba.
@@ -98,9 +106,20 @@ export const PRESUPUESTO = {
    * Error maximo de pantalla del terreno. Es la palanca de rendimiento mas
    * potente: cuanto mas alto, menos teselas carga Cesium y mas fluido va, a
    * costa de detalle. 2 es el valor por defecto de Cesium.
+   *
+   * Se usan DOS valores por dispositivo en vez de uno: mientras la camara se
+   * mueve manda `enMovimiento` (fluidez) y al detenerse se baja a `enReposo`
+   * (nitidez). Antes habia un solo valor alto y el mapa se veia siempre
+   * borroso; un solo valor bajo daba tirones. El ojo no aprecia el detalle
+   * mientras algo se mueve, asi que no hay que pagarlo entonces.
    */
-  errorTerrenoEscritorio: 2,
-  errorTerrenoMovil: 4,
+  errorTerreno: {
+    escritorio: { enMovimiento: 2.5, enReposo: 1.2 },
+    movil: { enMovimiento: 5, enReposo: 2 },
+  },
+
+  /** Milisegundos sin mover la camara para considerarla en reposo. */
+  esperaReposo: 350,
 
   /** Ancho de pantalla, en px CSS, por debajo del cual aplicamos ajustes de movil. */
   umbralMovil: 820,
@@ -135,6 +154,7 @@ export const RUTAS_DATOS = {
   // separadas del resto. Ver docs/DATA_SOURCES.md seccion 4.
   ductos: "/data/ductos-osm.geojson",
   downstream: "/data/downstream-osm.geojson",
+  limites: "/data/limites-venezuela.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
 };
 
@@ -145,6 +165,16 @@ export const COLOR_FLUIDO = {
   gas: "#38bdf8",
   fuel: "#a78bfa",
   desconocido: "#94a3b8",
+};
+
+/** Tamano en pixeles de los simbolos del mapa. */
+export const TAMANO_ICONO = 34;
+
+/** Color de los limites administrativos. */
+export const COLOR_LIMITE = {
+  pais: "#f8fafc",
+  estado: "#cbd5e1",
+  faja: "#facc15",
 };
 
 /** Color por tipo de instalacion downstream. Fase 3. */

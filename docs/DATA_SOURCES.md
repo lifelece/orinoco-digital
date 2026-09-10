@@ -193,6 +193,7 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 | 2026-09-08 | GEM GOGET | marzo 2026 | Setup inicial | 105 campos de Venezuela, 67 con poligono. CC BY 4.0 |
 | 2026-09-08 | OpenStreetMap (Overpass) | snapshot | Setup inicial | 461 pozos, 490 ductos, 51 refinerias, 1.860 terminales. Via mirror kumi.systems |
 | 2026-09-08 | OpenStreetMap (2a consulta) | snapshot | Fase 3 | 79 elementos. Recupera Amuay, El Palito y Punta Cardon, ausentes en la 1a |
+| 2026-09-09 | geoBoundaries VEN ADM0 + ADM1 | gbOpen | Contexto | Frontera y 25 estados. Simplificado de 7,25 MB a 231 KB. CC BY 4.0 |
 
 ---
 
@@ -423,3 +424,58 @@ capa por completa.
 - 60 de las 72 instalaciones quedan como `instalacion` generica porque las
   etiquetas no permiten afirmar que sean refinerias. Es preferible a
   clasificarlas mal.
+
+---
+
+## 12. Limites administrativos de Venezuela
+
+**Fuente:** geoBoundaries, release gbOpen.
+**Licencia:** **CC BY 4.0**. **CRS:** EPSG:4326. **Confianza:** media.
+**Verificado:** 2026-09-09.
+
+| Nivel | Fuente primaria de geoBoundaries |
+|---|---|
+| ADM0 (frontera nacional) | Natural Earth |
+| ADM1 (24 estados + Dependencias Federales + Distrito Capital) | OCHA Venezuela, Instituto Nacional de Estadistica |
+
+### Simplificacion
+
+El ADM1 original pesa **7,25 MB**, muy por encima del presupuesto de 2 MB por
+archivo. `scripts/limites-to-geojson.mjs` aplica Douglas-Peucker con tolerancia
+de 0,004 grados (~440 m) y redondea coordenadas a 4 decimales (~11 m).
+
+**173.466 vertices -> 10.869 (−93,7%). De 7,25 MB a 231 KB (−97%).**
+
+Se emiten LineString y no Polygon a proposito: son limites, no areas. Un
+poligono relleno taparia el terreno, que es justo lo que se quiere ver.
+
+### DECISION PENDIENTE: la Guayana Esequiba
+
+**Estos datos NO incluyen el Esequibo.** Ambos niveles terminan en longitud
+−59,7 aproximadamente, es decir, trazan el limite oriental en la linea
+administrada de facto por Guyana. Venezuela reclama ese territorio.
+
+**Cualquier dataset de fronteras toma partido en esa disputa.** No existe una
+version neutral: dibujar la linea de facto es una postura, y dibujar la
+reclamacion venezolana es otra.
+
+Se ha usado la delimitacion de la fuente sin modificarla, y queda registrado
+aqui de forma explicita para que sea una decision consciente y no un descuido.
+Es una decision del autor, no tecnica, y encaja de lleno en la regla 8 del
+proyecto (neutralidad).
+
+Opciones si se quiere revisar:
+
+1. Dejarlo como esta y anadir una nota visible en la interfaz.
+2. Dibujar la zona en disputa con un estilo propio y etiquetarla como tal,
+   que es lo que hacen los atlas que buscan neutralidad.
+3. No dibujar la frontera nacional y quedarse solo con los limites estatales.
+
+### Caja de referencia de la Faja
+
+Se dibuja `FAJA_BBOX` como rectangulo **discontinuo** y amarillo, con
+interruptor propio etiquetado "caja de referencia".
+
+**No es el contorno de la Faja.** Es su caja envolvente y la Faja solo ocupa el
+52% de ella (seccion 9). El trazo discontinuo y la etiqueta existen para que
+nadie la confunda con el limite oficial. Sigue pendiente el poligono real.

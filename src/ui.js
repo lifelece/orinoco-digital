@@ -5,7 +5,12 @@
  */
 
 import { t, idioma, cambiarIdioma } from "./i18n/index.js";
-import { volarAFaja, deseleccionar, alternarCapa } from "./map.js";
+import {
+  volarAFaja,
+  deseleccionar,
+  alternarCapa,
+  alternarContexto,
+} from "./map.js";
 import { COLOR_ESTADO, COLOR_FLUIDO, COLOR_TIPO } from "./config.js";
 
 /** Ultima coleccion recibida, para poder redibujar al cambiar de idioma. */
@@ -132,6 +137,9 @@ export function montarUI() {
 /** Sectores visibles. Fase 3. */
 const sectores = { upstream: true, midstream: true, downstream: true };
 
+/** Capas de contexto geografico visibles. */
+const contexto = { limites: true, faja: true };
+
 /** Leyenda desplegable: en movil ocupa demasiado si esta siempre abierta. */
 let leyendaAbierta = false;
 
@@ -158,9 +166,19 @@ function montarLeyenda() {
       <span class="leading-tight">${esc(texto)}</span>
     </li>`;
 
+  const interruptorContexto = (clave) => `
+    <label class="flex cursor-pointer items-center gap-2 py-1 text-slate-300">
+      <input type="checkbox" data-contexto="${clave}"
+             ${contexto[clave] ? "checked" : ""}
+             class="h-3.5 w-3.5 shrink-0 accent-slate-400">
+      <span>${esc(t(`contexto.${clave}`))}</span>
+    </label>`;
+
   nodo.innerHTML = `
     <div class="px-3 py-2.5">
       ${["upstream", "midstream", "downstream"].map(interruptor).join("")}
+      <div class="my-1.5 border-t border-white/10"></div>
+      ${["limites", "faja"].map(interruptorContexto).join("")}
     </div>
 
     <button id="btn-leyenda" type="button"
@@ -213,6 +231,14 @@ function montarLeyenda() {
       const sector = ev.target.dataset.sector;
       sectores[sector] = ev.target.checked;
       alternarCapa(sector, ev.target.checked);
+    });
+  });
+
+  nodo.querySelectorAll("input[data-contexto]").forEach((entrada) => {
+    entrada.addEventListener("change", (ev) => {
+      const clave = ev.target.dataset.contexto;
+      contexto[clave] = ev.target.checked;
+      alternarContexto(clave, ev.target.checked);
     });
   });
 

@@ -65,6 +65,14 @@ export async function getDownstream() {
 }
 
 /**
+ * Fronteras y limites estatales de Venezuela. Contexto geografico.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getLimites() {
+  return cargarGeoJSON(RUTAS_DATOS.limites);
+}
+
+/**
  * Grid de probabilidad del modelo DEMO. Fase 5.
  *
  * ATENCION: la capa que consume esto DEBE mostrar el banner DEMO.

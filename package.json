@@ -12,7 +12,8 @@
     "preview": "vite preview --host",
     "data:gem": "node scripts/gem-to-geojson.mjs",
     "data:validate": "node scripts/validate-geojson.mjs",
-    "data:osm": "node scripts/osm-to-geojson.mjs"
+    "data:osm": "node scripts/osm-to-geojson.mjs",
+    "data:limites": "node scripts/limites-to-geojson.mjs"
   },
   "dependencies": {
     "cesium": "^1.135.0"
