@@ -73,6 +73,15 @@ export async function getLimites() {
 }
 
 /**
+ * Guayana Esequiba, territorio en disputa entre Venezuela y Guyana.
+ * Se sirve como capa aparte para poder dibujarla con estilo propio.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getZonaDisputada() {
+  return cargarGeoJSON(RUTAS_DATOS.zonaDisputada);
+}
+
+/**
  * Grid de probabilidad del modelo DEMO. Fase 5.
  *
  * ATENCION: la capa que consume esto DEBE mostrar el banner DEMO.

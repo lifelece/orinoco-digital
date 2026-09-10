@@ -479,3 +479,44 @@ interruptor propio etiquetado "caja de referencia".
 **No es el contorno de la Faja.** Es su caja envolvente y la Faja solo ocupa el
 52% de ella (seccion 9). El trazo discontinuo y la etiqueta existen para que
 nadie la confunda con el limite oficial. Sigue pendiente el poligono real.
+
+---
+
+## 13. La Guayana Esequiba: como se resolvio
+
+La seccion 12 dejaba una decision abierta. **Ya esta tomada.**
+
+**Problema:** los datos de geoBoundaries trazan el limite oriental de Venezuela
+en la linea administrada de facto por Guyana. Publicar solo esa linea toma
+partido por omision. Dibujar la reclamacion venezolana como territorio propio
+toma partido en el sentido contrario. No hay opcion pasiva.
+
+**Decision:** se muestra la zona **etiquetada como territorio en disputa**, en
+capa propia, con trazo discontinuo naranja y su interruptor. Es lo que hacen los
+atlas que buscan neutralidad.
+
+**Fuente:** Natural Earth, `ne_10m_admin_0_disputed_areas`, dominio publico.
+
+Lo importante de esta fuente: **la clasificacion no la ponemos nosotros**. El
+dato viene con `TYPE: Disputed`, el nombre `West of Essequibo River` y
+`SOVEREIGNT: Guyana` como administrador de facto. El proyecto no afirma de quien
+es el territorio — reproduce lo que una fuente cartografica internacional
+neutral ya registra.
+
+Se genera con `node scripts/zona-disputada.mjs`: 884 vertices, 16 KB.
+
+### Por que en capa aparte
+
+No se mezcla con la capa de fronteras a proposito. Un limite acordado y un
+limite en disputa no son la misma clase de objeto, y meterlos en la misma capa
+—con el mismo estilo, bajo el mismo interruptor— seria exactamente el descuido
+que la regla 8 del proyecto trata de evitar.
+
+El trazo discontinuo es la convencion cartografica para "limite no acordado".
+
+### Si alguien lo cuestiona
+
+La respuesta esta en el dato: el proyecto muestra la zona con la clasificacion
+que le da Natural Earth y con el administrador de facto que la propia fuente
+registra. No hay afirmacion propia sobre la soberania, ni a favor ni en contra.
+Quien discrepe, discrepa con Natural Earth, y el enlace a la fuente esta aqui.

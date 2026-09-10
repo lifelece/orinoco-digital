@@ -547,16 +547,71 @@ export function dibujarLimites(featureCollection) {
     if (!Array.isArray(coords) || coords.length < 2) continue;
 
     const esPais = props.nivel === "pais";
+    const esDisputa = props.nivel === "disputa";
+
+    // La zona en disputa se dibuja discontinua y en color propio. El trazo
+    // discontinuo es la convencion cartografica para "limite no acordado", y
+    // aqui ademas evita que se lea como una frontera mas del mapa.
+    const material = esDisputa
+      ? new PolylineDashMaterialProperty({
+          color: Color.fromCssColorString(COLOR_LIMITE.disputa).withAlpha(0.9),
+          dashLength: 22,
+        })
+      : Color.fromCssColorString(
+          esPais ? COLOR_LIMITE.pais : COLOR_LIMITE.estado
+        ).withAlpha(esPais ? 0.85 : 0.5);
 
     capa.entities.add({
       name: props.nombre ?? "",
       properties: { ...props },
       polyline: {
         positions: aPosiciones(coords),
-        width: esPais ? 2.5 : 1.2,
-        material: Color.fromCssColorString(
-          esPais ? COLOR_LIMITE.pais : COLOR_LIMITE.estado
-        ).withAlpha(esPais ? 0.85 : 0.5),
+        width: esDisputa ? 2.5 : esPais ? 2.5 : 1.2,
+        material,
+        clampToGround: true,
+      },
+    });
+    n += 1;
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+/**
+ * Dibuja la Guayana Esequiba, territorio en disputa entre Venezuela y Guyana.
+ *
+ * Va en su propia capa, no mezclada con las fronteras, por dos razones: se
+ * puede apagar por separado, y sobre todo no es lo mismo que un limite
+ * acordado. Confundir ambas cosas en una sola capa seria justo el descuido que
+ * la regla de neutralidad del proyecto trata de evitar.
+ *
+ * Ver docs/DATA_SOURCES.md seccion 13.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @returns {number}
+ */
+export function dibujarZonaDisputada(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("disputa");
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) continue;
+
+    capa.entities.add({
+      name: props.nombre ?? "",
+      properties: { ...props },
+      polyline: {
+        positions: aPosiciones(coords),
+        width: 2.5,
+        // Discontinua: convencion cartografica para "limite no acordado".
+        material: new PolylineDashMaterialProperty({
+          color: Color.fromCssColorString(COLOR_LIMITE.disputa).withAlpha(0.9),
+          dashLength: 22,
+        }),
         clampToGround: true,
       },
     });

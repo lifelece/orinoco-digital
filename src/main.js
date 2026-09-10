@@ -9,6 +9,7 @@ import {
   dibujarDuctos,
   dibujarDownstream,
   dibujarLimites,
+  dibujarZonaDisputada,
   dibujarReferenciaFaja,
   dibujarGridProbabilidad,
   registrarBannerDemo,
@@ -63,6 +64,7 @@ async function cargarCapas() {
   // datos de activos tarden, y son el archivo mas ligero.
   const capas = [
     ["limites", getLimites, dibujarLimites],
+    ["zona en disputa", getZonaDisputada, dibujarZonaDisputada],
     ["campos", getCampos, (fc) => {
       dibujarCampos(fc);
       fijarCampos(fc);

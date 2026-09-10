@@ -157,7 +157,7 @@ export function montarUI() {
 const sectores = { upstream: true, midstream: true, downstream: true };
 
 /** Capas de contexto geografico visibles. */
-const contexto = { limites: true, faja: true };
+const contexto = { limites: true, disputa: true, faja: true };
 
 /** La capa DEMO nace apagada: se enciende a proposito, nunca por defecto. */
 let demoActiva = false;
@@ -200,7 +200,7 @@ function montarLeyenda() {
     <div class="px-3 py-2.5">
       ${["upstream", "midstream", "downstream"].map(interruptor).join("")}
       <div class="my-1.5 border-t border-white/10"></div>
-      ${["limites", "faja"].map(interruptorContexto).join("")}
+      ${["limites", "disputa", "faja"].map(interruptorContexto).join("")}
       ${
         // El interruptor DEMO solo existe si el grid llego a cargarse. Sin
         // notebook ejecutado no hay capa, y un interruptor que no hace nada

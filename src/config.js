@@ -155,6 +155,7 @@ export const RUTAS_DATOS = {
   ductos: "/data/ductos-osm.geojson",
   downstream: "/data/downstream-osm.geojson",
   limites: "/data/limites-venezuela.geojson",
+  zonaDisputada: "/data/zona-disputada.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
 };
 
@@ -175,6 +176,9 @@ export const COLOR_LIMITE = {
   pais: "#f8fafc",
   estado: "#cbd5e1",
   faja: "#facc15",
+  // Naranja: se distingue del amarillo de la Faja y del blanco de la
+  // frontera, y no es un color que se lea como "error".
+  disputa: "#fb923c",
 };
 
 /** Color por tipo de instalacion downstream. Fase 3. */
