@@ -68,5 +68,8 @@
   "contexto.limites": "Borders and states",
   "contexto.faja": "Orinoco Belt (reference box)",
   "leyenda.faja": "Reference box for the Belt, not its actual outline",
-  "leyenda.limites": "Venezuela and state boundaries"
+  "leyenda.limites": "Venezuela and state boundaries",
+  "capa.demo": "DEMO layer (model)",
+  "demo.masInfo": "Model card",
+  "panel.score": "Demonstration probability"
 }

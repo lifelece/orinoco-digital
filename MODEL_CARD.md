@@ -37,27 +37,63 @@ procedimiento, no produce un resultado utilizable.
 | Proposito | Educativo y demostrativo |
 | Tipo | Clasificador supervisado (RandomForest o regresion logistica) |
 | Libreria | scikit-learn |
-| Entorno de entrenamiento | Google Colab (no local: 8 GB de RAM no bastan) |
+| Entorno de entrenamiento | Google Colab (no local: 8 GB de RAM y Python sin instalar) |
 | Salida | Grid GeoJSON con `score` de 0 a 1 por celda |
-| Estado | No entrenado — pendiente de la Fase 5 |
+| Notebook | `notebooks/modelo-demo.ipynb` |
+| Hiperparametros | 300 arboles, profundidad 8, minimo 5 muestras por hoja |
+| Estado | Infraestructura lista. **Sin entrenar**: falta ejecutar el notebook |
+
+`public/data/prob_grid.geojson` **no esta versionado a proposito**. Es salida de
+un modelo, no un dato de fuente: quien quiera la capa ejecuta el notebook y la
+genera. Asi nadie hereda un artefacto que parece dato sin saber de donde sale.
 
 ## Datos de entrenamiento
 
-| Origen | Naturaleza |
-|---|---|
-| Petrofisica agregada del USGS (FS 2009-3028) | Publica, real, **agregada** — no por pozo |
-| Datos sinteticos generados para la demo | **Ficticios**, generados para completar el ejercicio |
+Generados por `scripts/generar-features-demo.mjs`. **1.254 celdas** en una
+rejilla de 0,08 grados (~9 km) sobre la caja de la Faja. 47,2% con etiqueta
+positiva.
 
-**Importante:** al mezclar datos publicos agregados con datos sinteticos, el
-resultado no describe la realidad de ningun bloque concreto. Es un artefacto
-del ejercicio.
+### Lo que es real: las distribuciones
 
-## Features previstas
+Cada variable se muestrea de una distribucion triangular (minimo, mediana,
+maximo) con los valores **publicados en la tabla 1 del USGS FS 2009-3028**:
 
-Profundidad, espesor de arena neta, porosidad, saturacion de agua y distancia a
-pozos productivos conocidos.
+| Variable | Min | Mediana | Max |
+|---|---|---|---|
+| Porosidad (%) | 20 | 25 | 38 |
+| Saturacion de agua (%) | 10 | 20 | 25 |
+| Espesor de arena neta (ft) | 1 | 150 | 350 |
+| Profundidad del reservorio (m) | 150 | 700 | 1.400 |
+| Gravedad (grados API) | 4 | 10 | 16 |
 
-Se documentara la fuente y el rango de cada una antes de entrenar.
+Profundidad y gravedad API vienen del cuerpo del mismo documento. El factor de
+recobro publicado (15 / 45 / 70 %) no se usa como feature.
+
+### Lo que es inventado: el reparto espacial y la etiqueta
+
+- **El reparto espacial** se genera con funciones seno para dar continuidad. La
+  geologia real no se genera con senos.
+- **La etiqueta objetivo** la calcula el script con una suma ponderada que nos
+  hemos inventado: 35% porosidad, 30% espesor, 20% agua invertida, 15%
+  profundidad invertida, mas ruido.
+
+## LA LIMITACION QUE NO SE PUEDE MAQUILLAR
+
+**El modelo no aprende geologia. Aprende a recuperar nuestra propia formula.**
+
+Es circular por construccion: nosotros generamos la etiqueta con una formula,
+el modelo la reproduce, y las metricas miden lo bien que la reprodujo. Un AUC
+alto aqui solo dice que un bosque aleatorio sabe imitar una suma ponderada,
+cosa que ya sabiamos.
+
+Se anade ruido a proposito para que el modelo no acierte al 100%: sin el, la
+etiqueta seria una funcion determinista de las features y el resultado seria
+aun mas enganoso.
+
+**Ninguna metrica de este modelo dice nada sobre la Faja del Orinoco.**
+
+Se documenta asi de claro porque un demo que oculta su circularidad deja de ser
+material didactico y pasa a ser un fraude presentable.
 
 ## Limitaciones (todas, sin suavizar)
 
@@ -85,22 +121,32 @@ demostrar la integracion tecnica entre ML y un visor 3D.
 como estimacion real; citarlo como evidencia sobre el potencial de un bloque;
 cualquier uso que omita la palabra DEMO.
 
-## Obligaciones en la interfaz
+## Obligaciones en la interfaz — y como se garantizan
 
 Mientras la capa este activa:
 
 - **Banner permanente e imposible de ignorar** con el texto de la clave i18n
   `demo.banner`.
 - Enlace visible a esta ficha.
-- La leyenda dice **"probabilidad demostrativa"**, nunca "probabilidad de
-  exito".
+- La capa dice **"probabilidad demostrativa"**, nunca "probabilidad de exito".
 - El banner **no se puede cerrar** mientras la capa siga encendida.
 
-Si la implementacion no cumple estas cuatro condiciones, la capa no se publica.
+**Esto no depende de la buena voluntad de quien programe manana.** Esta forzado
+en el codigo: `dibujarGridProbabilidad()` en `src/map.js` comprueba que haya un
+banner registrado con `registrarBannerDemo()` y, si no lo hay, **se niega a
+dibujar** y avisa por consola. La comprobacion corre antes de crear la capa.
+
+Un descuido futuro que quite el banner deja la capa apagada, que es el fallo
+seguro. Lo contrario —publicar un modelo sintetico sin aviso— no puede pasar
+por accidente.
+
+La capa ademas **nace apagada** y su interruptor solo aparece si el grid llego a
+cargarse.
 
 ## Responsable
 
 Luis Carlos Vasquez. Correcciones y criticas metodologicas son bienvenidas por
 issue en GitHub — especialmente de geologos y geofisicos.
 
-**Ultima actualizacion:** 2026-09-08 (ficha creada antes del modelo)
+**Ultima actualizacion:** 2026-09-09. Ficha creada antes del modelo y
+actualizada al montar la infraestructura, todavia sin entrenar.

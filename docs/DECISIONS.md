@@ -169,3 +169,28 @@ parte del ecosistema.
 **Limite honesto:** el DCO no cede derechos de relicencia. Si algun dia se
 quisiera relicenciar o comercializar el proyecto, habria que pedir permiso a
 cada contribuyente. Se acepta ese limite a cambio de la simplicidad.
+
+---
+
+## ADR-010 — La Fase 4 (Supabase) se salta
+
+**Fecha:** 2026-09-09 · **Estado:** aceptada · **Aplica** ADR-003
+
+ADR-003 dejo la Fase 4 como opcional y fijo cuatro criterios. Se evaluaron:
+
+| Criterio | Resultado |
+|---|---|
+| Algun GeoJSON supera 2 MB | **No.** El mayor es `ductos-osm.geojson`, 847 KB. Total servido: 1,4 MB en 4 archivos |
+| Hace falta consulta espacial dinamica | **No.** Ninguna funcion de `api.js` la necesita |
+| Series temporales de produccion | **No.** El esquema modela estado actual |
+| Escrituras desde la web | **No.** Los aportes entran por Pull Request |
+
+**Decision:** no se hace la Fase 4. Se pasa directamente a la Fase 5.
+
+**Por que importa:** anadir un backend que nadie necesita seria una pieza mas
+que puede caerse o pausarse, mas superficie de ataque y mas mantenimiento, a
+cambio de nada. La arquitectura static-first ya cubre lo que hace falta.
+
+**Cuando reconsiderar:** en cuanto se cumpla cualquiera de los cuatro criterios.
+El candidato mas probable es la primera serie temporal de produccion, o que
+`ductos-osm.geojson` crezca al anadir mas trackers.

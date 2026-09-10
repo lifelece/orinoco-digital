@@ -85,10 +85,45 @@ Si duda aunque sea un segundo, el etiquetado no es suficiente. Refuerzalo.
 
 ## STOP GATE
 
-- [ ] Modelo entrenado en Colab
-- [ ] Grid de probabilidad renderizado sobre el mapa
-- [ ] Banner DEMO permanente y no cerrable
-- [ ] Enlace visible a MODEL_CARD.md
-- [ ] Leyenda dice "demostrativa"
-- [ ] DATA_SOURCES.md actualizado con la naturaleza sintetica
-- [ ] **Prueba de honestidad superada con una persona real**
+- [x] Dataset de features generado (1.254 celdas, 47,2% positivas)
+- [x] Notebook de Colab listo
+- [x] Capa y rampa de color implementadas
+- [x] Banner DEMO permanente y no cerrable
+- [x] Enlace visible a MODEL_CARD.md
+- [x] MODEL_CARD.md actualizado con los valores reales del USGS
+- [ ] **Modelo entrenado en Colab** (lo ejecutas tu)
+- [ ] Grid renderizado sobre el mapa
+- [ ] Prueba de honestidad superada con una persona real
+
+## Lo que quedo hecho
+
+| Pieza | Estado |
+|---|---|
+| `scripts/generar-features-demo.mjs` | Genera el CSV de entrenamiento |
+| `notebooks/modelo-demo.ipynb` | Entrena y exporta el grid |
+| `dibujarGridProbabilidad()` en `map.js` | Pinta el grid con rampa de color |
+| `montarBannerDemo()` en `ui.js` | Banner permanente |
+
+## La garantia esta en el codigo, no en la disciplina
+
+`dibujarGridProbabilidad()` comprueba que exista un banner registrado con
+`registrarBannerDemo()` y, si no lo hay, **se niega a dibujar**. La
+comprobacion corre antes de crear la capa: verificado leyendo el orden de
+ejecucion de la funcion.
+
+Un descuido futuro que quite el banner apaga la capa. Publicar un modelo
+sintetico sin aviso no puede pasar por accidente.
+
+La capa nace apagada y su interruptor solo aparece si el grid cargo.
+
+## Para verlo funcionando
+
+```bash
+npm run data:demo          # genera data/raw/features-demo.csv
+```
+
+Sube ese CSV a `notebooks/modelo-demo.ipynb` en Google Colab, ejecuta, descarga
+`prob_grid.geojson` y guardalo en `public/data/`. Aparece el interruptor.
+
+`prob_grid.geojson` esta en `.gitignore` a proposito: es salida de un modelo,
+no un dato de fuente.

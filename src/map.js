@@ -614,5 +614,99 @@ export function alternarContexto(nombre, visible) {
   viewer?.scene.requestRender();
 }
 
-// --- Pendiente por fase ------------------------------------------------------
-// Fase 5: dibujarGridProbabilidad(featureCollection)  <- SIEMPRE con banner DEMO
+// --- Capa demostrativa (Fase 5) ----------------------------------------------
+
+/** @type {(() => void) | null} */
+let mostrarBannerDemo = null;
+/** @type {(() => void) | null} */
+let ocultarBannerDemo = null;
+
+/**
+ * Registra como mostrar y ocultar el banner DEMO.
+ * ui.js las provee; map.js las exige antes de dibujar nada.
+ *
+ * @param {() => void} mostrar
+ * @param {() => void} ocultar
+ */
+export function registrarBannerDemo(mostrar, ocultar) {
+  mostrarBannerDemo = mostrar;
+  ocultarBannerDemo = ocultar;
+}
+
+/** Rampa de color del score: azul frio (0) a rojo (1). */
+function colorScore(score) {
+  const s = Math.max(0, Math.min(1, score));
+  // Interpolacion en HSL de 220 grados (azul) a 0 (rojo).
+  return Color.fromHsl((220 * (1 - s)) / 360, 0.75, 0.5, 0.55);
+}
+
+/**
+ * Dibuja el grid de probabilidad DEMO. Fase 5.
+ *
+ * CONDICION INNEGOCIABLE: esta capa NO se dibuja si no hay un banner DEMO
+ * registrado. La comprobacion vive en el codigo, no en la buena voluntad de
+ * quien la use: un descuido futuro que quite el banner deja la capa apagada
+ * en vez de publicar un modelo sintetico sin avisar.
+ *
+ * Ver MODEL_CARD.md.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} celdas dibujadas
+ */
+export function dibujarGridProbabilidad(featureCollection) {
+  if (!viewer) return 0;
+
+  if (!mostrarBannerDemo || !ocultarBannerDemo) {
+    console.error(
+      "Capa DEMO no dibujada: falta registrar el banner con registrarBannerDemo(). " +
+        "Es deliberado. Ver MODEL_CARD.md."
+    );
+    return 0;
+  }
+
+  const capa = nuevaCapa("demo");
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const anillo = feature.geometry?.coordinates?.[0];
+    if (!Array.isArray(anillo) || anillo.length < 4) continue;
+
+    capa.entities.add({
+      name: props.id ?? "",
+      properties: { ...props },
+      polygon: {
+        hierarchy: new PolygonHierarchy(aPosiciones(anillo)),
+        material: colorScore(props.score ?? 0),
+        outline: false,
+      },
+    });
+    n += 1;
+  }
+
+  // La capa nace apagada: el usuario la enciende a proposito, y encenderla
+  // levanta el banner.
+  capa.show = false;
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+/**
+ * Enciende o apaga la capa DEMO, arrastrando el banner con ella.
+ * @param {boolean} visible
+ */
+export function alternarDemo(visible) {
+  const capa = capas.get("demo");
+  if (!capa) return;
+
+  capa.show = visible;
+  if (visible) mostrarBannerDemo?.();
+  else ocultarBannerDemo?.();
+
+  viewer?.scene.requestRender();
+}
+
+/** @returns {boolean} si la capa DEMO llego a cargarse */
+export function hayCapaDemo() {
+  return capas.has("demo") && capas.get("demo").entities.values.length > 0;
+}

@@ -10,6 +10,8 @@ import {
   dibujarDownstream,
   dibujarLimites,
   dibujarReferenciaFaja,
+  dibujarGridProbabilidad,
+  registrarBannerDemo,
   alSeleccionarActivo,
 } from "./map.js";
 import {
@@ -17,8 +19,16 @@ import {
   mostrarError,
   mostrarPanelActivo,
   fijarCampos,
+  montarBannerDemo,
+  quitarBannerDemo,
 } from "./ui.js";
-import { getCampos, getDuctos, getDownstream, getLimites } from "./api.js";
+import {
+  getCampos,
+  getDuctos,
+  getDownstream,
+  getLimites,
+  getGridProbabilidadDemo,
+} from "./api.js";
 import { tieneProcedencia, normalizarActivo } from "./data.js";
 import { t } from "./i18n/index.js";
 
@@ -71,6 +81,29 @@ async function cargarCapas() {
   const fallidas = resultados.filter((r) => r.status === "rejected");
   for (const r of fallidas) console.error(r.reason);
   if (fallidas.length) mostrarError(t("error.cargaDatos"));
+
+  await cargarDemo();
+  // La leyenda se rehace: el interruptor DEMO solo aparece si el grid cargo.
+  montarUI();
+}
+
+/**
+ * Carga la capa demostrativa, si existe. Fase 5.
+ *
+ * Su ausencia es normal y NO es un error: el grid lo produce el notebook de
+ * Colab (`notebooks/modelo-demo.ipynb`) y puede que aun no se haya ejecutado.
+ * Por eso falla en silencio en vez de mostrar un aviso rojo.
+ */
+async function cargarDemo() {
+  try {
+    const grid = await getGridProbabilidadDemo();
+    dibujarGridProbabilidad(grid);
+  } catch {
+    console.info(
+      "Capa DEMO no disponible. Es normal si aun no has ejecutado " +
+        "notebooks/modelo-demo.ipynb en Colab."
+    );
+  }
 }
 
 function arrancar() {
@@ -78,6 +111,9 @@ function arrancar() {
     iniciarMapa();
     montarUI();
     alSeleccionarActivo(mostrarPanelActivo);
+    // Se registra ANTES de cargar nada: sin banner, map.js se niega a dibujar
+    // la capa DEMO. Es una condicion de codigo, no una convencion.
+    registrarBannerDemo(montarBannerDemo, quitarBannerDemo);
     // No depende de red: se dibuja desde FAJA_BBOX, que es constante.
     dibujarReferenciaFaja();
     cargarCapas();

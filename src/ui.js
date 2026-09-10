@@ -10,6 +10,8 @@ import {
   deseleccionar,
   alternarCapa,
   alternarContexto,
+  alternarDemo,
+  hayCapaDemo,
 } from "./map.js";
 import { COLOR_ESTADO, COLOR_FLUIDO, COLOR_TIPO } from "./config.js";
 
@@ -140,6 +142,9 @@ const sectores = { upstream: true, midstream: true, downstream: true };
 /** Capas de contexto geografico visibles. */
 const contexto = { limites: true, faja: true };
 
+/** La capa DEMO nace apagada: se enciende a proposito, nunca por defecto. */
+let demoActiva = false;
+
 /** Leyenda desplegable: en movil ocupa demasiado si esta siempre abierta. */
 let leyendaAbierta = false;
 
@@ -179,6 +184,19 @@ function montarLeyenda() {
       ${["upstream", "midstream", "downstream"].map(interruptor).join("")}
       <div class="my-1.5 border-t border-white/10"></div>
       ${["limites", "faja"].map(interruptorContexto).join("")}
+      ${
+        // El interruptor DEMO solo existe si el grid llego a cargarse. Sin
+        // notebook ejecutado no hay capa, y un interruptor que no hace nada
+        // solo confunde.
+        hayCapaDemo()
+          ? `<div class="my-1.5 border-t border-white/10"></div>
+             <label class="flex cursor-pointer items-center gap-2 py-1 text-amber-300">
+               <input type="checkbox" id="chk-demo" ${demoActiva ? "checked" : ""}
+                      class="h-3.5 w-3.5 shrink-0 accent-amber-500">
+               <span>${esc(t("capa.demo"))}</span>
+             </label>`
+          : ""
+      }
     </div>
 
     <button id="btn-leyenda" type="button"
@@ -240,6 +258,11 @@ function montarLeyenda() {
       contexto[clave] = ev.target.checked;
       alternarContexto(clave, ev.target.checked);
     });
+  });
+
+  document.getElementById("chk-demo")?.addEventListener("change", (ev) => {
+    demoActiva = ev.target.checked;
+    alternarDemo(demoActiva);
   });
 
   document.getElementById("btn-leyenda")?.addEventListener("click", () => {
@@ -498,6 +521,45 @@ function montarTabla() {
       <p class="mt-6 text-xs text-slate-500">${esc(t("atribucion.datos"))}</p>
     </div>
   `;
+}
+
+// --- Banner de la capa DEMO (Fase 5) -----------------------------------------
+
+/**
+ * Banner permanente de la capa demostrativa.
+ *
+ * No se puede cerrar: la unica forma de quitarlo es apagar la capa. Es
+ * deliberado. Un aviso que el usuario descarta y luego olvida convierte un
+ * modelo sintetico en algo que parece un dato real, que es exactamente el
+ * fallo que este proyecto no se puede permitir. Ver MODEL_CARD.md.
+ */
+export function montarBannerDemo() {
+  let nodo = document.getElementById("banner-demo");
+  if (!nodo) {
+    nodo = document.createElement("div");
+    nodo.id = "banner-demo";
+    document.getElementById("ui-root")?.appendChild(nodo);
+  }
+
+  nodo.setAttribute("role", "alert");
+  nodo.className =
+    "pointer-events-auto fixed inset-x-0 top-[4.5rem] z-40 mx-auto max-w-3xl " +
+    "rounded-lg bg-amber-500 px-3 py-2 text-center text-xs font-semibold " +
+    "text-amber-950 shadow-lg ring-2 ring-amber-300 sm:top-24 sm:text-sm";
+
+  nodo.innerHTML = `
+    <span>${esc(t("demo.banner"))}</span>
+    <a href="https://github.com/lifelece/orinoco-digital/blob/main/MODEL_CARD.md"
+       target="_blank" rel="noopener noreferrer"
+       class="ml-1 whitespace-nowrap underline hover:text-amber-800">
+      ${esc(t("demo.masInfo"))}
+    </a>
+  `;
+}
+
+/** Quita el banner. Solo la llama map.js al apagar la capa. */
+export function quitarBannerDemo() {
+  document.getElementById("banner-demo")?.remove();
 }
 
 // --- Errores -----------------------------------------------------------------

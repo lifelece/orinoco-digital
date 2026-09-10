@@ -68,5 +68,8 @@
   "contexto.limites": "Fronteras y estados",
   "contexto.faja": "Faja (caja de referencia)",
   "leyenda.faja": "Caja de referencia de la Faja, no su contorno real",
-  "leyenda.limites": "Limites de Venezuela y sus estados"
+  "leyenda.limites": "Limites de Venezuela y sus estados",
+  "capa.demo": "Capa DEMO (modelo)",
+  "demo.masInfo": "Ficha del modelo",
+  "panel.score": "Probabilidad demostrativa"
 }
