@@ -82,3 +82,56 @@ envejezca en publico.
 - [ ] Atribuciones y disclaimer visibles
 - [ ] Material de lanzamiento publicado
 - [ ] Tag `v1.0` en GitHub
+
+---
+
+## Despliegue hecho — 2026-09-09
+
+**URL:** https://orinoco-digital.vercel.app
+
+### Configuracion
+
+| | |
+|---|---|
+| Proyecto Vercel | `jansonlc19-1360s-projects/orinoco-digital` |
+| Variables | `VITE_CESIUM_TOKEN`, `VITE_SITIO_URL` (ambas cifradas, solo en Vercel) |
+| Build | 34,7 KB de codigo propio (11,5 KB gzip) + Cesium en chunk aparte |
+
+### Por que las cabeceras de `vercel.json` son las que son
+
+`vercel.json` no admite comentarios, asi que la razon queda aqui:
+
+- **`/assets/*` y `/cesiumStatic/*`: cache inmutable de un ano.** Llevan hash en
+  el nombre, asi que un cambio genera un nombre nuevo. Es lo que hace que
+  Cesium se descargue **una sola vez** por visitante.
+- **`/data/*.geojson`: una hora, con `stale-while-revalidate` de un dia.** Estos
+  SI cambian al actualizar datos y **no** llevan hash. Una hora deja que el CDN
+  absorba el trafico; el `stale-while-revalidate` sirve la version vieja al
+  instante mientras busca la nueva por detras, y una correccion de datos llega
+  pronto sin castigar a nadie con esperas.
+- Cabeceras de seguridad basicas para un sitio estatico. Vercel anade HSTS.
+
+### Verificado en produccion
+
+Todos los recursos responden 200, las cabeceras de cache se aplican, las meta
+Open Graph llevan URL absoluta al dominio real y las de seguridad estan
+presentes.
+
+### PENDIENTE: restringir el token de Cesium
+
+El token desplegado **no tiene restriccion de dominio**. En un sitio publico eso
+significa que cualquiera puede copiarlo del bundle y gastar los 15 GB/mes
+gratuitos de la cuenta.
+
+Un token de Cesium en el frontend es publico por diseno —no hay forma de
+ocultarlo— y por eso la proteccion real es la restriccion por dominio, no el
+secreto.
+
+Pasos:
+
+1. https://ion.cesium.com/ -> pestana **Access Tokens** -> *Create token*.
+2. Permisos minimos: solo `assets:read`.
+3. En **URL restrictions**, anadir `https://orinoco-digital.vercel.app`.
+4. `vercel env rm VITE_CESIUM_TOKEN production` y volver a anadirlo con el nuevo.
+5. `vercel --prod` para redesplegar.
+6. Comprobar que el globo carga, y borrar el token viejo en ion.

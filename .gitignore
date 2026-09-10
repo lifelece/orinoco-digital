@@ -31,3 +31,5 @@ scripts/analisis/node_modules/
 scripts/analisis/package.json
 scripts/analisis/package-lock.json
 
+
+.vercel

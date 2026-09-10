@@ -5,7 +5,6 @@
   "framework": "vite",
   "headers": [
     {
-      "comment": "Los assets con hash en el nombre no cambian nunca: cache eterna. Es lo que hace que Cesium se descargue una sola vez.",
       "source": "/assets/(.*)",
       "headers": [
         {
@@ -15,7 +14,6 @@
       ]
     },
     {
-      "comment": "Assets estaticos de Cesium (workers, texturas, widgets). Tampoco cambian entre versiones.",
       "source": "/cesiumStatic/(.*)",
       "headers": [
         {
@@ -25,7 +23,6 @@
       ]
     },
     {
-      "comment": "Los GeoJSON SI cambian al actualizar datos y no llevan hash. Una hora de cache con revalidacion: el CDN absorbe el trafico y una correccion de datos llega pronto.",
       "source": "/data/(.*).geojson",
       "headers": [
         {
@@ -35,7 +32,6 @@
       ]
     },
     {
-      "comment": "Cabeceras de seguridad basicas para un sitio estatico.",
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
