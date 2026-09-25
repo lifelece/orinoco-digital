@@ -34,7 +34,7 @@ Variables de entorno **en Vercel, no en el repo**:
 - [x] Enlace a DISCLAIMER visible desde la interfaz
 - [x] Indicador de frescura de datos activo
 - [x] Code-splitting de Cesium revisado
-- [ ] Lighthouse movil en verde
+- [ ] Lighthouse movil en verde. **Medido el 2026-09-17: rendimiento 25, accesibilidad 96, buenas practicas 93, SEO 100.** Mas del 90 % del hilo principal es Cesium y la interfaz no pinta hasta que descarga: no se arregla con ajustes finos sino con carga diferida (P3 de la auditoria). Detalle en `docs/NOTION.md` §4
 
 ## Verificacion final
 

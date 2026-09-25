@@ -46,23 +46,29 @@ src/
   map.js        CesiumJS. Unico modulo que importa "cesium".
   api.js        Origen de datos. Devuelve siempre FeatureCollection.
   data.js       Validacion y normalizacion. Sin red, sin DOM, sin Cesium.
-  ui.js         DOM. No importa cesium, no hace fetch.
-  style.css     Tailwind 4 + estilos del viewer.
+  iconos.js     Simbolos SVG del mapa como data URI. Sin red, sin DOM, sin Cesium.
+  ui.js         DOM: shell, control de capas, buscador, ficha, tabla y avisos.
+                No importa cesium, no hace fetch.
+  style.css     Tailwind 4 + tokens de diseno (ADR-014) + estilos del viewer.
   i18n/
     index.js    Helper t(clave) y cambio de idioma.
     es.json     Diccionario espanol.
     en.json     Diccionario ingles.
 ```
 
-### Grafo de dependencias permitido
+### Grafo de dependencias real
+
+Actualizado el 2026-09-15: el anterior no incluia `iconos.js` ni las
+importaciones de `config.js` y `data.js` desde `map.js` y `ui.js`.
 
 ```
-main.js  -> map.js, ui.js, i18n, style.css
-map.js   -> cesium, config.js
-ui.js    -> i18n, map.js
-api.js   -> config.js, data.js
-data.js  -> config.js
-i18n     -> config.js
+main.js   -> map.js, ui.js, api.js, data.js, i18n, style.css
+map.js    -> cesium, config.js, data.js, iconos.js
+ui.js     -> i18n, map.js, config.js, data.js
+api.js    -> config.js, data.js
+data.js   -> config.js
+iconos.js -> (nada)
+i18n      -> config.js
 ```
 
 Reglas que no se rompen:

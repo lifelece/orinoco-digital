@@ -1,0 +1,35 @@
+# Adelanto de M8 (Notion, *Funcionalidad v2*): el validador ya existia y ya
+# sale con codigo 1 ante un registro SIN FUENTE, pero solo corria si alguien se
+# acordaba. Aqui corre solo. Ver ADR-015.
+#
+# No hace `npm install`: el validador usa solo modulos nativos de Node, asi que
+# no descarga Cesium ni ninguna dependencia para comprobar unos GeoJSON.
+name: validar-datos
+
+on:
+  push:
+    paths:
+      - "public/data/**"
+      - "scripts/validate-geojson.mjs"
+      - ".github/workflows/validar-datos.yml"
+  pull_request:
+    paths:
+      - "public/data/**"
+      - "scripts/validate-geojson.mjs"
+      - ".github/workflows/validar-datos.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validar GeoJSON (geometria, CRS y procedencia)
+        run: node scripts/validate-geojson.mjs

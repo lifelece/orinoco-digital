@@ -71,6 +71,17 @@ const TANQUES = `
 <path d="M11 19 a3.2 1.7 0 0 0 6.4 0"/>
 <path d="M22.6 16 a3.2 1.7 0 0 0 6.4 0"/>`;
 
+/** Presa de arco con dos compuertas: central hidroelectrica. */
+const PRESA = `
+<path d="M12 27 C12 18 15.5 12.5 20 12.5 C24.5 12.5 28 18 28 27"/>
+<path d="M11 27 L29 27"/>
+<path d="M17 27 L17 19.5"/>
+<path d="M23 27 L23 19.5"/>`;
+
+/** Rayo: central termica. La convencion universal de "aqui se genera luz". */
+const RAYO = `
+<path d="M22.5 10 L14 21.5 L19.5 21.5 L17.5 30 L26 18 L20.5 18 Z"/>`;
+
 /** Valvula sobre conducto: instalacion generica. */
 const INSTALACION = `
 <path d="M11 20 L29 20"/>
@@ -88,6 +99,12 @@ const SIMBOLOS = {
   terminal: TANQUES,
   mejorador: PETROQUIMICA,
   instalacion: INSTALACION,
+  // Centrales electricas. Se indexan por la CLASE del combustible y no por el
+  // tipo, porque una represa y una termica no se parecen en nada y el simbolo
+  // tiene que decir cual es cual sin abrir el panel.
+  hidro: PRESA,
+  termo: RAYO,
+  otro: INSTALACION,
 };
 
 /** Cache: el mismo tipo y color se piden decenas de veces. */

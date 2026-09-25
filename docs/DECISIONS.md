@@ -272,3 +272,166 @@ distincion que aplica a los 105.
 **Cuando reconsiderar:** si una fuente futura trae estados repartidos de verdad
 (por ejemplo un historico con campos cerrados), volver a evaluar cual de los dos
 merece el canal principal — o permitir que el usuario elija.
+
+---
+
+## ADR-013 — Centrales electricas: capa propia y apagada por defecto
+
+**Fecha:** 2026-09-10 · **Estado:** aceptada · **Registrada:** 2026-09-15 ·
+**Complementa** la exclusion de `power=plant` en la Fase 3
+
+La Fase 3 dejo las centrales electricas (`power=plant`) fuera de la capa de
+OpenStreetMap: estan etiquetadas como industria, pero no son cadena de
+hidrocarburos (`docs/DATA_SOURCES.md` seccion 11).
+
+**El hueco:** sin ellas el mapa no deja ver a donde va parte de la energia del
+pais. Segun la fuente usada, las 34 centrales termicas de Venezuela declaran gas
+como combustible principal, y el 57% de la capacidad instalada registrada es
+hidroelectrica. La cadena de hidrocarburos sola no muestra ninguno de los dos
+datos.
+
+**Decision:** entran como **contexto energetico**, no como un sector mas.
+
+| Aspecto | Decision | Por que |
+|---|---|---|
+| Fuente | WRI Global Power Plant Database v1.3.0 (CC BY 4.0), no OSM | Trae tecnologia y capacidad instalada por central. Detalle en `DATA_SOURCES.md` seccion 15 |
+| Capa | Propia: `centrales`, archivo `public/data/centrales.geojson`, `sector: "energia"` | Mezclada con refinerias y puertos pasaria por cadena de hidrocarburos |
+| Visibilidad inicial | **Apagada** | Es contexto que se pide, no ruido que hay que apartar: el mapa ya dibuja 105 campos y 97 instalaciones |
+| Color | Por tecnologia: hidroelectrica `#2dd4bf`, termica `#fb7185` | Fuera de las familias ya ocupadas —ambar el crudo, azul el gas, rojo las refinerias— para que una termica no se lea como refineria |
+| Simbolo | Presa (hidroelectrica) y rayo (termica) | La tecnologia se reconoce sin abrir la ficha |
+| Tamano | Raiz cuadrada de la capacidad: `ESCALA_CENTRAL` minima 0,85, maxima 1,4, referencia 3.000 MW | Ver abajo |
+| Estado | Siempre `desconocido` | WRI no publica estado operativo |
+
+**Por que raiz cuadrada.** Guri (8.851 MW) es unas 440 veces la central mas
+pequena de la capa (Santa Barbara, 20 MW). En proporcion lineal, o Guri no cabe
+en pantalla o el resto es invisible; con raiz cuadrada las dos se leen y el
+orden se conserva. Una central sin capacidad declarada se dibuja al tamano
+minimo: no se le supone un valor. En v1.3.0 las 43 traen capacidad.
+
+**Por que el estado no se deduce.** Inferirlo del ano de puesta en marcha seria
+inventar, y en el sistema electrico venezolano el estado es justamente lo mas
+dudoso. Ademas WRI declara en su README que no mantiene la base desde
+principios de 2022. La ficha lo advierte con `panel.centralSinEstado`: la capa
+dice capacidad instalada, no si la central opera hoy.
+
+**Lo que no se toca del dato:**
+- Dos pares de centrales comparten coordenada (Planta Camejo y Punto Fijo;
+  Termozulia y Termozulia II). **No se fusionan:** desde el dato no se puede
+  saber si es un sitio listado dos veces o dos unidades del mismo complejo, y
+  fusionar seria decidir por la fuente.
+- La confianza la fija el origen de la coordenada que declara WRI, no un juicio
+  propio. El CRS y el techo de confianza se discuten en `DATA_SOURCES.md`
+  seccion 15.
+
+**Como se regenera:** `npm run data:centrales`
+(`scripts/centrales-to-geojson.mjs`). Con esta capa `FECHA_DATOS` paso a
+2026-09-10.
+
+**Consecuencia:** una capa mas con datos congelados. Se acepta porque la
+infraestructura pesada no se mueve —una represa sigue donde estaba— y porque el
+aviso de frescura va en la propia ficha.
+
+**Cuando reconsiderar:** si aparece una base mantenida que publique estado
+operativo por central, sustituye a WRI. Si WRI publica una version nueva, se
+regenera con el mismo script.
+
+---
+
+## ADR-014 — Shell de interfaz propio: tokens, sin fuentes web, creditos armonizados
+
+**Fecha:** 2026-09-15 · **Estado:** aceptada, pendiente del gate M1 en telefono
+real (ver `docs/fases/M1-SHELL-UI.md`)
+
+**Contexto.** La pagina de Notion *Mejora v2* pone como prioridad 1 arreglar la
+experiencia antes de anadir funcionalidad, y abre con un hito M1 de shell de
+UI. La auditoria del 2026-09-14 lo confirmo en captura: en movil el pie de
+atribuciones se montaba sobre el panel de capas, el titulo salia truncado y el
+control de capas tapaba un tercio del mapa.
+
+**Decision.**
+
+1. **Tokens en el `@theme` de Tailwind 4** (`style.css`), con la direccion
+   "instrumento tecnico oscuro" que propone Notion: `shell`, `elev`, `trazo`,
+   `hi`, `lo`, `crudo`, `gas`, `refino`, `activo`, `alerta`. Los nombres de
+   Notion (`--bg-shell`, `--text-hi`...) pasan al espacio `--color-*`, que es
+   el que Tailwind necesita para generar utilidades.
+2. **Sin fuentes web.** Notion sugiere Inter o Geist y JetBrains Mono. Se usa
+   la pila del sistema y `ui-monospace` para los numeros: una fuente web es una
+   peticion y decenas de KB por cara, y el presupuesto de rendimiento se mide
+   en red movil venezolana.
+3. **Los colores del mapa no se tocan.** Los tokens son del chrome. Lo que
+   pinta Cesium sigue en `config.js` con los criterios de ADR-012: la leyenda
+   tiene que coincidir con el mapa, no con los botones.
+4. **Creditos de Cesium armonizados, no reubicados ni ocultos.** Notion propone
+   moverlos a un footer propio. Se descarta: el logo de ion es obligacion de
+   licencia, y un contenedor propio dentro de `#ui-root` se destruiria en cada
+   redibujado. Se recolorea el texto; el logo no se toca.
+5. **Atribucion en dos niveles.** Pie con atribucion corta siempre visible, y
+   dialogo "Fuentes y licencias" con enlace y licencia de cada fuente, que se
+   alimenta de `FUENTES` en `config.js`.
+6. **`amber` queda reservado** para la capa DEMO y los avisos de cautela sobre
+   un dato. Un ambar decorativo le quitaria fuerza al banner DEMO.
+7. **Lo que tiene que sobrevivir a un redibujado no cuelga de `#ui-root`.** Los
+   avisos de error y la pantalla de carga van en `body`; el banner DEMO se
+   repinta con la columna superior. Las dos cosas fallaban antes (auditoria,
+   C3 y C5).
+
+**Alternativas descartadas.** Un framework de componentes: prohibido por
+ADR-004. Dividir `ui.js` en submodulos: con unas 1.100 lineas tendria sentido,
+pero cambia la estructura de modulos y necesita aprobacion explicita; queda
+propuesto en la auditoria.
+
+**Consecuencias.** El JavaScript propio pasa de 41 KB a unos 69 KB (22 KB
+gzip), dentro del limite de 150 KB. `CONVENTIONS.md` sustituye su seccion de
+paleta por los tokens.
+
+**Cuando reconsiderar:** si el gate en telefono real muestra texto de 10-11 px
+ilegible sobre la imagen satelital, o cuando M4 traiga la base oscura y cambien
+los contrastes.
+
+---
+
+## ADR-015 — Validador de datos en CI y plantillas de gobernanza, adelantados
+
+**Fecha:** 2026-09-17 · **Estado:** aceptada
+
+**Contexto.** Notion (*Funcionalidad v2*) ordena M8 "contrato de datos +
+validador en CI" y M12 "gobernanza OSS" despues de los hitos de experiencia, y
+el *Prompt maestro* marca M12 como "puede adelantarse". La auditoria de
+septiembre (P5 y seccion 5, puntos 8 y 9) encontro que `validate-geojson.mjs`
+ya falla con codigo 1 ante un registro sin `fuente`, pero **no corre en ningun
+sitio automaticamente**, y que no existe forma guiada de reportar un dato
+erroneo sin saber programar.
+
+Ninguna de las dos cosas toca la aplicacion ni el contrato de `api.js`, y
+ninguna depende del gate de M1.
+
+**Decision.**
+
+1. **`.github/workflows/validar-datos.yml`**: ejecuta el validador en cada push
+   y PR que toque `public/data/`. Sin `npm install`: el validador solo usa
+   modulos nativos de Node.
+2. **Dependencias que entran, listadas como exige la regla 7**: ninguna en
+   `package.json`. En CI se usan `actions/checkout@v4` y `actions/setup-node@v4`,
+   las acciones oficiales de GitHub; no se publican con el sitio.
+3. **`.github/ISSUE_TEMPLATE/dato-incorrecto.yml`**: formulario con los campos
+   de `CONTRIBUTING.md` (activo, que esta mal, correccion, fuente obligatoria,
+   coordenadas con su CRS). Pide el **nombre** del activo y no el `id`, porque
+   la ficha muestra el nombre.
+4. **`CITATION.cff`** sin `version`, `date-released` ni DOI: se anaden al
+   etiquetar v1.0 y, si se hace, al archivar en Zenodo. Antes serian datos
+   inventados.
+
+**Lo que NO cubre, a proposito.** El resto de M8 —el contrato de procedencia
+ampliado de Notion (`fuente_url`, `fecha_dato`, `fecha_ingesta`,
+`geom_precision`, `verificado_por`)— choca con los nombres que ya usa el
+proyecto (`confianza`, `ultima_verificacion`) y necesita decision. Ver
+`docs/NOTION.md`.
+
+**Verificado.** Con una copia del validador y un GeoJSON de prueba sin
+`fuente`, sale con codigo 1 y el mensaje `SIN FUENTE — no puede publicarse`.
+Los tres YAML parsean. El workflow no se ha ejecutado en GitHub: eso ocurre al
+hacer push.
+
+**Cuando reconsiderar:** cuando llegue M9 (pipeline con cron), este workflow se
+integra en el suyo en vez de duplicarse.

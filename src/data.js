@@ -27,6 +27,9 @@ export const TIPOS = [
   "planta_gas",
   "puerto",
   "mejorador",
+  // Central electrica. No es cadena de hidrocarburos —va en capa propia, ver
+  // ADR-013— pero si es un activo con fuente, y pasa por la misma aduana.
+  "central",
   // Instalacion industrial petrolera que las fuentes no permiten clasificar
   // con mas precision. Es preferible a llamar "refineria" a lo que no consta
   // que lo sea.

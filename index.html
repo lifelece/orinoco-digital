@@ -43,10 +43,14 @@
     <!-- Contenedor del globo Cesium -->
     <div id="cesiumContainer" role="application" aria-label="Mapa 3D de la industria petrolera venezolana"></div>
 
-    <!-- Alternativa accesible al globo 3D. Tambien sirve de fallback en redes lentas.
-         Ver docs/DECISIONS.md -> ADR-006. Se puebla en la Fase 2. -->
+    <!-- Sin JavaScript no hay mapa ni tabla: la tabla accesible (ADR-006) la
+         construye ui.js. Antes este aviso enlazaba a un /tabla.html que no
+         existe; ahora remite a los datos, que si son descargables sin JS. -->
     <noscript>
-      <p>Este mapa requiere JavaScript. La vista de tabla accesible estara disponible en /tabla.html</p>
+      <p style="padding:1rem;color:#e6edf3;font-family:system-ui,sans-serif">
+        Este mapa requiere JavaScript. Los datos, en GeoJSON abierto:
+        <a style="color:#4cc9f0" href="https://github.com/lifelece/orinoco-digital/tree/main/public/data">github.com/lifelece/orinoco-digital</a>
+      </p>
     </noscript>
 
     <!-- Capa de interfaz (la construye ui.js) -->

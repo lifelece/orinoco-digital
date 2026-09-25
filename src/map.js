@@ -31,7 +31,7 @@ import {
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
 import { icono, iconoAproximado } from "./iconos.js";
-import { hidrocarburoDe } from "./data.js";
+import { hidrocarburoDe, TIPOS } from "./data.js";
 
 import {
   CESIUM_TOKEN,
@@ -44,6 +44,8 @@ import {
   COLOR_LIMITE,
   COLOR_TOPONIMIA,
   COLOR_AGUA,
+  COLOR_CENTRAL,
+  ESCALA_CENTRAL,
   ZOOM_ETIQUETA,
   TAMANO_ICONO,
 } from "./config.js";
@@ -169,6 +171,31 @@ function conectarCalidadAdaptativa() {
 }
 
 /**
+ * Avisa una sola vez cuando el terreno visible termina de cargar.
+ *
+ * Es lo que retira la pantalla de carga. Se espera a que la cola de teselas
+ * haya tenido trabajo y se vacie: al arrancar la cola empieza en cero, y
+ * darla por buena en ese instante retiraria la pantalla antes de dibujar nada.
+ *
+ * @param {() => void} callback
+ */
+export function alTerminarCargaInicial(callback) {
+  if (!viewer) return;
+  let huboCarga = false;
+  const quitar = viewer.scene.globe.tileLoadProgressEvent.addEventListener(
+    (pendientes) => {
+      if (pendientes > 0) {
+        huboCarga = true;
+        return;
+      }
+      if (!huboCarga) return;
+      quitar();
+      callback();
+    }
+  );
+}
+
+/**
  * Rectangulo de la Faja, listo para Cesium.
  * @returns {Rectangle}
  */
@@ -195,10 +222,16 @@ function rectanguloFaja() {
  */
 function vistaFaja() {
   const esfera = BoundingSphere.fromRectangle3D(rectanguloFaja());
+  // En pantalla vertical el campo de vision horizontal es la mitad: la vista
+  // de escritorio cortaba la Faja por los lados y llenaba de cielo el tercio
+  // superior. Ver CAMARA.inclinacionVertical en config.js.
+  const vertical = window.innerHeight > window.innerWidth;
   const offset = new HeadingPitchRange(
     CesiumMath.toRadians(CAMARA.rumbo),
-    CesiumMath.toRadians(CAMARA.inclinacion),
-    esfera.radius * CAMARA.margen
+    CesiumMath.toRadians(
+      vertical ? CAMARA.inclinacionVertical : CAMARA.inclinacion
+    ),
+    esfera.radius * (vertical ? CAMARA.margenVertical : CAMARA.margen)
   );
   return { esfera, offset };
 }
@@ -244,10 +277,83 @@ export function deseleccionar() {
   if (viewer) viewer.selectedEntity = undefined;
 }
 
-// --- Capa de campos (Fase 2) -------------------------------------------------
+// --- Registro de capas -------------------------------------------------------
 
-/** @type {CustomDataSource | null} */
-let capaCampos = null;
+/** Capas por nombre, para poder encenderlas y apagarlas. */
+const capas = new Map();
+
+/**
+ * Visibilidad que el usuario ha pedido para cada capa o sector.
+ *
+ * El interruptor de la interfaz existe desde el primer instante, pero la capa
+ * llega por red segundos despues. Sin este registro, apagar una capa mientras
+ * cargaba no hacia nada: la capa aparecia igual y el interruptor mentia.
+ *
+ * @type {Map<string, boolean>}
+ */
+const visibilidadPedida = new Map();
+
+/**
+ * Entidades de cada activo, por capa y por id estable.
+ *
+ * Es lo que permite al buscador y a la tabla volar a un activo sin recorrer
+ * las colecciones de Cesium. Un campo MultiPolygon tiene varias entidades, una
+ * por parte: se guardan todas para encuadrarlo entero.
+ *
+ * @type {Map<string, Map<string, Array<Object>>>}
+ */
+const indice = new Map();
+
+/**
+ * Crea (o reemplaza) una capa con nombre y la registra.
+ *
+ * @param {string} nombre
+ * @param {boolean} [visiblePorDefecto=true] — si nadie ha pedido otra cosa
+ * @returns {CustomDataSource}
+ */
+function nuevaCapa(nombre, visiblePorDefecto = true) {
+  const previa = capas.get(nombre);
+  // Redibujar una capa NO puede volver a encenderla. Pasa al cambiar de idioma
+  // con la toponimia apagada: sin esto, reaparecia sola y el interruptor de la
+  // leyenda se quedaba mintiendo.
+  const visible =
+    visibilidadPedida.get(nombre) ?? previa?.show ?? visiblePorDefecto;
+  if (previa && viewer) viewer.dataSources.remove(previa, true);
+  indice.delete(nombre);
+  const capa = new CustomDataSource(nombre);
+  capa.show = visible;
+  capas.set(nombre, capa);
+  return capa;
+}
+
+/**
+ * Registra una entidad bajo el id de su activo.
+ * @param {string} capa
+ * @param {string | null | undefined} id
+ * @param {Object} entidad
+ */
+function indexar(capa, id, entidad) {
+  if (!id) return;
+  let porId = indice.get(capa);
+  if (!porId) {
+    porId = new Map();
+    indice.set(capa, porId);
+  }
+  porId.set(id, [...(porId.get(id) ?? []), entidad]);
+}
+
+/**
+ * Anota la visibilidad pedida y la aplica si la capa ya existe.
+ * @param {string} nombre
+ * @param {boolean} visible
+ */
+function fijarVisible(nombre, visible) {
+  visibilidadPedida.set(nombre, visible);
+  const capa = capas.get(nombre);
+  if (capa) capa.show = visible;
+}
+
+// --- Capa de campos (Fase 2) -------------------------------------------------
 
 /** @type {((activo: Object | null) => void) | null} */
 let alSeleccionar = null;
@@ -283,6 +389,30 @@ function poligonosDe(geometria) {
 }
 
 /**
+ * Devuelve las lineas de una geometria, cada una como [[lng, lat], ...].
+ * Unifica LineString y MultiLineString, y descarta tramos de menos de dos
+ * vertices, que no son una linea.
+ *
+ * Existe por un fallo real: los 20 rios de Natural Earth llegan como
+ * MultiLineString —un rio con brazos, o cortado por la ventana del mapa— y el
+ * codigo los trataba como LineString. Cesium recibia un array donde esperaba
+ * una longitud, la capa entera fallaba al primer rio y el Orinoco, que da
+ * nombre al proyecto, nunca llego a dibujarse.
+ *
+ * @param {Object} geometria
+ * @returns {Array<Array<Array<number>>>}
+ */
+function lineasDe(geometria) {
+  const lineas =
+    geometria?.type === "LineString"
+      ? [geometria.coordinates]
+      : geometria?.type === "MultiLineString"
+        ? geometria.coordinates
+        : [];
+  return lineas.filter((linea) => Array.isArray(linea) && linea.length >= 2);
+}
+
+/**
  * Dibuja los campos petroliferos y gasiferos. Fase 2.
  *
  * Dos geometrias con significados distintos, y el mapa lo dice:
@@ -293,13 +423,11 @@ function poligonosDe(geometria) {
  * lo es. Ver docs/DATA_SOURCES.md seccion 10.
  *
  * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} campos dibujados
  */
 export function dibujarCampos(featureCollection) {
-  if (!viewer) return;
-
-  if (capaCampos) viewer.dataSources.remove(capaCampos, true);
-  capaCampos = new CustomDataSource("campos");
-
+  if (!viewer) return 0;
+  const capa = nuevaCapa("campos");
   let dibujados = 0;
 
   for (const feature of featureCollection.features) {
@@ -329,7 +457,7 @@ export function dibujarCampos(featureCollection) {
 
     if (feature.geometry.type === "Point") {
       const [lng, lat] = feature.geometry.coordinates;
-      capaCampos.entities.add({
+      const entidad = capa.entities.add({
         ...comun,
         position: Cartesian3.fromDegrees(lng, lat),
         billboard: {
@@ -345,16 +473,17 @@ export function dibujarCampos(featureCollection) {
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
       });
+      indexar("campos", props.id, entidad);
       dibujados += 1;
       continue;
     }
 
     // Polygon o MultiPolygon: una entidad por parte.
-    for (const partes of poligonosDe(feature.geometry)) {
-      const [exterior, ...agujeros] = partes;
+    let partes = 0;
+    for (const [exterior, ...agujeros] of poligonosDe(feature.geometry)) {
       if (!exterior || exterior.length < 4) continue;
 
-      capaCampos.entities.add({
+      const entidad = capa.entities.add({
         ...comun,
         polygon: {
           hierarchy: new PolygonHierarchy(
@@ -386,59 +515,53 @@ export function dibujarCampos(featureCollection) {
           ),
         },
       });
-      dibujados += 1;
+      indexar("campos", props.id, entidad);
+      partes += 1;
     }
+    if (partes > 0) dibujados += 1;
   }
 
-  viewer.dataSources.add(capaCampos);
+  viewer.dataSources.add(capa);
 
-  if (dibujados > PRESUPUESTO.maxEntidadesPorCapa) {
+  if (capa.entities.values.length > PRESUPUESTO.maxEntidadesPorCapa) {
     console.warn(
-      `Capa de campos: ${dibujados} entidades, por encima del presupuesto ` +
-        `(${PRESUPUESTO.maxEntidadesPorCapa}). Ver docs/PERFORMANCE_BUDGET.md.`
+      `Capa de campos: ${capa.entities.values.length} entidades, por encima ` +
+        `del presupuesto (${PRESUPUESTO.maxEntidadesPorCapa}). ` +
+        "Ver docs/PERFORMANCE_BUDGET.md."
     );
   }
 
   return dibujados;
 }
 
-/** Conecta la seleccion de entidades con el callback registrado. */
+/**
+ * Conecta la seleccion de entidades con el callback registrado.
+ *
+ * Solo abren ficha los activos —los tipos de data.js— y las celdas DEMO. Las
+ * fronteras y la caja de la Faja llevan propiedades para trazar su fuente,
+ * pero no son activos: tocarlas abria una ficha de "Instalacion petrolera".
+ * Ahora tocarlas se comporta como tocar el mapa vacio.
+ */
 function conectarSeleccion() {
   if (!viewer) return;
   viewer.selectedEntityChanged.addEventListener((entidad) => {
     if (!alSeleccionar) return;
-    if (!entidad?.properties) {
-      alSeleccionar(null);
-      return;
-    }
     // PropertyBag.getValue exige un instante; los valores son constantes,
     // asi que cualquiera sirve.
-    alSeleccionar(entidad.properties.getValue(JulianDate.now()));
+    const props = entidad?.properties?.getValue(JulianDate.now());
+    const esActivo = Boolean(
+      props && (TIPOS.includes(props.tipo) || props.tipo === "demo")
+    );
+    if (entidad && !esActivo) {
+      // Vuelve a entrar en este manejador con undefined, y eso cierra la ficha.
+      viewer.selectedEntity = undefined;
+      return;
+    }
+    alSeleccionar(esActivo ? props : null);
   });
 }
 
 // --- Capas midstream y downstream (Fase 3) -----------------------------------
-
-/** Capas por sector, para poder encenderlas y apagarlas. */
-const capas = new Map();
-
-/**
- * Crea (o reemplaza) una capa con nombre y la registra.
- * @param {string} nombre
- * @returns {CustomDataSource}
- */
-function nuevaCapa(nombre) {
-  const previa = capas.get(nombre);
-  // Redibujar una capa NO puede volver a encenderla. Pasa al cambiar de idioma
-  // con la toponimia apagada: sin esto, reaparecia sola y el interruptor de la
-  // leyenda se quedaba mintiendo.
-  const visible = previa ? previa.show : true;
-  if (previa && viewer) viewer.dataSources.remove(previa, true);
-  const capa = new CustomDataSource(nombre);
-  capa.show = visible;
-  capas.set(nombre, capa);
-  return capa;
-}
 
 /**
  * Dibuja los ductos como polilineas pegadas al terreno. Fase 3.
@@ -447,6 +570,7 @@ function nuevaCapa(nombre) {
  * operativo de los ductos y fingir que si lo hace seria inventar.
  *
  * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} ductos dibujados
  */
 export function dibujarDuctos(featureCollection) {
   if (!viewer) return 0;
@@ -455,23 +579,26 @@ export function dibujarDuctos(featureCollection) {
 
   for (const feature of featureCollection.features) {
     const props = feature.properties ?? {};
-    const coords = feature.geometry?.coordinates;
-    if (!Array.isArray(coords) || coords.length < 2) continue;
+    const lineas = lineasDe(feature.geometry);
+    if (!lineas.length) continue;
 
     const color = Color.fromCssColorString(
       COLOR_FLUIDO[props.fluido] ?? COLOR_FLUIDO.desconocido
     );
 
-    capa.entities.add({
-      name: props.nombre ?? props.id ?? "",
-      properties: { ...props },
-      polyline: {
-        positions: aPosiciones(coords),
-        width: 2.5,
-        material: color,
-        clampToGround: true,
-      },
-    });
+    for (const linea of lineas) {
+      const entidad = capa.entities.add({
+        name: props.nombre ?? props.id ?? "",
+        properties: { ...props },
+        polyline: {
+          positions: aPosiciones(linea),
+          width: 2.5,
+          material: color,
+          clampToGround: true,
+        },
+      });
+      indexar("ductos", props.id, entidad);
+    }
     n += 1;
   }
 
@@ -484,6 +611,7 @@ export function dibujarDuctos(featureCollection) {
  * tanques. Fase 3.
  *
  * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} instalaciones dibujadas
  */
 export function dibujarDownstream(featureCollection) {
   if (!viewer) return 0;
@@ -502,7 +630,7 @@ export function dibujarDownstream(featureCollection) {
     const destacado = props.tipo === "refineria" || (props.n_tanques ?? 0) > 50;
     const escala = destacado ? 1.25 : 1;
 
-    capa.entities.add({
+    const entidad = capa.entities.add({
       name: props.nombre ?? props.id ?? "",
       properties: { ...props },
       position: Cartesian3.fromDegrees(coords[0], coords[1]),
@@ -516,40 +644,47 @@ export function dibujarDownstream(featureCollection) {
         scaleByDistance: new NearFarScalar(1.0e4, 1.1, 2.5e6, 0.45),
       },
     });
+    indexar("downstream", props.id, entidad);
     n += 1;
   }
 
   viewer.dataSources.add(capa);
+  aplicarSectoresMixtos();
   return n;
 }
 
 /**
+ * Aplica la visibilidad por sector a la capa "downstream", entidad a entidad.
+ *
+ * Esa capa mezcla dos sectores: refinerias, petroquimicas y puertos son
+ * downstream, pero los parques de tanques son midstream. Por eso no basta con
+ * el interruptor de la capa: apagar un sector esconderia activos del otro.
+ */
+function aplicarSectoresMixtos() {
+  const mixta = capas.get("downstream");
+  if (!mixta) return;
+  const ahora = JulianDate.now();
+  for (const entidad of mixta.entities.values) {
+    const tipo = entidad.properties?.tipo?.getValue?.(ahora);
+    const suSector = tipo === "terminal" ? "midstream" : "downstream";
+    entidad.show = visibilidadPedida.get(`sector:${suSector}`) ?? true;
+  }
+}
+
+/**
  * Enciende o apaga una capa por sector.
+ *
+ * Puede llamarse antes de que la capa haya llegado por red: la peticion queda
+ * anotada y se respeta al dibujarla.
+ *
  * @param {"upstream" | "midstream" | "downstream"} sector
  * @param {boolean} visible
  */
 export function alternarCapa(sector, visible) {
-  if (sector === "upstream" && capaCampos) capaCampos.show = visible;
-
-  if (sector === "midstream") {
-    const ductos = capas.get("ductos");
-    if (ductos) ductos.show = visible;
-  }
-
-  // La capa "downstream" mezcla dos sectores: refinerias, petroquimicas y
-  // puertos son downstream, pero los parques de tanques son midstream. Por eso
-  // se controla entidad por entidad y no con el interruptor de la capa: si no,
-  // apagar un sector escondería activos del otro.
-  const mixta = capas.get("downstream");
-  if (mixta) {
-    const ahora = JulianDate.now();
-    for (const entidad of mixta.entities.values) {
-      const tipo = entidad.properties?.tipo?.getValue?.(ahora);
-      const suSector = tipo === "terminal" ? "midstream" : "downstream";
-      if (suSector === sector) entidad.show = visible;
-    }
-  }
-
+  visibilidadPedida.set(`sector:${sector}`, visible);
+  if (sector === "upstream") fijarVisible("campos", visible);
+  if (sector === "midstream") fijarVisible("ductos", visible);
+  aplicarSectoresMixtos();
   viewer?.scene.requestRender();
 }
 
@@ -562,6 +697,7 @@ export function alternarCapa(sector, visible) {
  * no se sabe en que estado esta.
  *
  * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} limites dibujados
  */
 export function dibujarLimites(featureCollection) {
   if (!viewer) return 0;
@@ -570,8 +706,8 @@ export function dibujarLimites(featureCollection) {
 
   for (const feature of featureCollection.features) {
     const props = feature.properties ?? {};
-    const coords = feature.geometry?.coordinates;
-    if (!Array.isArray(coords) || coords.length < 2) continue;
+    const lineas = lineasDe(feature.geometry);
+    if (!lineas.length) continue;
 
     const esPais = props.nivel === "pais";
     const esDisputa = props.nivel === "disputa";
@@ -588,16 +724,18 @@ export function dibujarLimites(featureCollection) {
           esPais ? COLOR_LIMITE.pais : COLOR_LIMITE.estado
         ).withAlpha(esPais ? 0.85 : 0.5);
 
-    capa.entities.add({
-      name: props.nombre ?? "",
-      properties: { ...props },
-      polyline: {
-        positions: aPosiciones(coords),
-        width: esDisputa ? 2.5 : esPais ? 2.5 : 1.2,
-        material,
-        clampToGround: true,
-      },
-    });
+    for (const linea of lineas) {
+      capa.entities.add({
+        name: props.nombre ?? "",
+        properties: { ...props },
+        polyline: {
+          positions: aPosiciones(linea),
+          width: esDisputa ? 2.5 : esPais ? 2.5 : 1.2,
+          material,
+          clampToGround: true,
+        },
+      });
+    }
     n += 1;
   }
 
@@ -625,23 +763,25 @@ export function dibujarZonaDisputada(featureCollection) {
 
   for (const feature of featureCollection.features) {
     const props = feature.properties ?? {};
-    const coords = feature.geometry?.coordinates;
-    if (!Array.isArray(coords) || coords.length < 2) continue;
+    const lineas = lineasDe(feature.geometry);
+    if (!lineas.length) continue;
 
-    capa.entities.add({
-      name: props.nombre ?? "",
-      properties: { ...props },
-      polyline: {
-        positions: aPosiciones(coords),
-        width: 2.5,
-        // Discontinua: convencion cartografica para "limite no acordado".
-        material: new PolylineDashMaterialProperty({
-          color: Color.fromCssColorString(COLOR_LIMITE.disputa).withAlpha(0.9),
-          dashLength: 22,
-        }),
-        clampToGround: true,
-      },
-    });
+    for (const linea of lineas) {
+      capa.entities.add({
+        name: props.nombre ?? "",
+        properties: { ...props },
+        polyline: {
+          positions: aPosiciones(linea),
+          width: 2.5,
+          // Discontinua: convencion cartografica para "limite no acordado".
+          material: new PolylineDashMaterialProperty({
+            color: Color.fromCssColorString(COLOR_LIMITE.disputa).withAlpha(0.9),
+            dashLength: 22,
+          }),
+          clampToGround: true,
+        },
+      });
+    }
     n += 1;
   }
 
@@ -687,12 +827,14 @@ export function dibujarReferenciaFaja() {
 
 /**
  * Enciende o apaga una capa de contexto por nombre.
- * @param {"limites" | "disputa" | "faja" | "toponimia" | "hidrografia"} nombre
+ *
+ * Como `alternarCapa`, admite llamarse antes de que la capa exista.
+ *
+ * @param {"limites" | "disputa" | "faja" | "toponimia" | "hidrografia" | "centrales"} nombre
  * @param {boolean} visible
  */
 export function alternarContexto(nombre, visible) {
-  const capa = capas.get(nombre);
-  if (capa) capa.show = visible;
+  fijarVisible(nombre, visible);
   viewer?.scene.requestRender();
 }
 
@@ -889,26 +1031,29 @@ export function dibujarHidrografia(featureCollection, lang = "es") {
     const texto = nombreSegunIdioma(props, lang);
 
     if (props.clase === "rio") {
-      const coords = geometria.coordinates;
-      if (!Array.isArray(coords) || coords.length < 2) continue;
+      const lineas = lineasDe(geometria);
+      if (!lineas.length) continue;
 
-      capa.entities.add({
-        name: texto,
-        polyline: {
-          positions: aPosiciones(coords),
-          // Mas ancho y mas translucido que un ducto: asi el agua se lee como
-          // agua y no como infraestructura. Ver COLOR_AGUA en config.js.
-          width: 3,
-          material: Color.fromCssColorString(COLOR_AGUA.rio).withAlpha(0.55),
-          clampToGround: true,
-        },
-      });
+      for (const linea of lineas) {
+        capa.entities.add({
+          name: texto,
+          polyline: {
+            positions: aPosiciones(linea),
+            // Mas ancho y mas translucido que un ducto: asi el agua se lee
+            // como agua y no como infraestructura. Ver COLOR_AGUA en config.js.
+            width: 3,
+            material: Color.fromCssColorString(COLOR_AGUA.rio).withAlpha(0.55),
+            clampToGround: true,
+          },
+        });
+      }
 
-      // El nombre va en el vertice central, que es lo mas parecido a "sobre el
-      // rio" que se puede hacer sin texto curvado. Los dos rios que la fuente
-      // deja sin nombre se dibujan igual: la linea informa aunque no se pueda
-      // rotular, y no se les inventa uno.
-      const medio = coords[Math.floor(coords.length / 2)];
+      // El nombre va en el vertice central del tramo mas largo, que es lo mas
+      // parecido a "sobre el rio" que se puede hacer sin texto curvado. Los
+      // dos rios que la fuente deja sin nombre se dibujan igual: la linea
+      // informa aunque no se pueda rotular, y no se les inventa uno.
+      const principal = lineas.reduce((a, b) => (b.length > a.length ? b : a));
+      const medio = principal[Math.floor(principal.length / 2)];
       rotular(texto, medio[0], medio[1]);
       n += 1;
       continue;
@@ -942,6 +1087,104 @@ export function dibujarHidrografia(featureCollection, lang = "es") {
 
   viewer.dataSources.add(capa);
   return n;
+}
+
+// --- Centrales electricas ----------------------------------------------------
+
+/**
+ * Dibuja las centrales electricas.
+ *
+ * El tamano del simbolo dice la capacidad instalada, como en los mapas de
+ * referencia: Guri (8.851 MW) tiene que verse distinto de una termica de
+ * 20 MW, porque esa diferencia ES el dato.
+ *
+ * Nace apagada. No es cadena de hidrocarburos (ADR-013): es contexto que se
+ * pide, no ruido que se aparta. Un mapa que ya tiene 97 instalaciones y 105
+ * campos no necesita 43 simbolos mas por defecto.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} centrales dibujadas
+ */
+export function dibujarCentrales(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("centrales", false);
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) continue;
+
+    const clase = props.clase ?? "otro";
+    const cssColor = COLOR_CENTRAL[clase] ?? COLOR_CENTRAL.otro;
+
+    // Raiz cuadrada, no proporcion directa: Guri es 440 veces la central mas
+    // pequena y en lineal una de las dos seria invisible. Sin capacidad
+    // declarada se usa el tamano minimo, que es lo honesto: no se supone.
+    const mw = props.capacidad_mw ?? 0;
+    const fraccion = Math.min(1, Math.sqrt(mw / ESCALA_CENTRAL.referenciaMw));
+    const escala =
+      ESCALA_CENTRAL.minima +
+      (ESCALA_CENTRAL.maxima - ESCALA_CENTRAL.minima) * fraccion;
+
+    const entidad = capa.entities.add({
+      name: props.nombre ?? props.id ?? "",
+      properties: { ...props },
+      position: Cartesian3.fromDegrees(coords[0], coords[1]),
+      billboard: {
+        image: icono(clase, cssColor),
+        width: TAMANO_ICONO * escala,
+        height: TAMANO_ICONO * escala,
+        heightReference: HeightReference.CLAMP_TO_GROUND,
+        verticalOrigin: VerticalOrigin.BOTTOM,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        scaleByDistance: new NearFarScalar(1.0e4, 1.1, 2.5e6, 0.45),
+      },
+    });
+    indexar("centrales", props.id, entidad);
+    n += 1;
+  }
+
+  viewer.dataSources.add(capa);
+  return n;
+}
+
+// --- Navegacion a un activo --------------------------------------------------
+
+/**
+ * Vuela hasta un activo y lo selecciona, lo que abre su ficha.
+ *
+ * Lo usan el buscador y la tabla. Un punto no tiene extension: sin distancia
+ * explicita Cesium se acerca a 100 m, su minimo, y el simbolo llena la
+ * pantalla sin ningun contexto. Los poligonos y las lineas se encuadran
+ * enteros, con todas sus partes.
+ *
+ * Quien llama es responsable de que la capa este encendida: volar a una
+ * entidad oculta no encuadra nada.
+ *
+ * @param {string} capa — "campos", "ductos", "downstream" o "centrales"
+ * @param {string | Array<string>} ids — id estable del activo, o varios
+ * @returns {boolean} si habia algo a lo que volar
+ */
+export function volarAActivo(capa, ids) {
+  if (!viewer) return false;
+  const porId = indice.get(capa);
+  const entidades = [ids]
+    .flat()
+    .flatMap((id) => porId?.get(id) ?? []);
+  if (!entidades.length) return false;
+
+  const puntual = !entidades[0].polygon && !entidades[0].polyline;
+  viewer.flyTo(entidades, {
+    duration: CAMARA.duracionVueloActivo,
+    offset: new HeadingPitchRange(
+      0,
+      CesiumMath.toRadians(CAMARA.inclinacionActivo),
+      puntual ? CAMARA.distanciaActivoPuntual : 0
+    ),
+  });
+  viewer.selectedEntity = entidades[0];
+  return true;
 }
 
 // --- Capa demostrativa (Fase 5) ----------------------------------------------

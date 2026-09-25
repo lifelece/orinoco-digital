@@ -98,6 +98,18 @@ export async function getHidrografia() {
 }
 
 /**
+ * Centrales electricas: hidroelectricas y termicas. Contexto energetico.
+ *
+ * No son cadena de hidrocarburos y por eso viajan aparte, pero explican a
+ * donde va buena parte del gas del pais. Ver docs/DECISIONS.md -> ADR-013.
+ *
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getCentrales() {
+  return cargarGeoJSON(RUTAS_DATOS.centrales);
+}
+
+/**
  * Grid de probabilidad del modelo DEMO. Fase 5.
  *
  * ATENCION: la capa que consume esto DEBE mostrar el banner DEMO.

@@ -1,0 +1,29 @@
+# Adelanto de M12 (Notion, *Funcionalidad v2* §5 y §7). Ver ADR-015.
+# Al etiquetar v1.0: anadir `version` y `date-released`. Si se archiva en
+# Zenodo, anadir el DOI en `identifiers`. No se rellenan antes: serian datos
+# inventados.
+cff-version: 1.2.0
+message: >-
+  Si usas Orinoco Digital en un trabajo, citalo con estos metadatos. Los datos
+  de terceros se citan ademas en su fuente original: ver docs/DATA_SOURCES.md
+  y LICENSE-DATA.
+type: software
+title: "Orinoco Digital"
+abstract: >-
+  Gemelo digital 3D open-source de la industria petrolera y gasifera de
+  Venezuela (Faja Petrolifera del Orinoco, midstream y downstream) sobre
+  terreno topografico real, con datos publicos trazables y un modulo de IA
+  claramente etiquetado como demostrativo.
+authors:
+  - given-names: "Luis Carlos"
+    family-names: "Vasquez"
+repository-code: "https://github.com/lifelece/orinoco-digital"
+url: "https://orinoco-digital.vercel.app"
+license: Apache-2.0
+keywords:
+  - Venezuela
+  - Faja Petrolifera del Orinoco
+  - digital twin
+  - CesiumJS
+  - GeoJSON
+  - open data

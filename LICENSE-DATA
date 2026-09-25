@@ -26,6 +26,10 @@ origen**. Algunas imponen obligaciones distintas y, en un caso, contagiosas:
 | OpenStreetMap | **ODbL 1.0** | Atribucion + **share-alike sobre bases de datos derivadas** |
 | U.S. Geological Survey | Dominio publico | Ninguna (cita recomendada) |
 | Global Energy Monitor | CC BY con condiciones | Atribucion visible con version |
+| World Resources Institute — Global Power Plant Database v1.3.0 | CC BY 4.0 | Atribucion |
+| geoBoundaries — frontera nacional (ADM0, origen Natural Earth) | Dominio publico | Ninguna (cita recomendada) |
+| geoBoundaries — estados (ADM1, origen OCHA Venezuela / INE) | CC BY 3.0 IGO | Atribucion e indicacion de cambios (geometria simplificada) |
+| Natural Earth | Dominio publico | Ninguna (cita recomendada) |
 | VIIRS Nightfire / EOG | Libre con cita exigida | Cita especifica literal |
 | Copernicus / Sentinel | Licencia Copernicus | Segun sus terminos |
 | Cesium World Terrain | Terminos de Cesium ion | Creditos en pantalla, no ocultables |

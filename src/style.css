@@ -1,13 +1,69 @@
 @import "tailwindcss";
 
+/*
+ * Tokens de diseno. Direccion estetica: instrumento tecnico oscuro, no folleto.
+ * Origen: Notion "Mejora v2", seccion 1.2. Ver docs/DECISIONS.md -> ADR-014.
+ *
+ * Viven en @theme para que Tailwind genere las utilidades (bg-shell, text-hi,
+ * border-trazo, accent-crudo...) y el HTML de ui.js siga siendo solo clases.
+ *
+ * Los colores de los ELEMENTOS DEL MAPA no estan aqui sino en config.js: son
+ * los que pinta Cesium, y la leyenda tiene que coincidir con ellos al pixel.
+ */
+@theme {
+  --color-shell: #0b0f14;
+  --color-elev: #141a21;
+  --color-trazo: #1f2a35;
+  --color-hi: #e6edf3;
+  --color-lo: #8b98a5;
+  --color-crudo: #f2a33c;
+  --color-gas: #4cc9f0;
+  --color-refino: #b388ff;
+  --color-activo: #3fb950;
+  --color-alerta: #f85149;
+
+  /* Sin fuentes web: cada KB cuenta en una red movil venezolana, y la pila del
+     sistema ya da una monoespaciada digna en todas las plataformas. Los numeros
+     van en mono: es lo que hace que la ficha se lea como instrumento. */
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Roboto Mono",
+    Menlo, Consolas, monospace;
+
+  --animate-entrar: entrar-lateral 180ms ease-out;
+  --animate-subir: entrar-inferior 180ms ease-out;
+  --animate-indeterminada: barra-indeterminada 1.4s ease-in-out infinite;
+
+  @keyframes entrar-lateral {
+    from {
+      opacity: 0;
+      transform: translateX(12px);
+    }
+  }
+  @keyframes entrar-inferior {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+  @keyframes barra-indeterminada {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(300%);
+    }
+  }
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
-  background: #0f172a;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--color-shell);
+  color: var(--color-hi);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #cesiumContainer {
@@ -17,11 +73,43 @@ body {
   height: 100%;
 }
 
+/* OJO con la especificidad: widgets.css de Cesium se importa DESPUES que este
+   archivo (lo trae map.js) y usa los mismos selectores, asi que a igualdad gana
+   el. Por eso estas reglas cuelgan del id del contenedor. Sin el id, el
+   indicador de seleccion seguia verde: se vio en captura, no leyendo el CSS. */
+
 /* La atribucion de Cesium y de los proveedores de terreno es obligatoria por
-   licencia. Se reposiciona para que no estorbe en movil, nunca se oculta. */
-.cesium-widget-credits {
+   licencia. Se armoniza con la paleta, nunca se oculta ni se encoge el logo. */
+#cesiumContainer .cesium-widget-credits {
   font-size: 10px;
-  opacity: 0.75;
+  color: var(--color-lo);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+#cesiumContainer .cesium-widget-credits a {
+  color: var(--color-lo);
+}
+
+/* El indicador de seleccion de Cesium es verde neon de 2013. Se conserva
+   —decir que esta seleccionado es util— pero con los colores del proyecto. */
+#cesiumContainer .cesium-selection-wrapper svg {
+  fill: var(--color-hi);
+  stroke: var(--color-shell);
+  stroke-width: 1.5px;
+}
+
+/* El atributo hidden tiene que ganar siempre: ui.js esconde nodos que llevan
+   clases de display (flex, grid, inline-flex) y sin esto seguirian en pantalla. */
+[hidden] {
+  display: none !important;
+}
+
+/* Foco visible en todo lo interactivo, un solo estilo para todo el shell. En
+   la capa base, para que una utilidad concreta pueda sustituirlo si hace falta. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-gas);
+    outline-offset: 2px;
+  }
 }
 
 /* Respeta a quien pidio menos movimiento en su sistema. */
@@ -30,6 +118,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

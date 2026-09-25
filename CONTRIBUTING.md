@@ -5,14 +5,16 @@ vale mas que el primero.
 
 ## 1. Correcciones de datos (lo mas valioso)
 
-Si un pozo esta mal ubicado, una refineria cerro, una cifra cambio o una fuente
-quedo obsoleta: **abre un issue o un PR**.
+Si un campo esta mal ubicado, una refineria cerro, una cifra cambio o una fuente
+quedo obsoleta: **abre un issue o un PR**. La forma mas facil es la plantilla
+[Reportar dato incorrecto](https://github.com/lifelece/orinoco-digital/issues/new?template=dato-incorrecto.yml),
+que no exige saber programar.
 
 Requisito unico e innegociable: **la correccion viene con fuente**.
 
 Un buen issue de datos incluye:
 
-- Que registro esta mal (su `id`).
+- Que registro esta mal: su nombre, o su `id` si lo conoces.
 - Que dice ahora y que deberia decir.
 - **La fuente** — enlace, documento o dataset, con su fecha.
 - Si son coordenadas: en que CRS estan. Si no lo sabes, dilo; es mejor que
