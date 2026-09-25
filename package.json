@@ -10,6 +10,7 @@
     "dev:host": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
+    "test": "node --import ./test/entorno.mjs --test \"test/**/*.test.mjs\"",
     "data:gem": "node scripts/gem-to-geojson.mjs",
     "data:validate": "node scripts/validate-geojson.mjs",
     "data:osm": "node scripts/osm-to-geojson.mjs",

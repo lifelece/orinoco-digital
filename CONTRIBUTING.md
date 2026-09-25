@@ -51,7 +51,7 @@ todo texto visible por `t(clave)`.
 
 Antes de abrir el PR:
 
-1. `npm run build` pasa.
+1. `npm run build` y `npm test` pasan.
 2. Funciona en escritorio.
 3. Funciona **en un telefono real**, con **DevTools cerrado**.
 4. La consola esta limpia.

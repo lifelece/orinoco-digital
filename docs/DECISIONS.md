@@ -435,3 +435,52 @@ hacer push.
 
 **Cuando reconsiderar:** cuando llegue M9 (pipeline con cron), este workflow se
 integra en el suyo en vez de duplicarse.
+
+---
+
+## ADR-016 — Tests con `node:test`, sin dependencias
+
+**Fecha:** 2026-09-25 · **Estado:** propuesta, pendiente de revision del autor
+
+**Contexto.** La auditoria de septiembre (P5) dejo el proyecto sin tests ni CI
+de codigo, y su seccion 6 explica por que importa: los tres errores criticos
+que llegaron a `main` parecian correctos leidos y ninguna comprobacion
+automatica los podia ver. ADR-015 puso el validador de datos en CI; el codigo
+seguia sin nada.
+
+**Decision.**
+
+1. **`node --test`**, el runner nativo de Node, con `node:assert`. Cero
+   dependencias en `package.json` (regla 7). Script: `npm test`.
+2. **Que se prueba ahora** (22 tests en `test/`):
+   - `data.js`: `hidrocarburoDe` (el caso "oil and gas"), el filtrado de
+     `validarFeatureCollection` —incluidas geometrias `Multi*`, la causa de
+     C2—, `normalizarActivo` sin inventar valores y `tieneProcedencia`.
+   - Diccionarios: `es.json` y `en.json` con las mismas claves, sin valores
+     vacios, y toda clave literal `t("...")` del codigo definida (regla 9).
+   - Toda ruta de `RUTAS_DATOS` existe en `public/data` (el 404 de I1).
+   - `validate-geojson.mjs`: pasa con los datos reales y **falla** sin
+     `fuente`, fuera de Venezuela, con fecha o catalogos invalidos y con JSON
+     roto. Para sembrar datos malos sin tocar `public/data`, el validador
+     acepta ahora un directorio opcional como argumento.
+3. **`import.meta.env` en Node.** `config.js` lo lee y en Node no existe. En
+   vez de cambiar codigo de produccion, `test/entorno.mjs` registra un hook
+   (`module.registerHooks`, Node 22.15+) que lo sustituye por `{}` solo al
+   cargar `config.js`. El bundle no cambia.
+4. **`.github/workflows/tests.yml`**: `npm test` en cada push y PR, Node 24,
+   sin `npm install`.
+
+**Lo que NO cubre, y por que.** Las dos piezas donde vivieron los errores
+criticos no son testeables sin cambiar la estructura de modulos:
+
+- El historial de vistas (C1, C6) vive dentro de `ui.js`, que al importarse
+  toca el DOM y `window`.
+- `lineasDe()` (C2) vive en `map.js`, que importa `cesium`.
+
+Sacar esa logica pura a modulos propios es exactamente la decision C3 de
+`docs/NOTION.md` (dividir `ui.js` y `map.js`), que requiere aprobacion. Cuando
+se tome, sus tests son lo primero que hay que escribir.
+
+**Verificado.** 22 de 22 en local (Node 24.14). Prueba de mutacion: quitar la
+comprobacion del caso mixto en `hidrocarburoDe` hace fallar su test. El
+workflow no se ha ejecutado en GitHub: eso ocurre al hacer push.

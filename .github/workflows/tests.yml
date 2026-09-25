@@ -1,0 +1,27 @@
+# P5 de la auditoria de septiembre y parte de M8 (Notion, *Funcionalidad v2*):
+# tests con node:test, sin dependencias. Ver docs/DECISIONS.md -> ADR-016.
+#
+# Como validar-datos.yml, no hace `npm install`: los tests solo importan
+# modulos sin dependencias (data.js, config.js) y los diccionarios.
+# test/entorno.mjs usa module.registerHooks, que pide Node 22.15 o superior.
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Tests (data.js, i18n, rutas de datos, validador)
+        run: npm test

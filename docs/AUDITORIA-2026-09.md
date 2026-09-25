@@ -64,7 +64,7 @@ el metodo, no solo en el codigo: ver la seccion 6.
 | P2 | El presupuesto dice "1 capa al inicio" y se cargan 8, mas el grid DEMO (715 KB) aunque la capa DEMO nace apagada | Toca el flujo de la garantia DEMO: merece ADR | Pedir el grid al encender la capa; diferir el contexto |
 | P3 | Cesium (1,13 MB gzip) va antes que cualquier interfaz | Cambia el arranque | `import()` dinamico de `map.js` despues de montar el shell |
 | P4 | `ui.js` ronda las 1.100 lineas | Cambiar la estructura de modulos requiere aprobacion | Dividir en capas, ficha, buscador y tabla |
-| P5 | Sin tests ni CI | Infraestructura nueva | `node --test` (sin dependencias) para `data.js` y el historial; `validate-geojson` en GitHub Actions. Es M8 de Notion |
+| P5 | Sin tests ni CI | **Hecho en parte** (2026-09-25, ADR-016): 22 tests con `node:test` y workflow `tests.yml` | Falta el historial de `ui.js` y `lineasDe` de `map.js`: requieren la decision C3 |
 | P6 | Sin Content-Security-Policy | Cesium ion usa varios dominios y romper produccion es facil | CSP en modo `Report-Only` primero |
 | P7 | Codigo muerto: `SECTORES`, `VISTA_FAJA`, `VACIA`, `SUPABASE_*`, `usarClustering` | Algunos son marcadores deliberados | Borrar lo de la Fase 4 (saltada) y el clustering que nunca se uso |
 | P8 | Datum de WRI | No lo publica ninguna fuente primaria | Preguntar a WRI o aceptar `baja` como definitivo |
