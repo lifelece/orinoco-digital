@@ -27,6 +27,16 @@ const FECHA = "2026-09-08";
 /** Sustancias que SI son de nuestro sector. */
 const SUSTANCIAS_VALIDAS = ["oil", "gas", "hydrocarbons", "fuel"];
 
+/**
+ * Evidencia de hidrocarburos para ductos y tanques: su etiqueta
+ * `substance`/`content` declara literalmente que transportan o almacenan. Un
+ * acueducto (`substance=water`) o un tanque de aguas servidas
+ * (`substance=sewage`) no pasan este filtro.
+ */
+export function esSustanciaHidrocarburo(sustancia) {
+  return SUSTANCIAS_VALIDAS.includes(sustancia);
+}
+
 /** Radio de agrupacion de tanques, en grados (~1,5 km en esta latitud). */
 const RADIO_AGRUPACION = 0.0135;
 
@@ -66,7 +76,7 @@ async function construirDuctos() {
       descartes.sinSustancia += 1;
       continue;
     }
-    if (!SUSTANCIAS_VALIDAS.includes(sustancia)) {
+    if (!esSustanciaHidrocarburo(sustancia)) {
       descartes.agua += 1;
       continue;
     }
@@ -127,15 +137,121 @@ function clasificar(tags) {
   return "instalacion";
 }
 
+// --- Relevancia: solo entra lo que tenga evidencia de hidrocarburos --------
+//
+// Motivo de esta seccion: "Velas 3N, CA", una fabrica de velas de Ciudad
+// Bolivar (`man_made=works`, `product=candles;cleaners`), pasaba el filtro
+// anterior —que solo excluia centrales electricas y zonas francas— y se
+// mostraba en produccion como "Instalación petrolera" (`tipo.instalacion` en
+// src/i18n/es.json) por el simple hecho de tener nombre. La segunda consulta
+// Overpass (`osm-refinerias-2.json`, ver docs/DATA_SOURCES.md seccion 11) trae
+// TODO `man_made=works` de Venezuela para no perderse activos de PDVSA sin
+// `industrial=oil`, y eso incluyo tambien fabricas de comida, hielo, ladrillos,
+// muebles, cauchos, etc. Revisado el 2026-09-29: ver seccion 8 del registro.
+
+/**
+ * Vocabulario que demuestra, por si solo, que un activo es de petroleo, gas o
+ * sus derivados. Se busca en `product`, `substance` y `refinery` — las
+ * etiquetas OSM de "que produce o transporta".
+ *
+ * NO incluye "asfalto"/"asphalt": es un derivado real del petroleo, pero en
+ * OSM la etiqueta la usan igual las refinerias que las empresas de
+ * pavimentacion vial (ver "Construcciones y Asfaltos Orientales C.A." en el
+ * registro de dudosos, seccion 11). Sin poder distinguir un caso del otro
+ * desde la etiqueta, `product=Asphalt` queda FUERA por defecto en vez de
+ * decidirse aqui.
+ */
+const TERMINOS_PRODUCTO_HIDROCARBUROS = [
+  "petroleo", "petroleum", "petrolero", "petrolera",
+  "crudo", "oil",
+  "combustible", "combustibles", "fuel",
+  "gasolina", "gasoline",
+  "diesel", "diésel",
+  "glp", "lpg",
+  "lubricante", "lubricantes", "lubricant",
+  "petroquimic", "petrochemical",
+  "hidrocarburo", "hidrocarburos", "hydrocarbon",
+];
+
+/** Valores de la etiqueta `industrial` que por si solos son evidencia. */
+const VALORES_INDUSTRIAL_HIDROCARBUROS = ["oil", "refinery", "petroleum", "gas", "fuel"];
+
+/**
+ * Nombre u operador que por si solo demuestra pertenencia al sector: PDVSA (en
+ * cualquier mayuscula/minuscula), o las raices "petro" (petroleo,
+ * petroquimica, PETROCEDEÑO...) y "refin" (refineria, refinacion, refiner...).
+ */
+const RE_NOMBRE_OPERADOR_HIDROCARBUROS = /pdvsa|petro|refin/;
+
+/**
+ * "gas" cuenta SOLO como palabra completa. Sin el limite de palabra,
+ * "gaseosa" (un refresco — literalmente aparece como `product=food` en esta
+ * misma descarga) calificaria como instalacion de gas.
+ */
+const RE_GAS_PALABRA_COMPLETA = /\bgas\b/;
+
+/** Minusculas y sin tildes, para comparar sin depender de como se escribio. */
+function normalizar(texto) {
+  return (texto ?? "")
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+}
+
+/**
+ * Evidencia explicita de que un activo pertenece a la cadena de
+ * hidrocarburos. Regla del proyecto (CLAUDE.md #2 y #8): sin evidencia no
+ * entra. La AUSENCIA de una etiqueta reconocida no es evidencia de lo
+ * contrario, asi que los casos ambiguos no se fuerzan a "false": simplemente
+ * no encuentran ningun criterio que los haga pasar.
+ */
+function tieneEvidenciaHidrocarburos(tags) {
+  const producto = normalizar(
+    [tags.product, tags.substance, tags.refinery].filter(Boolean).join(" ")
+  );
+  if (TERMINOS_PRODUCTO_HIDROCARBUROS.some((t) => producto.includes(t))) return true;
+  if (RE_GAS_PALABRA_COMPLETA.test(producto)) return true;
+
+  if (VALORES_INDUSTRIAL_HIDROCARBUROS.includes(tags.industrial)) return true;
+
+  const nombreOperador = normalizar([tags.name, tags.operator].filter(Boolean).join(" "));
+  if (RE_NOMBRE_OPERADOR_HIDROCARBUROS.test(nombreOperador)) return true;
+  if (RE_GAS_PALABRA_COMPLETA.test(nombreOperador)) return true;
+
+  return false;
+}
+
 /**
  * Se excluyen centrales electricas y zonas francas: estan etiquetadas como
- * industria pero no son parte de la cadena de hidrocarburos. Incluirlas
- * inflaria la capa con activos que no lo son.
+ * industria pero no son parte de la cadena de hidrocarburos, y ninguna trae
+ * un `product`/`substance` que las delate por si solas via
+ * `tieneEvidenciaHidrocarburos`. Se comprueban aparte porque son exclusiones,
+ * no falta de evidencia.
  */
-function esRelevante(tags) {
-  if (tags.power === "plant" || tags.power === "generator") return false;
-  if (/zona franca/i.test(tags.name ?? "")) return false;
-  return true;
+function esExclusionExplicita(tags) {
+  if (tags.power === "plant" || tags.power === "generator") return true;
+  if (/zona franca/i.test(tags.name ?? "")) return true;
+  return false;
+}
+
+/**
+ * Puerta de entrada de la capa downstream: hace falta evidencia de
+ * hidrocarburos Y no estar en la lista de exclusiones explicitas.
+ *
+ * Deja fuera, a proposito y sin decidir por Luis, dos tipos de caso DUDOSO que
+ * no hay que confundir con "basura descartada":
+ *   - Puertos genericos (`industrial=port` sin mas etiquetas): un puerto
+ *     puede mover crudo o puede mover mineral de hierro, y la etiqueta no lo
+ *     dice. Ver "Puerto de Palua" (`cargo=dry_bulk`, ni rastro de petroleo)
+ *     en el registro de dudosos, seccion 11.
+ *   - `product=Asphalt` sin operador/nombre que lo respalde (ver arriba).
+ * Ambos quedan listados en docs/DATA_SOURCES.md seccion 11 para que Luis
+ * decida con una regla propia si hace falta.
+ */
+export function esRelevante(tags) {
+  if (esExclusionExplicita(tags)) return false;
+  return tieneEvidenciaHidrocarburos(tags);
 }
 
 async function construirDownstream() {
@@ -148,6 +264,9 @@ async function construirDownstream() {
   const vistos = new Set();
   const features = [];
   const descartes = { noRelevante: 0, sinNombre: 0, sinPosicion: 0, duplicado: 0 };
+  // Detalle de lo descartado por falta de evidencia, para que quede en el log
+  // de la conversion y se pueda auditar sin ir a leer data/raw a mano.
+  const noRelevantesDetalle = [];
 
   for (const datos of fuentes) {
     for (const e of datos.elements) {
@@ -164,6 +283,11 @@ async function construirDownstream() {
 
       if (!esRelevante(tags)) {
         descartes.noRelevante += 1;
+        if (tags.name) {
+          noRelevantesDetalle.push(
+            `${tags.name} (product=${tags.product ?? "—"}, industrial=${tags.industrial ?? "—"})`
+          );
+        }
         continue;
       }
       // Una instalacion sin nombre no es identificable ni verificable.
@@ -204,7 +328,7 @@ async function construirDownstream() {
     }
   }
 
-  return { features, descartes };
+  return { features, descartes, noRelevantesDetalle };
 }
 
 // --- 3. Tanques agrupados en terminales --------------------------------------
@@ -231,7 +355,7 @@ async function construirTerminales() {
       descartes.sinContenido += 1;
       continue;
     }
-    if (!SUSTANCIAS_VALIDAS.includes(contenido)) {
+    if (!esSustanciaHidrocarburo(contenido)) {
       descartes.agua += 1;
       continue;
     }
@@ -320,57 +444,72 @@ async function construirTerminales() {
 }
 
 // --- Ejecucion ---------------------------------------------------------------
+//
+// Envuelta en main() y protegida por el chequeo de mas abajo para que un test
+// pueda importar las funciones puras de este archivo (esRelevante,
+// esSustanciaHidrocarburo) sin disparar lectura de data/raw ni escritura en
+// public/data como efecto secundario de la importacion.
 
-console.log("Convirtiendo OpenStreetMap a GeoJSON (licencia ODbL)\n");
+async function main() {
+  console.log("Convirtiendo OpenStreetMap a GeoJSON (licencia ODbL)\n");
 
-const ductos = await construirDuctos();
-console.log("Ductos:");
-console.log(`  escritos: ${ductos.features.length}`);
-console.log(`  descartados por ser agua o alcantarillado: ${ductos.descartes.agua}`);
-console.log(`  descartados sin sustancia declarada: ${ductos.descartes.sinSustancia}`);
-console.log(`  descartados sin geometria: ${ductos.descartes.sinGeometria}`);
+  const ductos = await construirDuctos();
+  console.log("Ductos:");
+  console.log(`  escritos: ${ductos.features.length}`);
+  console.log(`  descartados por ser agua o alcantarillado: ${ductos.descartes.agua}`);
+  console.log(`  descartados sin sustancia declarada: ${ductos.descartes.sinSustancia}`);
+  console.log(`  descartados sin geometria: ${ductos.descartes.sinGeometria}`);
 
-const downstream = await construirDownstream();
-const terminales = await construirTerminales();
+  const downstream = await construirDownstream();
+  const terminales = await construirTerminales();
 
-console.log("\nInstalaciones:");
-console.log(`  escritas: ${downstream.features.length}`);
-console.log(`  descartadas por no ser del sector: ${downstream.descartes.noRelevante}`);
-console.log(`  descartadas sin nombre: ${downstream.descartes.sinNombre}`);
-const porTipo = {};
-for (const f of downstream.features) {
-  porTipo[f.properties.tipo] = (porTipo[f.properties.tipo] ?? 0) + 1;
+  console.log("\nInstalaciones:");
+  console.log(`  escritas: ${downstream.features.length}`);
+  console.log(`  descartadas por no tener evidencia de hidrocarburos: ${downstream.descartes.noRelevante}`);
+  console.log(`  descartadas sin nombre: ${downstream.descartes.sinNombre}`);
+  const porTipo = {};
+  for (const f of downstream.features) {
+    porTipo[f.properties.tipo] = (porTipo[f.properties.tipo] ?? 0) + 1;
+  }
+  console.log(`  por tipo: ${JSON.stringify(porTipo)}`);
+  if (downstream.noRelevantesDetalle.length) {
+    console.log("  detalle de lo descartado por falta de evidencia:");
+    for (const linea of downstream.noRelevantesDetalle) console.log(`    - ${linea}`);
+  }
+
+  console.log("\nTanques agrupados:");
+  console.log(`  tanques de hidrocarburos: ${terminales.totalTanques}`);
+  console.log(`  descartados por ser de agua: ${terminales.descartes.agua}`);
+  console.log(`  descartados sin contenido declarado: ${terminales.descartes.sinContenido}`);
+  console.log(`  parques de tanques resultantes: ${terminales.features.length}`);
+
+  await mkdir(SALIDA, { recursive: true });
+
+  await writeFile(
+    join(SALIDA, "ductos-osm.geojson"),
+    JSON.stringify({ type: "FeatureCollection", features: ductos.features }, null, 2)
+  );
+  await writeFile(
+    join(SALIDA, "downstream-osm.geojson"),
+    JSON.stringify(
+      {
+        type: "FeatureCollection",
+        features: [...downstream.features, ...terminales.features],
+      },
+      null,
+      2
+    )
+  );
+
+  const peso = async (n) => Math.round((await readFile(join(SALIDA, n))).length / 1024);
+  console.log(`\nGenerado ductos-osm.geojson      ${await peso("ductos-osm.geojson")} KB`);
+  console.log(`Generado downstream-osm.geojson  ${await peso("downstream-osm.geojson")} KB`);
+  console.log(
+    "\nRecordatorio ODbL: estas capas van separadas y deben citar " +
+      '"© OpenStreetMap contributors" en la interfaz.'
+  );
 }
-console.log(`  por tipo: ${JSON.stringify(porTipo)}`);
 
-console.log("\nTanques agrupados:");
-console.log(`  tanques de hidrocarburos: ${terminales.totalTanques}`);
-console.log(`  descartados por ser de agua: ${terminales.descartes.agua}`);
-console.log(`  descartados sin contenido declarado: ${terminales.descartes.sinContenido}`);
-console.log(`  parques de tanques resultantes: ${terminales.features.length}`);
-
-await mkdir(SALIDA, { recursive: true });
-
-await writeFile(
-  join(SALIDA, "ductos-osm.geojson"),
-  JSON.stringify({ type: "FeatureCollection", features: ductos.features }, null, 2)
-);
-await writeFile(
-  join(SALIDA, "downstream-osm.geojson"),
-  JSON.stringify(
-    {
-      type: "FeatureCollection",
-      features: [...downstream.features, ...terminales.features],
-    },
-    null,
-    2
-  )
-);
-
-const peso = async (n) => Math.round((await readFile(join(SALIDA, n))).length / 1024);
-console.log(`\nGenerado ductos-osm.geojson      ${await peso("ductos-osm.geojson")} KB`);
-console.log(`Generado downstream-osm.geojson  ${await peso("downstream-osm.geojson")} KB`);
-console.log(
-  "\nRecordatorio ODbL: estas capas van separadas y deben citar " +
-    '"© OpenStreetMap contributors" en la interfaz.'
-);
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  await main();
+}

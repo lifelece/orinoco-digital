@@ -197,6 +197,7 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 | 2026-09-09 | geoBoundaries VEN ADM0 + ADM1 | gbOpen | Contexto | Frontera y 25 estados. Simplificado de 7,25 MB a 231 KB. ADM0 dominio publico, ADM1 CC BY 3.0 IGO (corregido el 2026-09-15; decia CC BY 4.0) |
 | 2026-09-10 | WRI Global Power Plant Database | v1.3.0 | Contexto energetico | 43 centrales de Venezuela (9 hidroelectricas, 34 termicas). CC BY 4.0. WRI no la mantiene desde principios de 2022. Ver seccion 15 |
 | 2026-09-15 | WRI Global Power Plant Database (nueva descarga) | v1.3.0 | Auditoria | Misma version. Confianza de las 43 a baja por CRS no declarado (seccion 1). Geometria y resto de campos sin cambios |
+| 2026-09-29 | OpenStreetMap downstream (reconversion, sin nueva descarga) | snapshot 2026-09-08 | Limpieza de falsos positivos reportados por Luis | `downstream-osm.geojson`: 97 -> 64 elementos. `instalacion` generica 60 -> 31, `puerto` 4 -> 0. Regla de relevancia explicita nueva en `scripts/osm-to-geojson.mjs` (evidencia de hidrocarburos en `product`/`substance`/`industrial`/nombre-operador). Ver seccion 11 |
 
 ---
 
@@ -365,10 +366,13 @@ sufijo `-osm`, por la clausula share-alike. Ver seccion 4.
 | Capa | Archivo | Elementos | Peso |
 |---|---|---|---|
 | Ductos | `ductos-osm.geojson` | 346 | 847 KB |
-| Downstream + terminales | `downstream-osm.geojson` | 97 | 62 KB |
+| Downstream + terminales | `downstream-osm.geojson` | 64 | 42 KB |
 
-Instalaciones por tipo: 5 refinerias, 2 petroquimicas, 1 planta de gas,
-4 puertos, 60 instalaciones sin clasificar mejor, 25 parques de tanques.
+Instalaciones por tipo (tras la limpieza de falsos positivos del 2026-09-29,
+ver mas abajo): 5 refinerias, 2 petroquimicas, 1 planta de gas,
+31 instalaciones sin clasificar mejor, 25 parques de tanques. Los 4 puertos
+genericos que traia la version anterior quedaron fuera por falta de evidencia;
+ver la tabla de dudosos.
 
 ### Lo que se descarto, y por que
 
@@ -422,15 +426,72 @@ casi nunca significa que no exista; significa que esta etiquetado de otra
 forma. Comprobar siempre contra una lista de activos conocidos antes de dar una
 capa por completa.
 
+### Limpieza de falsos positivos reportados por Luis (2026-09-29)
+
+**El error:** la capa downstream mostraba "Velas 3N, CA" —una fabrica de velas
+de Ciudad Bolivar, `man_made=works`, `product=candles;cleaners`— como
+"Instalación petrolera" (`tipo.instalacion` en `src/i18n/es.json`). La causa:
+`esRelevante()` en `scripts/osm-to-geojson.mjs` solo excluia centrales
+electricas (`power=plant`) y zonas francas; cualquier otra cosa con nombre
+pasaba, sin comprobar si tenia relacion alguna con hidrocarburos. La segunda
+consulta Overpass de esta seccion (`osm-refinerias-2.json`) trae **todo**
+`man_made=works` de Venezuela —para no perder activos de PDVSA sin
+`industrial=oil`— y eso incluyo fabricas de comida, hielo, ladrillos, muebles,
+cauchos, bebidas, etc.
+
+**La regla nueva** (`tieneEvidenciaHidrocarburos()` + `esRelevante()` en
+`scripts/osm-to-geojson.mjs`): un activo entra si, y solo si, tiene evidencia
+explicita de hidrocarburos —
+
+- `product`/`substance`/`refinery` con un termino de la lista blanca
+  (petroleo, crudo, combustible, gasolina, diesel, GLP/LPG, lubricante,
+  petroquimico, hidrocarburo...), o
+- `industrial` en `oil`/`refinery`/`petroleum`/`gas`/`fuel`, o
+- nombre u operador con "PDVSA", "petro..." o "refin..." (refineria,
+  refinacion), o
+- "gas" como **palabra completa** en cualquiera de los campos anteriores —
+  nunca como subcadena: "gaseosa" (un refresco) no cuenta.
+
+Sin ninguna de esas señales, el activo cae en `noRelevante`. Las exclusiones
+explicitas previas (centrales electricas, zonas francas) se mantienen aparte,
+como exclusion y no como falta de evidencia.
+
+**Casos DUDOSOS, dejados fuera por defecto y sin decidir por Luis:**
+
+| Activo | Por que es dudoso |
+|---|---|
+| Construcciones y Asfaltos Orientales C.A. (`product=Asphalt`) | El asfalto es un derivado real del petroleo, pero la etiqueta OSM la usan igual las refinerias que las pavimentadoras viales. No hay forma de distinguirlas desde la etiqueta. |
+| Puertos de Puerto Cabello, Puerto de Palua (`cargo=dry_bulk`), Muelle de San Félix, Muelle de Pertigalete (`industrial=port`) | `industrial=port` no distingue un puerto petrolero de uno que mueve otra carga. Palua declara explicitamente `dry_bulk` (mineral), no petroleo. |
+
+Si en el futuro se confirma que alguno de estos si pertenece a la cadena de
+hidrocarburos (por ejemplo, un puerto con terminal petrolero documentado),
+entra por una señal explicita —no por bajar el umbral general de la regla.
+
+**Conteos, capa downstream (sin contar los 25 parques de tanques, que ya
+filtraban correctamente por `content`):**
+
+| | Antes | Despues |
+|---|---|---|
+| Elementos en `downstream-osm.geojson` | 97 | 64 |
+| `instalacion` (generica) | 60 | 31 |
+| `puerto` | 4 | 0 |
+| Peso del archivo | 62 KB | 42 KB |
+
+Ductos y tanques agrupados no cambiaron (346 y 25 respectivamente): ya
+filtraban por `substance`/`content` contra la misma lista de sustancias
+validas (`oil`, `gas`, `hydrocarbons`, `fuel`), asi que un acueducto o un
+tanque de agua nunca pasaron. Se extrajo esa comprobacion a una funcion propia,
+`esSustanciaHidrocarburo()`, para poder probarla igual que la de instalaciones.
+
 ### Limites de esta capa
 
 - Cobertura **desigual**: OSM depende de quien haya mapeado cada zona.
 - OSM **no publica el estado operativo** de los ductos. Todos van con
   `estado: "desconocido"` y se colorean por fluido, no por estado. Fingir un
   estado seria inventar.
-- 60 de las 72 instalaciones quedan como `instalacion` generica porque las
-  etiquetas no permiten afirmar que sean refinerias. Es preferible a
-  clasificarlas mal.
+- 31 de las 39 instalaciones (descontando los parques de tanques) quedan como
+  `instalacion` generica porque las etiquetas no permiten afirmar que sean
+  refinerias. Es preferible a clasificarlas mal.
 
 ---
 

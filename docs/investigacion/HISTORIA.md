@@ -103,8 +103,15 @@ mixtas.
 
 ## 4. Midstream y downstream: lo que el mapa ya muestra
 
+> **Correccion del 2026-09-29.** Esta seccion decia "4 puertos". Una limpieza
+> de falsos positivos en `scripts/osm-to-geojson.mjs` (ver
+> `docs/DATA_SOURCES.md` seccion 11) los dejo fuera por falta de evidencia de
+> que fueran puertos petroleros y no de otra carga —uno de los cuatro declara
+> literalmente `cargo=dry_bulk` (mineral)—, ademas de 29 "instalaciones"
+> genericas que en realidad eran fabricas sin relacion con hidrocarburos.
+
 El proyecto tiene cartografiados **346 ductos**, **5 refinerias**, **2
-complejos petroquimicos**, **1 planta de gas**, **4 puertos** y **25 parques de
+complejos petroquimicos**, **1 planta de gas** y **25 parques de
 tanques** agrupados a partir de 704 tanques individuales.
 
 Las cinco refinerias identificadas por nombre:

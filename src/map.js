@@ -1187,7 +1187,7 @@ export function dibujarHidrografia(featureCollection, lang = "es") {
  * 20 MW, porque esa diferencia ES el dato.
  *
  * Nace apagada. No es cadena de hidrocarburos (ADR-013): es contexto que se
- * pide, no ruido que se aparta. Un mapa que ya tiene 97 instalaciones y 105
+ * pide, no ruido que se aparta. Un mapa que ya tiene 64 instalaciones y 105
  * campos no necesita 43 simbolos mas por defecto.
  *
  * @param {{features: Array<Object>}} featureCollection
