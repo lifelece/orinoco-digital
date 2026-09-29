@@ -48,8 +48,8 @@ El *Prompt maestro* §4 tenia todo como "Pendiente" y las fases 0-1 como
 | Fase 6-7 | Publicada | Token restringido, Lighthouse, material, tag `v1.0` | Autor |
 | M1 Shell de UI | **Implementado** (ADR-014), capturas hechas | Gate en telefono real | Autor |
 | M2 Navegacion | Adelantado: `/` busca, `Esc` cierra, limites de zoom | Jerarquia, breadcrumb, deep-links | Gate de M1 |
-| M3 Animacion | Adelantado: entrada de ficha 180 ms, `prefers-reduced-motion` | Tabla de easing | M2 |
-| M4 Render | `requestRenderMode` activo desde la Fase 0 | Iluminacion, AO, LOD, base oscura | Gate de M1 |
+| M3 Animacion | Adelantado (ADR-018, 2026-09-29): entrada de ficha 180 ms; `countUp` de contadores del panel de capas, entrada escalonada de sus filas y `drawLine` en las muestras de linea y en el diagrama de cadena de valor, todo CSS y `prefers-reduced-motion` | Tabla de easing | M2 |
+| M4 Render | `requestRenderMode` activo desde la Fase 0. Adelantado (ADR-018, 2026-09-29): base oscura por ajuste de la ImageryLayer actual, sin proveedor nuevo (resuelve C8) | Iluminacion, AO, LOD | Gate de M1 |
 | M5 a M7 | Pendientes | Todo | M3 y M4 |
 | N1 a N5 Modos | Pendientes | Todo | M2 |
 | M8 Contrato de datos | **Validador en CI** (ADR-015) | Contrato ampliado: ver C10 | Decision |
@@ -75,7 +75,7 @@ seguir mientras no haya ADR nuevo.
 | C5 | Presupuesto de menos de 250 KB de JS propio mas librerias (*Skillstack* §4) | 150 KB comprimidos de JS propio (`PERFORMANCE_BUDGET.md`) | Repo | Miden cosas distintas. Unificar cuando entre la primera libreria. Hoy: 69 KB, 22 KB gzip |
 | C6 | Inter o Geist + JetBrains Mono | Sin fuentes web, pila del sistema (ADR-014) | Repo, **resuelto** | Aviso anadido en *Mejora v2* el 2026-09-17 |
 | C7 | Creditos de Cesium ocultos y reubicados en un footer propio (*Mejora v2* §1.1) | Armonizados en su sitio, no reubicados (ADR-014) | Repo, **resuelto** | Aviso anadido en *Mejora v2* el 2026-09-17 |
-| C8 | Base oscura con Stadia Alidade Smooth Dark (*Mejora v2* §1.4) | La auditoria propone oscurecer la capa actual, sin proveedor nuevo | Nadie: es M4 | Un proveedor nuevo es una fuente nueva: `DATA_SOURCES.md`, atribucion y condiciones de uso verificadas antes |
+| C8 | Base oscura con Stadia Alidade Smooth Dark (*Mejora v2* §1.4) | **Resuelto** (ADR-018, 2026-09-29): se oscurece la ImageryLayer actual (brillo/contraste/saturacion/gamma) + color base del globo y atmosfera atenuada, sin proveedor nuevo | Repo, resuelto | Un proveedor nuevo seguiria siendo una fuente nueva: `DATA_SOURCES.md`, atribucion y condiciones de uso verificadas antes |
 | C9 | El modulo de IA pasa a **clasificador de estado operativo** sobre senal termica publica (hub §9-bis, *Funcionalidad v2* §2.1) | La capa DEMO sigue siendo el grid sintetico de la Fase 5 (`MODEL_CARD.md`) | Repo, con su banner | Es M14. Al sustituirlo: `MODEL_CARD` nuevo y ADR. El grid actual no se retira antes de tener reemplazo |
 | C10 | Contrato de datos con `fuente_url`, `fecha_dato`, `fecha_ingesta`, `nivel_confianza`, `geom_precision`, `verificado_por` (*Funcionalidad v2* §6.3) | `fuente`, `confianza`, `ultima_verificacion`, ya usados por 9 GeoJSON, el validador y la ficha | Repo | En M8, conservar los nombres existentes y anadir solo lo nuevo. `geom_precision` es inmediato para los campos: GOGET declara la coordenada como centro aproximado de la unidad |
 | C11 | Generadores 3D con `trimesh` y `pygltflib`, ETL en Python (*Activos 3D*, *Funcionalidad v2*) | Python no esta instalado en la laptop (`PLAN.md` §1.5) | — | No es contradiccion, es bloqueo: M5 y M9 tendrian que correr en GitHub Actions o Colab. `gltf-transform` y `gltfpack` serian dependencias nuevas |

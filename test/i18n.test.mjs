@@ -31,14 +31,31 @@ test("ninguna traduccion esta vacia", () => {
   }
 });
 
+/**
+ * Todos los .js bajo un directorio, recursivo (incluye src/ui/, por ejemplo).
+ * @param {URL} dir
+ * @returns {Promise<Array<URL>>}
+ */
+async function archivosJs(dir) {
+  const entradas = await readdir(dir, { withFileTypes: true });
+  const listas = await Promise.all(
+    entradas.map(async (entrada) => {
+      if (entrada.name === "node_modules") return [];
+      const ruta = new URL(entrada.isDirectory() ? `${entrada.name}/` : entrada.name, dir);
+      if (entrada.isDirectory()) return archivosJs(ruta);
+      return entrada.name.endsWith(".js") ? [ruta] : [];
+    })
+  );
+  return listas.flat();
+}
+
 test("toda clave literal usada con t() existe en el diccionario", async () => {
   // Un hueco no rompe la app —t() devuelve la clave— pero la deja a la vista
   // del usuario con un texto como "panel.fuente". Aqui se ve antes.
+  // Recursivo: cubre src/ui/ (ver ADR-018), no solo el nivel superior de src/.
   const dir = new URL("../src/", import.meta.url);
-  const archivos = (await readdir(dir)).filter((f) => f.endsWith(".js"));
-  const codigo = (
-    await Promise.all(archivos.map((f) => readFile(new URL(f, dir), "utf8")))
-  ).join("\n");
+  const rutas = await archivosJs(dir);
+  const codigo = (await Promise.all(rutas.map((r) => readFile(r, "utf8")))).join("\n");
   const usadas = new Set(
     [...codigo.matchAll(/\bt\(\s*["'`]([\w.]+)["'`]\s*\)/g)].map((m) => m[1])
   );
