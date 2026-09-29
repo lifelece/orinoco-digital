@@ -725,3 +725,205 @@ zona del terreno, o que el vuelo de entrada se siente lento en redes moviles
 reales (los 3 s se miden en duracion de animacion, no en tiempo de descarga de
 teselas, que puede solaparse). Si M3 llega formalmente y trae una tabla de
 easing propia, esta base queda como punto de partida, no como version final.
+
+---
+
+## ADR-019 — Controlador de render con holds, capas apagadas fuera del
+viewer, gate de modulos en CI y nota de licencia de datos
+
+**Fecha:** 2026-09-29 · **Estado:** propuesta, pendiente de revision del autor
+
+**Contexto.** Se hizo un analisis de ingenieria inversa de
+`bilawalsidhu/gods-eye-view` (MIT), un globo Cesium mucho mas grande que
+Orinoco (satelites/aviones/barcos en tiempo real), buscando ideas de
+arquitectura, render y UX reutilizables — no datos ni funcionalidad, que no
+aplican al dominio de Orinoco (ver `THIRD-PARTY.md` y el analisis completo en
+`C:\dev\referencias\gods-eye-view-analisis.md`, fuera de este repositorio).
+Cuatro de sus hallazgos se adoptaron, con reimplementacion propia y no copia
+de codigo (la licencia MIT lo permitiria, pero el estilo y el dominio de
+Orinoco son distintos):
+
+1. Un "governor" de render con holds contados por referencia
+   (`src/renderGovernor.js` de gods-eye-view).
+2. Retirar del viewer, no solo ocultar, las fuentes de datos de una capa
+   apagada (`src/layers/submarineCables/rendering.js` de gods-eye-view).
+3. Un gate de CI sin dependencias que verifica reglas de modulos por analisis
+   estatico (`scripts/check-import-directions.mjs` de gods-eye-view).
+4. Una nota de licencia de datos al final del propio `LICENSE`
+   (`LICENSE` de gods-eye-view).
+
+**Decision.**
+
+### 1. Controlador de render con holds contados por referencia
+
+`docs/PERFORMANCE_BUDGET.md` ya documenta `requestRenderMode: true` como "la
+optimizacion de mayor impacto" desde la Fase 0: sin ella, Cesium redibuja en
+cada vsync aunque nadie toque el mapa. Pero un flag fijo no distingue entre
+"nada se mueve" y "algo se esta animando por codigo" — el vuelo de entrada de
+ADR-018, "Volar a la Faja" y volar a un activo desde el buscador necesitan
+`requestRenderMode = false` mientras duran, o se ven a tirones (un frame por
+evento de camara, no uno por frame de animacion). Si dos de esas animaciones
+se solaparan bajo un flag booleano compartido, la que termina primero
+reactivaria el modo reposo y "congelaria" a la que sigue en marcha a mitad de
+vuelo — justo el problema que este ADR quiere evitar.
+
+**Nuevo modulo `src/controladorRender.js`**, que exporta
+`instalarControladorRender(viewer)`, `pedirRenderContinuo(id)`,
+`liberarRenderContinuo(id)` y `pedirRenderPuntual(motivo)`. Internamente es un
+`Set<string>` de ids activos: modo continuo mientras el Set no este vacio,
+reposo cuando se vacia. Cada animador pide su hold al empezar y lo libera al
+terminar (tanto al completar como al cancelarse), sin coordinarse con nadie
+mas.
+
+**Vive en `map.js` o en un modulo que solo `map.js` importe** (regla dura de
+`CLAUDE.md`). Se opto por un archivo aparte en vez de inline: el propio modulo
+NO importa `"cesium"` — opera por duck-typing sobre `viewer.scene`, asi que
+`scripts/verificar-modulos.mjs` (punto 3 de este ADR) no necesita ninguna
+excepcion especial para el, y se puede probar con `node:test` pasando un
+objeto `{ scene: {...} }` de mentira, sin Cesium instalado ni un canvas real.
+14 tests en `test/controladorRender.test.mjs`, incluido el caso de dos holds
+solapados que no se pisan entre si.
+
+**Integrado en `map.js`:** `iniciarMapa()` instala el controlador justo
+despues de crear el viewer; `iniciarVistaConVuelo()`, `volarAFaja()` y
+`volarAActivo()` piden un hold al iniciar su vuelo y lo liberan en `complete`
+y en `cancel` (o, en `volarAActivo`, con `.finally()` sobre la promesa que
+devuelve `viewer.flyTo`). Los `viewer.scene.requestRender()` sueltos que ya
+existian para mutaciones puntuales (alternar una capa, asentar la calidad tras
+mover la camara, alternar la capa DEMO) pasan a `pedirRenderPuntual(motivo)`,
+con el motivo nombrado en vez de una llamada anonima.
+
+**Carga de teselas: sin hold.** Cesium ya redibuja por su cuenta cuando el
+terreno o la imagineria terminan de cargar, incluso en modo reposo (es como
+funciona `requestRenderMode` de fabrica); anadir un hold ahi seria replicar
+algo que Cesium ya hace, sin beneficio.
+
+### 2. Retirar del viewer las capas apagadas (no solo `show = false`)
+
+`viewer.dataSources.add(capa)` se llamaba siempre, sin condicion, en cada
+funcion `dibujarX()` — incluida una capa que nace apagada (`centrales`,
+`demo`). Cesium recorre cada `DataSource` del viewer en cada frame aunque
+tenga `show = false` (la misma observacion, sobre su propia capa de cables
+submarinos, de gods-eye-view). Con 105-346 entidades por capa el coste hoy es
+marginal, pero es la practica correcta desde ya — `PERFORMANCE_BUDGET.md` ya
+anticipa clustering "al pasar de ~300 puntos visibles", y esta es la version
+barata de esa misma idea, aplicable hoy sin esperar a ese umbral.
+
+**Nueva funcion `sincronizarEnViewer(capa, visible)`** en `map.js`: fija
+`capa.show` y ademas anade o retira el `DataSource` de
+`viewer.dataSources` segun corresponda, con `destroy=false` al retirar — las
+entidades ya parseadas se quedan vivas dentro del `CustomDataSource`, que
+sigue en el `Map` interno `capas`; volver a encenderla la vuelve a anadir sin
+pedir el GeoJSON por red otra vez. La sustituye en `fijarVisible()` (usada por
+`alternarCapa`/`alternarContexto`) y en el `viewer.dataSources.add(capa)`
+final de cada `dibujarX()`, salvo una excepcion documentada abajo.
+
+**Por que no rompe seleccion, busqueda, tabla ni contadores** (verificado
+leyendo el codigo real antes de tocarlo, no solo por inspeccion superficial):
+
+- Los contadores del panel y la tabla leen `datosCapas` en `ui.js` — el
+  GeoJSON crudo guardado por `fijarDatosCapa()` al cargar, independiente de si
+  el `DataSource` esta o no en el viewer.
+- El buscador y la tabla nunca vuelan a un activo sin antes asegurarse de que
+  su capa/sector este encendido: `irAActivo()` en `ui.js` llama
+  `alternarContexto`/`alternarCapa` ANTES de `volarAActivo()` si la capa
+  destino estaba apagada. Como esas funciones pasan por `fijarVisible()`, la
+  capa se re-anade al viewer antes de que `map.js` intente volar a una entidad
+  suya — nunca se vuela a una entidad retirada del viewer.
+- La seleccion por click (`conectarSeleccion`) solo puede dispararse sobre
+  algo que Cesium este pintando: una entidad de una capa retirada no era
+  clickeable de todas formas cuando solo tenia `show = false` (Cesium no pinta
+  ni permite pickear una entidad oculta), asi que el comportamiento visible no
+  cambia.
+
+**Excepcion documentada: la capa `"downstream"`.** Mezcla dos sectores
+(refinerias/petroquimicas/puertos, que son downstream, y los parques de
+tanques, que son midstream) en un mismo `CustomDataSource`, con visibilidad
+decidida entidad por entidad en `aplicarSectoresMixtos()` — no existe un
+`fijarVisible("downstream", ...)` que apague la capa entera, porque apagar
+solo el sector downstream no deberia esconder los tanques midstream, y
+viceversa. Retirar el `DataSource` completo cuando solo uno de los dos
+sectores estuviera apagado esconderia tambien al otro. Por eso `downstream` se
+queda con `viewer.dataSources.add(capa)` incondicional, tal como estaba, con
+el riesgo documentado en el propio comentario del codigo. Es exactamente el
+caso que la instruccion de este trabajo pedia detectar y documentar en vez de
+forzar.
+
+### 3. `scripts/verificar-modulos.mjs`
+
+Script de Node sin dependencias (~90 lineas, `node:fs`/`node:path`/`node:url`
+nativos) que falla con codigo 1 si: (a) algun archivo de `src/` que no sea
+`map.js` importa `"cesium"` (estatico o dinamico); o (b) `src/ui.js` o
+cualquier archivo de `src/ui/**` usa `fetch(`. Automatiza dos filas de la
+tabla "Arquitectura modular" de `CLAUDE.md` que hasta ahora solo se vigilaban
+por revision humana — y que ya causaron un error real (`docs/PROCESO.md`,
+error 6: un simbolo que "parecia" importado y no lo estaba, dado por bueno con
+un `grep` que no distinguia import de uso). Relevante ahora mismo porque
+ADR-017 (dividir `ui.js` en `src/ui/`) va a multiplicar los archivos donde esa
+regla se puede romper por accidente.
+
+Se anadio a `npm test` (`npm test` ahora encadena
+`node --test ... && npm run verificar:modulos`), que ya corre en
+`.github/workflows/tests.yml` en cada push/PR — no se creo un workflow nuevo:
+es la misma familia de comprobacion sin dependencias que ya vive ahi
+(ADR-016). Tambien queda como comando suelto: `npm run verificar:modulos`.
+
+**Verificado en rojo:** con un archivo temporal en `src/` con
+`import { Color } from "cesium";` y otro en `src/ui/` con
+`fetch("http://x")`, el script sale con codigo 1 y ambas violaciones
+listadas; revertido antes de terminar (no queda archivo temporal en el
+repositorio).
+
+### 4. Nota de licencia de datos en `LICENSE`
+
+Antes, la separacion entre licencia de codigo (Apache-2.0) y de datos (CC BY
+4.0 propia + licencias de terceros) vivia en ADR-008 y en `LICENSE-DATA`,
+correcta pero invisible para quien solo abre el archivo `LICENSE` — el primer
+sitio donde alguien busca la licencia de un repositorio. Se anadieron unas
+lineas al FINAL de `LICENSE`, despues de todo el texto Apache-2.0 (que no se
+toca), remitiendo a `LICENSE-DATA` y `docs/DATA_SOURCES.md`. Reduce el riesgo
+de que alguien reutilice `ductos-osm.geojson` (ODbL 1.0, share-alike) como si
+fuera Apache-2.0.
+
+**Atribucion de las ideas 1 y 3:** nuevo `THIRD-PARTY.md` en la raiz,
+documentando que la idea de holds contados por referencia y la idea del gate
+de modulos en CI vienen de gods-eye-view (MIT) aunque el codigo sea una
+reimplementacion propia, no una copia.
+
+**Alternativas descartadas.**
+
+- **Copiar el codigo de gods-eye-view en vez de reimplementarlo.** Su
+  licencia MIT lo permitiria conservando el aviso de copyright, pero
+  `renderGovernor.js` trae diagnosticos (`recentRequests`) que Orinoco no
+  necesita y `check-import-directions.mjs` analiza direcciones de import
+  entre `server`/`portable`/`renderer` que no existen en un proyecto
+  static-first sin backend. Reimplementar en el estilo de Orinoco (espanol,
+  Vanilla ES6, sin las piezas que no aplican) da un resultado mas simple y
+  mas facil de mantener por quien ya mantiene el resto del repo.
+- **Aplicar `sincronizarEnViewer` tambien a `"downstream"`.** Descartado y
+  documentado arriba: rompería la independencia de los dos sectores que
+  comparten esa capa.
+- **Anadir el chequeo de modulos como workflow de CI aparte.** Descartado:
+  ya existe `tests.yml` con el mismo perfil (sin dependencias, Node nativo);
+  duplicar el workflow solo anadiria mantenimiento sin beneficio.
+
+**Consecuencias.**
+
+- Un archivo nuevo en `src/` (`controladorRender.js`) y uno en `scripts/`
+  (`verificar-modulos.mjs`), mas `THIRD-PARTY.md` en la raiz. 14 tests nuevos
+  en `test/controladorRender.test.mjs`.
+- `map.js` cambia como usa `requestRenderMode` y `viewer.dataSources`, pero
+  no cambia ningun comportamiento visible: el vuelo de entrada, "Volar a la
+  Faja" y volar a un activo se ven igual (mejor, si algo, sin tirones); las
+  capas se encienden y apagan igual desde la interfaz.
+- No cambia el contrato de `api.js` ni la estructura de datos. No repite el
+  gate de M1 en telefono real, que sigue pendiente — el autor no pudo
+  verificar el globo visualmente en esta sesion (token de Cesium en
+  rotacion), asi que esta rama se revisa por diff y por los tests/build antes
+  de la vista previa.
+
+**Cuando reconsiderar.** Si una fuente futura hace crecer alguna capa mas
+alla del presupuesto de entidades y hace falta LOD con presupuesto e
+histeresis (la pieza B2 del analisis de gods-eye-view, `localGeojsonLod.js`),
+eso es una decision de arquitectura aparte y mayor, con su propio ADR — no una
+extension de este.

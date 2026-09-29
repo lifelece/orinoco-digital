@@ -32,6 +32,12 @@ import "cesium/Build/Cesium/Widgets/widgets.css";
 
 import { icono, iconoAproximado } from "./iconos.js";
 import { hidrocarburoDe, TIPOS } from "./data.js";
+import {
+  instalarControladorRender,
+  pedirRenderContinuo,
+  liberarRenderContinuo,
+  pedirRenderPuntual,
+} from "./controladorRender.js";
 
 import {
   CESIUM_TOKEN,
@@ -52,6 +58,9 @@ import {
 
 /** @type {Viewer | null} */
 let viewer = null;
+
+/** Numera los vuelos de camara para que cada uno tenga su propio hold (ADR-019). */
+let secuenciaVuelos = 0;
 
 /**
  * Crea el Cesium Viewer sobre #cesiumContainer.
@@ -95,6 +104,10 @@ export function iniciarMapa() {
   const controlador = viewer.scene.screenSpaceCameraController;
   controlador.maximumZoomDistance = CAMARA.alturaMaxima;
   controlador.minimumZoomDistance = CAMARA.alturaMinima;
+
+  // Antes de cualquier vuelo: sin esto, iniciarVistaConVuelo() de abajo
+  // pediria un hold que nadie aplica. Ver docs/DECISIONS.md -> ADR-019.
+  instalarControladorRender(viewer);
 
   aplicarEstiloOscuro();
   ajustarCalidad(false);
@@ -197,7 +210,7 @@ function conectarCalidadAdaptativa() {
     clearTimeout(temporizadorReposo);
     temporizadorReposo = setTimeout(() => {
       ajustarCalidad(false);
-      viewer?.scene.requestRender();
+      pedirRenderPuntual("calidad-en-reposo");
     }, PRESUPUESTO.esperaReposo);
   });
 
@@ -274,13 +287,23 @@ function vistaFaja() {
 /**
  * Vuela la camara para encuadrar la Faja Petrolifera del Orinoco completa,
  * en vista oblicua. Fase 1.
+ *
+ * Sostiene el render continuo mientras dura el vuelo (ADR-019): sin esto, en
+ * modo reposo Cesium solo redibuja ante input de camara y el vuelo se ve a
+ * tirones en vez de fluido.
  */
 export function volarAFaja() {
   if (!viewer) return;
   const { esfera, offset } = vistaFaja();
+  // Un id por vuelo: si un vuelo nuevo cancela al anterior, el `cancel` del
+  // viejo no debe soltar el hold del nuevo.
+  const hold = `volar-faja-${++secuenciaVuelos}`;
+  pedirRenderContinuo(hold);
   viewer.camera.flyToBoundingSphere(esfera, {
     offset,
     duration: CAMARA.duracionVuelo,
+    complete: () => liberarRenderContinuo(hold),
+    cancel: () => liberarRenderContinuo(hold),
   });
 }
 
@@ -341,11 +364,21 @@ export function iniciarVistaConVuelo() {
     canvas.addEventListener(ev, cancelarPorInteraccion, { once: true, passive: true });
   }
 
+  // Sostiene el render continuo mientras dura el vuelo de entrada (ADR-019):
+  // es la animacion mas larga de la app (~3 s) y la primera que ve el
+  // usuario, justo donde un tironeo se nota mas.
+  const HOLD = "vuelo-entrada";
+  pedirRenderContinuo(HOLD);
+  const terminar = () => {
+    quitarListeners();
+    liberarRenderContinuo(HOLD);
+  };
+
   viewer.camera.flyToBoundingSphere(esfera, {
     offset,
     duration: CAMARA.duracionVuelo,
-    complete: quitarListeners,
-    cancel: quitarListeners,
+    complete: terminar,
+    cancel: terminar,
   });
 }
 
@@ -431,6 +464,39 @@ function indexar(capa, id, entidad) {
 }
 
 /**
+ * Anade o retira un DataSource del viewer segun su visibilidad, en vez de
+ * limitarse a `capa.show = visible`. Ver docs/DECISIONS.md -> ADR-019.
+ *
+ * Por que: Cesium recorre cada DataSource del viewer en cada frame aunque
+ * tenga `show = false` (la misma observacion que hace, sobre su propia capa
+ * de cables submarinos, bilawalsidhu/gods-eye-view — ver THIRD-PARTY.md). Con
+ * 105-346 entidades por capa el coste hoy es marginal, pero es la practica
+ * correcta desde ya, antes de que una capa crezca (PERFORMANCE_BUDGET.md ya
+ * anticipa clustering "al pasar de ~300 puntos visibles").
+ *
+ * `destroy=false` al retirar conserva las entidades ya parseadas dentro del
+ * CustomDataSource (que sigue vivo en el Map `capas`): volver a encenderla
+ * las vuelve a anadir al viewer sin pedir el GeoJSON por red otra vez.
+ *
+ * NO se usa para la capa "downstream": mezcla dos sectores (refinerias/
+ * puertos y terminales de midstream) en un mismo DataSource, con visibilidad
+ * decidida entidad por entidad en `aplicarSectoresMixtos()`. Retirar el
+ * DataSource entero apagaria tambien el sector que si deberia verse, asi que
+ * esa capa se queda con `show` siempre `true` a nivel de DataSource y el
+ * `show` de cada entidad es lo que manda.
+ *
+ * @param {CustomDataSource} capa
+ * @param {boolean} visible
+ */
+function sincronizarEnViewer(capa, visible) {
+  capa.show = visible;
+  if (!viewer) return;
+  const presente = viewer.dataSources.contains(capa);
+  if (visible && !presente) viewer.dataSources.add(capa);
+  else if (!visible && presente) viewer.dataSources.remove(capa, false);
+}
+
+/**
  * Anota la visibilidad pedida y la aplica si la capa ya existe.
  * @param {string} nombre
  * @param {boolean} visible
@@ -438,7 +504,7 @@ function indexar(capa, id, entidad) {
 function fijarVisible(nombre, visible) {
   visibilidadPedida.set(nombre, visible);
   const capa = capas.get(nombre);
-  if (capa) capa.show = visible;
+  if (capa) sincronizarEnViewer(capa, visible);
 }
 
 // --- Capa de campos (Fase 2) -------------------------------------------------
@@ -609,7 +675,7 @@ export function dibujarCampos(featureCollection) {
     if (partes > 0) dibujados += 1;
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
 
   if (capa.entities.values.length > PRESUPUESTO.maxEntidadesPorCapa) {
     console.warn(
@@ -690,7 +756,7 @@ export function dibujarDuctos(featureCollection) {
     n += 1;
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
   return n;
 }
 
@@ -736,6 +802,12 @@ export function dibujarDownstream(featureCollection) {
     n += 1;
   }
 
+  // Sin sincronizarEnViewer() a proposito: esta capa mezcla dos sectores
+  // (downstream y midstream-terminales) en un mismo DataSource, visibles o no
+  // entidad por entidad via aplicarSectoresMixtos(). Retirarla del viewer
+  // cuando SOLO uno de los dos sectores este apagado tambien esconderia al
+  // otro. Se queda siempre anadida; el show de cada entidad es lo que manda.
+  // Ver docs/DECISIONS.md -> ADR-019.
   viewer.dataSources.add(capa);
   aplicarSectoresMixtos();
   return n;
@@ -773,7 +845,7 @@ export function alternarCapa(sector, visible) {
   if (sector === "upstream") fijarVisible("campos", visible);
   if (sector === "midstream") fijarVisible("ductos", visible);
   aplicarSectoresMixtos();
-  viewer?.scene.requestRender();
+  pedirRenderPuntual(`sector:${sector}`);
 }
 
 // --- Contexto geografico -----------------------------------------------------
@@ -827,7 +899,7 @@ export function dibujarLimites(featureCollection) {
     n += 1;
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
   return n;
 }
 
@@ -873,7 +945,7 @@ export function dibujarZonaDisputada(featureCollection) {
     n += 1;
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
   return n;
 }
 
@@ -910,7 +982,7 @@ export function dibujarReferenciaFaja() {
     },
   });
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
 }
 
 /**
@@ -923,7 +995,7 @@ export function dibujarReferenciaFaja() {
  */
 export function alternarContexto(nombre, visible) {
   fijarVisible(nombre, visible);
-  viewer?.scene.requestRender();
+  pedirRenderPuntual(`contexto:${nombre}`);
 }
 
 // --- Toponimia e hidrografia -------------------------------------------------
@@ -1051,7 +1123,7 @@ export function dibujarToponimia(featureCollection, lang = "es") {
     n += 1;
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
   return n;
 }
 
@@ -1173,7 +1245,7 @@ export function dibujarHidrografia(featureCollection, lang = "es") {
     }
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
   return n;
 }
 
@@ -1233,7 +1305,7 @@ export function dibujarCentrales(featureCollection) {
     n += 1;
   }
 
-  viewer.dataSources.add(capa);
+  sincronizarEnViewer(capa, capa.show);
   return n;
 }
 
@@ -1263,14 +1335,21 @@ export function volarAActivo(capa, ids) {
   if (!entidades.length) return false;
 
   const puntual = !entidades[0].polygon && !entidades[0].polyline;
-  viewer.flyTo(entidades, {
-    duration: CAMARA.duracionVueloActivo,
-    offset: new HeadingPitchRange(
-      0,
-      CesiumMath.toRadians(CAMARA.inclinacionActivo),
-      puntual ? CAMARA.distanciaActivoPuntual : 0
-    ),
-  });
+  // Sostiene el render continuo mientras dura el vuelo (ADR-019). viewer.flyTo
+  // devuelve una promesa que resuelve en true al completar y false al
+  // cancelar; cualquiera de los dos desenlaces libera el hold.
+  const HOLD = `volar-activo-${++secuenciaVuelos}`;
+  pedirRenderContinuo(HOLD);
+  viewer
+    .flyTo(entidades, {
+      duration: CAMARA.duracionVueloActivo,
+      offset: new HeadingPitchRange(
+        0,
+        CesiumMath.toRadians(CAMARA.inclinacionActivo),
+        puntual ? CAMARA.distanciaActivoPuntual : 0
+      ),
+    })
+    .finally(() => liberarRenderContinuo(HOLD));
   viewer.selectedEntity = entidades[0];
   return true;
 }
@@ -1346,9 +1425,8 @@ export function dibujarGridProbabilidad(featureCollection) {
   }
 
   // La capa nace apagada: el usuario la enciende a proposito, y encenderla
-  // levanta el banner.
-  capa.show = false;
-  viewer.dataSources.add(capa);
+  // levanta el banner. No entra al viewer hasta entonces (ADR-019).
+  sincronizarEnViewer(capa, false);
   return n;
 }
 
@@ -1360,11 +1438,11 @@ export function alternarDemo(visible) {
   const capa = capas.get("demo");
   if (!capa) return;
 
-  capa.show = visible;
+  sincronizarEnViewer(capa, visible);
   if (visible) mostrarBannerDemo?.();
   else ocultarBannerDemo?.();
 
-  viewer?.scene.requestRender();
+  pedirRenderPuntual("demo");
 }
 
 /** @returns {boolean} si la capa DEMO llego a cargarse */
