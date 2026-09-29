@@ -484,3 +484,115 @@ se tome, sus tests son lo primero que hay que escribir.
 **Verificado.** 22 de 22 en local (Node 24.14). Prueba de mutacion: quitar la
 comprobacion del caso mixto en `hidrocarburoDe` hace fallar su test. El
 workflow no se ha ejecutado en GitHub: eso ocurre al hacer push.
+
+---
+
+## ADR-017 — Dividir `ui.js` en `src/ui/`, por caracteristica, en dos pasos
+
+**Fecha:** 2026-09-29 · **Estado:** propuesta, pendiente de revision del autor
+
+**Contexto.** `ui.js` tiene 1.742 lineas. Notion (C3 de `docs/NOTION.md`) lo
+senala igual que `docs/AUDITORIA-2026-09.md` (P4): "nada de archivos de 800
+lineas", y pide decidir antes de M2 porque cada hito lo agranda mas — M2 trae
+jerarquia de navegacion y deep-links, que tocan justamente el shell y el
+historial. ADR-016 ya choco con esto: el historial de vistas (C1, C6) no se
+pudo testear porque vive dentro de `ui.js`, que al importarse toca el DOM y
+`window`.
+
+El propio ADR-014 dejo la puerta abierta: "Dividir `ui.js` en submodulos: con
+unas 1.100 lineas tendria sentido, pero cambia la estructura de modulos y
+necesita aprobacion explicita; queda propuesto en la auditoria." Esta es esa
+aprobacion.
+
+**Restriccion dura que cualquier opcion debe respetar** (`CLAUDE.md`):
+`ui.js` —y lo que salga de el— no importa `cesium` ni hace `fetch`. Solo
+`map.js` importa Cesium; solo `api.js` hace red.
+
+**Opciones evaluadas.**
+
+**A. Todo junto ahora: dividir por caracteristica en `src/ui/`.** Un archivo
+por seccion, ya delimitadas por los comentarios `// ---` que el archivo ya
+tiene: `shell.js`, `capas.js` (control de capas + leyenda), `buscador.js`,
+`ficha.js`, `tabla.js`, `fuentes.js`, `demo.js`, `carga.js`, `errores.js`,
+`teclado.js`, mas `estado.js` (los `Map` y las banderas compartidas de la
+seccion "Estado de la interfaz") e `historial.js` (la pila de vistas de
+ADR-016). `src/ui/index.js` queda como fachada delgada: reexporta las 11
+funciones que hoy importa `main.js` (`montarUI`, `fijarEstadoCapa`,
+`fijarDatosCapa`, `refrescarCapas`, `avisarCapasFallidas`,
+`mostrarPanelActivo`, `montarBannerDemo`, `quitarBannerDemo`,
+`montarCargaInicial`, `quitarCargaInicial`, `mostrarError`) y no anade logica
+propia.
+
+- *Coste:* alto. Mueve las 1.742 lineas de una sola vez; hay que decidir que
+  queda privado a cada archivo y que se comparte —`estadoCapas`,
+  `datosCapas`, `panelAbierto` y el resto de banderas de "Estado de la
+  interfaz" las tocan casi todas las secciones.
+- *Riesgo:* alto, y del tipo que ya costo caro antes. El error 6 de
+  `docs/PROCESO.md` fue exactamente esto: un simbolo que parecia importado y
+  no lo estaba, dado por bueno porque `grep` encontraba la cadena. En un
+  refactor mecanico de este tamano el mismo fallo es facil de repetir, y la
+  pieza mas fragil —la pila de historial que causo C1 y C6— es la que mas
+  modulos van a compartir.
+- *Beneficio:* resuelve P4/C3 de un golpe; cada archivo queda muy por debajo
+  de las ~200 lineas.
+
+**B. Extraer solo lo que ADR-016 necesita: `estado.js` + `historial.js`.**
+Las dos secciones ya estan delimitadas (`// --- Estado de la interfaz` y
+`// --- Integracion con el historial del navegador`, lineas 188-340) y son
+las unicas que ADR-016 senala como bloqueadas por no ser importables sin DOM.
+El resto de `ui.js` sigue como esta.
+
+- *Coste:* bajo. Unas 150 lineas movidas, limites ya claros en el propio
+  archivo.
+- *Riesgo:* bajo. Es la pieza mas fragil de `ui.js`, pero tambien la mas
+  aislada: no dibuja nada y no importa nada externo.
+- *Beneficio:* desbloquea de inmediato los tests que ADR-016 dejo pendientes
+  para `apilarVista`/`desapilarVista`. No resuelve P4/C3: `ui.js` se queda en
+  unas 1.600 lineas y sigue creciendo con M2.
+
+**C. No dividir ahora.**
+
+- *Coste:* cero hoy.
+- *Riesgo:* M2 (deep-links, jerarquia de navegacion) toca shell e historial
+  de lleno y anadiria lineas justo donde el archivo ya es mas largo; la
+  decision que se pidio cerrar antes de M2 quedaria sin cerrar.
+- Se descarta: no responde lo que se pidio decidir.
+
+**Decision.** Combinar A y B en dos pasos, no en una sola pieza:
+
+1. **Paso 1 (ahora; riesgo bajo; no requiere repetir el gate de M1):**
+   extraer `src/ui/estado.js` y `src/ui/historial.js` como en la opcion B.
+   Escribir primero sus tests — lo que ADR-016 ya dejo marcado como el
+   primer paso para cuando se tomara esta decision.
+2. **Paso 2 (despues de cerrar el gate de M1 en telefono real; antes de
+   empezar M2):** extraer el resto por caracteristica como en la opcion A,
+   dejando `src/ui/index.js` como fachada. `main.js` cambia una sola linea
+   (`from "./ui.js"` pasa a `from "./ui/index.js"`); su lista de imports no
+   cambia.
+
+**Por que no todo de una vez.** El gate de M1 en telefono real —punto 3 del
+Paso 0— todavia no se ha hecho. Repartir capas, buscador, ficha, tabla,
+fuentes, demo, carga y errores en ocho archivos nuevos justo antes de una
+verificacion pendiente mezclaria dos cosas que conviene mantener separadas:
+si algo falla en el telefono, asi se sabe de entrada que no es el refactor,
+porque el refactor todavia no existe. La regla 4 del estandar comun de
+portafolio —"commit pequeno y frecuente"— pide lo mismo: un cambio mecanico
+de 1.700 lineas no es un commit pequeno.
+
+**Lo que esta decision NO hace.** No cambia ningun comportamiento visible, ni
+toca `map.js` —la separacion de `lineasDe()`, tambien pendiente por
+ADR-016, es una decision aparte. No es una refactorizacion en si: es la
+aprobacion de la estructura para ejecutarla en el Paso 2, conforme a la
+regla de que el codigo no se reestructura sin aprobacion explicita.
+
+**Consecuencias.** `src/ui.js` desaparece y se convierte en el directorio
+`src/ui/`, igual que ya existe `src/i18n/`. Cada archivo nuevo hereda la
+restriccion dura sin excepcion: ninguno importa `cesium` ni hace `fetch`. El
+presupuesto de 150 KB de JS propio no cambia: dividir en archivos no cambia
+lo que sale en el bundle.
+
+**Cuando reconsiderar.** Si al hacer el Paso 2 alguna seccion resulta mas
+acoplada al estado compartido de lo que parece desde aqui —por ejemplo si
+`ficha.js` y `tabla.js` terminan necesitando las mismas funciones privadas de
+formato—, fusionar esas dos en vez de forzar la separacion por el nombre de
+la seccion original.
