@@ -36,6 +36,7 @@ Al registrar un dataset, si el CRS de origen no esta documentado, se anota
 |---|---|---|---|---|---|
 | **USGS FS 2009-3028** — Orinoco Oil Belt Assessment Unit | Petrofisica publicada (porosidad, saturacion de agua, espesor de arena neta), limites de la unidad | Documentado en la publicacion | Dominio publico (obra del gobierno de EE.UU.) | Cita recomendada, no exigida | **Descargado** en `data/raw/usgs-fs-2009-3028-orinoco-oil-belt.pdf` (917 KB) |
 | **Cesium World Terrain** | Elevacion y relieve global | EPSG:4326 / EGM96 | Terminos de Cesium ion | **Si** — el widget de creditos NO se oculta | En uso (runtime) |
+| **WRI Global Power Plant Database v1.3.0** | Centrales electricas: ubicacion, tecnologia y capacidad instalada | **NO DECLARADO** (grados decimales; ver seccion 15) | CC BY 4.0 | **Si** | **Convertido** a `public/data/centrales.geojson`, 43 centrales. Ver seccion 15 |
 
 ### OpenStreetMap — descargado
 
@@ -193,7 +194,9 @@ mostrando cifras de hace tres anos como si fueran de hoy.
 | 2026-09-08 | GEM GOGET | marzo 2026 | Setup inicial | 105 campos de Venezuela, 67 con poligono. CC BY 4.0 |
 | 2026-09-08 | OpenStreetMap (Overpass) | snapshot | Setup inicial | 461 pozos, 490 ductos, 51 refinerias, 1.860 terminales. Via mirror kumi.systems |
 | 2026-09-08 | OpenStreetMap (2a consulta) | snapshot | Fase 3 | 79 elementos. Recupera Amuay, El Palito y Punta Cardon, ausentes en la 1a |
-| 2026-09-09 | geoBoundaries VEN ADM0 + ADM1 | gbOpen | Contexto | Frontera y 25 estados. Simplificado de 7,25 MB a 231 KB. CC BY 4.0 |
+| 2026-09-09 | geoBoundaries VEN ADM0 + ADM1 | gbOpen | Contexto | Frontera y 25 estados. Simplificado de 7,25 MB a 231 KB. ADM0 dominio publico, ADM1 CC BY 3.0 IGO (corregido el 2026-09-15; decia CC BY 4.0) |
+| 2026-09-10 | WRI Global Power Plant Database | v1.3.0 | Contexto energetico | 43 centrales de Venezuela (9 hidroelectricas, 34 termicas). CC BY 4.0. WRI no la mantiene desde principios de 2022. Ver seccion 15 |
+| 2026-09-15 | WRI Global Power Plant Database (nueva descarga) | v1.3.0 | Auditoria | Misma version. Confianza de las 43 a baja por CRS no declarado (seccion 1). Geometria y resto de campos sin cambios |
 
 ---
 
@@ -386,6 +389,10 @@ francas: estan etiquetadas como industria pero no son cadena de hidrocarburos.
 Y las 43 sin nombre, porque una instalacion sin nombre no es identificable ni
 verificable.
 
+Las centrales electricas **si** estan en el mapa, pero no desde aqui: vienen de
+otra fuente (WRI), en su propia capa y apagadas por defecto. Ver seccion 15 y
+`docs/DECISIONS.md` -> ADR-013.
+
 ### Dato DERIVADO: los parques de tanques
 
 Los 704 tanques individuales se agrupan por proximidad (~1,5 km) en **25
@@ -430,8 +437,19 @@ capa por completa.
 ## 12. Limites administrativos de Venezuela
 
 **Fuente:** geoBoundaries, release gbOpen.
-**Licencia:** **CC BY 4.0**. **CRS:** EPSG:4326. **Confianza:** media.
-**Verificado:** 2026-09-09.
+**Licencia:** **una por nivel** — ADM0 **dominio publico** (origen Natural
+Earth); ADM1 **CC BY 3.0 IGO** (origen OCHA Venezuela / INE).
+**CRS:** EPSG:4326. **Confianza:** media.
+**Verificado:** 2026-09-09. **Licencia corregida:** 2026-09-15.
+
+> **Correccion del 2026-09-15.** Esta seccion decia CC BY 4.0 para todo el
+> dataset. La API oficial de geoBoundaries (`/api/current/gbOpen/VEN/ADM0/` y
+> `/api/current/gbOpen/VEN/ADM1/`, campo `boundaryLicense`) declara *Public
+> Domain* para ADM0 y *Creative Commons Attribution 3.0 Intergovernmental
+> Organisations (CC BY 3.0 IGO)* para ADM1. Las dos permiten el uso actual con
+> la atribucion que ya se muestra; lo que estaba mal era la licencia escrita.
+> **Pendiente:** el campo `fuente` de `limites-venezuela.geojson` sigue diciendo
+> CC BY 4.0 y hay que regenerarlo.
 
 | Nivel | Fuente primaria de geoBoundaries |
 |---|---|
@@ -618,3 +636,130 @@ que no se confundan, el rio va mas ancho (3 px), translucido (alpha 0,55) y en
 un azul mas frio; el gasoducto va fino y saturado. La leyenda lo dice
 explicitamente. Es la unica pareja de colores del mapa que se roza, y esta
 puesta a sabiendas: el agua tiene que leerse como agua.
+
+---
+
+## 15. Centrales electricas — WRI Global Power Plant Database
+
+**Fuente:** World Resources Institute, *Global Power Plant Database*, **v1.3.0**.
+Es la ultima version: la declara el propio repositorio en
+`output_database/DATABASE_VERSION`, y el script la lee de ahi.
+**Licencia:** **CC BY 4.0**. Literal del README: *"The latest database release
+(v1.3.0) is available in CSV format under a Creative Commons-Attribution 4.0
+(CC BY 4.0) license"*.
+**Atribucion obligatoria:** si. WRI figura en la atribucion de la interfaz
+(`pie.atribucionCorta`, `fuente.wri`).
+**CRS:** **NO DECLARADO** (ver abajo). **Confianza:** **baja** en las 43, por la
+regla de la seccion 1, hasta confirmar el datum.
+**Descargado y convertido:** 2026-09-10. **Generado con:** `npm run data:centrales`
+(`scripts/centrales-to-geojson.mjs`). **Decision de capa:** ADR-013.
+
+### Aviso de frescura: la base esta congelada
+
+Literal del README: *"This project is not currently maintained by WRI. There are
+no planned updates as of this time (early 2022)."*
+
+La capa dice **donde esta** cada central y **cuanta capacidad declara**. No dice
+si opera hoy: WRI no publica estado operativo, y las 43 van con
+`estado: "desconocido"`. La ficha lo advierte con `panel.centralSinEstado`.
+
+### Resultado de la conversion
+
+El script filtra `country_long = "Venezuela"` y descarta lo que caiga fuera de
+la ventana lat 0 a 13, lng −74 a −59.
+
+| | |
+|---|---|
+| Centrales escritas | **43** |
+| Hidroelectricas / termicas | 9 / 34 |
+| Combustible principal declarado | Hydro 9, Gas 34 |
+| Capacidad instalada total | 31.096 MW, 57% hidroelectrica |
+| Mayor / menor | Simon Bolivar (Guri), 8.851 MW / Santa Barbara, 20 MW |
+| Con capacidad declarada | 43 |
+| Sin ano de puesta en marcha | 35 |
+| Sin operadora | 37 |
+| Descartadas (sin coordenada o fuera de la ventana) | 0 |
+| Confianza | 43 baja (hasta el 2026-09-15: 27 media, 16 baja) |
+| Peso | 22 KB (presupuesto: 2 MB) |
+
+`notas` trae en las 43 la URL del documento que WRI cita como fuente de esa
+central. La ficha lo enlaza como "Documento citado por la fuente", no como
+ficha propia.
+
+### La confianza la fija el origen de la coordenada
+
+WRI declara de donde saco cada geolocalizacion (`geolocation_source`). El
+script traduce ese origen a la confianza que tendria **si el CRS estuviera
+declarado**. Mientras no lo este, se aplica `baja` a todas
+(`CRS_DECLARADO = false`) y el origen queda guardado en `origen_coordenada`:
+
+| Origen declarado | Centrales | Confianza si se confirma el datum |
+|---|---|---|
+| `GEODB` | 14 | media |
+| `WRI` | 13 | media |
+| `CARMA` | 16 | baja |
+| Cualquier otro | 0 | baja |
+
+Por tecnologia: hidroelectricas 7 media y 2 baja; termicas 20 media y 14 baja.
+El techo es **media** a proposito: es una fuente secundaria, sin contrastar aqui
+contra una primaria.
+
+### CRS no declarado: se aplica la regla de la seccion 1
+
+Se busco una declaracion de datum el 2026-09-15, sin exito:
+
+- **README del repositorio:** lista *"Latitude/longitude of plant"* entre los
+  atributos, pero no describe los campos ni menciona datum.
+- **Carpeta `output_database/`:** solo contiene `DATABASE_VERSION` y dos CSV.
+  No hay diccionario de datos.
+- **Catalogo de Google Earth Engine** (`WRI/GPPD/power_plants`): describe
+  `latitude` y `longitude` como *"Geolocation in decimal degrees"*, sin datum.
+- **Ficha de WRI Data Explorer:** sin mencion.
+
+Un resumen automatico de buscador afirmaba WGS84 sin citar ningun documento de
+WRI. **No se acepta como fuente.**
+
+Los valores son grados decimales geograficos y se cargan como EPSG:4326 sin
+transformar. Pero la seccion 1 es explicita: con CRS no documentado se anota
+`CRS: NO DECLARADO` y el dataset va con confianza `baja` hasta confirmarlo.
+**Resuelto el 2026-09-15 aplicando esa regla:** el script lleva
+`CRS_DECLARADO = false` y las 43 centrales van con `baja`. No es una decision
+nueva, es la regla escrita de la seccion 1.
+
+Para volver a la confianza por origen hace falta confirmar el datum con WRI
+(nota tecnica de la base o contacto), documentarlo aqui y poner
+`CRS_DECLARADO = true` en el script.
+
+Contexto para decidir: si el datum es moderno (WGS84 o SIRGAS-REGVEN), la
+seccion 1 ya los trata como practicamente equivalentes; el desvio de cientos de
+metros es el de La Canoa / PSAD56. Sin declaracion, ninguno se puede descartar.
+
+### Coordenadas compartidas: no se fusionan
+
+Dos pares de centrales comparten coordenada (redondeada a 3 decimales):
+
+| Coordenada (lat, lng) | Centrales |
+|---|---|
+| 11,696, −70,200 | Planta Camejo · Punto Fijo |
+| 10,488, −71,635 | Termozulia · Termozulia II |
+
+Desde el dato no se puede saber si es un mismo sitio listado dos veces o dos
+unidades del mismo complejo. Fusionarlas seria decidir por la fuente: se
+publican las dos y el script lo avisa en cada corrida.
+
+### Comprobacion de reproducibilidad
+
+El 2026-09-15 se volvio a ejecutar el script contra la fuente. La salida fue
+identica al archivo en uso salvo `ultima_verificacion`, y se conservo el
+archivo del 2026-09-10.
+
+Ese mismo dia se regenero con `CRS_DECLARADO = false`. Comparado registro a
+registro por `id` con el anterior: 43 y 43, geometria identica, y solo cambian
+`confianza` (las 43 a `baja`) y `ultima_verificacion` (2026-09-15).
+
+### Lo que esta capa NO es
+
+- **No es cadena de hidrocarburos.** Va en capa propia y apagada por defecto
+  (ADR-013), separada de la exclusion de `power=plant` de la seccion 11.
+- **No es un inventario actual.** Es la foto de WRI congelada en 2022.
+- **No dice que opera.** Capacidad instalada no es generacion ni disponibilidad.

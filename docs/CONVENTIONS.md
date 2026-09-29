@@ -62,9 +62,17 @@ Da a Claude Code el contexto que evita que invente firmas.
 
 - Clases de utilidad en el HTML generado por `ui.js`. Sin `@apply`.
 - Movil primero: base sin prefijo, `sm:` y `md:` para pantallas mayores.
-- Estados de foco visibles siempre (`focus-visible:outline`). Teclado incluido.
-- Paleta: `slate` para superficies, `emerald` para acciones, `red` para errores,
-  `amber` para avisos DEMO.
+- Estados de foco visibles siempre. Hay una regla global `:focus-visible` en
+  `style.css`; no hace falta repetirla en cada boton.
+- Paleta: **tokens de `style.css`**, no colores sueltos de Tailwind (ADR-014).
+  `shell`/`elev`/`trazo` para superficies y bordes, `hi`/`lo` para texto,
+  `crudo`/`gas`/`refino` como acento de cada sector, `activo`/`alerta` para
+  estados. `amber` queda **reservado** para la capa DEMO y los avisos de
+  cautela sobre un dato: si se usa para decorar, deja de avisar.
+- Los colores de lo que dibuja el mapa viven en `config.js`, no en los tokens:
+  la leyenda tiene que coincidir al pixel con lo que pinta Cesium.
+- Todo numero en `font-mono tabular-nums`.
+- Objetivos tactiles de 44 px en movil (`min-h-11`); pueden bajar en `sm:`.
 
 ## Datos
 

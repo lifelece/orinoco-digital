@@ -33,9 +33,12 @@ const TOLERANCIA_PAIS = 0.004;
 /** Anillos con menos vertices que esto se descartan: son islotes irrelevantes. */
 const MIN_VERTICES = 8;
 
-const FUENTE_ADM0 = "geoBoundaries gbOpen VEN ADM0 (Natural Earth), CC BY 4.0";
+// Licencia de cada nivel segun el campo boundaryLicense de la API de
+// geoBoundaries (gbOpen/VEN/ADM0 y /ADM1), comprobado el 2026-09-15. Antes
+// ponia CC BY 4.0 en los dos niveles, y no lo es ninguno de los dos.
+const FUENTE_ADM0 = "geoBoundaries gbOpen VEN ADM0 (Natural Earth), dominio publico";
 const FUENTE_ADM1 =
-  "geoBoundaries gbOpen VEN ADM1 (OCHA Venezuela / Instituto Nacional de Estadistica), CC BY 4.0";
+  "geoBoundaries gbOpen VEN ADM1 (OCHA Venezuela / Instituto Nacional de Estadistica), CC BY 3.0 IGO";
 const FECHA = "2026-09-09";
 
 /**

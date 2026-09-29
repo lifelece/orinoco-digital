@@ -1,0 +1,98 @@
+name: Reportar dato incorrecto
+description: >-
+  Un activo mal ubicado, un estado que cambio o una fuente obsoleta. No hace
+  falta saber programar. (EN: report wrong data — English is fine.)
+title: "[dato] "
+labels: ["datos"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por tomarte el tiempo. Este proyecto vale lo que valen sus fuentes,
+        asi que hay **un requisito unico: la correccion viene con fuente**. Sin
+        fuente no se puede fusionar, por bienintencionada que sea.
+
+        Mas detalle en [CONTRIBUTING.md](https://github.com/lifelece/orinoco-digital/blob/main/CONTRIBUTING.md).
+
+  - type: input
+    id: activo
+    attributes:
+      label: Activo
+      description: >-
+        El nombre tal como aparece en la ficha o en la vista de tabla. Si lo
+        conoces, anade tambien su `id` del GeoJSON.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: capa
+    attributes:
+      label: Capa
+      options:
+        - Upstream (campos)
+        - Midstream (ductos)
+        - Downstream (refinerias, plantas, puertos)
+        - Centrales electricas
+        - Limites o zona en disputa
+        - Rios o toponimia
+        - Otra / no lo se
+    validations:
+      required: true
+
+  - type: textarea
+    id: problema
+    attributes:
+      label: Que esta mal
+      description: Que muestra el mapa hoy.
+    validations:
+      required: true
+
+  - type: textarea
+    id: correccion
+    attributes:
+      label: Que deberia decir
+      description: El valor correcto. Si es una ubicacion, usa el campo de coordenadas.
+    validations:
+      required: true
+
+  - type: textarea
+    id: fuente
+    attributes:
+      label: Fuente
+      description: >-
+        Enlace, documento o dataset que lo demuestra, con su fecha. Tiene que
+        ser publica: no aportes informacion propietaria ni filtrada.
+    validations:
+      required: true
+
+  - type: input
+    id: coordenadas
+    attributes:
+      label: Coordenadas corregidas (opcional)
+      description: Latitud y longitud, en ese orden.
+
+  - type: dropdown
+    id: crs
+    attributes:
+      label: Sistema de referencia de esas coordenadas
+      description: >-
+        Venezuela uso La Canoa / PSAD56; sin transformar, un punto cae
+        desviado cientos de metros. Si no lo sabes, dilo: es mejor que suponer.
+      options:
+        - No aplica (no corrijo coordenadas)
+        - WGS84 (GPS, Google Maps, OpenStreetMap)
+        - REGVEN / SIRGAS
+        - La Canoa / PSAD56
+        - No lo se
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmaciones
+    attributes:
+      label: Confirmo
+      options:
+        - label: La fuente es publica y la he enlazado arriba.
+          required: true
+        - label: No es informacion propietaria, filtrada ni confidencial.
+          required: true

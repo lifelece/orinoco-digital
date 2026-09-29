@@ -10,13 +10,15 @@
     "dev:host": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
+    "test": "node --import ./test/entorno.mjs --test \"test/**/*.test.mjs\"",
     "data:gem": "node scripts/gem-to-geojson.mjs",
     "data:validate": "node scripts/validate-geojson.mjs",
     "data:osm": "node scripts/osm-to-geojson.mjs",
     "data:limites": "node scripts/limites-to-geojson.mjs",
     "data:contexto": "node scripts/contexto-to-geojson.mjs",
     "data:demo": "node scripts/generar-features-demo.mjs",
-    "data:disputa": "node scripts/zona-disputada.mjs"
+    "data:disputa": "node scripts/zona-disputada.mjs",
+    "data:centrales": "node scripts/centrales-to-geojson.mjs"
   },
   "dependencies": {
     "cesium": "^1.135.0"

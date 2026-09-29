@@ -16,11 +16,16 @@ topografico real, con datos publicos y trazables.
 Un mapa 3D navegable que muestra la cadena de valor completa de los
 hidrocarburos venezolanos:
 
-- **Upstream** — pozos y bloques de la Faja (Boyaca, Junin, Ayacucho, Carabobo)
-- **Midstream** — oleoductos, gasoductos, mejoradores y terminales
-- **Downstream** — refinerias, puertos y rutas de exportacion
-- **Capa empresarial** — operadoras, empresas mixtas, inversion y arbitrajes
+- **Upstream** — 105 campos de petroleo y gas (Global Energy Monitor). Campos,
+  no pozos: el historial por pozo no es publico
+- **Midstream** — 346 ductos y 25 parques de tanques (OpenStreetMap)
+- **Downstream** — refinerias, petroquimicas, plantas de gas y puertos
+  (OpenStreetMap)
+- **Contexto** — limites, rios, toponimia, la Guayana Esequiba como zona en
+  disputa y 43 centrales electricas (WRI)
 - **Capa de IA** — modelo demostrativo, siempre etiquetado como tal
+- **Investigacion** — operadoras, empresas mixtas, inversion y arbitrajes, en
+  [docs/investigacion/](docs/investigacion/)
 
 Todo dato visible es rastreable hasta una fuente publica documentada.
 

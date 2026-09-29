@@ -75,6 +75,29 @@ export const CAMARA = {
   inclinacion: -35, // grados
   // Multiplo del radio de la esfera envolvente. Mas alto = mas margen.
   margen: 1.9,
+
+  /**
+   * Encuadre en pantalla vertical (telefono).
+   *
+   * Con la vista de escritorio, un telefono en vertical dedicaba el tercio
+   * superior al cielo y cortaba la Faja por los lados: el campo de vision
+   * horizontal de una pantalla alta es la mitad que el de una ancha. Mas
+   * cenital y mas lejos, la franja entera cabe y el cielo desaparece.
+   */
+  inclinacionVertical: -60,
+  // Medido en captura a 390x844: con 3.2 los bordes este y oeste de la caja
+  // de la Faja quedaban justo fuera de pantalla.
+  margenVertical: 3.6,
+
+  /** Vuelo a un activo desde el buscador o la tabla. Notion "Mejora v2" §1.3. */
+  duracionVueloActivo: 1.2,
+  inclinacionActivo: -45,
+  /**
+   * Distancia a la que se queda la camara de un activo puntual, en metros.
+   * Un punto no tiene extension: sin esto Cesium se acerca a 100 m, su minimo,
+   * y el simbolo llena la pantalla sin ningun contexto alrededor.
+   */
+  distanciaActivoPuntual: 18000,
 };
 
 /**
@@ -152,6 +175,9 @@ export const RUTAS_DATOS = {
   // Contexto cartografico: sin esto el mapa es geometria correcta pero muda.
   toponimia: "/data/toponimia.geojson",
   hidrografia: "/data/hidrografia.geojson",
+  // Energia electrica: NO es cadena de hidrocarburos, por eso va aparte.
+  // Ver docs/DECISIONS.md -> ADR-013.
+  centrales: "/data/centrales.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
 };
 
@@ -185,6 +211,31 @@ export const COLOR_FLUIDO = {
   fuel: "#a78bfa",
   desconocido: "#94a3b8",
 };
+
+/**
+ * Color por clase de central electrica.
+ *
+ * Turquesa el agua que mueve una turbina, rosa la combustion. Se eligieron
+ * fuera de las familias ya ocupadas —ambar el crudo, azul el gas, rojo las
+ * refinerias— para que una termica no se lea como una refineria ni una represa
+ * como un puerto. El simbolo (presa o rayo) hace el resto del trabajo.
+ */
+export const COLOR_CENTRAL = {
+  hidro: "#2dd4bf",
+  termo: "#fb7185",
+  otro: "#94a3b8",
+};
+
+/**
+ * Escala del simbolo de una central segun su capacidad instalada.
+ *
+ * Los mapas de referencia dibujan Guri mas grande que una termica de 20 MW, y
+ * hacen bien: 8.851 MW y 20 MW no son la misma cosa y un mapa que los pinta
+ * igual esconde el dato mas importante de la capa. Se usa raiz cuadrada y no
+ * proporcion directa porque Guri es 440 veces mayor que la menor: en lineal, o
+ * Guri no cabe en pantalla o el resto es invisible.
+ */
+export const ESCALA_CENTRAL = { minima: 0.85, maxima: 1.4, referenciaMw: 3000 };
 
 /** Color de los rotulos, por clase de toponimo. */
 export const COLOR_TOPONIMIA = {
@@ -265,7 +316,70 @@ export const REPO = "https://github.com/lifelece/orinoco-digital";
  *
  * Actualizar en el mismo commit en que se actualicen los GeoJSON.
  */
-export const FECHA_DATOS = "2026-09-09";
+export const FECHA_DATOS = "2026-09-15";
+
+// --- Interfaz ---------------------------------------------------------------
+
+/**
+ * Antiguedad de los datos, en dias, a partir de la cual el indicador de
+ * frescura cambia de color. La cadencia de la infraestructura es semestral
+ * (docs/DATA_SOURCES.md, seccion 7): pasados 180 dias toca revisar.
+ */
+export const UMBRAL_FRESCURA_DIAS = { aviso: 90, caducado: 180 };
+
+/**
+ * Tiempo maximo con la pantalla de carga puesta, en milisegundos, aunque el
+ * terreno no haya terminado. En red movil lenta, un mapa a medio cargar es
+ * mas util que una espera sin fin.
+ */
+export const ESPERA_MAXIMA_CARGA = 8000;
+
+/**
+ * Fuentes que se listan en el dialogo "Fuentes y licencias".
+ *
+ * Cada URL se comprobo que responde el 2026-09-14. La licencia es la que
+ * declara la propia fuente; el detalle y el metodo, en docs/DATA_SOURCES.md.
+ * Nombre y licencia son claves i18n: llevan fechas y textos que se traducen.
+ */
+export const FUENTES = [
+  {
+    clave: "gem",
+    url: "https://globalenergymonitor.org/projects/global-oil-gas-extraction-tracker/",
+    licencia: "licencia.ccby4",
+  },
+  {
+    clave: "osm",
+    url: "https://www.openstreetmap.org/copyright",
+    licencia: "licencia.odbl",
+  },
+  {
+    clave: "geoboundaries",
+    url: "https://www.geoboundaries.org/",
+    // Dos licencias: el pais es dominio publico y los estados CC BY 3.0 IGO,
+    // segun la API de geoBoundaries (2026-09-15). No es CC BY 4.0.
+    licencia: "licencia.geoboundaries",
+  },
+  {
+    clave: "naturalEarth",
+    url: "https://www.naturalearthdata.com/",
+    licencia: "licencia.dominioPublico",
+  },
+  {
+    clave: "wri",
+    url: "https://github.com/wri/global-power-plant-database",
+    licencia: "licencia.ccby4",
+  },
+  {
+    clave: "usgs",
+    url: "https://pubs.usgs.gov/fs/2009/3028/",
+    licencia: "licencia.dominioPublico",
+  },
+  {
+    clave: "cesium",
+    url: "https://cesium.com/platform/cesium-ion/content/cesium-world-terrain/",
+    licencia: "licencia.cesium",
+  },
+];
 
 // --- Idioma -----------------------------------------------------------------
 

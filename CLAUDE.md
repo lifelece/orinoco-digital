@@ -103,14 +103,27 @@ Fases 0, 1, 2, 3 y 5 **cerradas**, verificadas por el autor en telefono real el
 
 Capas: 105 campos (GEM GOGET), 346 ductos, 97 activos downstream con 25 parques
 de tanques (OSM, ODbL), limites nacionales y estatales, la Guayana Esequiba
-marcada como zona en disputa, y la capa DEMO del modelo.
+marcada como zona en disputa, rios y toponimia, 43 centrales electricas (WRI,
+apagadas por defecto) y la capa DEMO del modelo.
 
 **Pendiente inmediato — token de Cesium sin restringir.** Esta desplegado sin
 restriccion de dominio: cualquiera puede copiarlo del bundle y consumir los
 15 GB/mes gratuitos. Pasos en `docs/fases/FASE-6-7-DEPLOY.md`.
 
-**Fase 6-7 a medias:** el sitio esta publicado, falta Lighthouse, el material de
-divulgacion y el tag v1.0.
+**Fase 6-7 a medias:** el sitio esta publicado; falta el material de divulgacion, el
+tag v1.0 y Lighthouse en verde. Medido el 2026-09-17: rendimiento 25, lastrado
+por Cesium antes de la interfaz (ver `docs/NOTION.md` §4).
+
+**v2 (planificada en Notion):** M1 *Shell de UI* implementado (ADR-014),
+**pendiente del gate en telefono real**; M2 y siguientes no empiezan hasta
+cerrarlo. Adelantados sin tocar la app: validador de datos en CI, `CITATION.cff`
+y plantilla de dato incorrecto (ADR-015). Auditoria en
+`docs/AUDITORIA-2026-09.md`.
+
+**Notion:** indice de paginas, estado y **contradicciones con este archivo** en
+`docs/NOTION.md`. El *Prompt maestro* de Notion pide Supabase, textos solo en
+espanol, GSAP y otra estructura de modulos: aqui manda este archivo hasta que un
+ADR diga otra cosa.
 
 El plan completo esta en `docs/PLAN.md`; cada fase tiene su archivo en
 `docs/fases/`.
@@ -118,5 +131,6 @@ El plan completo esta en `docs/PLAN.md`; cada fase tiene su archivo en
 ## Al empezar una sesion
 
 1. Lee este archivo y `docs/PLAN.md`.
-2. Lee el archivo de la fase activa en `docs/fases/`.
+2. Lee el archivo de la fase activa en `docs/fases/`. Si vienes de Notion, lee
+   tambien `docs/NOTION.md`.
 3. Confirma en una frase que fase vas a trabajar antes de escribir codigo.

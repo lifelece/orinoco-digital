@@ -2,6 +2,7 @@
  * validate-geojson.mjs — Comprueba los GeoJSON antes de publicarlos.
  *
  * Uso:  npm run data:validate
+ *       node scripts/validate-geojson.mjs [directorio]   (por defecto public/data)
  *
  * Aplica las reglas del proyecto: geometria valida, coordenadas en WGS84
  * dentro de la ventana que le corresponda a la capa, y trazabilidad
@@ -10,11 +11,15 @@
  */
 
 import { readdir, readFile } from "node:fs/promises";
-import { join, dirname } from "node:path";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..");
-const DIRECTORIO = join(RAIZ, "public", "data");
+// El directorio es argumento opcional para que los tests puedan validar datos
+// sembrados con errores sin tocar public/data. Ver test/validador.test.mjs.
+const DIRECTORIO = process.argv[2]
+  ? resolve(process.argv[2])
+  : join(RAIZ, "public", "data");
 
 // Venezuela continental con margen. Fuera de esto, hay un error de CRS.
 const LIMITES = { latMin: 0, latMax: 13, lngMin: -74, lngMax: -59 };
