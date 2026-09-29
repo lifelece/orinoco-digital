@@ -31,6 +31,12 @@
   --animate-entrar: entrar-lateral 180ms ease-out;
   --animate-subir: entrar-inferior 180ms ease-out;
   --animate-indeterminada: barra-indeterminada 1.4s ease-in-out infinite;
+  /* Adelanto de M3 (paquete visual, ver docs/DECISIONS.md -> ADR-018): entrada
+     escalonada de las filas del panel de capas y "dibujado" de las muestras de
+     linea de la leyenda. Cortas (<=600ms) y con el mismo ease-out que ya usan
+     entrar-lateral/entrar-inferior arriba. */
+  --animate-fila-entra: fila-entra 260ms ease-out both;
+  --animate-linea-dibujar: linea-dibujar 400ms ease-out both;
 
   @keyframes entrar-lateral {
     from {
@@ -50,6 +56,17 @@
     }
     to {
       transform: translateX(300%);
+    }
+  }
+  @keyframes fila-entra {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @keyframes linea-dibujar {
+    from {
+      transform: scaleX(0);
     }
   }
 }
@@ -120,5 +137,20 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Diagrama "cadena de valor" del panel de capas (src/ui/cadena.js): el trazo
+   entre nodos se dibuja con stroke-dashoffset, el equivalente SVG de
+   drawLine sin GSAP (ver docs/DECISIONS.md -> ADR-018 y C4 de docs/NOTION.md).
+   stroke-dasharray/stroke-dashoffset iniciales van en el propio elemento
+   (calculados con la longitud real de cada linea); esta regla solo anima
+   hasta 0. La media query de arriba ya la apaga con prefers-reduced-motion. */
+.cadena-trazo {
+  animation: cadena-dibujar 420ms ease-out forwards;
+}
+@keyframes cadena-dibujar {
+  to {
+    stroke-dashoffset: 0;
   }
 }

@@ -596,3 +596,132 @@ acoplada al estado compartido de lo que parece desde aqui —por ejemplo si
 `ficha.js` y `tabla.js` terminan necesitando las mismas funciones privadas de
 formato—, fusionar esas dos en vez de forzar la separacion por el nombre de
 la seccion original.
+
+---
+
+## ADR-018 — Paquete visual: base oscura por ajuste de la capa actual (C8),
+animaciones CSS (M3) y vuelo de entrada
+
+**Fecha:** 2026-09-29 · **Estado:** propuesta, pendiente de revision del autor
+
+**Contexto.** Luis reviso la vista previa del M1 el 2026-09-29, le gusto, y
+pidio anadir cosas visualmente atractivas antes de pasar a produccion, sin
+esperar al gate en telefono real ni a que M2/M3/M4 empiecen formalmente. Esto
+es un adelanto acotado de dos hitos ya descritos en `docs/PLAN.md` y en
+`docs/NOTION.md` (M3 Animacion, M4 Render), mas una pieza nueva —el diagrama
+de cadena de valor— y el vuelo de entrada, todo dentro de las restricciones ya
+vigentes: sin dependencias nuevas (regla 7 de `CLAUDE.md`), sin GSAP (C4 de
+`docs/NOTION.md`), sin proveedor de teselas nuevo para la base oscura (C8), y
+sin tocar la estructura de modulos mas alla de lo que ADR-014 ya dejaba
+abierto para `ui.js` (el codigo nuevo va en `src/ui/`, no en el propio
+`ui.js`).
+
+**Decision.** Cuatro piezas:
+
+1. **Base oscura ajustando la ImageryLayer actual.** `map.js` ->
+   `aplicarEstiloOscuro()`: baja `brightness` (0.55), sube `contrast` (1.15),
+   baja `saturation` (0.55) y `gamma` (0.85) de `viewer.imageryLayers.get(0)`
+   —la capa que Cesium ya carga por defecto, la misma de siempre—, fija
+   `globe.baseColor` y `scene.backgroundColor` al mismo tono que
+   `--color-shell` de `style.css`, y atenua el brillo/saturacion de
+   `skyAtmosphere` para que el halo de la atmosfera no desentone. La niebla
+   (`scene.fog`) sigue como ya la controlaba `ajustarCalidad()` (Fase 0): no
+   se ha tocado su logica de activarse/desactivarse segun movimiento y
+   dispositivo, solo el color de fondo sobre el que se ve. Los colores por
+   sector (`COLOR_HIDROCARBURO`, `COLOR_FLUIDO`, `COLOR_TIPO`...) no se tocan:
+   siguen mas saturados que el fondo oscurecido, asi que se leen mejor, no
+   peor.
+2. **Animaciones de interfaz con CSS, en `src/ui/animar.js`.** `countUp` de
+   los contadores del panel de capas (105 campos, 346+ ductos/terminales, 97
+   instalaciones, 43 centrales) al cargar los datos, una sola vez por capa;
+   entrada escalonada (`fadeUp` + `stagger` de 30 ms) de las filas del panel
+   al montarse por primera vez; `drawLine` (CSS `scaleX` con
+   `transform-origin: left`) en las muestras de linea de la leyenda del panel
+   de capas. Todo `<=600ms` por elemento. El `countUp` es el unico que anima
+   por JS (interpolar un numero no se puede hacer solo con `@keyframes` sin
+   `@property`, que no todos los navegadores del publico objetivo soportan);
+   respeta `prefers-reduced-motion` a mano. Lo demas es CSS puro con
+   `@keyframes` en el `@theme` de `style.css`, y por eso hereda gratis la regla
+   `prefers-reduced-motion` que ya existia ahi desde ADR-014.
+3. **Diagrama "cadena de valor", en `src/ui/cadena.js`.** SVG en linea,
+   compacto, encima de las tres filas de sector del panel de capas: tres
+   nodos (Upstream, Midstream, Downstream) con el mismo color de acento que ya
+   usa cada interruptor (`ACENTO` en `ui.js`: crudo, gas, refino) y su
+   contador, unidos por trazo que se dibuja con `stroke-dashoffset` al
+   montarse. **Decorativo** (`aria-hidden="true"`): la forma accesible de
+   saber que hay tres sectores y cuantos activos tiene cada uno sigue siendo
+   las tres filas de interruptores que ya existian, justo debajo. Los nombres
+   de los nodos son claves i18n nuevas (`cadena.upstream/midstream/downstream`).
+4. **Vuelo de entrada, en `map.js` -> `iniciarVistaConVuelo()`.** Sustituye la
+   llamada a `encuadrarFaja()` (sin animacion) al arrancar por una que parte
+   de una vista de continente/globo —mismo rumbo e inclinacion que el
+   encuadre final, `esfera.radius * 35` de distancia— y vuela hasta el
+   encuadre normal de la Faja en `CAMARA.duracionVuelo` (~3 s, la misma
+   duracion que ya usa el boton "Volar a la Faja"). Se omite con
+   `prefers-reduced-motion` (directo al encuadre final). Si el usuario toca el
+   mapa mientras el vuelo esta en curso (`pointerdown`/`wheel`/`touchstart` en
+   el canvas), se cancela con `camera.cancelFlight()` y el gesto pasa a
+   manejar la camara con normalidad: un vuelo que no se puede interrumpir es
+   peor que no volar. `encuadrarFaja()` se conserva tal cual, como el camino
+   sin animacion (reduced motion) y porque sigue siendo la base de la que
+   parte el vuelo.
+
+**Alternativas descartadas.**
+
+- **Proveedor de teselas oscuro nuevo (Stadia Alidade Smooth Dark, la
+  propuesta original de Notion en C8 de `docs/NOTION.md`).** Un proveedor
+  nuevo es una fuente nueva: entrada en `DATA_SOURCES.md`, atribucion propia y
+  condiciones de uso que verificar, y una dependencia de red mas en el camino
+  critico del primer render. Ajustar `brightness`/`contrast`/`saturation`/
+  `gamma` de la capa que ya se carga consigue el mismo objetivo —"instrumento
+  tecnico oscuro"— sin nada de eso, y es exactamente lo que C8 ya proponia
+  como alternativa antes de este ADR.
+- **GSAP + ScrollTrigger para las animaciones de M3 (tambien C4).** Ninguna
+  de las tres piezas de animacion —`countUp`, entrada escalonada, `drawLine`—
+  necesita una libreria: `@keyframes` + una interpolacion de \\~15 lineas
+  cubren las tres. GSAP no es OSI (`Skillstack` §4) y anadiria peso al
+  presupuesto de 150 KB comprimidos justo para lo que CSS ya resuelve.
+  Reconsiderar solo si M6 (si llega a existir con ese alcance) pide una
+  coreografia que CSS no pueda expresar razonablemente.
+- **`countUp` tambien en CSS puro, con `@property` + `counter-reset`/
+  `content`.** Tecnicamente posible en navegadores que soportan
+  `@property` (Chrome/Edge recientes), pero no en todo el parque de moviles
+  gama media de la red venezolana que `docs/PERFORMANCE_BUDGET.md` toma como
+  objetivo real, y sin libreria de feature-detection el fallback silencioso
+  seria "el numero no cuenta", peor que la solucion JS elegida.
+- **Vuelo de entrada sin posibilidad de cancelar.** Un `flyToBoundingSphere`
+  de 3 s que ignora al usuario mientras dura se siente como una camara
+  secuestrada, justo lo contrario del tono de "instrumento" que busca el
+  paquete. Cancelar al primer gesto cuesta ~10 lineas y evita ese problema
+  por completo.
+
+**Consecuencias.**
+
+- El JS propio del bundle pasa de 68,93 KB (22,18 KB gzip) a 72,61 KB
+  (23,49 KB gzip): +3,68 KB (+1,31 KB gzip). Sigue muy por debajo del limite
+  de 150 KB comprimidos de `docs/PERFORMANCE_BUDGET.md`.
+- Dos archivos nuevos bajo `src/ui/` (`animar.js`, `cadena.js`), enchufados
+  desde `ui.js` con el minimo de cambios: import, dos claves de estado
+  (`capasAnimadasUnaVez`, indices de fila) y las llamadas a las funciones que
+  exportan. No es el refactor de ADR-017 ni lo sustituye: `ui.js` sigue siendo
+  el unico duenio del DOM del shell.
+- 10 tests nuevos en `test/animar.test.mjs` para la logica pura de
+  `ui/animar.js` (`easeSalida`, `valorCountUp`, `entradaFila`,
+  `claseDibujarLinea`), siguiendo el patron de ADR-016. `cadena.js` no se
+  prueba en Node por la misma razon que `ui.js` no se prueba entera: importa
+  `i18n/index.js`, que toca `localStorage`/`navigator` al cargarse.
+  `test/i18n.test.mjs` ahora recorre `src/` de forma recursiva (antes solo el
+  nivel superior) para que las claves nuevas usadas en `src/ui/*.js` tambien
+  se verifiquen contra los diccionarios.
+- Tres claves i18n nuevas (`cadena.upstream`, `cadena.midstream`,
+  `cadena.downstream`) en `es.json` y `en.json`.
+- No cambia el contrato de `api.js` ni la estructura de datos. No repite el
+  gate de M1 en telefono real: sigue pendiente, y este paquete se suma encima,
+  no lo sustituye.
+
+**Cuando reconsiderar.** Si el gate en telefono real muestra que la base
+oscura deja los marcadores o las etiquetas dificiles de leer sobre alguna
+zona del terreno, o que el vuelo de entrada se siente lento en redes moviles
+reales (los 3 s se miden en duracion de animacion, no en tiempo de descarga de
+teselas, que puede solaparse). Si M3 llega formalmente y trae una tabla de
+easing propia, esta base queda como punto de partida, no como version final.

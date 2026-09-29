@@ -96,6 +96,7 @@ export function iniciarMapa() {
   controlador.maximumZoomDistance = CAMARA.alturaMaxima;
   controlador.minimumZoomDistance = CAMARA.alturaMinima;
 
+  aplicarEstiloOscuro();
   ajustarCalidad(false);
   conectarCalidadAdaptativa();
 
@@ -103,10 +104,44 @@ export function iniciarMapa() {
   // proveedores de terreno es OBLIGATORIA por licencia. Ver DATA_SOURCES.md.
 
   // La aplicacion abre directamente sobre la Faja, no sobre el globo entero.
-  encuadrarFaja();
+  // (adelanto de M4: vuelo de entrada, ver iniciarVistaConVuelo mas abajo).
+  iniciarVistaConVuelo();
   conectarSeleccion();
 
   return viewer;
+}
+
+/**
+ * Oscurece la capa de imagenes por defecto para un aspecto de "instrumento
+ * tecnico oscuro" (adelanto de M4). Ver docs/DECISIONS.md -> ADR-018.
+ *
+ * CONDICION DURA (C8 de docs/NOTION.md): NINGUN proveedor de teselas nuevo.
+ * Se ajustan brillo, contraste, saturacion y gamma de la ImageryLayer que
+ * Cesium ya carga por defecto, mas el color base del globo y el fondo de la
+ * escena, para que combinen con `--color-shell` de style.css. Los colores por
+ * sector (COLOR_HIDROCARBURO, COLOR_FLUIDO...) siguen leyendose: son mas
+ * saturados que el fondo oscurecido y no se tocan (ADR-014, punto 3).
+ */
+function aplicarEstiloOscuro() {
+  if (!viewer) return;
+
+  const capaBase = viewer.imageryLayers.get(0);
+  if (capaBase) {
+    capaBase.brightness = 0.55;
+    capaBase.contrast = 1.15;
+    capaBase.saturation = 0.55;
+    capaBase.gamma = 0.85;
+  }
+
+  // Bajo la imagen (huecos de cobertura, mar abierto) y el fondo del espacio:
+  // el mismo tono que --color-shell, para que el globo no "salte" al chrome.
+  viewer.scene.globe.baseColor = Color.fromCssColorString("#0b0f14");
+  viewer.scene.backgroundColor = Color.fromCssColorString("#05080b");
+
+  // Atmosfera sutil, no un halo azul brillante que desentone con el resto
+  // oscurecido. La niebla (fog.enabled) ya se controla en ajustarCalidad.
+  viewer.scene.skyAtmosphere.brightnessShift = -0.35;
+  viewer.scene.skyAtmosphere.saturationShift = -0.25;
 }
 
 /** @returns {boolean} pantalla pequena = presupuesto de movil */
@@ -259,6 +294,59 @@ export function encuadrarFaja() {
   // viewBoundingSphere deja la camara anclada al sistema de referencia de la
   // esfera. Sin esto, el usuario no puede desplazarse libremente despues.
   viewer.camera.lookAtTransform(Matrix4.IDENTITY);
+}
+
+/**
+ * Vista de arranque con vuelo de entrada (adelanto de M4/M3, punto 4 del
+ * paquete visual). Ver docs/DECISIONS.md -> ADR-018.
+ *
+ * La camara arranca en una vista de continente/globo y vuela hasta el
+ * encuadre normal de la Faja en `CAMARA.duracionVuelo` (~3 s), la misma
+ * duracion que ya usa "Volar a la Faja". Se omite:
+ * - con `prefers-reduced-motion: reduce` (directo al encuadre final, sin vuelo);
+ * - si el usuario toca el mapa mientras el vuelo esta en curso: se cancela y
+ *   el gesto pasa a manejar la camara con normalidad. Un vuelo a medio
+ *   terminar que el usuario no puede interrumpir es peor que no volar.
+ */
+export function iniciarVistaConVuelo() {
+  if (!viewer) return;
+  const { esfera, offset } = vistaFaja();
+
+  const reducido = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if (reducido) {
+    encuadrarFaja();
+    return;
+  }
+
+  // Vista de partida: mismo rumbo e inclinacion que el encuadre final, mucho
+  // mas lejos -a escala de continente/globo-, para que el vuelo tenga a donde
+  // ir. El multiplicador es un detalle de esta animacion, no un encuadre
+  // reutilizable, por eso no vive en config.js junto a CAMARA.margen.
+  const lejos = new HeadingPitchRange(offset.heading, offset.pitch, esfera.radius * 35);
+  viewer.camera.viewBoundingSphere(esfera, lejos);
+  viewer.camera.lookAtTransform(Matrix4.IDENTITY);
+
+  const canvas = viewer.scene.canvas;
+  const eventosInteraccion = ["pointerdown", "wheel", "touchstart"];
+  const cancelarPorInteraccion = () => {
+    viewer.camera.cancelFlight();
+    quitarListeners();
+  };
+  const quitarListeners = () => {
+    for (const ev of eventosInteraccion) {
+      canvas.removeEventListener(ev, cancelarPorInteraccion);
+    }
+  };
+  for (const ev of eventosInteraccion) {
+    canvas.addEventListener(ev, cancelarPorInteraccion, { once: true, passive: true });
+  }
+
+  viewer.camera.flyToBoundingSphere(esfera, {
+    offset,
+    duration: CAMARA.duracionVuelo,
+    complete: quitarListeners,
+    cancel: quitarListeners,
+  });
 }
 
 /** @returns {Viewer | null} */

@@ -38,6 +38,8 @@ import {
   FECHA_DATOS,
 } from "./config.js";
 import { hidrocarburoDe } from "./data.js";
+import { activarContadores, entradaFila, claseDibujarLinea } from "./ui/animar.js";
+import { htmlCadena } from "./ui/cadena.js";
 
 // --- Utilidades --------------------------------------------------------------
 
@@ -258,6 +260,13 @@ let bannerDemoVisible = false;
 let leyendaAbierta = false;
 /** En escritorio el control de capas empieza abierto; en movil ocuparia medio mapa. */
 let capasAbiertas = pantallaAncha.matches;
+/**
+ * Si el panel de capas ya se pinto alguna vez con las filas y las muestras de
+ * linea animando su entrada (adelanto de M3, ver ADR-018). Solo la primera
+ * vez: marcar o desmarcar un interruptor repinta el panel entero, y repetir
+ * la entrada en cada click seria ruido, no bienvenida al dato.
+ */
+let capasAnimadasUnaVez = false;
 let tablaVisible = false;
 let panelAbierto = false;
 let fuentesAbiertas = false;
@@ -599,27 +608,34 @@ function conteo(interruptor) {
 
 const punto = (color) =>
   `<span class="h-2 w-2 rounded-full" style="background:${color}"></span>`;
-const raya = (color, discontinua = false) =>
-  `<span class="h-0 w-3 border-t-2 ${discontinua ? "border-dashed" : ""}" ` +
-  `style="border-color:${color}"></span>`;
+/**
+ * Muestra de linea de la leyenda. Con `animar`, se "dibuja" de izquierda a
+ * derecha (drawLine con CSS, ver ui/animar.js) la primera vez que el panel se
+ * monta: `origin-left` fija el punto desde el que crece el `scaleX` de la
+ * animacion, que si no por defecto crece desde el centro.
+ */
+const raya = (color, discontinua = false, animar = false) =>
+  `<span class="h-0 w-3 origin-left border-t-2 ${discontinua ? "border-dashed" : ""} ` +
+  `${claseDibujarLinea(animar)}" style="border-color:${color}"></span>`;
 
 /**
  * Muestras de color junto a cada interruptor: la leyenda minima que siempre
  * esta a la vista. Sin ella el mapa es decoracion (Notion "Mejora v2", §1.3).
+ * Cada una recibe `animar` para el drawLine de las muestras de linea.
  */
 const MUESTRAS = {
   upstream: () =>
     [COLOR_HIDROCARBURO.petroleo, COLOR_HIDROCARBURO.mixto, COLOR_HIDROCARBURO.gas]
       .map(punto)
       .join(""),
-  midstream: () => raya(COLOR_FLUIDO.oil) + raya(COLOR_FLUIDO.gas),
+  midstream: (animar) => raya(COLOR_FLUIDO.oil, false, animar) + raya(COLOR_FLUIDO.gas, false, animar),
   downstream: () =>
     [COLOR_TIPO.refineria, COLOR_TIPO.petroquimica, COLOR_TIPO.puerto].map(punto).join(""),
   toponimia: () => punto(COLOR_TOPONIMIA.marca),
-  hidrografia: () => raya(COLOR_AGUA.rio),
-  limites: () => raya(COLOR_LIMITE.estado),
-  disputa: () => raya(COLOR_LIMITE.disputa, true),
-  faja: () => raya(COLOR_LIMITE.faja, true),
+  hidrografia: (animar) => raya(COLOR_AGUA.rio, false, animar),
+  limites: (animar) => raya(COLOR_LIMITE.estado, false, animar),
+  disputa: (animar) => raya(COLOR_LIMITE.disputa, true, animar),
+  faja: (animar) => raya(COLOR_LIMITE.faja, true, animar),
   centrales: () => [COLOR_CENTRAL.hidro, COLOR_CENTRAL.termo].map(punto).join(""),
 };
 
@@ -632,8 +648,11 @@ const MUESTRAS = {
  * @param {string} interruptor
  * @param {boolean} marcado
  * @param {"sector" | "contexto"} grupo
+ * @param {boolean} [animar=false] — entrada escalonada + drawLine, solo en el
+ *   primer montaje del panel (adelanto de M3, ver ui/animar.js)
+ * @param {number} [indice=0] — orden de la fila, para escalonar la entrada
  */
-function filaInterruptor(interruptor, marcado, grupo) {
+function filaInterruptor(interruptor, marcado, grupo, animar = false, indice = 0) {
   const estado = estadoInterruptor(interruptor);
   const n = conteo(interruptor);
   const etiqueta = t(grupo === "sector" ? `capa.${interruptor}` : `contexto.${interruptor}`);
@@ -648,21 +667,28 @@ function filaInterruptor(interruptor, marcado, grupo) {
       `<span class="shrink-0 font-mono text-[11px] text-alerta" ` +
       `title="${esc(t("capa.errorDetalle"))}">${esc(t("capa.error"))}</span>`;
   } else if (n !== null) {
+    // data-contador/data-valor: el countUp de ui/animar.js los busca despues
+    // de insertar este HTML. El texto ya trae el numero final por si la
+    // animacion no llega a correr (prefers-reduced-motion, JS lento...).
     indicador =
       `<span class="min-w-7 shrink-0 text-right font-mono text-[11px] tabular-nums ` +
-      `${marcado ? "text-lo" : "text-lo/50"}">${numero(n)}</span>`;
+      `${marcado ? "text-lo" : "text-lo/50"}" data-contador="${interruptor}" data-valor="${n}">` +
+      `${numero(n)}</span>`;
   }
+
+  const { clase: claseEntrada, estilo: estiloEntrada } = entradaFila(animar, indice);
 
   return `
     <label class="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2
-                  transition-colors hover:bg-white/5 sm:min-h-8">
+                  transition-colors hover:bg-white/5 sm:min-h-8 ${claseEntrada}"
+           ${estiloEntrada ? `style="${estiloEntrada}"` : ""}>
       <input type="checkbox" data-${grupo}="${interruptor}" ${marcado ? "checked" : ""}
              class="h-4 w-4 shrink-0 ${ACENTO[interruptor] ?? "accent-lo"}">
       <span class="min-w-0 flex-1 text-[13px] leading-tight ${marcado ? "text-hi" : "text-lo"}">
         ${esc(etiqueta)}
       </span>
       <span class="flex shrink-0 items-center gap-1" aria-hidden="true">
-        ${MUESTRAS[interruptor]()}
+        ${MUESTRAS[interruptor](animar)}
       </span>
       ${indicador}
     </label>`;
@@ -740,6 +766,17 @@ function montarCapas() {
     `<p class="px-2 pb-0.5 ${extra} text-[10px] font-medium uppercase tracking-wider
                text-lo">${esc(t(clave))}</p>`;
 
+  // Entrada escalonada + drawLine solo la primera vez que el panel se monta
+  // (adelanto de M3, ver ui/animar.js). Un solo indice corrido para que la
+  // cadena, los sectores y el contexto se escalonen como una sola secuencia.
+  const animar = !capasAnimadasUnaVez;
+  let indiceFila = 0;
+  const conteos = {
+    upstream: conteo("upstream") ?? 0,
+    midstream: conteo("midstream") ?? 0,
+    downstream: conteo("downstream") ?? 0,
+  };
+
   nodo.innerHTML = `
     <div class="mx-auto mt-2 h-1 w-10 rounded-full bg-white/20 sm:hidden" aria-hidden="true"></div>
     <div class="flex items-center justify-between gap-2 pl-3.5 pr-1.5 pt-1 sm:pt-1.5">
@@ -755,9 +792,10 @@ function montarCapas() {
 
     <div class="px-1.5 pb-1">
       ${encabezado("capa.grupoCadena", "pt-0")}
-      ${SECTORES.map((s) => filaInterruptor(s, sectores[s], "sector")).join("")}
+      ${htmlCadena(conteos, animar)}
+      ${SECTORES.map((s) => filaInterruptor(s, sectores[s], "sector", animar, indiceFila++)).join("")}
       ${encabezado("capa.grupoContexto")}
-      ${CAPAS_CONTEXTO.map((c) => filaInterruptor(c, contexto[c], "contexto")).join("")}
+      ${CAPAS_CONTEXTO.map((c) => filaInterruptor(c, contexto[c], "contexto", animar, indiceFila++)).join("")}
       ${
         // El interruptor DEMO solo existe si el grid llego a cargarse. Sin
         // notebook ejecutado no hay capa, y un interruptor que no hace nada
@@ -794,6 +832,13 @@ function montarCapas() {
         : ""
     }
   `;
+
+  // El countUp de los contadores corre una sola vez por clave (lo controla
+  // ui/animar.js); esta bandera controla la entrada de las filas y el
+  // drawLine de las lineas, que viven en el propio marcado que se acaba de
+  // insertar.
+  capasAnimadasUnaVez = true;
+  activarContadores(nodo, numero);
 
   nodo.querySelectorAll("input[data-sector]").forEach((entrada) => {
     entrada.addEventListener("change", () => {

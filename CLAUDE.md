@@ -120,6 +120,18 @@ cerrarlo. Adelantados sin tocar la app: validador de datos en CI, `CITATION.cff`
 y plantilla de dato incorrecto (ADR-015). Auditoria en
 `docs/AUDITORIA-2026-09.md`.
 
+**M1 en `main` (2026-09-29):** Luis reviso la vista previa del M1, la aprobo
+y mergeo el PR #1. Ese mismo dia se restringio el token de Cesium por dominio
+y se conecto Vercel a GitHub: desde entonces, merge a `main` = deploy a
+produccion.
+
+**Paquete visual (2026-09-29, rama propia):** base oscura de "instrumento
+tecnico" ajustando la capa de imagenes actual (adelanto de M4, resuelve C8 de
+este archivo), `countUp`/entrada escalonada/`drawLine` en el panel de capas y
+su diagrama de cadena de valor (adelanto de M3), y un vuelo de entrada de ~3 s
+con `prefers-reduced-motion`. Ver ADR-018. Pasa por su propia vista previa y
+PR antes de produccion.
+
 **Notion:** indice de paginas, estado y **contradicciones con este archivo** en
 `docs/NOTION.md`. El *Prompt maestro* de Notion pide Supabase, textos solo en
 espanol, GSAP y otra estructura de modulos: aqui manda este archivo hasta que un
