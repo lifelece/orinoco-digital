@@ -214,3 +214,13 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+   -----------------------------------------------------------------------
+
+   NOTA SOBRE LOS DATOS (no forma parte de la licencia Apache-2.0 de arriba,
+   ni la modifica): esta licencia cubre el CODIGO de este repositorio. Los
+   DATOS (los archivos GeoJSON de public/data/ y data/) tienen sus propias
+   licencias, distintas segun la fuente — algunas, como OpenStreetMap, imponen
+   condiciones que Apache-2.0 no impone (ODbL 1.0, share-alike). Ver
+   LICENSE-DATA y docs/DATA_SOURCES.md antes de reutilizar cualquier dataset
+   de este repositorio.
