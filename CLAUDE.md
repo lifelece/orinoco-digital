@@ -101,10 +101,12 @@ la lectura), rendimiento (archivos cacheados) y superficie de escritura.
 Fases 0, 1, 2, 3 y 5 **cerradas**, verificadas por el autor en telefono real el
 2026-09-09. La Fase 4 se salto (ADR-010): ninguno de sus criterios se cumplia.
 
-Capas: 105 campos (GEM GOGET), 346 ductos, 97 activos downstream con 25 parques
-de tanques (OSM, ODbL), limites nacionales y estatales, la Guayana Esequiba
-marcada como zona en disputa, rios y toponimia, 43 centrales electricas (WRI,
-apagadas por defecto) y la capa DEMO del modelo.
+Capas: 105 campos (GEM GOGET), 346 ductos, 64 activos downstream con 25 parques
+de tanques (OSM, ODbL; bajado de 97 el 2026-09-29 al limpiar falsos positivos
+como una fabrica de velas mostrada como "instalación petrolera" — ver
+`docs/DATA_SOURCES.md` seccion 11), limites nacionales y estatales, la Guayana
+Esequiba marcada como zona en disputa, rios y toponimia, 43 centrales
+electricas (WRI, apagadas por defecto) y la capa DEMO del modelo.
 
 **Pendiente inmediato — token de Cesium sin restringir.** Esta desplegado sin
 restriccion de dominio: cualquiera puede copiarlo del bundle y consumir los
