@@ -74,8 +74,8 @@ export function iniciarEmbed(documento, ventana)  // noindex, target=_top, postM
 
 ## Paquete B — vista (espera las firmas de A; puede escribir contra ellas desde ya)
 
-- [ ] B1 · `main.js` + `vista.js` secciones 1-4 (cabecera con co-marca y frase de anillos, Ahora/Siguiente con reloj por minuto, Agenda con pestanas ARIA y boton de calendario, Ponentes) · RF: 9-12, 14-30, 35-41, 74-77 · test: `npm test` (claves i18n usadas existen; `verificar-modulos`); `npm run dev` + `?ahora=2026-10-16T10:30` a 390x844 sin scroll en la cabecera (RF-12) · vueltas: 0/2
-- [ ] B2 · `vista.js` secciones 5-10 (Por que Ciudad Bolivar con organizador / datos abiertos / cifras con contraste / iniciativas; mapa con fallback sin imagen RF-50; aliados con institucionales primero, `nombre_confirmado:false` omitidos, sin logo -> tarjeta de texto, `loading="lazy"`; Participa; Noticias; Pie con aviso de independencia primero) + `expofaja.css` + `embed.js` · RF: 42-65 · test: `npm test`; build; revision de contrastes de 02 §3 (ef-cian/naranja/gris nunca texto sobre claro) · vueltas: 0/2
+- [x] B1 · `main.js` + `vista.js` secciones 1-4 (cabecera con co-marca y frase de anillos, Ahora/Siguiente con reloj por minuto, Agenda con pestanas ARIA y boton de calendario, Ponentes) · RF: 9-12, 14-30, 35-41, 74-77 · test: `npm test` (claves i18n usadas existen; `verificar-modulos`); `npm run dev` + `?ahora=2026-10-16T10:30` a 390x844 sin scroll en la cabecera (RF-12) · vueltas: 0/2
+- [x] B2 · `vista.js` secciones 5-10 (Por que Ciudad Bolivar con organizador / datos abiertos / cifras con contraste / iniciativas; mapa con fallback sin imagen RF-50; aliados con institucionales primero, `nombre_confirmado:false` omitidos, sin logo -> tarjeta de texto, `loading="lazy"`; Participa; Noticias; Pie con aviso de independencia primero) + `expofaja.css` + `embed.js` · RF: 42-65 · test: `npm test`; build; revision de contrastes de 02 §3 (ef-cian/naranja/gris nunca texto sobre claro) · vueltas: 0/2
 
 ## Paquete C — HTML, cabeceras e imagenes
 
