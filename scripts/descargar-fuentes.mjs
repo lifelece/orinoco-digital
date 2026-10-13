@@ -35,8 +35,11 @@ export const OVERPASS_MIRRORS = [
 export const USER_AGENT =
   "orinoco-digital/0.1 (https://github.com/lifelece/orinoco-digital)";
 
-/** Consultas Overpass acotadas a Venezuela. Datos OSM, licencia ODbL. */
-const CONSULTAS_OSM = {
+/**
+ * Consultas Overpass acotadas a Venezuela. Datos OSM, licencia ODbL.
+ * Exportadas para scripts/actualizar-datos.mjs.
+ */
+export const CONSULTAS_OSM = {
   "osm-pozos.json": `
     [out:json][timeout:180];
     area["ISO3166-1"="VE"][admin_level=2]->.ve;
@@ -57,6 +60,21 @@ const CONSULTAS_OSM = {
       way["industrial"="oil"](area.ve);
       node["man_made"="works"]["product"~"oil|petroleum|fuel",i](area.ve);
       way["man_made"="works"]["product"~"oil|petroleum|fuel",i](area.ve);
+    );
+    out center;`,
+
+  // Segunda consulta de refinerias (docs/DATA_SOURCES.md seccion 11): la primera
+  // no devuelve Amuay, El Palito ni Punta Cardon. Trae todo man_made=works y lo
+  // filtra osm-to-geojson (esRelevante). SIN VERIFICAR: la consulta original de
+  // 2026-09-08 no quedo guardada; esta es su reconstruccion, y el informe de
+  // actualizacion compara el resultado contra el crudo anterior.
+  "osm-refinerias-2.json": `
+    [out:json][timeout:180];
+    area["ISO3166-1"="VE"][admin_level=2]->.ve;
+    (
+      nwr["man_made"="works"](area.ve);
+      nwr["industrial"~"^(oil|refinery)$"](area.ve);
+      nwr["name"~"refiner|Amuay|Palito|Cardon|Cardón",i](area.ve);
     );
     out center;`,
 

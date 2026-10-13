@@ -21,8 +21,10 @@ const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CRUDO = join(RAIZ, "data", "raw");
 const SALIDA = join(RAIZ, "public", "data");
 
-const FUENTE = "OpenStreetMap contributors (ODbL), consulta Overpass 2026-09-08";
-const FECHA = "2026-09-08";
+// scripts/actualizar-datos.mjs fija OSM_FECHA (AAAA-MM-DD) con el dia de la descarga.
+// Sin ella se conserva la fecha de la consulta original, como siempre.
+const FECHA = process.env.OSM_FECHA ?? "2026-09-08";
+const FUENTE = `OpenStreetMap contributors (ODbL), consulta Overpass ${FECHA}`;
 
 /** Sustancias que SI son de nuestro sector. */
 const SUSTANCIAS_VALIDAS = ["oil", "gas", "hydrocarbons", "fuel"];

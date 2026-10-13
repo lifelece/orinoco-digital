@@ -184,6 +184,25 @@ La UI muestra un **indicador de frescura** para que un dato viejo se note. Es la
 defensa contra el peor final posible de un proyecto de datos: seguir en linea
 mostrando cifras de hace tres anos como si fueran de hoy.
 
+### Que se actualiza solo y que a mano (desde 2026-10-13)
+
+El indicador lee `FECHA_DATOS` en `src/config.js`. Nada llega a produccion sin
+revision (ADR-003): las automatizaciones **abren o actualizan un PR** y Luis lo
+mergea.
+
+| Datos | Como | Cadencia | Donde |
+|---|---|---|---|
+| Ductos, parques de tanques, downstream (OSM) y capa Ciudad Bolivar (OSM) | Automatico: `npm run data:actualizar` descarga Overpass, regenera, valida, pone `FECHA_DATOS` al dia y escribe un informe de cambios (conteos e ids anadidos o quitados). Si los conteos caen de forma brusca, restaura los datos y no abre PR | Lunes 10:00 UTC | `.github/workflows/datos-semanal.yml` -> PR en la rama `datos-semanal` |
+| Noticias de la CCIEB del micrositio | Automatico: `npm run data:noticias` lee la API REST publica de su WordPress (categorias 163 y 7) y solo acepta enlaces de `camaradecomerciobolivar.org`. Si el sitio falla, no toca el JSON | Diario 11:00 UTC | `.github/workflows/noticias-ccieb.yml` -> PR en la rama `noticias-ccieb` |
+| Campos de petroleo y gas (GEM GOGET) | **Manual**: la descarga exige formulario (seccion 3). Cuando GEM publique version nueva: CSV a `data/raw/`, `npm run data:gem`, revisar y PR | Cuando GEM publique | Seccion 10 |
+| Limites, toponimia, hidrografia, centrales (WRI) | Manual: fuentes estaticas o descontinuadas | Rara vez | Secciones 12 a 15 |
+| Agenda y ponentes de la ExpoFaja | Manual, desde las semillas: `npm run data:expofaja` | Por evento | Seccion 16 |
+
+Requisito unico en GitHub (lo activa Luis): Settings -> Actions -> General ->
+"Allow GitHub Actions to create and approve pull requests". Los PR que abre
+`GITHUB_TOKEN` no disparan otros workflows; por eso cada workflow corre
+`npm test` antes de crear su PR.
+
 ---
 
 ## 8. Registro de descargas
