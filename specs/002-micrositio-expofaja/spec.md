@@ -86,6 +86,7 @@ Ahora / Siguiente (seccion 2)
 - RF-19. SI durante el evento no queda ninguna sesion con hora posterior al instante actual, ENTONCES EL SISTEMA DEBE mostrar "No quedan sesiones con hora en el programa" bajo "Siguiente".
 - RF-20. MIENTRAS una exposicion esta en curso, EL SISTEMA DEBE mostrar "Exposición abierta hasta las <fin>".
 - RF-21. MIENTRAS el estado es `despues`, EL SISTEMA DEBE mostrar "El evento terminó" en lugar de Ahora/Siguiente y mantener visible el resto de la pagina.
+  - Ampliado en E4.1 (docs/expofaja/E4-POST-EVENTO.md): en `despues` la cabecera dice "Se celebró del 15 al 17 de octubre de 2026", la franja se titula "Resumen" (sin cifras salvo las que publique la CCIEB), la agenda queda como archivo sin "Agregar a mi calendario" ni etiqueta "Ahora", y aparece la seccion "Lo que se hizo" (`presentacionEvento` en `agenda.js`).
 - RF-22. MIENTRAS la pagina esta abierta, EL SISTEMA DEBE recalcular estado, Ahora, Siguiente, hora actual y cuenta regresiva al menos una vez por minuto, sin recargar.
 - RF-23. DONDE la pagina se sirve desde el servidor de desarrollo, CUANDO la URL contiene `?ahora=AAAA-MM-DDTHH:MM`, EL SISTEMA DEBE usar ese instante, en hora del evento, como instante actual de todos los calculos de tiempo.
 - RF-24. SI la pagina se sirve desde un build de produccion o el valor de `?ahora=` no es una fecha y hora validas, ENTONCES EL SISTEMA DEBE ignorar el parametro y usar el reloj del dispositivo.

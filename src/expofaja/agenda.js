@@ -294,3 +294,38 @@ export function leerAhora(search, permitido, reloj = () => new Date()) {
   const valido = !Number.isNaN(instante.getTime()) && fechaEvento(instante) === partes[1] && horaEvento(instante) === partes[2];
   return valido ? instante : reloj();
 }
+
+/**
+ * Que se pinta segun el estado del evento (E4.1, RF-21): tras el cierre la
+ * franja Ahora/Siguiente pasa a "Resumen", la agenda queda como archivo y
+ * desaparecen el boton de calendario, la etiqueta "Ahora" y el reloj. Solo
+ * depende de la fecha: pasar a "despues" no requiere un despliegue.
+ * @param {Object} agenda
+ * @param {Date} ahora
+ * @returns {{estado: "antes"|"durante"|"despues", celebrado: boolean, franja: "ahoraSiguiente"|"resumen",
+ *   calendario: boolean, etiquetaAhora: boolean, reloj: boolean}}
+ */
+export function presentacionEvento(agenda, ahora) {
+  const estado = estadoEvento(agenda, ahora);
+  const despues = estado === "despues";
+  return {
+    estado,
+    celebrado: despues,
+    franja: despues ? "resumen" : "ahoraSiguiente",
+    calendario: !despues,
+    etiquetaAhora: !despues,
+    reloj: !despues,
+  };
+}
+
+/**
+ * Si la agenda marca una sesion con la etiqueta "Ahora" (RF-29 + E4.1).
+ * @param {Object} agenda
+ * @param {Object} dia
+ * @param {Object} sesion
+ * @param {Date} ahora
+ * @returns {boolean} nunca en "despues" ni para exposiciones
+ */
+export function mostrarEtiquetaAhora(agenda, dia, sesion, ahora) {
+  return presentacionEvento(agenda, ahora).etiquetaAhora && sesion.tipo !== "exposicion" && enCurso(dia, sesion, ahora);
+}

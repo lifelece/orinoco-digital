@@ -1013,7 +1013,9 @@ rendimiento, estructura de modulos).
     enciende servicios, iniciativas y campos; y muestra una cabecera DOM con
     la co-marca CCIEB + ExpoFaja y el boton "Ver toda la Faja".
     `MODO_INICIAL = "ciudadBolivar"` en `config.js`: la portada abre en la
-    ciudad (decision de Luis). Una constante, reversible; se revisa en E4.
+    ciudad (decision de Luis). Revisado el 2026-10-13: Luis decide que al
+    terminar la ExpoFaja vuelva a la vista nacional; `PORTADA_POR_FECHA`
+    lo hace solo desde el 2026-10-18 00:00 (UTC-04:00), sin desplegar ese dia.
     La co-marca vive en la cabecera DOM, nunca en los marcadores, y la
     semantica de colores del mapa no cambia.
 

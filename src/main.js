@@ -55,11 +55,12 @@ import {
   DEFINICION_MODOS,
   MODOS,
   MODO_INICIAL,
+  PORTADA_POR_FECHA,
   ORDEN_VUELO,
   CLASES_CIUDAD,
   ID_SEDE_EXPOFAJA,
 } from "./config.js";
-import { leerEnlace, resolverModo, urlDeModo, buscarActivo } from "./modos.js";
+import { leerEnlace, resolverModo, urlDeModo, buscarActivo, modoInicialEn } from "./modos.js";
 import { t, idioma } from "./i18n/index.js";
 
 /**
@@ -445,7 +446,8 @@ function alVolverEnHistorial(evento) {
 function iniciarModo() {
   const enlace = leerEnlace(location.search);
   estado.vuelo = enlace.vuelo;
-  const modo = resolverModo(enlace.modo, MODOS, MODO_INICIAL);
+  const inicial = modoInicialEn(new Date(), MODO_INICIAL, PORTADA_POR_FECHA);
+  const modo = resolverModo(enlace.modo, MODOS, inicial);
   const origen = location.href;
   const atras = DEFINICION_MODOS[modo].vueltaAtras;
   // Recarga (o reapertura en la misma pestana): el navegador conserva el

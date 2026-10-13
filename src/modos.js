@@ -27,6 +27,20 @@ export function resolverModo(pedido, modos, inicial) {
 }
 
 /**
+ * Modo inicial segun la fecha: a partir de `cambio.desde` manda `cambio.modo`.
+ * Sin cambio o con una fecha invalida, el inicial de siempre.
+ * @param {Date} ahora
+ * @param {string} inicial
+ * @param {{modo: string, desde: string}|null|undefined} cambio
+ * @returns {string}
+ */
+export function modoInicialEn(ahora, inicial, cambio) {
+  const desde = Date.parse(cambio?.desde ?? "");
+  if (!cambio?.modo || !Number.isFinite(desde)) return inicial;
+  return ahora.getTime() >= desde ? cambio.modo : inicial;
+}
+
+/**
  * URL de un modo. Cambiar de modo descarta `vuelo` y `capa`: son de un solo uso.
  * @param {string} pathname
  * @param {string} modo

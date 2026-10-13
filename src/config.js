@@ -297,8 +297,16 @@ export const DEFINICION_MODOS = {
 /** Ids de modo validos: ["nacional", "ciudadBolivar"] (ADR-020). */
 export const MODOS = Object.keys(DEFINICION_MODOS);
 
-/** Decision de Luis (2026-10-12): la portada abre en Ciudad Bolivar. Revisar en E4. */
+/** Decision de Luis (2026-10-12): la portada abre en Ciudad Bolivar durante la ExpoFaja. */
 export const MODO_INICIAL = "ciudadBolivar";
+
+/**
+ * Decision de Luis (2026-10-13): al terminar la ExpoFaja la portada vuelve a la
+ * vista nacional, sin desplegar nada ese dia. Desde `desde` (hora del evento,
+ * UTC-04:00) el modo inicial pasa a ser `modo`. El modo Ciudad Bolivar sigue en
+ * /?modo=ciudadBolivar y en el boton "Ver Ciudad Bolivar".
+ */
+export const PORTADA_POR_FECHA = { modo: "nacional", desde: "2026-10-18T00:00:00-04:00" };
 
 /** Orden en que ?vuelo=<id> busca el id entre las capas cargadas. */
 export const ORDEN_VUELO = [

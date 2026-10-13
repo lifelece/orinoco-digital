@@ -96,3 +96,20 @@ test("config: cada modo tiene camara conocida, id coherente y vueltaAtras valida
     assert.ok(def.vueltaAtras === null || MODOS.includes(def.vueltaAtras), `vueltaAtras de ${clave}`);
   }
 });
+
+test("modoInicialEn: la portada vuelve a la vista nacional desde el 18/10 (hora del evento)", async () => {
+  const { modoInicialEn } = await import("../src/modos.js");
+  const { PORTADA_POR_FECHA } = await import("../src/config.js");
+  const en = (iso) => modoInicialEn(new Date(iso), MODO_INICIAL, PORTADA_POR_FECHA);
+  assert.equal(en("2026-10-15T17:00:00-04:00"), "ciudadBolivar"); // inauguracion
+  assert.equal(en("2026-10-17T23:59:59-04:00"), "ciudadBolivar"); // ultimo minuto del evento
+  assert.equal(en("2026-10-18T00:00:00-04:00"), "nacional");
+  assert.equal(en("2026-10-18T03:59:59Z"), "ciudadBolivar"); // aun 17/10 en Caracas
+  assert.ok(MODOS.includes(PORTADA_POR_FECHA.modo));
+});
+
+test("modoInicialEn: sin cambio o con fecha invalida usa el inicial", async () => {
+  const { modoInicialEn } = await import("../src/modos.js");
+  assert.equal(modoInicialEn(new Date("2030-01-01T00:00:00Z"), "ciudadBolivar", null), "ciudadBolivar");
+  assert.equal(modoInicialEn(new Date("2030-01-01T00:00:00Z"), "ciudadBolivar", { modo: "nacional", desde: "no-es-fecha" }), "ciudadBolivar");
+});
