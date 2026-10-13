@@ -31,6 +31,7 @@ import {
   COLOR_CENTRAL,
   COLOR_LIMITE,
   COLOR_TOPONIMIA,
+  COLOR_CIUDAD,
   UMBRAL_FRESCURA_DIAS,
   ESPERA_MAXIMA_CARGA,
   FUENTES,
@@ -40,6 +41,8 @@ import {
 import { hidrocarburoDe } from "./data.js";
 import { activarContadores, entradaFila, claseDibujarLinea } from "./ui/animar.js";
 import { htmlCadena } from "./ui/cadena.js";
+import { repintarModoCiudadBolivar } from "./ui/modoCiudadBolivar.js";
+import { esFichaCiudad, partesFichaCiudad } from "./ui/fichaCiudad.js";
 
 // --- Utilidades --------------------------------------------------------------
 
@@ -153,6 +156,7 @@ function colorDeActivo(activo) {
   // El mismo ambar del banner DEMO (amber-500): la celda se reconoce como
   // parte del modelo antes de leer nada.
   if (activo.tipo === "demo") return "#f59e0b";
+  if (activo.capa === "ciudadBolivar" || activo.capa === "iniciativasCcieb") return COLOR_CIUDAD;
   return COLOR_TIPO[activo.tipo] ?? COLOR_TIPO.instalacion;
 }
 
@@ -212,6 +216,10 @@ const contexto = {
   centrales: false,
 };
 
+/** Capas de Ciudad Bolivar (modo E1): nacen apagadas, como las centrales. */
+const ciudad = { ciudadBolivar: false, iniciativas: false };
+const INTERRUPTORES_CIUDAD = ["ciudadBolivar", "iniciativas"];
+
 const SECTORES = ["upstream", "midstream", "downstream"];
 /** Orden en el control de capas: del fondo del mapa hacia arriba. */
 const CAPAS_CONTEXTO = ["toponimia", "hidrografia", "limites", "disputa", "faja", "centrales"];
@@ -228,6 +236,8 @@ const CAPAS_DE_INTERRUPTOR = {
   disputa: ["disputa"],
   faja: [],
   centrales: ["centrales"],
+  ciudadBolivar: ["ciudadBolivar"],
+  iniciativas: ["iniciativasCcieb"],
 };
 
 /** Nombre visible de cada capa de datos, para los avisos de error. */
@@ -240,6 +250,8 @@ const ETIQUETA_CAPA = {
   hidrografia: "contexto.hidrografia",
   toponimia: "contexto.toponimia",
   centrales: "contexto.centrales",
+  ciudadBolivar: "capa.ciudadBolivar",
+  iniciativasCcieb: "capa.iniciativas",
 };
 
 /** Clase de acento del interruptor: el color de su sector. */
@@ -272,6 +284,10 @@ let panelAbierto = false;
 let fuentesAbiertas = false;
 /** Ultimo activo mostrado, para repintar la ficha al cambiar de idioma. */
 let activoActual = null;
+/** Datos extra de la ficha (cercanos de la sede), para repintarla igual. */
+let extraActual = {};
+/** Lo que hacen #btn-faja y #btn-faja-movil; main.js la sustituye por la del modo. */
+let accionFaja = volarAFaja;
 /** Elemento que tenia el foco al abrir el dialogo, para devolverselo. */
 let origenFoco = null;
 
@@ -442,6 +458,7 @@ export function montarUI() {
         </div>
       </header>
 
+      <div id="ranura-modo" class="flex flex-col"></div>
       <div id="ranura-banner"></div>
 
       <div class="flex min-h-0 flex-1 items-start gap-2">
@@ -452,6 +469,7 @@ export function montarUI() {
                  shadow-black/30 backdrop-blur transition hover:bg-elev sm:inline-flex">
           ${ICONO.capas}<span>${esc(t("boton.capas"))}</span>
         </button>
+        <div id="ranura-panel-modo" class="flex min-h-0 w-full flex-col sm:ml-auto sm:w-auto sm:max-h-full"></div>
       </div>
     </div>
 
@@ -494,8 +512,8 @@ export function montarUI() {
     <div id="dialogo-fuentes" hidden></div>
   `;
 
-  document.getElementById("btn-faja")?.addEventListener("click", volarAFaja);
-  document.getElementById("btn-faja-movil")?.addEventListener("click", volarAFaja);
+  document.getElementById("btn-faja")?.addEventListener("click", () => accionFaja());
+  document.getElementById("btn-faja-movil")?.addEventListener("click", () => accionFaja());
   document.getElementById("btn-tabla")?.addEventListener("click", alternarTabla);
   document.getElementById("btn-tabla-movil")?.addEventListener("click", alternarTabla);
   document.getElementById("btn-idioma")?.addEventListener("click", () => {
@@ -519,6 +537,7 @@ export function montarUI() {
   pintarPanel();
   montarTabla();
   pintarFuentes();
+  repintarModoCiudadBolivar();
 }
 
 /**
@@ -601,6 +620,10 @@ function conteo(interruptor) {
       return contar("downstream", (f) => !esTerminal(f));
     case "centrales":
       return contar("centrales");
+    case "ciudadBolivar":
+      return contar("ciudadBolivar");
+    case "iniciativas":
+      return contar("iniciativasCcieb");
     default:
       return null;
   }
@@ -637,6 +660,8 @@ const MUESTRAS = {
   disputa: (animar) => raya(COLOR_LIMITE.disputa, true, animar),
   faja: (animar) => raya(COLOR_LIMITE.faja, true, animar),
   centrales: () => [COLOR_CENTRAL.hidro, COLOR_CENTRAL.termo].map(punto).join(""),
+  ciudadBolivar: () => punto(COLOR_CIUDAD),
+  iniciativas: () => punto(COLOR_CIUDAD),
 };
 
 /**
@@ -647,7 +672,7 @@ const MUESTRAS = {
  *
  * @param {string} interruptor
  * @param {boolean} marcado
- * @param {"sector" | "contexto"} grupo
+ * @param {"sector" | "contexto" | "ciudad"} grupo
  * @param {boolean} [animar=false] — entrada escalonada + drawLine, solo en el
  *   primer montaje del panel (adelanto de M3, ver ui/animar.js)
  * @param {number} [indice=0] — orden de la fila, para escalonar la entrada
@@ -655,7 +680,7 @@ const MUESTRAS = {
 function filaInterruptor(interruptor, marcado, grupo, animar = false, indice = 0) {
   const estado = estadoInterruptor(interruptor);
   const n = conteo(interruptor);
-  const etiqueta = t(grupo === "sector" ? `capa.${interruptor}` : `contexto.${interruptor}`);
+  const etiqueta = t(grupo === "contexto" ? `contexto.${interruptor}` : `capa.${interruptor}`);
 
   let indicador = "";
   if (estado === "cargando") {
@@ -796,6 +821,8 @@ function montarCapas() {
       ${SECTORES.map((s) => filaInterruptor(s, sectores[s], "sector", animar, indiceFila++)).join("")}
       ${encabezado("capa.grupoContexto")}
       ${CAPAS_CONTEXTO.map((c) => filaInterruptor(c, contexto[c], "contexto", animar, indiceFila++)).join("")}
+      ${encabezado("capa.grupoCiudad")}
+      ${INTERRUPTORES_CIUDAD.map((c) => filaInterruptor(c, ciudad[c], "ciudad", animar, indiceFila++)).join("")}
       ${
         // El interruptor DEMO solo existe si el grid llego a cargarse. Sin
         // notebook ejecutado no hay capa, y un interruptor que no hace nada
@@ -857,6 +884,16 @@ function montarCapas() {
       alternarContexto(clave, entrada.checked);
       montarCapas();
       nodo.querySelector(`input[data-contexto="${clave}"]`)?.focus();
+    });
+  });
+
+  nodo.querySelectorAll("input[data-ciudad]").forEach((entrada) => {
+    entrada.addEventListener("change", () => {
+      const clave = entrada.dataset.ciudad;
+      ciudad[clave] = entrada.checked;
+      alternarContexto(CAPAS_DE_INTERRUPTOR[clave][0], entrada.checked);
+      montarCapas();
+      nodo.querySelector(`input[data-ciudad="${clave}"]`)?.focus();
     });
   });
 
@@ -924,7 +961,7 @@ export function fijarEstadoCapa(clave, estado) {
 export function fijarDatosCapa(clave, featureCollection) {
   datosCapas.set(clave, featureCollection);
   estadoCapas.set(clave, "lista");
-  if (["campos", "ductos", "downstream", "centrales"].includes(clave)) {
+  if (["campos", "ductos", "downstream", "centrales", "ciudadBolivar", "iniciativasCcieb"].includes(clave)) {
     construirIndice();
   }
   if (clave === "campos") montarTabla();
@@ -967,7 +1004,7 @@ let resultadoActivo = -1;
 /** Rehace el indice del buscador con las capas cargadas hasta ahora. */
 function construirIndice() {
   const entradas = [];
-  const agregar = (capa, props, sector) => {
+  const agregar = (capa, props, sector, claveTipo = null) => {
     if (!props?.id || !props.nombre) return;
     entradas.push({
       capa,
@@ -975,7 +1012,8 @@ function construirIndice() {
       nombre: props.nombre,
       normal: normalizar(props.nombre),
       tipo: props.tipo,
-      color: colorDeActivo(props),
+      claveTipo,
+      color: colorDeActivo({ ...props, capa }),
       sector,
     });
   };
@@ -988,6 +1026,14 @@ function construirIndice() {
   }
   for (const f of datosCapas.get("centrales")?.features ?? []) {
     agregar("centrales", f.properties, null);
+  }
+
+  // Sin nombre no se indexan (regla de agregar): el servicio sin nombre sigue en el mapa.
+  for (const f of datosCapas.get("ciudadBolivar")?.features ?? []) {
+    agregar("ciudadBolivar", f.properties, null, `ciudad.clase.${f.properties?.clase}`);
+  }
+  for (const f of datosCapas.get("iniciativasCcieb")?.features ?? []) {
+    agregar("iniciativasCcieb", f.properties, null, "ciudad.iniciativa");
   }
 
   // OpenStreetMap trocea las lineas: un mismo oleoducto con nombre son varios
@@ -1069,7 +1115,7 @@ function pintarResultados() {
         <span class="h-2 w-2 shrink-0 rounded-full" style="background:${r.color}"
               aria-hidden="true"></span>
         <span class="min-w-0 flex-1 truncate text-[13px] text-hi">${esc(r.nombre)}</span>
-        <span class="shrink-0 text-[11px] text-lo">${esc(t(`tipo.${r.tipo}`))}</span>
+        <span class="shrink-0 text-[11px] text-lo">${esc(t(r.claveTipo ?? `tipo.${r.tipo}`))}</span>
       </li>`
     )
     .join("");
@@ -1150,12 +1196,20 @@ function irAResultado(resultado) {
  * Si su capa estaba apagada se enciende, y el interruptor lo refleja: volar a
  * un activo invisible parece un fallo del buscador.
  *
- * @param {{capa: string, ids: Array<string>, sector: string | null}} destino
+ * @param {{capa: string, ids: Array<string>, sector?: string | null}} destino
+ *   sector: si falta se deduce de la capa (y de esTerminal en downstream)
+ * @returns {boolean} false si el mapa no pudo volar al activo
  */
-function irAActivo({ capa, ids, sector }) {
+export function irAActivo({ capa, ids, sector }) {
+  if (sector === undefined) sector = sectorDeCapa(capa, ids);
   if (capa === "centrales" && !contexto.centrales) {
     contexto.centrales = true;
     alternarContexto("centrales", true);
+  }
+  const claveCiudad = INTERRUPTORES_CIUDAD.find((c) => CAPAS_DE_INTERRUPTOR[c][0] === capa);
+  if (claveCiudad && !ciudad[claveCiudad]) {
+    ciudad[claveCiudad] = true;
+    alternarContexto(capa, true);
   }
   if (sector && !sectores[sector]) {
     sectores[sector] = true;
@@ -1168,7 +1222,38 @@ function irAActivo({ capa, ids, sector }) {
     if (esPequena()) cerrarHojaCapas();
   });
   montarCapas();
-  if (!volarAActivo(capa, ids)) mostrarError(t("buscar.noEnMapa"));
+  const volo = volarAActivo(capa, ids);
+  if (!volo) mostrarError(t("buscar.noEnMapa"));
+  return Boolean(volo);
+}
+
+/** Sector de un activo segun su capa; null en contexto y ciudad. */
+function sectorDeCapa(capa, ids) {
+  if (capa === "campos") return "upstream";
+  if (capa === "ductos") return "midstream";
+  if (capa !== "downstream") return null;
+  const f = datosCapas.get("downstream")?.features.find((x) => x.properties?.id === ids[0]);
+  return f && esTerminal(f) ? "midstream" : "downstream";
+}
+
+/**
+ * Enciende o apaga interruptores como si los tocara el usuario (estado, mapa y
+ * repintado). Los ids desconocidos se ignoran y no aparecen en el resultado.
+ * @param {Record<string, boolean>} cambios — id de interruptor -> encendido
+ * @returns {Record<string, boolean>} estado previo de los ids reconocidos
+ */
+export function fijarCapas(cambios) {
+  const previo = {};
+  for (const [id, valor] of Object.entries(cambios ?? {})) {
+    const grupo = [sectores, contexto, ciudad].find((g) => id in g);
+    if (!grupo) continue;
+    previo[id] = grupo[id];
+    grupo[id] = Boolean(valor);
+    if (grupo === sectores) alternarCapa(id, grupo[id]);
+    else alternarContexto(grupo === ciudad ? CAPAS_DE_INTERRUPTOR[id][0] : id, grupo[id]);
+  }
+  montarCapas();
+  return previo;
 }
 
 // --- Ficha del activo --------------------------------------------------------
@@ -1196,8 +1281,9 @@ const PUNTO_CONFIANZA = { alta: "bg-activo", media: "bg-lo", baja: "bg-crudo" };
  * Muestra la ficha del activo seleccionado, o la cierra con null.
  * La registra main.js como callback de seleccion del mapa.
  * @param {Object | null} activo
+ * @param {{cercanos?: Array<Object>}} [extra] — solo la sede; se guarda para repintar
  */
-export function mostrarPanelActivo(activo) {
+export function mostrarPanelActivo(activo, extra = {}) {
   if (!activo) {
     cerrarPanel();
     return;
@@ -1209,16 +1295,38 @@ export function mostrarPanelActivo(activo) {
     if (esPequena()) cerrarHojaCapas();
   });
   activoActual = activo;
+  extraActual = extra;
   panelAbierto = true;
   apilarVista("panel");
   pintarPanel();
   aplicarHuecoPanel();
 }
 
+/**
+ * Cierra ficha, tabla, fuentes y hoja de capas SIN tocar el historial y olvida
+ * la entrada apilada. La usa main.js al cambiar de modo por boton.
+ * @returns {boolean} si habia una vista apilada
+ */
+export function soltarVistas() {
+  const habia = vistaApilada !== null;
+  sinHistorial(cerrarVistas);
+  vistaApilada = null;
+  return habia;
+}
+
+/**
+ * Lo que hacen #btn-faja y #btn-faja-movil. Por defecto volarAFaja.
+ * @param {() => void} accion
+ */
+export function fijarAccionVolarFaja(accion) {
+  accionFaja = accion;
+}
+
 function cerrarPanel() {
   if (!panelAbierto) return;
   panelAbierto = false;
   activoActual = null;
+  extraActual = {};
   pintarPanel();
   aplicarHuecoPanel();
   // Cerrar deselecciona tambien en el mapa: si la entidad sigue seleccionada,
@@ -1259,6 +1367,8 @@ function contenidoPanel(activo) {
   const esDemo = activo.tipo === "demo";
   const color = colorDeActivo(activo);
   const tipo = t(`tipo.${activo.tipo ?? "instalacion"}`);
+  // Servicios e iniciativas de Ciudad Bolivar: su ficha la compone fichaCiudad.js (HTML ya escapado).
+  const ficha = esFichaCiudad(activo) ? partesFichaCiudad(activo, extraActual, { esc, numero, enlaceSeguro }) : null;
 
   const dato = (valor, mono = false) =>
     `<span class="${mono ? "font-mono text-[13px] tabular-nums" : ""} text-hi">${esc(valor)}</span>`;
@@ -1296,6 +1406,7 @@ function contenidoPanel(activo) {
       ? aviso("panel.extensionReal", "ok")
       : aviso("panel.soloPunto", "cautela");
   } else if (esCentral) avisoHtml = aviso("panel.centralSinEstado", "cautela");
+  if (ficha) avisoHtml = ficha.aviso;
 
   const filas = [
     activo.estado && activo.estado !== "desconocido"
@@ -1322,7 +1433,7 @@ function contenidoPanel(activo) {
 
   // Solo se echa en falta lo que la fuente de ESE tipo deberia publicar. A una
   // refineria de OpenStreetMap no se le reclama la cuenca sedimentaria.
-  const ausentes = (CAMPOS_ESPERADOS[esCampo ? "campo" : activo.tipo] ?? [])
+  const ausentes = (ficha ? [] : CAMPOS_ESPERADOS[esCampo ? "campo" : activo.tipo] ?? [])
     .filter(([campo]) => !activo[campo])
     .map(([, clave]) => t(clave));
 
@@ -1337,9 +1448,9 @@ function contenidoPanel(activo) {
       <span class="mt-2 h-3 w-3 shrink-0 rounded-sm" aria-hidden="true"
             style="background:${color}99;border:1px solid ${color}"></span>
       <div class="min-w-0 flex-1">
-        <p class="text-[10px] font-medium uppercase tracking-wider text-lo">${esc(tipo)}</p>
+        <p class="text-[10px] font-medium uppercase tracking-wider text-lo">${ficha ? ficha.tipo : esc(tipo)}</p>
         <h2 id="panel-titulo" class="text-base font-semibold leading-snug text-hi">
-          ${esc(activo.nombre ?? activo.id ?? "")}
+          ${ficha ? ficha.titulo : esc(activo.nombre ?? activo.id ?? "")}
         </h2>
       </div>
       <button id="btn-cerrar-panel" type="button" aria-label="${esc(t("panel.cerrar"))}"
@@ -1349,7 +1460,7 @@ function contenidoPanel(activo) {
 
     ${avisoHtml}
 
-    ${filas ? `<dl class="mt-2 divide-y divide-trazo text-[13px]">${filas}</dl>` : ""}
+    ${ficha ? ficha.cuerpo : filas ? `<dl class="mt-2 divide-y divide-trazo text-[13px]">${filas}</dl>` : ""}
 
     ${
       ausentes.length
@@ -1378,7 +1489,9 @@ function contenidoPanel(activo) {
     </div>
 
     ${
-      url
+      ficha
+        ? ficha.enlaces
+        : url
         ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer"
              class="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[13px] text-gas
                     underline decoration-gas/40 underline-offset-2 hover:text-hi sm:min-h-8">
