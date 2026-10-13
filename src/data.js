@@ -300,3 +300,67 @@ export function circuloGeodesico(centro, km, n = 128) {
   anillo.push(anillo[0]);
   return anillo;
 }
+
+/**
+ * Vertice de la feature mas cercano al punto y su distancia.
+ * Mismo metodo (y mismo km) que `distanciaMinimaKm`: sirve para dibujar la
+ * linea de proximidad hasta el punto que se midio, no hasta otro.
+ *
+ * @param {[number, number] | {lng: number, lat: number}} punto
+ * @param {{geometry?: {coordinates?: unknown}} | null | undefined} feature
+ * @returns {{posicion: [number, number], km: number} | null} null sin geometria utilizable
+ */
+export function verticeMasCercano(punto, feature) {
+  let mejor = null;
+  for (const posicion of posiciones(feature?.geometry?.coordinates)) {
+    const km = haversineKm(punto, posicion);
+    if (!mejor || km < mejor.km) mejor = { posicion: [posicion[0], posicion[1]], km };
+  }
+  return mejor;
+}
+
+/**
+ * Elementos por `properties.clase`; 0 para las clases sin elementos.
+ * Las clases que no estan en `clases` no se cuentan.
+ *
+ * @param {Array<{properties?: {clase?: string}}>} features
+ * @param {string[]} clases
+ * @returns {Object<string, number>}
+ */
+export function contarPorClase(features, clases) {
+  const conteo = Object.fromEntries(clases.map((clase) => [clase, 0]));
+  for (const f of features) {
+    const clase = f.properties?.clase;
+    if (Object.hasOwn(conteo, clase)) conteo[clase] += 1;
+  }
+  return conteo;
+}
+
+/**
+ * Semilla de iniciativas -> FeatureCollection SIN geometria (RFC 7946 §3.2),
+ * una feature por iniciativa. Solo para listas: no pasa por
+ * `validarFeatureCollection` (que descarta lo que no tiene geometria) ni
+ * llega a map.js. Los textos se copian tal cual.
+ *
+ * @param {{iniciativas?: Array<Object>, ultima_verificacion?: string} | null} semilla
+ * @returns {{type: "FeatureCollection", features: Array<Object>}}
+ */
+export function iniciativasSinGeometria(semilla) {
+  const lista = Array.isArray(semilla?.iniciativas) ? semilla.iniciativas : [];
+  return {
+    type: "FeatureCollection",
+    features: lista.map((i) => ({
+      type: "Feature",
+      geometry: null,
+      properties: {
+        id: i.id,
+        nombre: i.nombre,
+        fecha: i.fechas ?? i.fecha_fuente ?? null,
+        fecha_fuente: i.fecha_fuente ?? null,
+        fuente: i.fuente ?? null,
+        en_mapa: i.ubicacion?.osm != null,
+        ultima_verificacion: semilla.ultima_verificacion ?? null,
+      },
+    })),
+  };
+}

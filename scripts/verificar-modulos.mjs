@@ -58,6 +58,19 @@ const RE_IMPORT_MAP = /\bimport\b[^;\n]*["'][^"']*\bmap(?:\.js)?["']/;
 const RE_FETCH = /\bfetch\s*\(/;
 
 /**
+ * Rutas de marcas de terceros (logos de la CCIEB y la ExpoFaja). Solo
+ * config.js las declara (MARCAS_MODO); la marca nunca va en el mapa
+ * (ADR-020, docs/expofaja/02-IDENTIDAD-VISUAL.md §4).
+ */
+const RE_RUTA_MARCAS = /\/expofaja\/marcas\//;
+const PERMITE_RUTA_MARCAS = new Set(["config.js"]);
+// El micrositio src/expofaja/ si muestra marcas: es la vitrina del evento (02 §4.2).
+
+/** Uso de MARCAS_MODO: solo la cabecera DOM del modo lo importa. */
+const RE_USA_MARCAS_MODO = /\bMARCAS_MODO\b/;
+const PERMITE_MARCAS_MODO = new Set(["config.js", "ui/modoCiudadBolivar.js"]);
+
+/**
  * Todos los .js bajo un directorio, recursivamente.
  * @param {string} dir
  * @returns {string[]} rutas absolutas
@@ -102,6 +115,21 @@ function verificar() {
     if (rel === "expofaja/vista.js" && RE_FETCH.test(contenido)) {
       errores.push(
         `src/${rel}: usa fetch(. La vista no hace red; los datos llegan desde main.js.`
+      );
+    }
+
+    const esMicrositio = rel.startsWith("expofaja/");
+    if (RE_RUTA_MARCAS.test(contenido) && !PERMITE_RUTA_MARCAS.has(rel) && !esMicrositio) {
+      errores.push(
+        `src/${rel}: contiene una ruta de /expofaja/marcas/. Solo config.js ` +
+          `declara los logos (MARCAS_MODO); la marca no va en el mapa (ADR-020).`
+      );
+    }
+
+    if (RE_USA_MARCAS_MODO.test(contenido) && !PERMITE_MARCAS_MODO.has(rel)) {
+      errores.push(
+        `src/${rel}: usa MARCAS_MODO. Solo la cabecera del modo ` +
+          `(src/ui/modoCiudadBolivar.js) muestra logos (ADR-020).`
       );
     }
 

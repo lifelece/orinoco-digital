@@ -225,6 +225,86 @@ export const CLASES_CIUDAD = [
 ];
 
 /**
+ * Color de los marcadores de la capa Ciudad Bolivar: mismo valor que --color-hi.
+ * Los colores de marca ExpoFaja/CCIEB NO van en el mapa: chocan con gas y crudo
+ * (docs/expofaja/02-IDENTIDAD-VISUAL.md §4).
+ */
+export const COLOR_CIUDAD = "#e6edf3";
+
+/** Anillos de distancia: mismo valor que --color-lo (mandato E1, "Estilo"). */
+export const COLOR_ANILLO = "#8b98a5";
+
+/**
+ * Distancias de camara (m) para mostrar marcadores y rotulos de la capa.
+ * Los hitos (sede, aeropuerto, puente) se ven siempre.
+ * SIN VERIFICAR — medir en captura (A3/I1).
+ */
+export const ZOOM_CIUDAD = {
+  clasesHito: ["sede_evento", "aeropuerto", "puente"],
+  detalle: [0, 80000],
+  etiqueta: [0, 30000],
+};
+
+/**
+ * RF-4: anillo que debe verse completo segun la orientacion de la pantalla, y
+ * margen sobre el encuadre geometrico. `margen` SIN VERIFICAR (medir en I1).
+ */
+export const CAMARA_CIUDAD_BOLIVAR = {
+  anilloEscritorioKm: 150,
+  anilloVerticalKm: 100,
+  margen: 1.15,
+};
+
+/**
+ * Logos autorizados por la CCIEB (public/expofaja/marcas/AVISO.md). Solo los
+ * usa la cabecera DOM del modo (src/ui/modoCiudadBolivar.js); nunca el mapa.
+ */
+export const MARCAS_MODO = {
+  ccieb: "/expofaja/marcas/ccieb.webp",
+  expofaja: "/expofaja/marcas/expofaja-sobre-oscuro.webp",
+};
+
+/**
+ * Modos del mapa, como definicion declarativa: adelanto minimo del Sistema de
+ * Modos (N1 en Notion). La aplica main.js; nada consulta `modo === "..."`.
+ * ADR-020, pieza 10.
+ */
+export const DEFINICION_MODOS = {
+  nacional: {
+    id: "nacional",
+    camara: "faja",
+    capasEncendidas: [],
+    anillos: null,
+    interfaz: null,
+    vueltaAtras: null,
+  },
+  ciudadBolivar: {
+    id: "ciudadBolivar",
+    camara: "ciudadBolivar",
+    capasEncendidas: ["upstream", "ciudadBolivar", "iniciativas"],
+    anillos: { centro: CENTRO_CIUDAD_BOLIVAR, radiosKm: ANILLOS_KM },
+    interfaz: "ciudadBolivar",
+    vueltaAtras: "nacional",
+  },
+};
+
+/** Ids de modo validos: ["nacional", "ciudadBolivar"] (ADR-020). */
+export const MODOS = Object.keys(DEFINICION_MODOS);
+
+/** Decision de Luis (2026-10-12): la portada abre en Ciudad Bolivar. Revisar en E4. */
+export const MODO_INICIAL = "ciudadBolivar";
+
+/** Orden en que ?vuelo=<id> busca el id entre las capas cargadas. */
+export const ORDEN_VUELO = [
+  "ciudadBolivar",
+  "iniciativasCcieb",
+  "campos",
+  "downstream",
+  "centrales",
+  "ductos",
+];
+
+/**
  * Color por hidrocarburo del campo.
  *
  * Los campos se colorean por lo que producen, NO por su estado operativo. El
@@ -421,6 +501,13 @@ export const FUENTES = [
     clave: "cesium",
     url: "https://cesium.com/platform/cesium-ion/content/cesium-world-terrain/",
     licencia: "licencia.cesium",
+  },
+  {
+    // Marcas y contenido del organizador ExpoFaja (ADR-020, pieza 7).
+    // URL comprobada el 2026-10-13: HTTP 200.
+    clave: "ccieb",
+    url: "https://camaradecomerciobolivar.org/",
+    licencia: "licencia.autorizadaCcieb",
   },
 ];
 

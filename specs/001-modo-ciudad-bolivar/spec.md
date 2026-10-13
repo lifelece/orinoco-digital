@@ -1,10 +1,11 @@
 # Spec 001 — Modo Ciudad Bolivar: la ciudad como eje del mapa
 
-> Estado: BORRADOR (2026-10-12) — pasar por `/sdd-aclarar 001-modo-ciudad-bolivar`
+> Estado: EN PLAN (2026-10-12) — `plan.md` y `tasks.md` escritos, pendientes
+> del OK de Luis. Dudas abiertas: 2 y 3 (seccion 9); ninguna bloquea el arranque.
 > Peticion de Luis (literal): "poner a ciudad Bolivar como eje del mapa y las
 > cosas que quiere hacer la camara de comercio y la Expo"
 > Origen: `docs/expofaja/E1-MODO-CIUDAD-BOLIVAR.md` (mandato con datos medidos),
-> ADR-020 piezas 1, 2, 5 y 10 (propuesta). Autorizacion CCIEB: 2026-10-12.
+> ADR-020 piezas 1, 2, 5, 7 y 10 (aceptadas el 2026-10-12). Autorizacion CCIEB: 2026-10-12.
 > Constitucion: `docs/constitution.md`. Fecha objetivo: martes 2026-10-13.
 
 ## 1. Contexto
@@ -113,5 +114,6 @@ Enlaces y errores
 
 ## 9. Dudas abiertas
 
-- [NECESITA ACLARACION: ADR-020 aprobado para las piezas 1, 2, 5, 7 y 10? Es el gate de entrada de esta spec.]
-- [NECESITA ACLARACION: los textos de las iniciativas se publican tal como estan en la semilla (copiados de las notas de la CCIEB) o los revisa alguien de la Camara antes?]
+1. [RESUELTA 2026-10-12: ADR-020 aceptado para las piezas 1, 2, 5, 7 y 10 (prompt de E1 de Luis). Se copia a `docs/DECISIONS.md` en la tarea C6.]
+2. [RESUELTA 2026-10-12: Luis: los textos de las iniciativas se publican tal cual estan en la semilla, atribuidos a la CCIEB con fecha y enlace a su nota de prensa.]
+3. [NECESITA ACLARACION: el panel lista las 6 iniciativas (RF-15), pero `iniciativas-ccieb.geojson` solo trae las 2 con ubicacion (RF-14), y `api.js` solo puede devolver FeatureCollection (constitucion 4). Propuesta del plan (D10): `api.js` importa la semilla en el build y la devuelve como FeatureCollection sin geometria; sin archivo nuevo en `public/data/`, ~4 KB en el bundle. Alternativa: GeoJSON aparte servido como estatico, con excepcion en el validador. Se implementa la propuesta (decision tecnica del coordinador, 2026-10-12; Luis puede vetarla).]
