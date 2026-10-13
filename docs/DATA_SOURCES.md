@@ -629,6 +629,12 @@ rotulan y situan. Esta capa es lo que separa un render 3D de un mapa.
 **Hidrografia:** 20 rios (entre ellos Orinoco, Caroni, Apure, Meta, Casiquiare,
 Cuyuni y Essequibo) y 4 lagos y embalses, incluido el **embalse de Guri**.
 
+**Regla del rio (derivada, ADR-021):** `regla-rio.json` (1,3 KB) sale de
+`rio-75` (Orinoco) de `hidrografia.geojson` con `npm run data:regla`: tramo
+de hasta 220 km desde `CENTRO_CIUDAD_BOLIVAR`, Douglas-Peucker de 0,6 km,
+coordenadas en km locales y los cruces con `ANILLOS_KM`. Misma fuente y
+licencia que la hidrografia (Natural Earth, dominio publico); no se edita a mano.
+
 ### Por que Natural Earth y no otra fuente
 
 1. **Los puntos de etiqueta vienen calculados en el dato** (`latitude`,

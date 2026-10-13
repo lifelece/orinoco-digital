@@ -6,6 +6,7 @@
 
 import { t, idioma, cambiarIdioma } from "../i18n/index.js";
 import { ORIGEN_CCIEB, REPO, URL_MAPA_CIUDAD } from "../config.js";
+import { crearReglaRio } from "../ui/reglaRio.js";
 import {
   cuentaRegresiva,
   diaInicial,
@@ -27,7 +28,7 @@ const MAPA_IMG = { src: "/expofaja/mapa.webp", w: 1200, h: 675 }; // Captura del
 const MAX_NOTICIAS = 4;
 
 /** Estado de la vista montada. */
-const est = { datos: null, embed: false, ahora: new Date(), dia: null, ponentes: new Map(), refs: {}, sesiones: [], pres: null };
+const est = { datos: null, reglaRio: null, embed: false, ahora: new Date(), dia: null, ponentes: new Map(), refs: {}, sesiones: [], pres: null };
 
 // --- Utilidades de DOM --------------------------------------------------------
 
@@ -611,6 +612,18 @@ function iniciativasCcieb() {
   return caja;
 }
 
+/**
+ * Separador entre secciones (ADR-021): la regla del rio en ef-azul, nunca en la
+ * tinta del mapa. Decorativo; sin regla (null) no se pinta nada.
+ * @returns {HTMLElement|null}
+ */
+function crearSeparadorRegla() {
+  if (!est.reglaRio) return null;
+  const caja = el("div", "ef-regla");
+  caja.append(crearReglaRio(est.reglaRio), el("p", "ef-regla-leyenda", t("regla.leyenda")));
+  return caja;
+}
+
 function crearCiudad() {
   const s = seccion("ciudad-bolivar", t("expofaja.ciudad.titulo"));
   const dos = el("div", "ef-dos-columnas");
@@ -819,8 +832,9 @@ function crearFinEmbed() {
  * @param {{embed?: boolean, alCambiarIdioma?: Function, ahora?: Date}} opciones
  * @returns {void} efecto: reemplaza el contenido del contenedor
  */
-export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma, ahora = new Date() } = {}) {
+export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma, ahora = new Date(), reglaRio = null } = {}) {
   est.datos = datos;
+  est.reglaRio = reglaRio;
   est.embed = embed;
   est.ahora = ahora;
   est.alCambiarIdioma = alCambiarIdioma;
@@ -835,7 +849,7 @@ export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma,
     hijos.push(crearCabecera());
   }
   const main = el("div", "ef-contenido");
-  main.append(crearAgenda(), crearPonentes(), crearCiudad(), crearMapa(), ...(est.pres.celebrado ? [crearHecho()] : []), crearAliados(), crearParticipa(), crearNoticias());
+  main.append(crearAgenda(), crearPonentes(), crearSeparadorRegla() ?? "", crearCiudad(), crearMapa(), ...(est.pres.celebrado ? [crearHecho()] : []), crearAliados(), crearParticipa(), crearNoticias());
   hijos.push(main, embed ? crearFinEmbed() : crearPie());
   contenedor.replaceChildren(...hijos);
   actualizarTiempo(ahora);

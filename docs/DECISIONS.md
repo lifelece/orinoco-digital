@@ -1067,3 +1067,97 @@ asi (`specs/001-modo-ciudad-bolivar/plan.md` §7):
   aceptar ambos: `?vuelo=` queda en el QR y en el micrositio.
 - **`vercel.json`.** E1 anade una redireccion temporal (307) de `/expofaja` a
   `/?modo=ciudadBolivar`; E2 la retira cuando exista el micrositio.
+
+---
+
+## ADR-021 — Identidad visual: instrumento de cuenca
+
+**Fecha:** 2026-10-13 · **Estado:** aceptada (2026-10-13, por Luis: "apruebo").
+Amplia ADR-014 y ADR-018 sin romperlos. Se publica despues de la ExpoFaja
+(no mergear antes del 18/10).
+
+**Contexto.** El mapa tiene tokens y animaciones (ADR-014, ADR-018) pero no una
+firma propia: sobre el fondo oscuro, un panel de Orinoco se parece a cualquier
+otro. La propuesta `instrumento de cuenca` (fundamento: seccion C de la
+evaluacion de JARVIS) la saca de datos del propio proyecto en vez de decoracion:
+la interfaz se lee como una carta de campo de la cuenca, con trazo fino, escalas
+reales y cifras en monoespaciada. Luis la aprobo el 2026-10-13.
+
+**Decision.** Siete piezas.
+
+1. **Dos tokens de tinta**, en el `@theme` de `style.css`:
+   - `tinta` `#7fa3b5`: **texto permitido** (7,15:1 sobre `shell`, 6,51:1 sobre
+     `elev`). Etiquetas de escala, marcas, enlaces, anillo de foco.
+   - `tinta-baja` `#3a5266`: **solo lineas** (2,36:1). Anillos, rejillas,
+     filetes. Nunca texto.
+   Los colores de datos (`crudo`, `gas`, `refino`, `activo`, `alerta`) y los
+   existentes (`shell`, `elev`, `trazo`, `hi`, `lo`) no cambian. La tinta nunca
+   pinta marcadores, capas ni leyendas de datos; `amber` sigue reservado a DEMO.
+2. **Escala tipografica** (pila del sistema, sin fuentes web, ADR-014):
+   etiqueta `0,6875rem` mono mayusculas `+0,08em`; texto-s `0,8125rem`; texto
+   `1rem`/1,5; h3 `clamp(1,125rem, 1,05rem + .4vw, 1,375rem)`; h2
+   `clamp(1,375rem, 1,1rem + 1,1vw, 2rem)`; h1 `clamp(1,875rem, 1,2rem + 2,8vw,
+   3,25rem)` peso 700-800 con `-0,02em`; cifra-xl mono `clamp(2rem, 1,4rem + 3vw,
+   3,5rem)`. La firma tipografica es usar monoespaciada con
+   `font-variant-numeric: tabular-nums` en todo numero y etiqueta de escala.
+3. **Duraciones con nombre** y una sola curva de frenado
+   (`cubic-bezier(.2,.7,.2,1)`, sin rebotes): `--dur-instante` 90 ms (hover,
+   foco), `--dur-rapido` 180 ms (paneles), `--dur-medio` 260 ms (filas),
+   `--dur-trazo` 400 ms (dibujar la regla), `--dur-contador` 600 ms (countUp, una
+   vez), `--dur-vuelo` 3000 ms (camara; ya vive en `config.js` como `duracionVuelo`, 3 s, se documenta
+   aqui). Se mueve para orientar o para presentar un dato una vez; lo unico en
+   bucle es la barra de carga. `prefers-reduced-motion` lo apaga todo.
+4. **Familia de iconos de ciudad**: cuadricula de 24 px, trazo de 1,5 px,
+   terminales redondos, sin relleno ni disco, en `hi` y distinguidos por forma.
+   Convive con la familia de activo energetico (disco de color por sector, sin
+   cambios): dos familias que no se confunden. Foco y seleccion: anillo `tinta` de
+   2 px, nunca cambio de relleno.
+5. **La regla del rio**, firma propia: una linea fina cuyo trazo es el cauce real
+   del Orinoco y cuyas marcas son las distancias reales a Ciudad Bolivar (los
+   anillos de `ANILLOS_KM`). Cada marca es un dato verificable.
+   - Origen: Natural Earth 1:10m, `rio-75` de `public/data/hidrografia.geojson`
+     (dominio publico, confianza media); tramo de hasta 220 km desde
+     `CENTRO_CIUDAD_BOLIVAR`, Douglas-Peucker de 0,6 km, proyeccion local
+     equirectangular en km (sirve para la firma, no para medir).
+   - Se genera con `scripts/regla-rio.mjs` (`npm run data:regla`) a
+     `public/data/regla-rio.json` (<= 4 KB): trazo, cruces `{km, xy}`, fuente y
+     fecha. Esperados 7 cruces: 200, 150, 100 y 50 km rio arriba; 50, 100 y 150
+     rio abajo. El test exige cada cruce a +-1 km de su anillo.
+   - Vive en el chrome DOM (panel del modo, barra de carga, micrositio); nunca
+     como marcador ni sobre el terreno. Decorativa (`aria-hidden`): la distancia
+     se repite en texto.
+   - No es un GeoJSON, asi que no pasa por el contrato de `api.js`: se importa
+     estatica en el build, como la semilla de iniciativas (ADR-020, D10).
+6. **Convivencia con ExpoFaja y la CCIEB** (ADR-020):
+   - Dos caras: el mapa lleva la identidad de Orinoco (oscura, `tinta`); el
+     micrositio la de ExpoFaja (clara, hero petroleo).
+   - Prefijos: `ef-` y `cc-` solo en `expofaja.css`; `tinta*` solo en
+     `style.css`. Ninguna regla los cruza.
+   - Dentro de `/expofaja` la regla va en `ef-azul` `#066e86` (5,86:1 sobre
+     blanco), **nunca `tinta` sobre `ef-petroleo`** (3,89:1, falla).
+   - Cian y naranja de ExpoFaja quedan fuera del mapa (chocan con `gas` y
+     `crudo`). Marcas de terceros solo en cabeceras DOM, nunca en marcadores,
+     anillos ni terreno; logos intactos.
+7. **Lo que no se trasplanta**: GSAP (ADR-018), fuentes web (ADR-014), paletas o
+   tipografias de otros proyectos del autor, design systems que imitan marcas,
+   shaders de gods-eye-view (peso y bateria en gama media) y analitica de
+   comportamiento (requeriria ADR y aviso de privacidad).
+
+**Alternativas descartadas.**
+
+| Alternativa | Por que no |
+|---|---|
+| Fuente web propia para dar personalidad | ADR-014: una peticion y decenas de KB por cara en red movil |
+| Ampliar la paleta de datos con un acento de marca | Choca con la semantica de color del mapa (ADR-012) |
+| Regla del rio como imagen raster/SVG decorativo fijo | No seria un dato: no cambiaria si cambia un anillo o la fuente del cauce |
+| `getReglaRio()` en `api.js` con `fetch` | Rompe el contrato "siempre FeatureCollection"; 4 KB no justifican una peticion |
+
+**Consecuencias.** `style.css` gana dos colores y cinco duraciones; el modo
+Ciudad Bolivar gana un separador SVG y cifras en monoespaciada; el micrositio, un
+separador en `ef-azul`. `docs/DATA_SOURCES.md` ya cita Natural Earth para la
+hidrografia; la regla es una derivada de ella. Sin dependencias nuevas.
+
+**Cuando reconsiderar:** si el gate en telefono real muestra la tinta ilegible
+sobre la imagen satelital; si cambian los anillos o se sustituye la fuente del
+cauce (se regenera, no se retoca a mano); o si la CCIEB entrega un manual de
+marca que choque con el uso de `ef-azul`.

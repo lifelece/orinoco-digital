@@ -1812,7 +1812,7 @@ export function montarCargaInicial() {
       <p class="text-sm font-semibold tracking-tight text-hi">${esc(t("app.titulo"))}</p>
       <p class="mt-1 text-xs text-lo">${esc(t("carga.terreno"))}</p>
       <div class="mt-4 h-0.5 overflow-hidden rounded-full bg-trazo">
-        <div class="h-full w-1/3 rounded-full bg-gas animate-indeterminada"></div>
+        <div class="h-full w-1/3 rounded-full bg-tinta animate-indeterminada"></div>
       </div>
     </div>`;
   document.body.appendChild(nodo);
