@@ -109,6 +109,19 @@ async function guardar(nombre, contenido) {
 }
 
 /**
+ * Tiempo maximo de espera del cliente para una consulta: el [timeout:N] que la
+ * propia consulta le concede al servidor, mas 30 s de margen de red. Con un
+ * limite fijo menor (antes 60 s) cortabamos consultas que Overpass aun estaba
+ * resolviendo en dias de saturacion (2026-10-13, osm-refinerias-2.json).
+ * @param {string} consulta
+ * @returns {number} milisegundos
+ */
+export function limiteCliente(consulta) {
+  const servidor = Number(/\[timeout:(\d+)\]/.exec(consulta)?.[1] ?? 60);
+  return (servidor + 30) * 1000;
+}
+
+/**
  * Consulta Overpass rotando los mirrors. Devuelve el JSON y el host que respondio.
  * Exportada para que otros scripts de datos reutilicen los mismos mirrors.
  */
@@ -125,7 +138,7 @@ export async function consultarOverpass(consulta, conMirror = false) {
         },
         body: new URLSearchParams({ data: consulta }),
         // Un mirror caido puede no responder nunca: sin limite, el script se cuelga.
-        signal: AbortSignal.timeout(60000),
+        signal: AbortSignal.timeout(limiteCliente(consulta)),
       });
       if (respuesta.ok) {
         const json = await respuesta.json();

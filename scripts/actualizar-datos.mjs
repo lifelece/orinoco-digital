@@ -176,7 +176,8 @@ async function consultarConReintentos(nombre, consulta, rondas = 3) {
     } catch (error) {
       ultimo = error.message;
       console.log(`  ronda ${i}/${rondas} fallo: ${ultimo}`);
-      if (i < rondas) await new Promise((res) => setTimeout(res, 30000));
+      // Espera creciente (60 s, 120 s): con 504 seguidos, Overpass necesita aire.
+      if (i < rondas) await new Promise((res) => setTimeout(res, 60000 * i));
     }
   }
   throw new Error(`Overpass fallo en todos los mirrors para ${nombre}: ${ultimo}. No se toco nada.`);
