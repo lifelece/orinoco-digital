@@ -3,30 +3,7 @@
  */
 
 import "./style.css";
-import {
-  iniciarMapa,
-  dibujarCampos,
-  dibujarDuctos,
-  dibujarDownstream,
-  dibujarLimites,
-  dibujarZonaDisputada,
-  dibujarToponimia,
-  dibujarHidrografia,
-  dibujarCentrales,
-  dibujarReferenciaFaja,
-  dibujarGridProbabilidad,
-  registrarBannerDemo,
-  alSeleccionarActivo,
-  alTerminarCargaInicial,
-  volarAFaja,
-  vistaCiudadBolivar,
-  dibujarAnillos,
-  quitarAnillos,
-  dibujarCiudadBolivar,
-  dibujarIniciativas,
-  mostrarLineasProximidad,
-  ocultarLineasProximidad,
-} from "./map.js";
+import { conectarMapa } from "./puenteMapa.js";
 import {
   montarUI,
   mostrarError,
@@ -121,6 +98,20 @@ const estado = {
   iniciativas: null,
 };
 
+/**
+ * Modulo `map.js`, cuando ya cargo (ADR-022). Es null mientras Cesium se
+ * descarga: todo lo que dibuja en el globo espera a `mapaListo`.
+ * @type {typeof import("./map.js")|null}
+ */
+let mapa = null;
+
+/**
+ * Promesa de `import("./map.js")`; se crea tras el primer pintado. Resuelve al
+ * modulo, o a null si la descarga fallo (el error ya se mostro en la UI).
+ * @type {Promise<typeof import("./map.js")|null>|null}
+ */
+let mapaListo = null;
+
 /** Segmentos de cada anillo geodesico. */
 const SEGMENTOS_ANILLO = 96;
 
@@ -157,24 +148,24 @@ async function cargarCapas() {
   // datos de activos tarden, y son el archivo mas ligero. La hidrografia va
   // antes que los activos porque el agua es el fondo sobre el que se lee todo.
   const capas = [
-    ["limites", getLimites, dibujarLimites],
-    ["disputa", getZonaDisputada, dibujarZonaDisputada],
-    ["hidrografia", getHidrografia, (fc) => {
+    ["limites", getLimites, (m, fc) => m.dibujarLimites(fc)],
+    ["disputa", getZonaDisputada, (m, fc) => m.dibujarZonaDisputada(fc)],
+    ["hidrografia", getHidrografia, (m, fc) => {
       contextoCargado.hidrografia = fc;
       // El idioma se lee al pintar, no al empezar a cargar: si el usuario lo
       // cambia mientras llega la capa, tiene que salir en el idioma nuevo.
-      dibujarHidrografia(fc, idioma());
+      m.dibujarHidrografia(fc, idioma());
     }],
-    ["toponimia", getToponimia, (fc) => {
+    ["toponimia", getToponimia, (m, fc) => {
       contextoCargado.toponimia = fc;
-      dibujarToponimia(fc, idioma());
+      m.dibujarToponimia(fc, idioma());
     }],
-    ["campos", getCampos, dibujarCampos],
-    ["ductos", getDuctos, dibujarDuctos],
-    ["downstream", getDownstream, dibujarDownstream],
-    ["centrales", getCentrales, dibujarCentrales],
-    ["ciudadBolivar", getCiudadBolivar, dibujarCiudadBolivar],
-    ["iniciativasCcieb", getIniciativasCcieb, dibujarIniciativas],
+    ["campos", getCampos, (m, fc) => m.dibujarCampos(fc)],
+    ["ductos", getDuctos, (m, fc) => m.dibujarDuctos(fc)],
+    ["downstream", getDownstream, (m, fc) => m.dibujarDownstream(fc)],
+    ["centrales", getCentrales, (m, fc) => m.dibujarCentrales(fc)],
+    ["ciudadBolivar", getCiudadBolivar, (m, fc) => m.dibujarCiudadBolivar(fc)],
+    ["iniciativasCcieb", getIniciativasCcieb, (m, fc) => m.dibujarIniciativas(fc)],
   ];
 
   for (const [clave] of capas) fijarEstadoCapa(clave, "cargando");
@@ -183,9 +174,12 @@ async function cargarCapas() {
     capas.map(async ([clave, cargar, pintar]) => {
       try {
         const coleccion = soloConFuente(await cargar(), clave);
-        pintar(coleccion);
+        // La interfaz recibe los datos al llegar, sin esperar a Cesium...
         fijarDatosCapa(clave, coleccion);
         alLlegarColeccion(clave, coleccion);
+        // ...y el globo los dibuja cuando map.js esta cargado (ADR-022).
+        const m = await mapaListo;
+        if (m) pintar(m, coleccion);
       } catch (error) {
         fijarEstadoCapa(clave, "error");
         alLlegarColeccion(clave, false);
@@ -218,7 +212,7 @@ async function cargarCapas() {
 async function cargarDemo() {
   try {
     const grid = await getGridProbabilidadDemo();
-    dibujarGridProbabilidad(grid);
+    (await mapaListo)?.dibujarGridProbabilidad(grid);
   } catch {
     console.info(
       "Capa DEMO no disponible. Es normal si aun no has ejecutado " +
@@ -245,9 +239,9 @@ const MODO_CIUDAD = "ciudadBolivar";
  */
 const CAMARAS = {
   faja: (arranque) => {
-    if (!arranque) volarAFaja();
+    if (!arranque) mapa?.volarAFaja();
   },
-  ciudadBolivar: () => vistaCiudadBolivar(),
+  ciudadBolivar: () => mapa?.vistaCiudadBolivar(),
 };
 
 /** Interfaces de los modos: montar con los datos, actualizarlos, desmontar. */
@@ -342,10 +336,10 @@ async function cargarListaIniciativas() {
 /** Dibuja los anillos del modo activo, si tiene y ya hay campos. */
 function pintarAnillos() {
   const anillos = DEFINICION_MODOS[estado.actual]?.anillos;
-  if (!anillos || !colecciones.campos) return;
+  if (!mapa || !anillos || !colecciones.campos) return;
   const formato = formatoNumero();
   const resumen = contarPorAnillo(anillos.centro, colecciones.campos, anillos.radiosKm);
-  dibujarAnillos(
+  mapa.dibujarAnillos(
     resumen.map(({ km, campos }) => ({
       km,
       campos,
@@ -373,7 +367,7 @@ function mostrarLineasDeSede() {
       },
     ];
   });
-  mostrarLineasProximidad(sede, destinos);
+  mapa?.mostrarLineasProximidad(sede, destinos);
 }
 
 /**
@@ -390,12 +384,12 @@ function alSeleccionar(activo) {
     return;
   }
   mostrarPanelActivo(activo);
-  ocultarLineasProximidad();
+  mapa?.ocultarLineasProximidad();
 }
 
 /** Deshace lo que el modo saliente puso: anillos, interfaz y capas. */
 function retirarModo(def) {
-  if (def.anillos) quitarAnillos();
+  if (def.anillos) mapa?.quitarAnillos();
   INTERFACES[def.interfaz]?.desmontar();
   fijarCapas(estado.capasPrevias);
 }
@@ -486,38 +480,94 @@ function abrirVueloDeEnlace() {
   }
 }
 
+/** Resuelve tras el primer pintado del shell: doble rAF + un tick. */
+function trasPrimerPintado() {
+  return new Promise((resolver) => {
+    const fin = () => setTimeout(resolver, 0);
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => requestAnimationFrame(fin));
+    } else {
+      fin();
+    }
+  });
+}
+
+/** Mensaje de la UI para un fallo al arrancar el mapa. */
+function mensajeDeFallo(error) {
+  return error?.message?.includes("VITE_CESIUM_TOKEN")
+    ? t("error.tokenFaltante")
+    : String(error?.message ?? error);
+}
+
+/**
+ * Trae `map.js` (y con el, Cesium) tras el primer pintado, sin bloquearlo
+ * (ADR-022). Resuelve al modulo, o a null si no se pudo: el error se muestra
+ * en la UI y la pantalla de carga se retira para no dejar un spinner eterno.
+ * @returns {Promise<typeof import("./map.js")|null>}
+ */
+async function cargarMapa() {
+  try {
+    await trasPrimerPintado();
+    return await import("./map.js");
+  } catch (error) {
+    console.error(error);
+    quitarCargaInicial();
+    mostrarError(t("error.mapaNoCargo"));
+    return null;
+  }
+}
+
+/** Arranca Cesium con el modulo ya cargado y conecta todo lo que lo espera. */
+function arrancarMapa(modulo) {
+  try {
+    modulo.iniciarMapa();
+    mapa = modulo;
+    modulo.alSeleccionarActivo(alSeleccionar);
+    modulo.alTerminarCargaInicial(quitarCargaInicial);
+    // Se registra ANTES de dibujar nada: sin banner, map.js se niega a dibujar
+    // la capa DEMO. Es una condicion de codigo, no una convencion.
+    modulo.registrarBannerDemo(montarBannerDemo, quitarBannerDemo);
+    // No depende de red: se dibuja desde FAJA_BBOX, que es constante.
+    modulo.dibujarReferenciaFaja();
+    // Ordenes de la interfaz que llegaron antes que el mapa (capas, vuelos).
+    conectarMapa(modulo);
+    // La camara del modo de arranque (la nacional ya la lleva el vuelo de entrada).
+    CAMARAS[DEFINICION_MODOS[estado.actual].camara](true);
+    pintarAnillos();
+    return true;
+  } catch (error) {
+    mapa = null;
+    console.error(error);
+    quitarCargaInicial();
+    mostrarError(mensajeDeFallo(error));
+    return false;
+  }
+}
+
 function arrancar() {
   // Antes que nada: sin esto, lo primero que ve el usuario es un lienzo negro
   // mientras Cesium arranca, que es justo lo que hace parecer roto un mapa 3D.
   montarCargaInicial();
   try {
-    iniciarMapa();
     montarUI();
-    alSeleccionarActivo(alSeleccionar);
-    alTerminarCargaInicial(quitarCargaInicial);
-    // Se registra ANTES de cargar nada: sin banner, map.js se niega a dibujar
-    // la capa DEMO. Es una condicion de codigo, no una convencion.
-    registrarBannerDemo(montarBannerDemo, quitarBannerDemo);
-    // No depende de red: se dibuja desde FAJA_BBOX, que es constante.
-    dibujarReferenciaFaja();
-    // Con catch explicito: una promesa rechazada sin manejar no llega a la
-    // interfaz, y un error que solo vive en la consola es invisible. Es la
-    // leccion del import que falto en produccion (docs/PROCESO.md, error 6).
     iniciarModo();
     cargarListaIniciativas();
-    cargarCapas().catch((error) => {
-      console.error(error);
-      mostrarError(String(error?.message ?? error));
-    });
   } catch (error) {
     console.error(error);
     quitarCargaInicial();
-    mostrarError(
-      error.message?.includes("VITE_CESIUM_TOKEN")
-        ? t("error.tokenFaltante")
-        : String(error.message ?? error)
-    );
+    mostrarError(mensajeDeFallo(error));
   }
+
+  // Cesium se descarga en paralelo a los datos. Resuelve a null si algo falla.
+  mapaListo = cargarMapa().then((modulo) => (modulo && arrancarMapa(modulo) ? modulo : null));
+
+  // Con catch explicito: una promesa rechazada sin manejar no llega a la
+  // interfaz, y un error que solo vive en la consola es invisible. Es la
+  // leccion del import que falto en produccion (docs/PROCESO.md, error 6).
+  cargarCapas().catch((error) => {
+    console.error(error);
+    mostrarError(String(error?.message ?? error));
+  });
 }
 
 /**
@@ -531,11 +581,12 @@ function arrancar() {
  */
 window.addEventListener("idioma:cambiado", (evento) => {
   const lang = evento.detail ?? idioma();
+  if (!mapa) return; // al llegar el mapa se dibuja con el idioma de ese momento
   if (contextoCargado.hidrografia) {
-    dibujarHidrografia(contextoCargado.hidrografia, lang);
+    mapa.dibujarHidrografia(contextoCargado.hidrografia, lang);
   }
   if (contextoCargado.toponimia) {
-    dibujarToponimia(contextoCargado.toponimia, lang);
+    mapa.dibujarToponimia(contextoCargado.toponimia, lang);
   }
   // Las etiquetas de anillos y lineas las compone main.js con t(): se rehacen.
   pintarAnillos();

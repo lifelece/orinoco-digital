@@ -134,6 +134,7 @@
   "pie.codigo": "Source code",
   "aviso.cerrar": "Dismiss notice",
   "error.tokenFaltante": "The Cesium ion token is missing. Check your .env file.",
+  "error.mapaNoCargo": "The 3D map could not be loaded. Check your connection and reload the page.",
   "error.cargaCapas": "These layers could not be loaded: {capas}. The rest of the map works.",
   "modo.ciudadBolivar.titulo": "Ciudad Bolívar · Strategic Capital of the Orinoco Belt",
   "modo.ciudadBolivar.alianza": "In partnership with",
