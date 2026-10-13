@@ -1,0 +1,73 @@
+# Verificacion semanal de las capas de OpenStreetMap (ductos, downstream y
+# Ciudad Bolivar). Static-first (ADR-003): nada se publica sin revision. El
+# workflow NUNCA toca main: regenera los datos, corre los tests y abre (o
+# actualiza) un PR en la rama `datos-semanal`. Luis lo revisa y lo mergea;
+# merge = deploy.
+#
+# Por que los tests corren aqui y no en tests.yml: los PR creados con
+# GITHUB_TOKEN no disparan otros workflows (regla de GitHub contra bucles).
+# Sin esto el PR llegaria sin ningun check. Si npm test falla, no hay PR.
+#
+# Requiere activar una vez, en GitHub -> Settings -> Actions -> General:
+# "Allow GitHub Actions to create and approve pull requests".
+#
+# Solo acciones oficiales (checkout, setup-node). GEM GOGET queda fuera: exige
+# formulario y se actualiza a mano (docs/DATA_SOURCES.md seccion 3).
+name: datos-semanal
+
+on:
+  schedule:
+    - cron: "0 10 * * 1" # lunes 10:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: datos-semanal
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RAMA: datos-semanal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - name: Descargar OSM, regenerar, validar e informar
+        run: npm run data:actualizar
+      - name: Tests
+        run: npm test
+      - name: Commit en la rama datos-semanal y PR
+        run: |
+          if [ -z "$(git status --porcelain -- public/data src/config.js)" ]; then
+            echo "Sin cambios en public/data ni en src/config.js: no hay PR."
+            exit 0
+          fi
+          FECHA=$(date -u +%F)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # La rama se reconstruye cada semana desde main: el PR abierto, si lo
+          # hay, se actualiza en vez de acumular commits viejos.
+          git checkout -B "$RAMA"
+          git add public/data src/config.js
+          git commit -s -m "Datos: verificacion semanal de OSM ($FECHA)"
+          # Rama propia del bot, reconstruida desde main en cada corrida: --force es
+          # seguro aqui (nunca apunta a main). --force-with-lease fallaria sin la
+          # referencia remota, que el checkout superficial no trae.
+          git push --force origin "$RAMA"
+          TITULO="Datos: verificacion semanal de OSM ($FECHA)"
+          CUERPO=data/raw/informe-actualizacion.md
+          printf '\n---\n\U0001F916 Generado por el workflow `datos-semanal`.\n' >> "$CUERPO"
+          if [ "$(gh pr list --head "$RAMA" --state open --json number --jq length)" = "0" ]; then
+            gh pr create --base main --head "$RAMA" --title "$TITULO" --body-file "$CUERPO"
+          else
+            gh pr edit "$RAMA" --title "$TITULO" --body-file "$CUERPO"
+          fi

@@ -1,0 +1,77 @@
+# E4.2: noticias de la CCIEB para el micrositio ExpoFaja. Lee la API publica de
+# WordPress de la Camara y, si hay noticias nuevas, abre (o actualiza) un PR en
+# la rama `noticias-ccieb`. Luis lo mergea: ningun contenido externo llega a
+# produccion sin revision (ADR-003). Si el WordPress falla, el job falla y el
+# JSON versionado sigue sirviendo.
+#
+# Los tests corren en este mismo job porque los PR creados con GITHUB_TOKEN no
+# disparan otros workflows (tests.yml no veria este PR).
+#
+# Requiere activar una vez, en GitHub -> Settings -> Actions -> General:
+# "Allow GitHub Actions to create and approve pull requests".
+name: noticias-ccieb
+
+on:
+  schedule:
+    - cron: "0 11 * * *" # diario 11:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: noticias-ccieb
+  cancel-in-progress: false
+
+jobs:
+  noticias:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RAMA: noticias-ccieb
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Leer noticias de la CCIEB
+        run: npm run data:noticias | tee salida-noticias.txt
+      - name: Tests
+        run: npm test
+      - name: Commit en la rama noticias-ccieb y PR
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/expofaja/noticias.json)" ]; then
+            echo "Sin noticias nuevas: no hay PR."
+            exit 0
+          fi
+          FECHA=$(date -u +%F)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$RAMA"
+          git add public/data/expofaja/noticias.json
+          git commit -s -m "Noticias: CCIEB ($FECHA)"
+          # Rama propia del bot, reconstruida desde main en cada corrida: --force es
+          # seguro aqui (nunca apunta a main). --force-with-lease fallaria sin la
+          # referencia remota, que el checkout superficial no trae.
+          git push --force origin "$RAMA"
+          TITULO="Noticias de la CCIEB ($FECHA)"
+          {
+            echo "Noticias nuevas leidas de https://camaradecomerciobolivar.org (categorias 163 y 7)."
+            echo
+            echo '```'
+            cat salida-noticias.txt
+            echo '```'
+            echo
+            echo "- [ ] Los titulos y enlaces son los esperados (solo camaradecomerciobolivar.org)."
+            echo "- [ ] Nada que no deba mostrarse en el micrositio."
+            echo "- [ ] Merge = deploy: revisado por Luis."
+            echo
+            printf '\U0001F916 Generado por el workflow `noticias-ccieb`.\n'
+          } > cuerpo-pr.md
+          if [ "$(gh pr list --head "$RAMA" --state open --json number --jq length)" = "0" ]; then
+            gh pr create --base main --head "$RAMA" --title "$TITULO" --body-file cuerpo-pr.md
+          else
+            gh pr edit "$RAMA" --title "$TITULO" --body-file cuerpo-pr.md
+          fi
