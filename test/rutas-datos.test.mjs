@@ -22,3 +22,25 @@ test("cada capa declarada en config.js tiene su archivo publicado", async () => 
   }
   assert.deepEqual(faltan, []);
 });
+
+test("los logos del modo Ciudad Bolivar existen en public/", async () => {
+  const { MARCAS_MODO } = await import("../src/config.js");
+  const faltan = [];
+  for (const [marca, ruta] of Object.entries(MARCAS_MODO)) {
+    try {
+      await access(new URL(`../public${ruta}`, import.meta.url));
+    } catch {
+      faltan.push(`${marca}: public${ruta}`);
+    }
+  }
+  assert.deepEqual(faltan, []);
+});
+
+test("los modos son coherentes con MODO_INICIAL y sus vueltas atras", async () => {
+  const { DEFINICION_MODOS, MODOS, MODO_INICIAL } = await import("../src/config.js");
+  assert.deepEqual(MODOS, ["nacional", "ciudadBolivar"]);
+  assert.ok(MODOS.includes(MODO_INICIAL));
+  for (const def of Object.values(DEFINICION_MODOS)) {
+    assert.ok(def.vueltaAtras === null || MODOS.includes(def.vueltaAtras), def.id);
+  }
+});
