@@ -619,7 +619,7 @@ function iniciativasCcieb() {
 function crearSeparadorRegla() {
   if (!est.reglaRio) return null;
   const caja = el("div", "ef-regla");
-  caja.append(crearReglaRio(est.reglaRio));
+  caja.append(crearReglaRio(est.reglaRio), el("p", "ef-regla-leyenda", t("regla.leyenda")));
   return caja;
 }
 

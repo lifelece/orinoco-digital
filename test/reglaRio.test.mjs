@@ -18,5 +18,5 @@ test("geometriaRegla: una marca por cruce, todas dentro de la caja de vista", ()
     assert.ok(m.x >= x0 && m.x <= x0 + ancho, `marca de ${m.km} km fuera en x`);
     assert.ok(m.y >= y0 && m.y <= y0 + alto, `marca de ${m.km} km fuera en y`);
   }
-  assert.ok(g.ejeY > regla.caja.maxY && g.ejeY < y0 + alto, "el eje queda bajo el rio y dentro de la vista");
+  assert.equal("ejeY" in g, false, "sin eje: la regla no debe parecer un grafico");
 });

@@ -15,9 +15,8 @@ const NS = "http://www.w3.org/2000/svg";
 
 /** Margen alrededor del trazo, en km locales. */
 const MARGEN = 8;
-/** Medio largo de la marca sobre el rio y de la marca del eje, en km locales. */
+/** Medio largo de la marca sobre el rio, en km locales. */
 const MARCA = 7;
-const MARCA_EJE = 3;
 
 /**
  * @typedef {Object} ReglaRio
@@ -27,21 +26,21 @@ const MARCA_EJE = 3;
  */
 
 /**
- * Geometria de la regla: caja de vista, eje y marcas. Pura, sin DOM.
+ * Geometria de la regla: caja de vista y marcas. Pura, sin DOM.
+ * Sin eje ni lineas guia a proposito: con ellos el cauce (que sube hacia el
+ * noreste) se leia como un grafico de tendencia. Es un mapa, no una serie.
  * @param {ReglaRio} regla
- * @returns {{viewBox: string, ancho: number, alto: number, ejeY: number,
+ * @returns {{viewBox: string, ancho: number, alto: number,
  *   marcas: Array<{km: number, x: number, y: number}>}}
  */
 export function geometriaRegla(regla) {
   const { minX, maxX, minY, maxY } = regla.caja;
-  const ejeY = maxY + MARGEN;
   const ancho = maxX - minX + 2 * MARGEN;
-  const alto = ejeY + MARGEN - (minY - MARGEN);
+  const alto = maxY - minY + 2 * MARGEN;
   return {
     viewBox: [minX - MARGEN, minY - MARGEN, ancho, alto].map((n) => Math.round(n * 10) / 10).join(" "),
     ancho,
     alto,
-    ejeY,
     marcas: regla.cruces.map(({ km, xy }) => ({ km, x: xy[0], y: xy[1] })),
   };
 }
@@ -71,14 +70,6 @@ export function crearReglaRio(regla, { trazar = false, clase = "" } = {}) {
     focusable: "false",
   });
 
-  const [minX, maxX] = [regla.caja.minX, regla.caja.maxX];
-  svg.append(el("line", { class: "base", x1: minX, x2: maxX, y1: g.ejeY, y2: g.ejeY }));
-  for (const m of g.marcas) {
-    svg.append(
-      el("line", { class: "guia", x1: m.x, x2: m.x, y1: m.y + MARCA, y2: g.ejeY }),
-      el("line", { class: "marca", x1: m.x, x2: m.x, y1: g.ejeY - MARCA_EJE, y2: g.ejeY + MARCA_EJE })
-    );
-  }
   svg.append(el("path", { class: "rio", d: regla.path }));
   for (const m of g.marcas) {
     svg.append(el("line", { class: "marca", x1: m.x, x2: m.x, y1: m.y - MARCA, y2: m.y + MARCA }));

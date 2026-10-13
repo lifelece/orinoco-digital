@@ -193,7 +193,7 @@ function crearRegla() {
   const svg = crearReglaRio(regla, { trazar });
   if (trazar) svg.addEventListener("animationend", () => { estado.reglaTrazada = true; }, { once: true });
   const marco = nodo("div", "mt-2.5");
-  marco.append(svg);
+  marco.append(svg, nodo("p", "regla-leyenda", t("regla.leyenda")));
   return marco;
 }
 
@@ -309,11 +309,13 @@ function crearPanel() {
 
   const frase = crearFrase();
   if (frase) panel.append(frase);
-  const regla = crearRegla();
-  if (regla) panel.append(regla);
 
   // Plegado (movil): solo titulo, frase y boton. En escritorio siempre visible.
+  // La regla va dentro: plegada en movil haria crecer el panel y taparia el
+  // anillo de 100 km que encuadra CAMARA_CIUDAD_BOLIVAR.
   const detalles = nodo("div", estado.detallesAbiertos ? "" : "max-sm:hidden", "", { id: "modo-detalles" });
+  const regla = crearRegla();
+  if (regla) detalles.append(regla);
   if (d.resumenAnillos) detalles.append(crearAnillos(d.resumenAnillos));
   const partes = [
     seccion(t("modo.cercanosSede"), d.cercanos, () => crearCercanos(d.cercanos)),
