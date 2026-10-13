@@ -28,7 +28,7 @@ repo.
 
 | Hito | Archivo | Estado |
 |---|---|---|
-| M1 — Shell de UI | [M1-SHELL-UI.md](M1-SHELL-UI.md) | **Implementado, pendiente del gate** en telefono real |
+| M1 — Shell de UI | [M1-SHELL-UI.md](M1-SHELL-UI.md) | **Cerrado**: en produccion desde el PR #1; gate en telefono real superado el 2026-10-13 |
 | M2 — Navegacion (jerarquia, deep-links, teclado) | — | Pendiente |
 | M3 — Animacion | — | Pendiente |
 | M4 — Render (iluminacion, base oscura, LOD) | — | Pendiente |

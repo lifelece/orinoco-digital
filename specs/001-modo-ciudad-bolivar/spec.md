@@ -1,6 +1,6 @@
 # Spec 001 — Modo Ciudad Bolivar: la ciudad como eje del mapa
 
-> Estado: IMPLEMENTADA (2026-10-13), pendiente del gate de Luis en telefono real.
+> Estado: CERRADA (2026-10-13). En produccion (PR #6); gate de Luis en telefono real superado.
 > Validada por el revisor (cambios aplicados) y en navegador headless a 1440x900
 > y 390x844. Dudas 1 y 2 resueltas; la 3 (D10) aplicada.
 > Peticion de Luis (literal): "poner a ciudad Bolivar como eje del mapa y las

@@ -86,7 +86,7 @@ export function iniciarEmbed(documento, ventana)  // noindex, target=_top, postM
 ## Integracion (coordinador)
 
 - [x] I1 · Merge de lo ultimo de `expofaja-e1`; `npm test`, `npm run build`: `dist/expofaja/index.html` sin chunk cesium (RF-69), JS propio <= 30 KB gzip (RNF-1), pesos de imagenes; Lighthouse movil si hay Chrome DevTools MCP; `mapa.webp` desde la vista previa de E1 (duda 2: sin captura, RF-50, hasta tenerla) · vueltas: 0/2
-- [ ] I2 · PR contra `main` sin merge; checklist de Luis (telefono, QR impreso con dos telefonos, `.ics` en Google Calendar y en el telefono)
+- [x] I2 · PR contra `main` sin merge (#7, mergeado por Luis el 13/10; telefono y QR superados el 13/10; `.ics` en el telefono y Lighthouse movil pendientes); checklist de Luis (telefono, QR impreso con dos telefonos, `.ics` en Google Calendar y en el telefono)
 
 ## Resultado de I1 (coordinador, 2026-10-13)
 

@@ -74,8 +74,8 @@ Completar nombre, cargo y medio; la evidencia va en
 
 - [x] Autorizacion de la CCIEB recibida (12/10)
 - [x] `AUTORIZACIONES.md` creado
-- [ ] Nombre, cargo y medio anotados en `AUTORIZACIONES.md`
+- [ ] Nombre, cargo y medio anotados en `AUTORIZACIONES.md` (cargo anotado el 13/10: director de la CCIEB; faltan nombre y medio)
 - [ ] Mensaje de seguimiento enviado (archivos que faltan)
 - [ ] Archivos recibidos guardados en `data/raw/expofaja/marcas/` y
       `data/raw/expofaja/referencias/`
-- [ ] ADR-020 revisado por Luis
+- [x] ADR-020 revisado por Luis (aceptado completo el 13/10)

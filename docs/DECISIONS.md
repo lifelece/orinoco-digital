@@ -932,7 +932,7 @@ extension de este.
 
 ## ADR-020 — Ciudad Bolivar como eje del mapa y micrositio ExpoFaja 2026
 
-**Fecha:** 2026-10-12 · **Estado:** aceptada (2026-10-12) piezas 1, 2, 5, 7 y 10; piezas 3, 4, 6, 8 y 9 en propuesta (E2-E4).
+**Fecha:** 2026-10-12 · **Estado:** aceptada. Piezas 1, 2, 5, 7 y 10 el 2026-10-12; piezas 3, 4, 6, 8 y 9 el 2026-10-13, tras el gate de E1 y E2 en el telefono de Luis.
 
 **Contexto.** El 2026-10-12 Luis presento Orinoco Digital ante la CCIEB y
 propuso colaborar con la ExpoFaja (15–17/10/2026). Su planteamiento: poner a

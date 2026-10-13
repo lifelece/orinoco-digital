@@ -16,9 +16,9 @@
 
 ## Decisiones abiertas de Luis
 
-- `docs/fases/README.md` dice M1 "pendiente del gate"; se mergeo tras vista previa: [Luis: confirmar gate en telefono].
-- ADR-020: aceptado piezas 1, 2, 5, 7 y 10; 3, 4, 6, 8 y 9 (micrositio, embed, caducidad) en produccion pero en propuesta: [Luis: aceptarlas tras el gate de E2 en telefono].
-- Tag v1.0: tras medir Lighthouse en produccion con #11 mergeado [Luis: decidir criterio].
+- Gates cerrados el 2026-10-13 (Luis en telefono + QR): M1, E1, E2, E3 (codigo). ADR-020 aceptado completo.
+- Pendientes de Luis: nombre y medio de quien autorizo en `AUTORIZACIONES.md` (cargo: director de la CCIEB); mensaje de seguimiento E0; PDF al webmaster y ver el embed en su web; `.ics` en telefono.
+- Pendiente tecnico: Lighthouse movil de `/expofaja` y del mapa (cuota de PageSpeed agotada el 13/10); tag v1.0 tras #11.
 
 ## Decisiones vigentes (no reabrir sin ADR)
 
