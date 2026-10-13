@@ -33,3 +33,8 @@ scripts/analisis/package-lock.json
 
 
 .vercel
+
+# Claude Code: personal, no versionar
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/agent-memory-local/

@@ -1,0 +1,84 @@
+{
+  "_nota": "SEMILLA. Lo que la CCIEB y la ExpoFaja anuncian que quieren impulsar, segun su prensa. Se muestra atribuido y con fecha. Solo se dibuja en el mapa lo que tiene 'ubicacion.osm'. Nada de coordenadas a mano.",
+  "ultima_verificacion": "2026-10-12",
+  "iniciativas": [
+    {
+      "id": "INI-EXPOFAJA-2026",
+      "nombre": "Expo Faja Ciudad Bolívar 2026 — Capital Estratégica",
+      "tipo": "evento",
+      "fechas": "2026-10-15/2026-10-17",
+      "resumen": "Plataforma de negocios del sector energético: ruedas de negocio B2B, foros técnicos y exposición comercial.",
+      "ubicacion": {
+        "nombre": "Museo de Arte Moderno Jesús Soto",
+        "osm": "relation/7948635",
+        "id_mapa": "OSM-R7948635"
+      },
+      "fuente": "https://camaradecomerciobolivar.org/expofaja/",
+      "fecha_fuente": "2026-10-09"
+    },
+    {
+      "id": "INI-BOLSA-EMPLEO-ENERGETICA",
+      "nombre": "Bolsa de Empleo Energética (petróleo, electricidad y minería)",
+      "tipo": "iniciativa",
+      "resumen": "Se lanza en la ExpoFaja: pre-registro y caracterización técnica de los primeros 100 especialistas; academia valida perfiles, gremios garantizan idoneidad, empresas demandan.",
+      "ubicacion": {
+        "nombre": "Lanzamiento en la ExpoFaja (Museo Soto)",
+        "osm": "relation/7948635",
+        "id_mapa": "OSM-R7948635"
+      },
+      "fuente": "https://camaradecomerciobolivar.org/2026/10/12/la-bolsa-de-empleo-energetica-se-presentara-en-la-expo-faja-2026/",
+      "fecha_fuente": "2026-10-12"
+    },
+    {
+      "id": "INI-CAPITAL-ESTRATEGICA",
+      "nombre": "Proyecto «Ciudad Bolívar: Capital Estratégica de la Faja Petrolífera del Orinoco»",
+      "tipo": "proyecto",
+      "resumen": "Posicionar a Ciudad Bolívar como base operativa, logística y de servicios para la Faja. Presentado en el auditorio de la CCIEB.",
+      "ubicacion": {
+        "nombre": "Sede CCIEB, Av. San Cristóbal",
+        "osm": null,
+        "pendiente": "[coord_sede_ccieb] — la sede no existe en OpenStreetMap (consulta 2026-10-12). Agregarla en OSM (E4.3) y regenerar."
+      },
+      "fuente": "https://camaradecomerciobolivar.org/2026/07/23/camara-de-comercio-presenta-estrategia-de-posicionamiento-de-ciudad-bolivar-como-capital-de-oportunidades/",
+      "fecha_fuente": "2026-07-23"
+    },
+    {
+      "id": "INI-CONTRATACION-PETROLERA",
+      "nombre": "Formación: contratación con la industria petrolera (RNC, norma SI-S-04)",
+      "tipo": "formacion",
+      "resumen": "Conferencia para preparar a empresas bolivarenses como contratistas de la industria.",
+      "ubicacion": {
+        "nombre": "CCIEB",
+        "osm": null,
+        "pendiente": "[coord_sede_ccieb]"
+      },
+      "fuente": "https://camaradecomerciobolivar.org/2026/08/10/camara-de-comercio-organizo-exitosa-conferencia-contratacion-con-la-industria-petrolera/",
+      "fecha_fuente": "2026-08-10"
+    },
+    {
+      "id": "INI-CATERING-AYACUCHO",
+      "nombre": "Proveedores de alimentación y catering para operaciones en el Bloque Ayacucho",
+      "tipo": "cadena_de_suministro",
+      "resumen": "La Cámara Gastronómica Capítulo Angostura plantea a Ciudad Bolívar como base de suministro alimentario de la Faja; pide estabilidad eléctrica y financiamiento.",
+      "ubicacion": {
+        "nombre": "Sin punto",
+        "osm": null
+      },
+      "fuente": "https://camaradecomerciobolivar.org/2026/10/08/gremio-gastronomico-adecua-logistica-de-catering-ante-el-despliegue-en-la-faja-del-orinoco/",
+      "fecha_fuente": "2026-10-08"
+    },
+    {
+      "id": "INI-AUXILIO-VIAL-KM50",
+      "nombre": "Reincorporación del punto de auxilio vial del km 50, autopista Ciudad Bolívar–Puerto Ordaz",
+      "tipo": "solicitud",
+      "resumen": "Solicitud de la CCIEB a las autoridades: auxilio mecánico, grúa, primeros auxilios y vigilancia.",
+      "ubicacion": {
+        "nombre": "Km 50 de la autopista Ciudad Bolívar–Puerto Ordaz",
+        "osm": null,
+        "pendiente": "Sin hito del km 50 en los datos: no dibujar"
+      },
+      "fuente": "https://camaradecomerciobolivar.org/2026/10/08/camara-de-comercio-solicita-reincorporacion-de-punto-de-auxilio-vial-en-el-kilometro-50/",
+      "fecha_fuente": "2026-10-08"
+    }
+  ]
+}

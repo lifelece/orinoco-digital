@@ -1,0 +1,1019 @@
+{
+  "_nota": "Generado el 2026-10-12 desde el WordPress publico de la CCIEB con su autorizacion (ver docs/expofaja/AUTORIZACIONES.md). \"original\" queda en data/raw (no versionado); \"publicable\" es la version WebP <= 40 KB para public/.",
+  "items": [
+    {
+      "nombre": "Marcas del evento derivadas para la interfaz",
+      "grupo": "evento",
+      "estado": "ok",
+      "publicables": [
+        "public/expofaja/marcas/expofaja.webp",
+        "public/expofaja/marcas/expofaja-sobre-oscuro.webp (derivado: textos oscuros a blanco)",
+        "public/expofaja/marcas/expofaja-mono-blanco.webp (derivado)",
+        "public/expofaja/marcas/ccieb.webp (recorte circular)"
+      ],
+      "original": "data/raw/expofaja/marcas/"
+    },
+    {
+      "nombre": "ExpoFaja Ciudad Bolívar 2026 (logo oficial web)",
+      "grupo": "evento",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-expofaja-1.png",
+      "original": "data/raw/expofaja/marcas/expofaja-web-oficial.png",
+      "original_px": [
+        1000,
+        450
+      ],
+      "publicable": null,
+      "publicable_px": [
+        400,
+        180
+      ],
+      "publicable_kb": 20.3,
+      "sha256": "c78ad1321c0bc0e4",
+      "nota": "Duplicado: se publica expofaja.webp, hecho del PNG de 1373 px entregado por Luis (mas resolucion que el de la web, 1000 px)."
+    },
+    {
+      "nombre": "Cámara de Comercio e Industrias del Estado Bolívar",
+      "grupo": "institucional",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-Camara-de-comercio-fdot-nvo5.webp",
+      "original": "data/raw/expofaja/marcas/ccieb-web-oficial.webp",
+      "original_px": [
+        600,
+        600
+      ],
+      "publicable": null,
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 29.1,
+      "sha256": "8f0eaa227c17d125",
+      "nota": "Duplicado: se publica ccieb.webp, recorte circular del JPG de 1253 px entregado por Luis."
+    },
+    {
+      "nombre": "Alcaldía de Angostura del Orinoco",
+      "grupo": "institucional",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/alcaldia-angostura-del-orinoco.webp",
+      "original": "data/raw/expofaja/marcas/alcaldia-angostura-del-orinoco.webp",
+      "original_px": [
+        300,
+        168
+      ],
+      "publicable": "public/expofaja/marcas/alcaldia-angostura-del-orinoco.webp",
+      "publicable_px": [
+        300,
+        168
+      ],
+      "publicable_kb": 6.5,
+      "sha256": "a2a77638f1e7a65d"
+    },
+    {
+      "nombre": "Alcaldía de Angostura del Orinoco (logo-AO)",
+      "grupo": "institucional",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-AO.jpg",
+      "original": "data/raw/expofaja/marcas/alcaldia-angostura-del-orinoco-ao.jpg",
+      "original_px": [
+        300,
+        168
+      ],
+      "publicable": null,
+      "publicable_px": [
+        300,
+        168
+      ],
+      "publicable_kb": 6.5,
+      "sha256": "8bbf0a0a8a834610",
+      "nota": "Duplicado del logo de la Alcaldia (mismo arte, otro archivo)."
+    },
+    {
+      "nombre": "Gobernación del Estado Bolívar",
+      "grupo": "institucional",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/gobernacion-logo.webp",
+      "original": "data/raw/expofaja/marcas/gobernacion-bolivar.webp",
+      "original_px": [
+        447,
+        447
+      ],
+      "publicable": "public/expofaja/marcas/gobernacion-bolivar.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 10.2,
+      "sha256": "cc8e6b8c6897febe"
+    },
+    {
+      "nombre": "Museo de Arte Moderno Jesús Soto",
+      "grupo": "institucional",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/Logo-Museo-Jesus-Soto-2016.jpg.webp",
+      "original": "data/raw/expofaja/marcas/museo-jesus-soto.webp",
+      "original_px": [
+        1015,
+        549
+      ],
+      "publicable": "public/expofaja/marcas/museo-jesus-soto.webp",
+      "publicable_px": [
+        400,
+        216
+      ],
+      "publicable_kb": 16.2,
+      "sha256": "59bbd833e8ca8f49"
+    },
+    {
+      "nombre": "Construir",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/construir.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/construir.jpg",
+      "original_px": [
+        225,
+        225
+      ],
+      "publicable": "public/expofaja/marcas/aliados/construir.webp",
+      "publicable_px": [
+        225,
+        225
+      ],
+      "publicable_kb": 3.7,
+      "sha256": "8c1bb806494c5c49"
+    },
+    {
+      "nombre": "Chocolate Color",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-CHOCOLATE-COLOR.png",
+      "original": "data/raw/expofaja/marcas/aliados/chocolate-color.png",
+      "original_px": [
+        6852,
+        3884
+      ],
+      "publicable": "public/expofaja/marcas/aliados/chocolate-color.webp",
+      "publicable_px": [
+        400,
+        227
+      ],
+      "publicable_kb": 17.4,
+      "sha256": "99e3879620affa25"
+    },
+    {
+      "nombre": "Tornillería del Sur JG, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/tornilleria-del-sur.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/tornilleria-del-sur-jg-c-a.jpg",
+      "original_px": [
+        1087,
+        433
+      ],
+      "publicable": "public/expofaja/marcas/aliados/tornilleria-del-sur-jg-c-a.webp",
+      "publicable_px": [
+        400,
+        159
+      ],
+      "publicable_kb": 9.8,
+      "sha256": "25cf6040e2e0164c"
+    },
+    {
+      "nombre": "Hotel Laja Real",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/472aedab-efb4-4543-b008-af06bf3771d7.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/hotel-laja-real.jpg",
+      "original_px": [
+        1280,
+        1280
+      ],
+      "publicable": "public/expofaja/marcas/aliados/hotel-laja-real.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 7.7,
+      "sha256": "fabc6e16c2e0469f"
+    },
+    {
+      "nombre": "R&S Distribuciones",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2025-11-19-at-11.02.13-AM-3.jpeg",
+      "original": "data/raw/expofaja/marcas/aliados/r-s-distribuciones.jpeg",
+      "original_px": [
+        1080,
+        1080
+      ],
+      "publicable": "public/expofaja/marcas/aliados/r-s-distribuciones.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 4.4,
+      "sha256": "cbacad475e1d4014"
+    },
+    {
+      "nombre": "Calazán (ron añejo premium)",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-PNG.png",
+      "original": "data/raw/expofaja/marcas/aliados/calazan.png",
+      "original_px": [
+        700,
+        700
+      ],
+      "publicable": "public/expofaja/marcas/aliados/calazan.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 26.3,
+      "sha256": "68ca2ef4fa25aded"
+    },
+    {
+      "nombre": "Panadería República",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/IMG-20250702-WA0367.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/panaderia-republica.jpg",
+      "original_px": [
+        217,
+        323
+      ],
+      "publicable": "public/expofaja/marcas/aliados/panaderia-republica.webp",
+      "publicable_px": [
+        217,
+        323
+      ],
+      "publicable_kb": 7.6,
+      "sha256": "4da9686f8a245fe6"
+    },
+    {
+      "nombre": "Arco Iris C.A. (agencia de festejos)",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2025-11-19-at-11.02.02-AM-1-Photoroom-1.png",
+      "original": "data/raw/expofaja/marcas/aliados/arco-iris-c-a.png",
+      "original_px": [
+        1080,
+        1080
+      ],
+      "publicable": "public/expofaja/marcas/aliados/arco-iris-c-a.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 30.0,
+      "sha256": "de9d76cd71271f75"
+    },
+    {
+      "nombre": "Farmacia Lucas 2413, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/farmacia-lucas.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/farmacia-lucas-2413-c-a.jpg",
+      "original_px": [
+        395,
+        209
+      ],
+      "publicable": "public/expofaja/marcas/aliados/farmacia-lucas-2413-c-a.webp",
+      "publicable_px": [
+        395,
+        209
+      ],
+      "publicable_kb": 10.2,
+      "sha256": "afc33bf449749550"
+    },
+    {
+      "nombre": "Centro Médico Orinoco, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/CMO-PNG.png",
+      "original": "data/raw/expofaja/marcas/aliados/centro-medico-orinoco-c-a.png",
+      "original_px": [
+        1310,
+        524
+      ],
+      "publicable": "public/expofaja/marcas/aliados/centro-medico-orinoco-c-a.webp",
+      "publicable_px": [
+        400,
+        160
+      ],
+      "publicable_kb": 18.6,
+      "sha256": "87df52f308488525"
+    },
+    {
+      "nombre": "Servicios Exequiales La Fe, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/la-fe-1.png",
+      "original": "data/raw/expofaja/marcas/aliados/servicios-exequiales-la-fe-c-a.png",
+      "original_px": [
+        1650,
+        1110
+      ],
+      "publicable": "public/expofaja/marcas/aliados/servicios-exequiales-la-fe-c-a.webp",
+      "publicable_px": [
+        400,
+        269
+      ],
+      "publicable_kb": 15.2,
+      "sha256": "ccca00de48c2ebe5"
+    },
+    {
+      "nombre": "Distribuidora Prasan",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/prasan.png",
+      "original": "data/raw/expofaja/marcas/aliados/distribuidora-prasan.png",
+      "original_px": [
+        192,
+        130
+      ],
+      "publicable": "public/expofaja/marcas/aliados/distribuidora-prasan.webp",
+      "publicable_px": [
+        192,
+        130
+      ],
+      "publicable_kb": 4.0,
+      "sha256": "a6634ec58b0ccd8e"
+    },
+    {
+      "nombre": "Sonidos Guayana",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/Imagen-de-WhatsApp-2025-04-29-a-las-17.13.23_a186a3a4.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/sonidos-guayana.jpg",
+      "original_px": [
+        1280,
+        1280
+      ],
+      "publicable": "public/expofaja/marcas/aliados/sonidos-guayana.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 11.3,
+      "sha256": "da6d4fbda02b64ce"
+    },
+    {
+      "nombre": "Distribuidora de Licores La Rumbera",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-rumbera.png",
+      "original": "data/raw/expofaja/marcas/aliados/distribuidora-de-licores-la-rumbera.png",
+      "original_px": [
+        1029,
+        542
+      ],
+      "publicable": "public/expofaja/marcas/aliados/distribuidora-de-licores-la-rumbera.webp",
+      "publicable_px": [
+        400,
+        211
+      ],
+      "publicable_kb": 32.1,
+      "sha256": "34ff9192a2c93091"
+    },
+    {
+      "nombre": "Tealca",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-TEALCA-SIN-FONDO-768x553.png",
+      "original": "data/raw/expofaja/marcas/aliados/tealca.png",
+      "original_px": [
+        768,
+        553
+      ],
+      "publicable": "public/expofaja/marcas/aliados/tealca.webp",
+      "publicable_px": [
+        400,
+        288
+      ],
+      "publicable_kb": 14.8,
+      "sha256": "0b95bb6b1c34a175"
+    },
+    {
+      "nombre": "MOY Publicidad",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/Recurso-1logo-moy-1.png",
+      "original": "data/raw/expofaja/marcas/aliados/moy-publicidad.png",
+      "original_px": [
+        4365,
+        3412
+      ],
+      "publicable": "public/expofaja/marcas/aliados/moy-publicidad.webp",
+      "publicable_px": [
+        400,
+        313
+      ],
+      "publicable_kb": 19.2,
+      "sha256": "28900e7a1b46cce1"
+    },
+    {
+      "nombre": "EuroBrands",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/EUROBRANDS-1.png",
+      "original": "data/raw/expofaja/marcas/aliados/eurobrands.png",
+      "original_px": [
+        189,
+        117
+      ],
+      "publicable": "public/expofaja/marcas/aliados/eurobrands.webp",
+      "publicable_px": [
+        189,
+        117
+      ],
+      "publicable_kb": 3.7,
+      "sha256": "ebba50e85262bae8"
+    },
+    {
+      "nombre": "Kuravaina Tours",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/kuravaina.jpeg",
+      "original": "data/raw/expofaja/marcas/aliados/kuravaina-tours.jpeg",
+      "original_px": [
+        1280,
+        704
+      ],
+      "publicable": "public/expofaja/marcas/aliados/kuravaina-tours.webp",
+      "publicable_px": [
+        400,
+        220
+      ],
+      "publicable_kb": 3.1,
+      "sha256": "a13c778caac2ef86"
+    },
+    {
+      "nombre": "DPH",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-c-rif.png",
+      "original": "data/raw/expofaja/marcas/aliados/dph.png",
+      "original_px": [
+        261,
+        164
+      ],
+      "publicable": "public/expofaja/marcas/aliados/dph.webp",
+      "publicable_px": [
+        261,
+        164
+      ],
+      "publicable_kb": 3.5,
+      "sha256": "30185b21990b4872"
+    },
+    {
+      "nombre": "Centro Clínico Andrés Bello, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/CC-andres-bello.jpeg",
+      "original": "data/raw/expofaja/marcas/aliados/centro-clinico-andres-bello-c-a.jpeg",
+      "original_px": [
+        1280,
+        796
+      ],
+      "publicable": "public/expofaja/marcas/aliados/centro-clinico-andres-bello-c-a.webp",
+      "publicable_px": [
+        400,
+        249
+      ],
+      "publicable_kb": 9.4,
+      "sha256": "c5ffa1ce06e8d9ab"
+    },
+    {
+      "nombre": "Tigasco Gas Licuado, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-TIGASCO-PARA-USO-COMERCIAL-1.png",
+      "original": "data/raw/expofaja/marcas/aliados/tigasco-gas-licuado-c-a.png",
+      "original_px": [
+        1833,
+        1661
+      ],
+      "publicable": "public/expofaja/marcas/aliados/tigasco-gas-licuado-c-a.webp",
+      "publicable_px": [
+        400,
+        362
+      ],
+      "publicable_kb": 38.8,
+      "sha256": "1c78bdd647dec4ff"
+    },
+    {
+      "nombre": "M Lourd",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2026-08-25-at-12.08.49-AM.jpeg",
+      "original": "data/raw/expofaja/marcas/aliados/m-lourd.jpeg",
+      "original_px": [
+        1003,
+        968
+      ],
+      "publicable": "public/expofaja/marcas/aliados/m-lourd.webp",
+      "publicable_px": [
+        400,
+        386
+      ],
+      "publicable_kb": 11.3,
+      "sha256": "78a0e6db17490610"
+    },
+    {
+      "nombre": "Lavanclean Group, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2025-03-19-at-7.45.10-PM-1.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/lavanclean-group-c-a.jpg",
+      "original_px": [
+        1080,
+        875
+      ],
+      "publicable": "public/expofaja/marcas/aliados/lavanclean-group-c-a.webp",
+      "publicable_px": [
+        400,
+        324
+      ],
+      "publicable_kb": 25.5,
+      "sha256": "90110b2224bc5e48"
+    },
+    {
+      "nombre": "Entre Copas y Panas",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/ecyp.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/entre-copas-y-panas.jpg",
+      "original_px": [
+        4160,
+        4160
+      ],
+      "publicable": "public/expofaja/marcas/aliados/entre-copas-y-panas.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 14.9,
+      "sha256": "818a8231b4c8de24"
+    },
+    {
+      "nombre": "Liberal Trade",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/liberal-trade.png",
+      "original": "data/raw/expofaja/marcas/aliados/liberal-trade.png",
+      "original_px": [
+        895,
+        461
+      ],
+      "publicable": "public/expofaja/marcas/aliados/liberal-trade.webp",
+      "publicable_px": [
+        400,
+        206
+      ],
+      "publicable_kb": 4.5,
+      "sha256": "72f23de0e389be78"
+    },
+    {
+      "nombre": "Pinturas del Pueblo",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/PINTURAS-DEL-PUEBLO.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/pinturas-del-pueblo.jpg",
+      "original_px": [
+        1080,
+        1021
+      ],
+      "publicable": "public/expofaja/marcas/aliados/pinturas-del-pueblo.webp",
+      "publicable_px": [
+        400,
+        378
+      ],
+      "publicable_kb": 18.2,
+      "sha256": "e2270dcf72ad933e"
+    },
+    {
+      "nombre": "SITEG",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/siteg-1.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/siteg.jpg",
+      "original_px": [
+        1080,
+        941
+      ],
+      "publicable": "public/expofaja/marcas/aliados/siteg.webp",
+      "publicable_px": [
+        400,
+        349
+      ],
+      "publicable_kb": 16.0,
+      "sha256": "6a517f0686fff014"
+    },
+    {
+      "nombre": "Bodegón El Andinito",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/bodegon-el-andinito.jpg",
+      "original": "data/raw/expofaja/marcas/aliados/bodegon-el-andinito.jpg",
+      "original_px": [
+        225,
+        225
+      ],
+      "publicable": "public/expofaja/marcas/aliados/bodegon-el-andinito.webp",
+      "publicable_px": [
+        225,
+        225
+      ],
+      "publicable_kb": 13.5,
+      "sha256": "42e5019cdd63393b"
+    },
+    {
+      "nombre": "Medic Semka",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/semka-768x576.png",
+      "original": "data/raw/expofaja/marcas/aliados/medic-semka.png",
+      "original_px": [
+        768,
+        576
+      ],
+      "publicable": "public/expofaja/marcas/aliados/medic-semka.webp",
+      "publicable_px": [
+        400,
+        300
+      ],
+      "publicable_kb": 4.5,
+      "sha256": "59a4d338cd0249c7"
+    },
+    {
+      "nombre": "Megafibra",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/megafibra.webp",
+      "original": "data/raw/expofaja/marcas/aliados/megafibra.webp",
+      "original_px": [
+        1054,
+        1024
+      ],
+      "publicable": "public/expofaja/marcas/aliados/megafibra.webp",
+      "publicable_px": [
+        400,
+        389
+      ],
+      "publicable_kb": 4.9,
+      "sha256": "8dbcd630c6c6ed11"
+    },
+    {
+      "nombre": "La Mundial de Seguros",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/la-mundial-seguros.webp",
+      "original": "data/raw/expofaja/marcas/aliados/la-mundial-de-seguros.webp",
+      "original_px": [
+        1024,
+        1024
+      ],
+      "publicable": "public/expofaja/marcas/aliados/la-mundial-de-seguros.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 7.7,
+      "sha256": "623dc5bd305d02df"
+    },
+    {
+      "nombre": "Ferretería Prince",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/ferreteria-prince.webp",
+      "original": "data/raw/expofaja/marcas/aliados/ferreteria-prince.webp",
+      "original_px": [
+        1063,
+        1008
+      ],
+      "publicable": "public/expofaja/marcas/aliados/ferreteria-prince.webp",
+      "publicable_px": [
+        400,
+        379
+      ],
+      "publicable_kb": 4.0,
+      "sha256": "f9f2bfbd3b5dafee"
+    },
+    {
+      "nombre": "Toxacademy",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/toxacademy.webp",
+      "original": "data/raw/expofaja/marcas/aliados/toxacademy.webp",
+      "original_px": [
+        816,
+        787
+      ],
+      "publicable": "public/expofaja/marcas/aliados/toxacademy.webp",
+      "publicable_px": [
+        400,
+        386
+      ],
+      "publicable_kb": 16.1,
+      "sha256": "0c0a0ba32bc41841"
+    },
+    {
+      "nombre": "Pintica",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/pintica.webp",
+      "original": "data/raw/expofaja/marcas/aliados/pintica.webp",
+      "original_px": [
+        1280,
+        395
+      ],
+      "publicable": "public/expofaja/marcas/aliados/pintica.webp",
+      "publicable_px": [
+        400,
+        123
+      ],
+      "publicable_kb": 5.7,
+      "sha256": "25cb71a572c9b133"
+    },
+    {
+      "nombre": "Pirámide",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/piramide-768x802.webp",
+      "original": "data/raw/expofaja/marcas/aliados/piramide.webp",
+      "original_px": [
+        768,
+        802
+      ],
+      "publicable": "public/expofaja/marcas/aliados/piramide.webp",
+      "publicable_px": [
+        400,
+        418
+      ],
+      "publicable_kb": 2.4,
+      "sha256": "79d9e3cafe51ef80"
+    },
+    {
+      "nombre": "Única",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/unica.webp",
+      "original": "data/raw/expofaja/marcas/aliados/unica.webp",
+      "original_px": [
+        1048,
+        1008
+      ],
+      "publicable": "public/expofaja/marcas/aliados/unica.webp",
+      "publicable_px": [
+        400,
+        385
+      ],
+      "publicable_kb": 2.6,
+      "sha256": "b62a106565974140"
+    },
+    {
+      "nombre": "Fundaudo",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/fundaudo.webp",
+      "original": "data/raw/expofaja/marcas/aliados/fundaudo.webp",
+      "original_px": [
+        500,
+        500
+      ],
+      "publicable": "public/expofaja/marcas/aliados/fundaudo.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 13.5,
+      "sha256": "2003ff7d7d4f25a6"
+    },
+    {
+      "nombre": "Seguros CCS",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/seguros-ccs.webp",
+      "original": "data/raw/expofaja/marcas/aliados/seguros-ccs.webp",
+      "original_px": [
+        1043,
+        1024
+      ],
+      "publicable": "public/expofaja/marcas/aliados/seguros-ccs.webp",
+      "publicable_px": [
+        400,
+        393
+      ],
+      "publicable_kb": 15.2,
+      "sha256": "9cbc794ec14e5fb3"
+    },
+    {
+      "nombre": "Constructora Getsemaní",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/construtora-getsemani.webp",
+      "original": "data/raw/expofaja/marcas/aliados/constructora-getsemani.webp",
+      "original_px": [
+        1024,
+        1050
+      ],
+      "publicable": "public/expofaja/marcas/aliados/constructora-getsemani.webp",
+      "publicable_px": [
+        400,
+        410
+      ],
+      "publicable_kb": 6.5,
+      "sha256": "50f5e2e0db283d08"
+    },
+    {
+      "nombre": "LAE",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/lae.webp",
+      "original": "data/raw/expofaja/marcas/aliados/lae.webp",
+      "original_px": [
+        1055,
+        1024
+      ],
+      "publicable": "public/expofaja/marcas/aliados/lae.webp",
+      "publicable_px": [
+        400,
+        388
+      ],
+      "publicable_kb": 3.2,
+      "sha256": "3ad903a9db547f66"
+    },
+    {
+      "nombre": "Sitelca",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/sitelca.webp",
+      "original": "data/raw/expofaja/marcas/aliados/sitelca.webp",
+      "original_px": [
+        576,
+        660
+      ],
+      "publicable": "public/expofaja/marcas/aliados/sitelca.webp",
+      "publicable_px": [
+        400,
+        458
+      ],
+      "publicable_kb": 8.9,
+      "sha256": "c8eed4f687a22254"
+    },
+    {
+      "nombre": "Oceánica de Seguros",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/oceanica-de-seguros.webp",
+      "original": "data/raw/expofaja/marcas/aliados/oceanica-de-seguros.webp",
+      "original_px": [
+        1008,
+        1049
+      ],
+      "publicable": "public/expofaja/marcas/aliados/oceanica-de-seguros.webp",
+      "publicable_px": [
+        400,
+        416
+      ],
+      "publicable_kb": 8.2,
+      "sha256": "a5561213f6c277f0"
+    },
+    {
+      "nombre": "Ronalca",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/ronalca.webp",
+      "original": "data/raw/expofaja/marcas/aliados/ronalca.webp",
+      "original_px": [
+        1275,
+        825
+      ],
+      "publicable": "public/expofaja/marcas/aliados/ronalca.webp",
+      "publicable_px": [
+        400,
+        259
+      ],
+      "publicable_kb": 10.3,
+      "sha256": "2a4fa77ffbaebc55"
+    },
+    {
+      "nombre": "Service Torres",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/service-torres.webp",
+      "original": "data/raw/expofaja/marcas/aliados/service-torres.webp",
+      "original_px": [
+        1024,
+        1025
+      ],
+      "publicable": "public/expofaja/marcas/aliados/service-torres.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 19.8,
+      "sha256": "dd731c531c15ae69"
+    },
+    {
+      "nombre": "Corporación CMT de Venezuela",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/cmt.png",
+      "original": "data/raw/expofaja/marcas/aliados/corporacion-cmt-de-venezuela.png",
+      "original_px": [
+        1722,
+        868
+      ],
+      "publicable": "public/expofaja/marcas/aliados/corporacion-cmt-de-venezuela.webp",
+      "publicable_px": [
+        400,
+        202
+      ],
+      "publicable_kb": 11.1,
+      "sha256": "8e6c025888aaede8"
+    },
+    {
+      "nombre": "Multisumi, C.A.",
+      "grupo": "aliado_comercial",
+      "estado": "ok",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/multisumi.webp",
+      "original": "data/raw/expofaja/marcas/aliados/multisumi-c-a.webp",
+      "original_px": [
+        1600,
+        1600
+      ],
+      "publicable": "public/expofaja/marcas/aliados/multisumi-c-a.webp",
+      "publicable_px": [
+        400,
+        400
+      ],
+      "publicable_kb": 8.9,
+      "sha256": "d67a101692e3c08b"
+    },
+    {
+      "nombre": "[sin identificar 01]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-01.webp",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/mobiliario-b-768x702.webp"
+    },
+    {
+      "nombre": "[sin identificar 02]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-02.jpg",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-CON-SLOGAN-MEJORADO-JPEG-768x384.jpg"
+    },
+    {
+      "nombre": "[sin identificar 03]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-03.webp",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/5064704982992489545-e1791560412581-768x200.webp"
+    },
+    {
+      "nombre": "[sin identificar 04]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-04.jpeg",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2026-08-28-at-9.01.55-AM-768x230.jpeg"
+    },
+    {
+      "nombre": "[sin identificar 05]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-05.webp",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/5064704982992489546-768x821.webp"
+    },
+    {
+      "nombre": "[sin identificar 06]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-06.webp",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/5064372762977176650-e1791560155775-768x674.webp"
+    },
+    {
+      "nombre": "[sin identificar 07]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-07.jpg",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/611740442_18042456842707495_4116866776014132057_n-1.jpg"
+    },
+    {
+      "nombre": "[sin identificar 08]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-08.webp",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/WhatsApp-Image-2026-05-19-at-8.13.11-PM-2-convertido-a-pequeno-e1791556576169.webp"
+    },
+    {
+      "nombre": "[sin identificar 09]",
+      "grupo": "sin_identificar",
+      "estado": "solo_referencia",
+      "original": "data/raw/expofaja/marcas/aliados/_sin-identificar-09.webp",
+      "url_origen": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/5064704982992489544-768x739.webp"
+    }
+  ]
+}

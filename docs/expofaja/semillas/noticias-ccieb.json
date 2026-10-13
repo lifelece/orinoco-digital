@@ -1,0 +1,49 @@
+{
+  "_nota": "SEMILLA de noticias del WordPress de la CCIEB (REST API publica /wp-json/wp/v2/posts). En E4 esto lo genera un script en build, no a mano.",
+  "endpoint": "https://camaradecomerciobolivar.org/wp-json/wp/v2/posts?per_page=10&_fields=id,date,link,title,excerpt,categories",
+  "categorias_relevantes": {
+    "163": "CBO Capital de Oportunidades",
+    "7": "Eventos",
+    "40": "Noticias",
+    "68": "Pronunciamientos"
+  },
+  "consultado": "2026-10-12",
+  "items": [
+    {
+      "id": 43134,
+      "fecha": "2026-10-12",
+      "titulo": "La Bolsa de Empleo Energética se presentará en la Expo Faja 2026",
+      "url": "https://camaradecomerciobolivar.org/2026/10/12/la-bolsa-de-empleo-energetica-se-presentara-en-la-expo-faja-2026/"
+    },
+    {
+      "id": 43130,
+      "fecha": "2026-10-12",
+      "titulo": "Expertos expondrán herramientas estratégicas en la ExpoFaja Ciudad Bolívar 2026",
+      "url": "https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
+    },
+    {
+      "id": 42947,
+      "fecha": "2026-10-08",
+      "titulo": "Gremio gastronómico adecúa logística de catering ante el despliegue en la Faja del Orinoco",
+      "url": "https://camaradecomerciobolivar.org/2026/10/08/gremio-gastronomico-adecua-logistica-de-catering-ante-el-despliegue-en-la-faja-del-orinoco/"
+    },
+    {
+      "id": 42945,
+      "fecha": "2026-10-08",
+      "titulo": "Expo Faja Ciudad Bolívar 2026 consolida una agenda académica con expertos del sector energético",
+      "url": "https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/"
+    },
+    {
+      "id": 40772,
+      "fecha": "2026-08-10",
+      "titulo": "Cámara de Comercio organizó exitosa conferencia: contratación con la industria petrolera",
+      "url": "https://camaradecomerciobolivar.org/2026/08/10/camara-de-comercio-organizo-exitosa-conferencia-contratacion-con-la-industria-petrolera/"
+    },
+    {
+      "id": 40768,
+      "fecha": "2026-07-23",
+      "titulo": "Cámara de Comercio presenta estrategia de posicionamiento de Ciudad Bolívar como capital de oportunidades",
+      "url": "https://camaradecomerciobolivar.org/2026/07/23/camara-de-comercio-presenta-estrategia-de-posicionamiento-de-ciudad-bolivar-como-capital-de-oportunidades/"
+    }
+  ]
+}
