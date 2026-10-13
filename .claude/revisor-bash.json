@@ -1,0 +1,6 @@
+{
+  "permitidos": [
+    "^npm run data:validate$",
+    "^node scripts/verificar-modulos\\.mjs$"
+  ]
+}
