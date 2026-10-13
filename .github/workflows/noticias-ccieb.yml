@@ -42,7 +42,7 @@ jobs:
         run: npm test
       - name: Commit en la rama noticias-ccieb y PR
         run: |
-          if [ -z "$(git status --porcelain -- public/data/expofaja/noticias.json)" ]; then
+          if [ -z "$(git status --porcelain -- public/data/expofaja/noticias.json docs/expofaja/semillas/noticias-ccieb.json)" ]; then
             echo "Sin noticias nuevas: no hay PR."
             exit 0
           fi
@@ -50,7 +50,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$RAMA"
-          git add public/data/expofaja/noticias.json
+          git add public/data/expofaja/noticias.json docs/expofaja/semillas/noticias-ccieb.json
           git commit -s -m "Noticias: CCIEB ($FECHA)"
           # Rama propia del bot, reconstruida desde main en cada corrida: --force es
           # seguro aqui (nunca apunta a main). --force-with-lease fallaria sin la
