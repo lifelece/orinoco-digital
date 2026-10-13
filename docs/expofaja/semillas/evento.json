@@ -1,0 +1,242 @@
+{
+  "_nota": "SEMILLA. Datos publicos del organizador transcritos el 2026-10-12. Uso autorizado por la CCIEB el 2026-10-12 (AUTORIZACIONES.md). Cada bloque lleva su fuente.",
+  "id": "expofaja-cbo-2026",
+  "nombre": "Expo Faja Ciudad Bolívar 2026",
+  "lema": "Capital Estratégica",
+  "eslogan": "Conectando personas, ideas e inversiones para construir el futuro.",
+  "eslogan_web": "Conectando empresas, inversiones y el futuro energético de la Faja del Orinoco",
+  "fechas": {
+    "inicio": "2026-10-15",
+    "fin": "2026-10-17",
+    "zona_horaria": "America/Caracas"
+  },
+  "sede": {
+    "nombre": "Museo de Arte Moderno Jesús Soto",
+    "ciudad": "Ciudad Bolívar",
+    "estado": "Bolívar",
+    "osm": "relation/7948635",
+    "lat": 8.1321791,
+    "lng": -63.5366272,
+    "direccion_osm": "Avenida Germania, Sector Ajuro",
+    "fuente": "OpenStreetMap (ODbL) via Nominatim, consultado 2026-10-12",
+    "confianza": "media",
+    "nota": "Coordenada para la semilla. E1 debe regenerarla con el script de OSM del repo, no copiarla a mano.",
+    "id_mapa": "OSM-R7948635"
+  },
+  "organizadores": [
+    {
+      "nombre": "Cámara de Comercio e Industrias del Estado Bolívar",
+      "sigla": "CCIEB",
+      "rol": "organizador",
+      "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26)"
+    },
+    {
+      "nombre": "Alcaldía de Angostura del Orinoco",
+      "rol": "co-organizador (figura en 'Organizado por' del brochure p.10)",
+      "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26)"
+    }
+  ],
+  "proyecto_paraguas": {
+    "nombre": "Ciudad Bolívar: Capital Estratégica de la Faja Petrolífera del Orinoco",
+    "presentado": "2026-07-23",
+    "fuente": "Prensa CCIEB, 2026-07-23: https://camaradecomerciobolivar.org/2026/07/23/camara-de-comercio-presenta-estrategia-de-posicionamiento-de-ciudad-bolivar-como-capital-de-oportunidades/"
+  },
+  "ccieb": {
+    "fundacion": "1900-02-05",
+    "web": "https://camaradecomerciobolivar.org",
+    "pagina_evento": "https://camaradecomerciobolivar.org/expofaja/",
+    "direccion": "Av. San Cristóbal, Ciudad Bolívar",
+    "instagram": "@camaradecomerciobolivar",
+    "x": "@camcomerciobol",
+    "facebook": "https://facebook.com/CAMARADECOMERCIOBOLIVAR",
+    "telefono_comercial": "+58 424-9221126",
+    "email": "camaradecomerciobolivar@gmail.com",
+    "directiva_publica": [
+      {
+        "cargo": "Presidente",
+        "nombre": "Dr. Wuilfredo Carrasco"
+      },
+      {
+        "cargo": "Segundo vicepresidente",
+        "nombre": "Ilich Oviedo",
+        "nota": "expuso las proyecciones economicas del proyecto (2026-07-23)"
+      },
+      {
+        "cargo": "Directora",
+        "nombre": "Doris Mendoza",
+        "nota": "presento la marca e imagen oficial del proyecto (2026-07-23)"
+      },
+      {
+        "cargo": "Directora",
+        "nombre": "Rosmary Torres",
+        "nota": "presento participacion, patrocinio y unidades de negocio (2026-07-23)"
+      }
+    ],
+    "fuente": "Prensa CCIEB 2026-07-23 y 2026-10-12; web CCIEB (Historia)"
+  },
+  "contactos_evento": {
+    "registro_asistentes": "registroexpofajacbo@gmail.com",
+    "propuestas_ponencias": "comite.tecnicoexpofajacbo@gmail.com",
+    "patrocinio": "comercial@expofajacbo.com",
+    "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.9",
+    "advertencia": "Usar estos correos tal cual (brochure p.9). Si la CCIEB confirma otros, actualizar aqui."
+  },
+  "pilares": [
+    "Ruedas de Negocios B2B: mesas de trabajo directo entre operadoras petroleras, contratistas y proveedores.",
+    "Foros Técnicos y Ponencias: rehabilitación de infraestructura, innovación tecnológica y desarrollo sostenible.",
+    "Exposición Comercial: vitrina física en los espacios del Museo Soto."
+  ],
+  "por_que_ciudad_bolivar": {
+    "proximidad_logistica": [
+      "Centro de servicios más cercano a los bloques activos de la Faja.",
+      "Reducción de costos de pernocta y movilización de personal calificado.",
+      "Tiempos de respuesta operativa frente a cualquier ciudad competidora.",
+      "Conexión terrestre directa mientras se completan las obras del aeropuerto."
+    ],
+    "infraestructura_y_logistica": [
+      "Presencia de proveedores de servicios industriales del oriente del país.",
+      "Capital humano técnico formado y disponible en la región.",
+      "Ecosistema gremial organizado a través de la Cámara de Comercio.",
+      "Capacidad de respuesta 24/7 con sistemas de respaldo propios."
+    ],
+    "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.3",
+    "tipo": "afirmaciones del organizador"
+  },
+  "cifras_organizador": {
+    "advertencia": "Cifras del organizador. Orinoco Digital las muestra atribuidas, nunca como dato propio verificado (CLAUDE.md regla 3).",
+    "items": [
+      {
+        "etiqueta": "Reservas probadas de petróleo del país",
+        "valor": "303 mil millones de barriles",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.4"
+      },
+      {
+        "etiqueta": "Petróleo estimado Faja del Orinoco",
+        "valor": "> 1 billón de barriles",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.4"
+      },
+      {
+        "etiqueta": "Producción de petróleo (país)",
+        "valor": "1.1 millones de barriles por día",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.4",
+        "contraste": "OPEP fuentes secundarias reportaba ~903.000 b/d en feb. 2026 (Industrial Info, 2026-03-13). Las cifras de comunicacion directa del gobierno son mas altas. Si se muestra, mostrar ambas con fuente."
+      },
+      {
+        "etiqueta": "Producción Faja del Orinoco",
+        "valor": "> 500,000 barriles por día",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.4"
+      },
+      {
+        "etiqueta": "Área de la Faja",
+        "valor": "~55,000 km²",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.4"
+      },
+      {
+        "etiqueta": "Capacidad productiva estimada",
+        "valor": "26 millones de barriles anuales",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.2"
+      },
+      {
+        "etiqueta": "Pozos a reactivar",
+        "valor": "5.000",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.2"
+      },
+      {
+        "etiqueta": "Ingresos proyectados",
+        "valor": "> 1.800 millones de USD al año",
+        "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.2"
+      },
+      {
+        "etiqueta": "Ciudad Bolívar: hoteles",
+        "valor": "más de 21",
+        "fuente": "Prensa CCIEB 2026-07-23 (discurso del presidente)"
+      },
+      {
+        "etiqueta": "Ciudad Bolívar: clínicas privadas",
+        "valor": "12",
+        "fuente": "Prensa CCIEB 2026-07-23"
+      },
+      {
+        "etiqueta": "Ciudad Bolívar: instituciones financieras",
+        "valor": "9",
+        "fuente": "Prensa CCIEB 2026-07-23"
+      },
+      {
+        "etiqueta": "Ciudad Bolívar: instituciones de educación superior",
+        "valor": "más de 7 (UDO, UNEG, UBV, UNESR, UNA, UPTB)",
+        "fuente": "Prensa CCIEB 2026-07-23"
+      },
+      {
+        "etiqueta": "Ciudad Bolívar: empresas de servicios industriales",
+        "valor": "más de 200",
+        "fuente": "Prensa CCIEB 2026-07-23"
+      },
+      {
+        "etiqueta": "Ciudad Bolívar: supermercados y tiendas",
+        "valor": "224",
+        "fuente": "Prensa CCIEB 2026-07-23"
+      }
+    ]
+  },
+  "espacios": {
+    "fuente": "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.7 y https://camaradecomerciobolivar.org/expofaja/ (consultada 2026-10-12, modificada 2026-10-09)",
+    "nota": "Espacio estándar: estructura base en obra gris (sin impresión) con dos tomacorrientes. Ubicación por orden de confirmación y pago.",
+    "items": [
+      {
+        "categoria": "Categoría Gold y Fundadores",
+        "puestos": "10 (3 Fundadores / 7 Gold)",
+        "usd": 1800
+      },
+      {
+        "categoria": "Área de Vehículos y Concesionarios",
+        "puestos": "Espacio exterior priorizado",
+        "usd": 1700
+      },
+      {
+        "categoria": "Stands Comerciales Estándar",
+        "puestos": "24",
+        "usd": 900
+      },
+      {
+        "categoria": "Área de Emprendedores",
+        "puestos": "10 seleccionados",
+        "usd": 300
+      }
+    ]
+  },
+  "patrocinio": {
+    "fuente": "https://camaradecomerciobolivar.org/expofaja/ (consultada 2026-10-12, modificada 2026-10-09)",
+    "nota": "Precios + IVA",
+    "planes": [
+      {
+        "nivel": 1,
+        "nombre": "Plan Impulso",
+        "subtitulo": "Impulso Logístico",
+        "usd": 400,
+        "pases_vip": 2
+      },
+      {
+        "nivel": 2,
+        "nombre": "Plan Estratégico",
+        "subtitulo": "Socio operativo",
+        "usd": 800,
+        "pases_vip": 4
+      },
+      {
+        "nivel": 3,
+        "nombre": "Plan Faja Capital",
+        "subtitulo": "Aliado Energético",
+        "usd": 1600,
+        "pases_vip": 8
+      }
+    ]
+  },
+  "iniciativas_anunciadas": [
+    {
+      "nombre": "Bolsa de Empleo Energética (Petróleo, Electricidad y Minería)",
+      "detalle": "Se lanza en la Expo; pre-registro de los primeros 100 especialistas.",
+      "fuente": "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/la-bolsa-de-empleo-energetica-se-presentara-en-la-expo-faja-2026/"
+    }
+  ],
+  "ultima_verificacion": "2026-10-12"
+}

@@ -1,0 +1,180 @@
+{
+  "type": "FeatureCollection",
+  "_nota": "SEMILLA DE VERIFICACION, no capa final. E1 genera public/data/ciudad-bolivar-osm.geojson con un script reproducible; estos puntos sirven de fixture en los tests (tolerancia 300 m). IDs con la convencion del repo (OSM-W/N/R + id), como downstream-osm.geojson.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5469562,
+          8.1028532
+        ]
+      },
+      "properties": {
+        "id": "OSM-R14534562",
+        "nombre": "Ciudad Bolívar",
+        "clase": "centro_ciudad",
+        "sector": "servicios",
+        "osm": "relation/14534562",
+        "fuente": "OpenStreetMap (ODbL) via Nominatim, consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "Punto de referencia de la relacion de limite de la ciudad devuelto por Nominatim. Centro de los anillos del modo Ciudad Bolivar (E1)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5366272,
+          8.1321791
+        ]
+      },
+      "properties": {
+        "id": "OSM-R7948635",
+        "nombre": "Museo de Arte Moderno Jesús Soto",
+        "clase": "sede_evento",
+        "sector": "servicios",
+        "osm": "relation/7948635",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "Sede de ExpoFaja 2026",
+        "id_semilla": "CBO-MUSEO-SOTO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.53637,
+          8.12194
+        ]
+      },
+      "properties": {
+        "id": "OSM-W307294526",
+        "nombre": "Aeropuerto Nacional Tomás de Heres",
+        "clase": "aeropuerto",
+        "sector": "servicios",
+        "osm": "way/307294526",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "IATA CBL, ICAO SVCB. Centro aproximado de la geometria",
+        "id_semilla": "CBO-AEROPUERTO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.59841,
+          8.14399
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1485676372",
+        "nombre": "Puente Angostura",
+        "clase": "puente",
+        "sector": "servicios",
+        "osm": "way/1485676372",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "Icono de las marcas CCIEB y ExpoFaja. Centro aproximado",
+        "id_semilla": "CBO-PUENTE-ANGOSTURA"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.54135,
+          8.13836
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4340096490",
+        "nombre": "Universidad Nacional Experimental de Guayana",
+        "clase": "universidad",
+        "sector": "servicios",
+        "osm": "node/4340096490",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "id_semilla": "CBO-UNEG"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.55331,
+          8.11611
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524911161",
+        "nombre": "Universidad de Oriente",
+        "clase": "universidad",
+        "sector": "servicios",
+        "osm": "way/1524911161",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "Centro aproximado",
+        "id_semilla": "CBO-UDO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.53396,
+          8.13331
+        ]
+      },
+      "properties": {
+        "id": "OSM-W107825658",
+        "nombre": "UBV",
+        "clase": "universidad",
+        "sector": "servicios",
+        "osm": "way/107825658",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "Centro aproximado",
+        "id_semilla": "CBO-UBV"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.58878,
+          8.11078
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1544642721",
+        "nombre": "UNESR",
+        "clase": "universidad",
+        "sector": "servicios",
+        "osm": "way/1544642721",
+        "fuente": "OpenStreetMap (ODbL), consultado 2026-10-12",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-12",
+        "notas": "Centro aproximado",
+        "id_semilla": "CBO-UNESR"
+      }
+    }
+  ]
+}

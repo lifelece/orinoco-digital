@@ -1,0 +1,238 @@
+{
+  "_nota": "SEMILLA. Perfiles copiados de fuentes del organizador; no ampliar con biografias de otras fuentes sin anotarlas. Fotos: recortes del afiche oficial, autorizados por la CCIEB el 2026-10-12 (AUTORIZACIONES.md). Sin foto: avatar con iniciales. El recorte duplicado del afiche NO se publica hasta saber de quien es.",
+  "ultima_verificacion": "2026-10-12",
+  "ponentes": [
+    {
+      "id": "alfredo-ordonez-lopez",
+      "nombre": "Alfredo Ordóñez López",
+      "titulo": "Dr.",
+      "perfil": "Internacionalista, doctor en Estudios del Desarrollo y coordinador de la Especialización en Política y Comercio Petrolero Internacional de la UCV. (Afiche: especialista en economía y mercado petrolero global.)",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/alfredo-ordonez-lopez.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "Prensa CCIEB, 2026-10-08: https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/",
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "foto": "public/expofaja/ponentes/alfredo-ordonez-lopez.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x188 px (2.8 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "julio-perez-graterol",
+      "nombre": "Julio Pérez Graterol",
+      "titulo": "Abg.",
+      "perfil": "CEO de Universitas Legal. Especialista en Derecho Administrativo y Gestión Pública.",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/julio-perez-graterol.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "nota": "El programa lo nombra 'Abg. Julio Graterol'.",
+      "foto": "public/expofaja/ponentes/julio-perez-graterol.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x178 px (2.8 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "jesus-farias",
+      "nombre": "Jesús Farías",
+      "titulo": "Eco.",
+      "perfil": "Presidente de la Comisión Permanente de Economía, Finanzas y Desarrollo Nacional de la Asamblea Nacional.",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/jesus-farias.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "foto": "public/expofaja/ponentes/jesus-farias.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x188 px (3.4 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "jehyson-guzman",
+      "nombre": "Jehyson Guzmán",
+      "titulo": "Dip.",
+      "perfil": "Presidente de la Comisión Permanente de Ciencia, Tecnología e Innovación de la Asamblea Nacional (afiche).",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/jehyson-guzman.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-08: https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "nota": "La prensa CCIEB del 08/10 nombra la comision como 'Educacion, Salud, Ciencia, Tecnologia e Innovacion'. Confirmar con la CCIEB cual usar.",
+      "foto": "public/expofaja/ponentes/jehyson-guzman.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x178 px (2.9 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "jose-manuel-linares-gabaldon",
+      "nombre": "José Manuel Linares Gabaldón",
+      "titulo": "Ing.",
+      "perfil": "[perfil_pendiente]",
+      "en_programa": true,
+      "en_afiche": false,
+      "foto_referencia": null,
+      "foto_autorizada": false,
+      "fuentes": [
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
+      ],
+      "foto": null
+    },
+    {
+      "id": "yolangel-hernandez",
+      "nombre": "Yolangel Hernández",
+      "titulo": "Dra.",
+      "perfil": "[perfil_pendiente]",
+      "en_programa": true,
+      "en_afiche": false,
+      "foto_referencia": null,
+      "foto_autorizada": false,
+      "fuentes": [
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
+      ],
+      "foto": null
+    },
+    {
+      "id": "armando-jhon-madero",
+      "nombre": "Armando Jhon Madero",
+      "titulo": "Ing.",
+      "perfil": "[perfil_pendiente]",
+      "en_programa": true,
+      "en_afiche": false,
+      "foto_referencia": null,
+      "foto_autorizada": false,
+      "fuentes": [
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
+      ],
+      "foto": null
+    },
+    {
+      "id": "german-jose-marquez-gil",
+      "nombre": "Germán José Márquez Gil",
+      "titulo": "Dr.",
+      "perfil": "Ingeniero de petróleo, magíster en geología petrolera y doctor en ciencias gerenciales; docente de la UCV y LUZ. (Afiche: especialista en comercio y política petrolera internacional.)",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/german-marquez-gil.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "Prensa CCIEB, 2026-10-08: https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/",
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "foto": "public/expofaja/ponentes/german-jose-marquez-gil.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x187 px (4.1 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "rolin-iguaran-valdeblanquez",
+      "nombre": "Rolín Iguarán Valdeblánquez",
+      "titulo": "Dr.",
+      "perfil": "Director de la Cátedra Libre Petrolera «Dr. Gumersindo Torres» de la Universidad del Zulia.",
+      "en_programa": true,
+      "en_afiche": false,
+      "foto_referencia": null,
+      "foto_autorizada": false,
+      "fuentes": [
+        "Prensa CCIEB, 2026-10-08: https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "nota": "Posible foto en el afiche bajo el nombre duplicado 'Alfredo Ordoñez Lopez' (perfil de legislacion de hidrocarburos). NO asumir: confirmar con la CCIEB.",
+      "foto": null
+    },
+    {
+      "id": "ramiro-royero",
+      "nombre": "Ramiro Royero",
+      "titulo": "Dr.",
+      "perfil": "Experto en análisis logístico, operacional y económico para el desarrollo petrolero regional (afiche). Especialista en geopolítica petrolera y docente de la Universidad Venezolana de los Hidrocarburos (prensa).",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/ramiro-royero.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-08: https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "foto": "public/expofaja/ponentes/ramiro-royero.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x187 px (3.7 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "alejandro-teran-martinez",
+      "nombre": "Alejandro Terán Martínez",
+      "titulo": "Abg.",
+      "perfil": "Director ejecutivo de la Asociación Latinoamericana de Empresarios Petroleros de Texas (Alepe).",
+      "en_programa": true,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/alejandro-teran-martinez.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)",
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)"
+      ],
+      "foto": "public/expofaja/ponentes/alejandro-teran-martinez.webp",
+      "foto_calidad": "recorte del afiche oficial, 154x188 px (3.8 KB). Sirve para avatar de hasta ~96 px; pedir original a la CCIEB para mas tamano."
+    },
+    {
+      "id": "carlos-e-sanchez-p",
+      "nombre": "Carlos E. Sánchez P.",
+      "titulo": "Econ.",
+      "perfil": "[perfil_pendiente]",
+      "en_programa": true,
+      "en_afiche": false,
+      "foto_referencia": null,
+      "foto_autorizada": false,
+      "fuentes": [
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
+      ],
+      "foto": null
+    },
+    {
+      "id": "william-hernandez",
+      "nombre": "William Hernández",
+      "titulo": "",
+      "perfil": "[perfil_pendiente]",
+      "en_programa": true,
+      "en_afiche": false,
+      "foto_referencia": null,
+      "foto_autorizada": false,
+      "fuentes": [
+        "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)",
+        "Prensa CCIEB, 2026-10-12: https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
+      ],
+      "foto": null
+    },
+    {
+      "id": "alvaro-silva-calderon",
+      "nombre": "Álvaro Silva Calderón",
+      "titulo": "Dr.",
+      "perfil": "Doctor en Derecho (UCV) y referente histórico de la política energética venezolana.",
+      "en_programa": false,
+      "en_afiche": true,
+      "foto_referencia": "data/raw/expofaja/referencias/ponentes/alvaro-silva-calderon.jpg",
+      "foto_autorizada": true,
+      "fuentes": [
+        "CCIEB, afiche 'Ponentes' ExpoFaja 2026 (imagen recibida el 2026-10-12)"
+      ],
+      "nota": "Aparece en el afiche pero NO en el programa oficial ni en la prensa. Confirmar si participa antes de publicarlo.",
+      "foto": null,
+      "foto_calidad": "Recorte en data/raw (referencia). No se publica hasta confirmar su participacion."
+    }
+  ],
+  "discrepancias": [
+    "El afiche repite 'Dr. Alfredo Ordoñez Lopez' en dos tarjetas con fotos y perfiles distintos (fila 2 col 3 y fila 3 col 1). Recorte de la segunda: alfredo-ordonez-lopez-afiche-duplicado.jpg.",
+    "Alvaro Silva Calderon esta en el afiche y no en el programa.",
+    "Seis ponentes del programa no estan en el afiche: Linares Gabaldon, Y. Hernandez, Jhon Madero, Iguaran Valdeblanquez, Sanchez P., W. Hernandez.",
+    "Comision de Jehyson Guzman: el afiche y la prensa del 08/10 la nombran distinto."
+  ]
+}
