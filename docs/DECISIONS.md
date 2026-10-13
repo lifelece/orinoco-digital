@@ -489,7 +489,7 @@ workflow no se ha ejecutado en GitHub: eso ocurre al hacer push.
 
 ## ADR-017 — Dividir `ui.js` en `src/ui/`, por caracteristica, en dos pasos
 
-**Fecha:** 2026-09-29 · **Estado:** propuesta, pendiente de revision del autor
+**Fecha:** 2026-09-29 · **Estado:** aceptada (2026-10-12; implementada en el PR #1, mergeado el 2026-09-29)
 
 **Contexto.** `ui.js` tiene 1.742 lineas. Notion (C3 de `docs/NOTION.md`) lo
 senala igual que `docs/AUDITORIA-2026-09.md` (P4): "nada de archivos de 800
@@ -602,7 +602,7 @@ la seccion original.
 ## ADR-018 — Paquete visual: base oscura por ajuste de la capa actual (C8),
 animaciones CSS (M3) y vuelo de entrada
 
-**Fecha:** 2026-09-29 · **Estado:** propuesta, pendiente de revision del autor
+**Fecha:** 2026-09-29 · **Estado:** aceptada (2026-10-12; implementada en el PR #2, mergeado el 2026-09-29)
 
 **Contexto.** Luis reviso la vista previa del M1 el 2026-09-29, le gusto, y
 pidio anadir cosas visualmente atractivas antes de pasar a produccion, sin
@@ -731,7 +731,7 @@ easing propia, esta base queda como punto de partida, no como version final.
 ## ADR-019 — Controlador de render con holds, capas apagadas fuera del
 viewer, gate de modulos en CI y nota de licencia de datos
 
-**Fecha:** 2026-09-29 · **Estado:** propuesta, pendiente de revision del autor
+**Fecha:** 2026-09-29 · **Estado:** aceptada (2026-10-12; implementada en el PR #3, mergeado el 2026-09-29)
 
 **Contexto.** Se hizo un analisis de ingenieria inversa de
 `bilawalsidhu/gods-eye-view` (MIT), un globo Cesium mucho mas grande que

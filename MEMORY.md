@@ -13,7 +13,7 @@
 
 ## Decisiones abiertas de Luis
 
-- ADR-017, 018 y 019 siguen "propuesta" en DECISIONS.md aunque sus PR se mergearon: [Luis: aceptarlos o no].
+- ADR-017, 018 y 019 aceptados por Luis el 2026-10-12. ADR-016 (node:test) sigue "propuesta" aunque se mergeo en el PR #1: [Luis: aceptarlo o no].
 - `docs/fases/README.md` dice M1 "pendiente del gate"; se mergeo tras vista previa: [Luis: confirmar gate en telefono].
 - ADR-020 (ExpoFaja y modo Ciudad Bolivar): propuesta.
 
