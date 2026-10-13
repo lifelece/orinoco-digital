@@ -44,7 +44,7 @@ function listaCercanos(cercanos, util) {
       <li class="flex items-baseline justify-between gap-3 py-1.5">
         <span class="min-w-0 break-words text-hi">${esc(c.nombre ?? c.id)}</span>
         <span class="shrink-0 font-mono text-[13px] tabular-nums text-hi">${esc(
-          t("modo.distancia", { km: numero(c.km, { maximumFractionDigits: 0 }) })
+          t("modo.distancia", { km: numero(c.km, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) })
         )}</span>
       </li>`
     )

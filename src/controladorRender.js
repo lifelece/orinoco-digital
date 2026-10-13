@@ -127,13 +127,16 @@ export function pedirRenderPuntual(motivo = "sin especificar") {
  */
 const sostenidos = new Map();
 
+/** Tiempo maximo que sostenerHastaListo retiene el render continuo (ms). */
+export const TOPE_SOSTENER_MS = 10000;
+
 /**
  * Render continuo hasta que `listo()` devuelva true, comprobado tras cada
  * frame (`scene.postRender`). Es para trabajo asincrono de Cesium que solo
  * avanza en frames renderizados (geometria pegada al suelo en modo reposo):
  * el hold dura lo justo, no mientras una ficha este abierta (ADR-019).
  * Llamarla de nuevo con el mismo id reemplaza la anterior. Sin viewer con
- * `scene.postRender` no retiene nada.
+ * `scene.postRender` no retiene nada. Nunca retiene mas de TOPE_SOSTENER_MS.
  *
  * @param {string} id
  * @param {() => boolean} listo
@@ -158,12 +161,21 @@ export function sostenerHastaListo(id, listo) {
   function cancelar() {
     // Ya reemplazado o terminado: no se toca el hold del reemplazo.
     if (sostenidos.get(id)?.token !== token) return;
+    const entrada = sostenidos.get(id);
     sostenidos.delete(id);
-    quitar();
+    entrada.quitar();
     liberarRenderContinuo(id);
   }
 
-  sostenidos.set(id, { token, quitar });
+  // Tope: si la geometria nunca se da por lista (p. ej. un navegador sin
+  // polilineas pegadas al suelo), el render no se queda continuo para siempre.
+  const tope = setTimeout(cancelar, TOPE_SOSTENER_MS);
+  const quitarConTope = () => {
+    clearTimeout(tope);
+    quitar();
+  };
+
+  sostenidos.set(id, { token, quitar: quitarConTope });
   pedirRenderContinuo(id);
   return cancelar;
 }

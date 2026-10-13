@@ -91,14 +91,19 @@ function crearCabecera() {
     "",
     { "aria-label": t("modo.ciudadBolivar.titulo") }
   );
-  cab.append(
+  // Movil (390 px): fila 1 = titulo + boton; fila 2 = "En alianza con" + logos.
+  // Todo junto no cabe: el boton se cortaba. En sm+ `sm:contents` disuelve la
+  // fila 1 y los tres bloques quedan en linea, con el boton al final.
+  const filaTitulo = nodo("div", "flex min-w-0 items-center gap-2 sm:contents");
+  filaTitulo.append(
     nodo(
       "p",
-      "min-w-0 truncate text-xs font-semibold leading-tight text-hi sm:text-sm",
+      "min-w-0 flex-1 truncate text-xs font-semibold leading-tight text-hi sm:flex-none sm:text-sm",
       t("modo.ciudadBolivar.titulo"),
       { title: t("modo.ciudadBolivar.titulo") }
     )
   );
+  cab.append(filaTitulo);
 
   const fila = nodo("div", "flex min-w-0 items-center gap-2 sm:ml-auto sm:gap-3");
   fila.append(
@@ -127,9 +132,9 @@ function crearCabecera() {
   });
   fila.append(sello, logo);
 
-  const volver = nodo("button", `${BOTON} ml-auto min-w-0 shrink`, t("modo.verFaja"), { type: "button", id: "btn-ver-faja" });
+  const volver = nodo("button", `${BOTON} shrink-0 sm:order-last`, t("modo.verFaja"), { type: "button", id: "btn-ver-faja" });
   volver.addEventListener("click", () => estado.alSalir?.());
-  fila.append(volver);
+  filaTitulo.append(volver);
 
   cab.append(fila);
   return cab;

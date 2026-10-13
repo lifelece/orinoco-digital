@@ -1245,7 +1245,7 @@ function sectorDeCapa(capa, ids) {
 export function fijarCapas(cambios) {
   const previo = {};
   for (const [id, valor] of Object.entries(cambios ?? {})) {
-    const grupo = [sectores, contexto, ciudad].find((g) => id in g);
+    const grupo = [sectores, contexto, ciudad].find((g) => Object.hasOwn(g, id));
     if (!grupo) continue;
     previo[id] = grupo[id];
     grupo[id] = Boolean(valor);

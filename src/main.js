@@ -454,7 +454,12 @@ function iniciarModo() {
   const modo = resolverModo(enlace.modo, MODOS, MODO_INICIAL);
   const origen = location.href;
   const atras = DEFINICION_MODOS[modo].vueltaAtras;
-  if (atras) {
+  // Recarga (o reapertura en la misma pestana): el navegador conserva el
+  // estado y el trampolin ya existe. Crearlo otra vez duplicaria entradas y
+  // "atras" necesitaria varios gestos (RF-5).
+  if (history.state?.modo === modo) {
+    // historial ya listo
+  } else if (atras) {
     history.replaceState({ modo: atras }, "", urlDeModo(location.pathname, atras));
     history.pushState({ modo }, "", origen);
   } else {

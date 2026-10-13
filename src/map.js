@@ -425,10 +425,15 @@ function volarCancelable(esfera, offset, holdId) {
 export function vistaCiudadBolivar() {
   if (!viewer) return;
   const vertical = window.innerHeight > window.innerWidth;
-  const { anilloEscritorioKm, anilloVerticalKm, margen } = CAMARA_CIUDAD_BOLIVAR;
+  const { anilloEscritorioKm, anilloVerticalKm, margen, margenVertical, desplazamientoNorteVertical } =
+    CAMARA_CIUDAD_BOLIVAR;
   const radio = (vertical ? anilloVerticalKm : anilloEscritorioKm) * 1000;
+  // En vertical se apunta al norte de la ciudad: la ciudad y sus anillos bajan
+  // en la pantalla y quedan por debajo de la cabecera y el panel del modo.
+  // 111 320 m por grado de latitud (aproximacion esferica, sobra a esta escala).
+  const desplazamientoGrados = vertical ? (desplazamientoNorteVertical * radio) / 111320 : 0;
   const esfera = new BoundingSphere(
-    Cartesian3.fromDegrees(CENTRO_CIUDAD_BOLIVAR.lng, CENTRO_CIUDAD_BOLIVAR.lat),
+    Cartesian3.fromDegrees(CENTRO_CIUDAD_BOLIVAR.lng, CENTRO_CIUDAD_BOLIVAR.lat + desplazamientoGrados),
     radio
   );
 
@@ -439,7 +444,7 @@ export function vistaCiudadBolivar() {
     ? frustum.aspectRatio
     : viewer.scene.canvas.clientWidth / viewer.scene.canvas.clientHeight;
   const tanTheta = aspecto * tanPhi;
-  const rango = (margen * radio) / Math.min(tanTheta, tanPhi);
+  const rango = ((vertical ? margenVertical : margen) * radio) / Math.min(tanTheta, tanPhi);
 
   const offset = new HeadingPitchRange(
     CesiumMath.toRadians(CAMARA.rumbo),
