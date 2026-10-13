@@ -68,3 +68,10 @@ test("sin cambios de entidades el informe lo dice", () => {
   assert.match(informe, /Sin entidades nuevas ni quitadas/);
   assert.doesNotMatch(informe, /ALERTA/);
 });
+
+test("limiteCliente: espera lo que la consulta concede al servidor mas 30 s", async () => {
+  const { limiteCliente } = await import("../scripts/descargar-fuentes.mjs");
+  assert.equal(limiteCliente("[out:json][timeout:180];node(1);out;"), 210000);
+  assert.equal(limiteCliente("[out:json][timeout:300];way(1);out;"), 330000);
+  assert.equal(limiteCliente("node(1);out;"), 90000);
+});

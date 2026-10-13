@@ -31,7 +31,9 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Seis consultas, hasta 3 rondas por 4 mirrors con limites de 210-330 s:
+    # en un dia malo pasa de media hora.
+    timeout-minutes: 90
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RAMA: datos-semanal
