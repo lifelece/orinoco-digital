@@ -8,7 +8,7 @@ spec (`/sdd-cambio`). Los numeros de RF no se reutilizan.
 
 | Spec | Estado |
 |---|---|
-| [001-modo-ciudad-bolivar](001-modo-ciudad-bolivar/spec.md) | Borrador (2026-10-12) |
+| [001-modo-ciudad-bolivar](001-modo-ciudad-bolivar/spec.md) | En plan (2026-10-12): [plan](001-modo-ciudad-bolivar/plan.md) y [tareas](001-modo-ciudad-bolivar/tasks.md) pendientes del OK de Luis |
 
 Flujo: `/sdd-spec` -> `/sdd-aclarar` -> `/sdd-plan` -> `/sdd-tareas` ->
 `/sdd-implementar` (una tarea cada vez) -> `/sdd-validar`. Estado de todo:
