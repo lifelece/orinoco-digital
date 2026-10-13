@@ -7,7 +7,9 @@
  */
 
 import { RUTAS_DATOS } from "./config.js";
-import { validarFeatureCollection } from "./data.js";
+import { validarFeatureCollection, iniciativasSinGeometria } from "./data.js";
+// Semilla en el bundle (D10): sin fetch extra, ~4 KB. Si falta, el build falla fuerte.
+import semillaIniciativas from "../docs/expofaja/semillas/iniciativas-ccieb.json";
 
 /**
  * @typedef {Object} FeatureCollection
@@ -119,6 +121,33 @@ export async function getCentrales() {
  */
 export async function getGridProbabilidadDemo() {
   return cargarGeoJSON(RUTAS_DATOS.probGrid);
+}
+
+/**
+ * Servicios de Ciudad Bolivar (OSM, ODbL): hoteles, salud, banca, sede, etc.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getCiudadBolivar() {
+  return cargarGeoJSON(RUTAS_DATOS.ciudadBolivar);
+}
+
+/**
+ * Iniciativas de la CCIEB y la ExpoFaja que tienen ubicacion en el mapa (Point).
+ * Contenido del organizador, atribuido y con fecha.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getIniciativasCcieb() {
+  return cargarGeoJSON(RUTAS_DATOS.iniciativasCcieb);
+}
+
+/**
+ * Las iniciativas completas, con y sin ubicacion, para listas del panel.
+ * FeatureCollection con `geometry: null` (RFC 7946 §3.2): no es para dibujar.
+ * Sale de la semilla importada en el build, sin red.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getListaIniciativasCcieb() {
+  return iniciativasSinGeometria(semillaIniciativas);
 }
 
 export { VACIA };

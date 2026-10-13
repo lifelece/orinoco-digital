@@ -8,6 +8,7 @@
 import es from "./es.json";
 import en from "./en.json";
 import { IDIOMA_POR_DEFECTO, IDIOMAS } from "../config.js";
+import { interpolar } from "./interpolar.js";
 
 const DICCIONARIOS = { es, en };
 
@@ -32,11 +33,14 @@ function detectarIdioma() {
 
 /**
  * Traduce una clave. Si falta, devuelve la clave misma para que el hueco se vea.
+ * Con `params` sustituye los marcadores {nombre}; sin `params` devuelve el
+ * texto tal cual (los `.replace("{n}", ...)` de quien llama siguen valiendo).
  * @param {string} clave
+ * @param {Object<string, string|number>} [params]
  * @returns {string}
  */
-export function t(clave) {
-  return DICCIONARIOS[idiomaActual]?.[clave] ?? clave;
+export function t(clave, params) {
+  return interpolar(DICCIONARIOS[idiomaActual]?.[clave] ?? clave, params);
 }
 
 /** @returns {string} */

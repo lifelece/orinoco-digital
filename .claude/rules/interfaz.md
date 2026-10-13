@@ -12,7 +12,7 @@ paths:
 # Reglas de interfaz
 
 - Sin `cesium` y sin `fetch` en la interfaz (lo comprueba `verificar:modulos`). Los datos llegan desde `main.js`.
-- Todo texto visible por `t(clave)`; la clave existe en `es.json` y `en.json` (test `i18n.test.mjs`). `t()` no interpola: compone en codigo.
+- Todo texto visible por `t(clave)`; la clave existe en `es.json` y `en.json` (test `i18n.test.mjs`). `t(clave, params)` interpola `{nombre}` (`src/i18n/interpolar.js`); los mismos marcadores en ES y EN.
 - Nombres propios, titulos de terceros y nombres de fuentes no se traducen.
 - Errores visibles con `mostrarError`; lo que debe sobrevivir a un redibujado no cuelga de `#ui-root` (ADR-014).
 - Tokens de `@theme` en `style.css`; sin fuentes web; `amber` reservado para la capa DEMO y avisos de cautela.
