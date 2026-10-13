@@ -22,7 +22,7 @@ import {
 const LOGO_EXPOFAJA = { src: "/expofaja/marcas/expofaja-sobre-oscuro.webp", w: 686, h: 238 };
 const LOGO_CCIEB = { src: "/expofaja/marcas/ccieb.webp", w: 256, h: 256 };
 const LOGO_ALCALDIA = { src: "/expofaja/marcas/alcaldia-angostura-del-orinoco.webp", w: 300, h: 168 };
-const MAPA_IMG = { src: "/expofaja/mapa.webp", w: 1200, h: 675 }; // SIN VERIFICAR: dimensiones al llegar mapa.webp
+const MAPA_IMG = { src: "/expofaja/mapa.webp", w: 1200, h: 675 }; // Captura del modo Ciudad Bolivar (E1), 1200x675 WebP, 2026-10-13
 const MAX_NOTICIAS = 4;
 
 /** Estado de la vista montada. */

@@ -85,5 +85,14 @@ export function iniciarEmbed(documento, ventana)  // noindex, target=_top, postM
 
 ## Integracion (coordinador)
 
-- [ ] I1 · Merge de lo ultimo de `expofaja-e1`; `npm test`, `npm run build`: `dist/expofaja/index.html` sin chunk cesium (RF-69), JS propio <= 30 KB gzip (RNF-1), pesos de imagenes; Lighthouse movil si hay Chrome DevTools MCP; `mapa.webp` desde la vista previa de E1 (duda 2: sin captura, RF-50, hasta tenerla) · vueltas: 0/2
+- [x] I1 · Merge de lo ultimo de `expofaja-e1`; `npm test`, `npm run build`: `dist/expofaja/index.html` sin chunk cesium (RF-69), JS propio <= 30 KB gzip (RNF-1), pesos de imagenes; Lighthouse movil si hay Chrome DevTools MCP; `mapa.webp` desde la vista previa de E1 (duda 2: sin captura, RF-50, hasta tenerla) · vueltas: 0/2
 - [ ] I2 · PR contra `main` sin merge; checklist de Luis (telefono, QR impreso con dos telefonos, `.ics` en Google Calendar y en el telefono)
+
+## Resultado de I1 (coordinador, 2026-10-13)
+
+- Merge de `expofaja-e1` (1f1b032) sin conflictos; `vercel.json` sin la redireccion temporal de E1.
+- `npm test` 165/165 + `verificar:modulos` (20 archivos); `npm run build` verde.
+- RNF-1: JS de `/expofaja` = 10,02 + 10,66 kB gzip = 20,7 kB (meta 30). CSS 8,5 kB. RF-69: `dist/expofaja/index.html` sin referencia a Cesium.
+- RNF-2: `og.png` 1200x630 95 KB; `mapa.webp` 1200x675 111,7 KB (captura del modo Ciudad Bolivar sin la interfaz, con creditos de Cesium; duda 2 resuelta); fotos <= 4,1 KB; logos <= 40 KB.
+- Navegador headless (Edge + CDP, 390x844 movil): sin desborde, un solo h1, ninguna imagen rota, boton 3D -> `/?modo=ciudadBolivar`, aviso de independencia visible. Embed: `noindex`, sin cabecera, todo enlace externo con `target=_top` salvo los `mailto:` (no navegan el marco; decision de B en `embed.js:57`).
+- Pendiente: Lighthouse movil (sin Chrome DevTools MCP en la sesion; medir en la vista previa), `.ics` en Google Calendar y en el telefono, QR impreso.
