@@ -47,8 +47,15 @@ src/
   api.js        Origen de datos. Devuelve siempre FeatureCollection.
   data.js       Validacion y normalizacion. Sin red, sin DOM, sin Cesium.
   iconos.js     Simbolos SVG del mapa como data URI. Sin red, sin DOM, sin Cesium.
+  modos.js      Modos del mapa, parte pura: leerEnlace, resolverModo,
+                urlDeModo, buscarActivo. Sin DOM, sin history (ADR-020).
+  controladorRender.js
+                Render bajo demanda y holds. No importa cesium (ADR-019).
   ui.js         DOM: shell, control de capas, buscador, ficha, tabla y avisos.
                 No importa cesium, no hace fetch.
+  ui/
+    modoCiudadBolivar.js  Cabecera, panel y acceso del modo Ciudad Bolivar.
+    fichaCiudad.js        HTML de la ficha de servicio o iniciativa.
   style.css     Tailwind 4 + tokens de diseno (ADR-014) + estilos del viewer.
   i18n/
     index.js    Helper t(clave) y cambio de idioma.
@@ -62,14 +69,19 @@ Actualizado el 2026-09-15: el anterior no incluia `iconos.js` ni las
 importaciones de `config.js` y `data.js` desde `map.js` y `ui.js`.
 
 ```
-main.js   -> map.js, ui.js, api.js, data.js, i18n, style.css
+main.js   -> map.js, ui.js, ui/modoCiudadBolivar.js, api.js, data.js, modos.js, config.js, i18n, style.css
 map.js    -> cesium, config.js, data.js, iconos.js
-ui.js     -> i18n, map.js, config.js, data.js
+ui.js     -> i18n, map.js, config.js, data.js, ui/modoCiudadBolivar.js, ui/fichaCiudad.js
+modos.js  -> (nada)
 api.js    -> config.js, data.js
 data.js   -> config.js
 iconos.js -> (nada)
 i18n      -> config.js
 ```
+
+Nota: `DEFINICION_MODOS` (config.js) describe cada modo; `main.js` lo aplica
+con una funcion generica y guarda el estado del modo. Ni `map.js` ni `ui.js`
+preguntan "en que modo estamos" (ADR-020, pieza 10).
 
 Reglas que no se rompen:
 

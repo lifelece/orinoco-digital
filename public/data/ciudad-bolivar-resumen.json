@@ -1,0 +1,79 @@
+{
+  "generado": "2026-10-13",
+  "centro": {
+    "nombre": "Ciudad Bolívar",
+    "osm": "relation/14534562",
+    "lng": -63.5469562,
+    "lat": 8.1028532
+  },
+  "anillos": [
+    {
+      "km": 50,
+      "campos": 0
+    },
+    {
+      "km": 100,
+      "campos": 10
+    },
+    {
+      "km": 150,
+      "campos": 45
+    },
+    {
+      "km": 200,
+      "campos": 63
+    }
+  ],
+  "total_campos": 105,
+  "cercanos_a": {
+    "nombre": "Museo de Arte Moderno Jesús Soto",
+    "id": "OSM-R7948635"
+  },
+  "campos_mas_cercanos": [
+    {
+      "id": "GEM-L100000309182",
+      "nombre": "Dobokubi Oil Field (Venezuela)",
+      "km": 57.2,
+      "confianza": "baja"
+    },
+    {
+      "id": "GEM-L100000309184",
+      "nombre": "Melones Oil Field (Venezuela)",
+      "km": 73.8,
+      "confianza": "media"
+    },
+    {
+      "id": "GEM-L100000305048",
+      "nombre": "Cerro Negro (Anzoátegui) Oil Field (Venezuela)",
+      "km": 74.4,
+      "confianza": "baja"
+    },
+    {
+      "id": "GEM-L100000305049",
+      "nombre": "Cerro Negro (Monagas) Oil Field (Venezuela)",
+      "km": 74.4,
+      "confianza": "baja"
+    },
+    {
+      "id": "GEM-L100000320732",
+      "nombre": "Hamaca Oil and Gas Field (Venezuela)",
+      "km": 76.8,
+      "confianza": "baja"
+    }
+  ],
+  "servicios_por_clase": {
+    "sede_evento": 1,
+    "aeropuerto": 1,
+    "puente": 1,
+    "educacion_superior": 12,
+    "salud": 36,
+    "hotel": 32,
+    "banca": 11,
+    "transporte": 1
+  },
+  "metodo": "Linea recta (haversine, R = 6371,0088 km) al vertice mas cercano de cada campo GEM GOGET marzo 2026. No es distancia por carretera.",
+  "fuentes": [
+    "OpenStreetMap contributors (ODbL)",
+    "Global Energy Monitor, GOGET marzo 2026 (CC BY 4.0)"
+  ]
+}

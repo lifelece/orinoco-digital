@@ -21,15 +21,18 @@ const DESTINO = join(RAIZ, "data", "raw");
 // Varios mirrors: si uno esta caido o saturado, se prueba el siguiente.
 // Orden por fiabilidad observada en septiembre 2026: el mirror principal
 // (overpass-api.de) rechazaba la conexion mientras kumi.systems respondia bien.
-const OVERPASS_MIRRORS = [
+export const OVERPASS_MIRRORS = [
   "https://overpass.kumi.systems/api/interpreter",
   "https://overpass-api.de/api/interpreter",
   "https://overpass.private.coffee/api/interpreter",
+  // 2026-10-12: kumi.systems dio timeout y overpass-api.de corto la conexion;
+  // este mirror respondio.
+  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 ];
 
 // Overpass rechaza con HTTP 406 las peticiones sin User-Agent identificable.
 // Es su politica anti-abuso: identifica tu proyecto y deja un contacto.
-const USER_AGENT =
+export const USER_AGENT =
   "orinoco-digital/0.1 (https://github.com/lifelece/orinoco-digital)";
 
 /** Consultas Overpass acotadas a Venezuela. Datos OSM, licencia ODbL. */
@@ -87,7 +90,11 @@ async function guardar(nombre, contenido) {
   console.log(`  OK  ${nombre}  (${kb} KB)`);
 }
 
-async function consultarOverpass(consulta) {
+/**
+ * Consulta Overpass rotando los mirrors. Devuelve el JSON y el host que respondio.
+ * Exportada para que otros scripts de datos reutilicen los mismos mirrors.
+ */
+export async function consultarOverpass(consulta, conMirror = false) {
   let ultimoError = "sin intentos";
   for (const endpoint of OVERPASS_MIRRORS) {
     try {
@@ -99,8 +106,13 @@ async function consultarOverpass(consulta) {
           Accept: "application/json",
         },
         body: new URLSearchParams({ data: consulta }),
+        // Un mirror caido puede no responder nunca: sin limite, el script se cuelga.
+        signal: AbortSignal.timeout(60000),
       });
-      if (respuesta.ok) return await respuesta.json();
+      if (respuesta.ok) {
+        const json = await respuesta.json();
+        return conMirror ? { json, mirror: new URL(endpoint).host } : json;
+      }
       ultimoError = `HTTP ${respuesta.status} en ${new URL(endpoint).host}`;
     } catch (error) {
       ultimoError = `${error.message} en ${new URL(endpoint).host}`;
@@ -141,11 +153,15 @@ async function descargarDirectas() {
   }
 }
 
-await mkdir(DESTINO, { recursive: true });
-console.log(`Destino: ${DESTINO}`);
-await descargarDirectas();
-await descargarOSM();
-console.log(
-  "\nListo. Recuerda: estos son datos CRUDOS. Antes de que entren al mapa hay que\n" +
-    "verificar su CRS, transformarlos a WGS84 y registrarlos en docs/DATA_SOURCES.md."
-);
+// Solo se ejecuta como script: otros scripts importan los mirrors sin disparar
+// las descargas.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  await mkdir(DESTINO, { recursive: true });
+  console.log(`Destino: ${DESTINO}`);
+  await descargarDirectas();
+  await descargarOSM();
+  console.log(
+    "\nListo. Recuerda: estos son datos CRUDOS. Antes de que entren al mapa hay que\n" +
+      "verificar su CRS, transformarlos a WGS84 y registrarlos en docs/DATA_SOURCES.md."
+  );
+}

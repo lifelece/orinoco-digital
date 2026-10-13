@@ -27,16 +27,18 @@ import {
   LabelStyle,
   Cartesian2,
   PolylineDashMaterialProperty,
+  BoundingSphereState,
 } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
-import { icono, iconoAproximado } from "./iconos.js";
+import { icono, iconoAproximado, iconoCiudad } from "./iconos.js";
 import { hidrocarburoDe, TIPOS } from "./data.js";
 import {
   instalarControladorRender,
   pedirRenderContinuo,
   liberarRenderContinuo,
   pedirRenderPuntual,
+  sostenerHastaListo,
 } from "./controladorRender.js";
 
 import {
@@ -54,6 +56,11 @@ import {
   ESCALA_CENTRAL,
   ZOOM_ETIQUETA,
   TAMANO_ICONO,
+  COLOR_CIUDAD,
+  COLOR_ANILLO,
+  ZOOM_CIUDAD,
+  CENTRO_CIUDAD_BOLIVAR,
+  CAMARA_CIUDAD_BOLIVAR,
 } from "./config.js";
 
 /** @type {Viewer | null} */
@@ -284,16 +291,27 @@ function vistaFaja() {
   return { esfera, offset };
 }
 
+/** @returns {boolean} el usuario pidio menos movimiento (ADR-018) */
+function movimientoReducido() {
+  return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
+}
+
 /**
  * Vuela la camara para encuadrar la Faja Petrolifera del Orinoco completa,
  * en vista oblicua. Fase 1.
  *
  * Sostiene el render continuo mientras dura el vuelo (ADR-019): sin esto, en
  * modo reposo Cesium solo redibuja ante input de camara y el vuelo se ve a
- * tirones en vez de fluido.
+ * tirones en vez de fluido. Con `prefers-reduced-motion: reduce` no vuela:
+ * encuadra directamente (ADR-018).
  */
 export function volarAFaja() {
   if (!viewer) return;
+  // ADR-018: con movimiento reducido no se vuela, se salta al encuadre.
+  if (movimientoReducido()) {
+    encuadrarFaja();
+    return;
+  }
   const { esfera, offset } = vistaFaja();
   // Un id por vuelo: si un vuelo nuevo cancela al anterior, el `cancel` del
   // viejo no debe soltar el hold del nuevo.
@@ -335,8 +353,7 @@ export function iniciarVistaConVuelo() {
   if (!viewer) return;
   const { esfera, offset } = vistaFaja();
 
-  const reducido = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-  if (reducido) {
+  if (movimientoReducido()) {
     encuadrarFaja();
     return;
   }
@@ -349,6 +366,24 @@ export function iniciarVistaConVuelo() {
   viewer.camera.viewBoundingSphere(esfera, lejos);
   viewer.camera.lookAtTransform(Matrix4.IDENTITY);
 
+  // Sostiene el render continuo mientras dura el vuelo de entrada (ADR-019):
+  // es la animacion mas larga de la app (~3 s) y la primera que ve el
+  // usuario, justo donde un tironeo se nota mas.
+  volarCancelable(esfera, offset, "vuelo-entrada");
+}
+
+/**
+ * Vuelo a una esfera, con su propio hold de render continuo y cancelable por
+ * el usuario (`pointerdown`, `wheel` o `touchstart` en el canvas): un vuelo
+ * que no se puede interrumpir es peor que no volar. Lo usan la vista de entrada
+ * y `vistaCiudadBolivar`. Un vuelo nuevo cancela al anterior, y el `cancel` de
+ * este libera su hold y sus listeners.
+ *
+ * @param {BoundingSphere} esfera
+ * @param {HeadingPitchRange} offset
+ * @param {string} holdId — id unico del hold (ADR-019)
+ */
+function volarCancelable(esfera, offset, holdId) {
   const canvas = viewer.scene.canvas;
   const eventosInteraccion = ["pointerdown", "wheel", "touchstart"];
   const cancelarPorInteraccion = () => {
@@ -364,14 +399,10 @@ export function iniciarVistaConVuelo() {
     canvas.addEventListener(ev, cancelarPorInteraccion, { once: true, passive: true });
   }
 
-  // Sostiene el render continuo mientras dura el vuelo de entrada (ADR-019):
-  // es la animacion mas larga de la app (~3 s) y la primera que ve el
-  // usuario, justo donde un tironeo se nota mas.
-  const HOLD = "vuelo-entrada";
-  pedirRenderContinuo(HOLD);
+  pedirRenderContinuo(holdId);
   const terminar = () => {
     quitarListeners();
-    liberarRenderContinuo(HOLD);
+    liberarRenderContinuo(holdId);
   };
 
   viewer.camera.flyToBoundingSphere(esfera, {
@@ -380,6 +411,53 @@ export function iniciarVistaConVuelo() {
     complete: terminar,
     cancel: terminar,
   });
+}
+
+/**
+ * RF-4. Encuadra el anillo de CAMARA_CIUDAD_BOLIVAR segun la orientacion de la
+ * pantalla: 150 km en horizontal, 100 km en vertical (telefono).
+ *
+ * Sin altura magica: se encuadra una esfera que contiene el anillo y la
+ * distancia sale del campo de vision real de la camara (misma formula que
+ * `distanceToBoundingSphere3D` de Cesium 1.145) por `margen`, que deja sitio a
+ * la cabecera y los paneles. Con movimiento reducido salta sin volar.
+ */
+export function vistaCiudadBolivar() {
+  if (!viewer) return;
+  const vertical = window.innerHeight > window.innerWidth;
+  const { anilloEscritorioKm, anilloVerticalKm, margen, margenVertical, desplazamientoNorteVertical } =
+    CAMARA_CIUDAD_BOLIVAR;
+  const radio = (vertical ? anilloVerticalKm : anilloEscritorioKm) * 1000;
+  // En vertical se apunta al norte de la ciudad: la ciudad y sus anillos bajan
+  // en la pantalla y quedan por debajo de la cabecera y el panel del modo.
+  // 111 320 m por grado de latitud (aproximacion esferica, sobra a esta escala).
+  const desplazamientoGrados = vertical ? (desplazamientoNorteVertical * radio) / 111320 : 0;
+  const esfera = new BoundingSphere(
+    Cartesian3.fromDegrees(CENTRO_CIUDAD_BOLIVAR.lng, CENTRO_CIUDAD_BOLIVAR.lat + desplazamientoGrados),
+    radio
+  );
+
+  const frustum = viewer.camera.frustum;
+  const tanPhi = Math.tan(frustum.fovy / 2);
+  // El frustum solo conoce su relacion de aspecto tras el primer render.
+  const aspecto = Number.isFinite(frustum.aspectRatio)
+    ? frustum.aspectRatio
+    : viewer.scene.canvas.clientWidth / viewer.scene.canvas.clientHeight;
+  const tanTheta = aspecto * tanPhi;
+  const rango = ((vertical ? margenVertical : margen) * radio) / Math.min(tanTheta, tanPhi);
+
+  const offset = new HeadingPitchRange(
+    CesiumMath.toRadians(CAMARA.rumbo),
+    CesiumMath.toRadians(vertical ? CAMARA.inclinacionVertical : CAMARA.inclinacion),
+    rango
+  );
+
+  if (movimientoReducido()) {
+    viewer.camera.viewBoundingSphere(esfera, offset);
+    viewer.camera.lookAtTransform(Matrix4.IDENTITY);
+    return;
+  }
+  volarCancelable(esfera, offset, `vista-ciudad-${++secuenciaVuelos}`);
 }
 
 /** @returns {Viewer | null} */
@@ -691,7 +769,8 @@ export function dibujarCampos(featureCollection) {
 /**
  * Conecta la seleccion de entidades con el callback registrado.
  *
- * Solo abren ficha los activos —los tipos de data.js— y las celdas DEMO. Las
+ * Solo abren ficha los activos —los tipos de data.js—, las celdas DEMO y los
+ * servicios e iniciativas de Ciudad Bolivar (`props.capa`; su `tipo` no se pisa). Las
  * fronteras y la caja de la Faja llevan propiedades para trazar su fuente,
  * pero no son activos: tocarlas abria una ficha de "Instalacion petrolera".
  * Ahora tocarlas se comporta como tocar el mapa vacio.
@@ -704,7 +783,10 @@ function conectarSeleccion() {
     // asi que cualquiera sirve.
     const props = entidad?.properties?.getValue(JulianDate.now());
     const esActivo = Boolean(
-      props && (TIPOS.includes(props.tipo) || props.tipo === "demo")
+      props &&
+        (TIPOS.includes(props.tipo) ||
+          props.tipo === "demo" ||
+          CAPAS_FICHA_CIUDAD.includes(props.capa))
     );
     if (entidad && !esActivo) {
       // Vuelve a entrar en este manejador con undefined, y eso cierra la ficha.
@@ -990,7 +1072,7 @@ export function dibujarReferenciaFaja() {
  *
  * Como `alternarCapa`, admite llamarse antes de que la capa exista.
  *
- * @param {"limites" | "disputa" | "faja" | "toponimia" | "hidrografia" | "centrales"} nombre
+ * @param {"limites" | "disputa" | "faja" | "toponimia" | "hidrografia" | "centrales" | "ciudadBolivar" | "iniciativasCcieb"} nombre
  * @param {boolean} visible
  */
 export function alternarContexto(nombre, visible) {
@@ -1309,6 +1391,304 @@ export function dibujarCentrales(featureCollection) {
   return n;
 }
 
+// --- Ciudad Bolivar e iniciativas de la CCIEB (E1) ---------------------------
+
+/** Capas del mapa cuyas entidades abren ficha de ciudad (props.capa). */
+const CAPAS_FICHA_CIUDAD = ["ciudadBolivar", "iniciativasCcieb"];
+
+/**
+ * Rotulo de un servicio: bajo el icono, solo cerca (ZOOM_CIUDAD.etiqueta).
+ * @param {string} nombre
+ * @returns {Object}
+ */
+function rotuloCiudad(nombre) {
+  return {
+    ...estiloRotulo(
+      "500 12px system-ui, -apple-system, sans-serif",
+      COLOR_CIUDAD,
+      ZOOM_CIUDAD.etiqueta
+    ),
+    text: nombre,
+    verticalOrigin: VerticalOrigin.TOP,
+    pixelOffset: new Cartesian2(0, TAMANO_ICONO / 2 + 2),
+  };
+}
+
+/**
+ * Billboard de un marcador de la ciudad.
+ * @param {string} clave — clase o "iniciativa"
+ * @param {Cartesian2} desplazamiento
+ * @param {DistanceDisplayCondition | undefined} distancia
+ * @returns {Object}
+ */
+function billboardCiudad(clave, desplazamiento, distancia) {
+  return {
+    image: iconoCiudad(clave, COLOR_CIUDAD),
+    width: TAMANO_ICONO,
+    height: TAMANO_ICONO,
+    heightReference: HeightReference.CLAMP_TO_GROUND,
+    verticalOrigin: VerticalOrigin.CENTER,
+    pixelOffset: desplazamiento,
+    disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    scaleByDistance: new NearFarScalar(1.0e4, 1.1, 2.5e6, 0.45),
+    distanceDisplayCondition: distancia,
+  };
+}
+
+/**
+ * Dibuja los servicios de Ciudad Bolivar (RF-11..13). Nace apagada (ADR-013).
+ *
+ * Los hitos (ZOOM_CIUDAD.clasesHito) se ven siempre; el resto, solo por debajo
+ * de ZOOM_CIUDAD.detalle. El puente (LineString) es una linea de 3 px mas el
+ * icono en su punto medio. El nombre es dato de OSM: sin nombre no hay rotulo.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} servicios dibujados
+ */
+export function dibujarCiudadBolivar(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("ciudadBolivar", false);
+  const sinOffset = new Cartesian2(0, 0);
+  let n = 0;
+
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const clase = props.clase ?? "sede_evento";
+    const esHito = ZOOM_CIUDAD.clasesHito.includes(clase);
+    const distancia = esHito
+      ? undefined
+      : new DistanceDisplayCondition(...ZOOM_CIUDAD.detalle);
+    const propiedades = { ...props, capa: "ciudadBolivar" };
+    const lineas = lineasDe(feature.geometry);
+    const coords = feature.geometry?.coordinates;
+    let posicion = null;
+
+    if (lineas.length) {
+      // La linea va primero: volarAActivo mira la primera entidad para decidir
+      // si encuadra una extension o se acerca a un punto.
+      for (const linea of lineas) {
+        const entidad = capa.entities.add({
+          name: props.nombre ?? props.id ?? "",
+          properties: propiedades,
+          polyline: {
+            positions: aPosiciones(linea),
+            width: 3,
+            material: Color.fromCssColorString(COLOR_CIUDAD),
+            clampToGround: true,
+          },
+        });
+        indexar("ciudadBolivar", props.id, entidad);
+      }
+      const medio = lineas[0][Math.floor(lineas[0].length / 2)];
+      posicion = Cartesian3.fromDegrees(medio[0], medio[1]);
+    } else if (Array.isArray(coords) && coords.length >= 2) {
+      posicion = Cartesian3.fromDegrees(coords[0], coords[1]);
+    }
+    if (!posicion) continue;
+
+    const entidad = capa.entities.add({
+      name: props.nombre ?? props.id ?? "",
+      properties: propiedades,
+      position: posicion,
+      billboard: billboardCiudad(clase, sinOffset, distancia),
+      ...(props.nombre ? { label: rotuloCiudad(props.nombre) } : {}),
+    });
+    indexar("ciudadBolivar", props.id, entidad);
+    n += 1;
+  }
+
+  sincronizarEnViewer(capa, capa.show);
+  return n;
+}
+
+/**
+ * Dibuja las iniciativas de la CCIEB que tienen ubicacion (RF-14). Nace
+ * apagada. Las que comparten coordenada (hoy las dos del Museo Soto) se
+ * reparten con `pixelOffset`, por encima del marcador de la sede; la
+ * coordenada no se toca. Siempre visibles y sin rotulo: el titulo largo de una
+ * nota de prensa taparia la sede, y la ficha ya lo muestra.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} iniciativas dibujadas
+ */
+export function dibujarIniciativas(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("iniciativasCcieb", false);
+
+  const conGeometria = featureCollection.features.filter((f) => {
+    const c = f.geometry?.coordinates;
+    return f.geometry?.type === "Point" && Array.isArray(c) && c.length >= 2;
+  });
+  const grupos = new Map();
+  for (const f of conGeometria) {
+    const clave = f.geometry.coordinates.join(",");
+    grupos.set(clave, [...(grupos.get(clave) ?? []), f]);
+  }
+
+  let n = 0;
+  for (const grupo of grupos.values()) {
+    grupo.forEach((feature, k) => {
+      const props = feature.properties ?? {};
+      const [lng, lat] = feature.geometry.coordinates;
+      const desplazamiento = new Cartesian2(
+        (k - (grupo.length - 1) / 2) * (TAMANO_ICONO + 4),
+        -(TAMANO_ICONO + 6)
+      );
+      const entidad = capa.entities.add({
+        name: props.nombre ?? props.id ?? "",
+        properties: { ...props, capa: "iniciativasCcieb" },
+        position: Cartesian3.fromDegrees(lng, lat),
+        billboard: billboardCiudad("iniciativa", desplazamiento, undefined),
+      });
+      indexar("iniciativasCcieb", props.id, entidad);
+      n += 1;
+    });
+  }
+
+  sincronizarEnViewer(capa, capa.show);
+  return n;
+}
+
+// --- Anillos de distancia y lineas de proximidad (E1) ------------------------
+
+/**
+ * Hold hasta que la geometria pegada al suelo esta construida. Cesium la crea
+ * de forma asincrona y solo avanza en frames renderizados: sin esto, en modo
+ * reposo los anillos y las lineas no aparecen hasta el siguiente gesto.
+ *
+ * @param {string} id — id del hold
+ * @param {Array<Object>} entidades
+ */
+function sostenerGeometria(id, entidades) {
+  const tmp = new BoundingSphere();
+  sostenerHastaListo(id, () =>
+    entidades.every(
+      (e) =>
+        viewer.dataSourceDisplay.getBoundingSphere(e, false, tmp) !==
+        BoundingSphereState.PENDING
+    )
+  );
+}
+
+/** Rotulo sin condicion de distancia: solo existe dentro del modo o con la ficha abierta. */
+function rotuloSinDistancia(texto, color) {
+  return {
+    ...estiloRotulo("500 12px system-ui, -apple-system, sans-serif", color, [0, 1]),
+    distanceDisplayCondition: undefined,
+    translucencyByDistance: undefined,
+    text: texto,
+  };
+}
+
+/**
+ * Pone una capa de geometria ya construida en el viewer, sostiene el render
+ * hasta que este lista y pide un frame.
+ */
+function mostrarCapaGeometria(capa, idHold, entidades, motivo) {
+  sincronizarEnViewer(capa, true);
+  sostenerGeometria(idHold, entidades);
+  pedirRenderPuntual(motivo);
+}
+
+/** Quita una capa de geometria del viewer, libera su hold y pide un frame. */
+function retirarCapaGeometria(nombre, idHold, motivo) {
+  liberarRenderContinuo(idHold);
+  const capa = capas.get(nombre);
+  if (capa && viewer) viewer.dataSources.remove(capa, true);
+  capas.delete(nombre);
+  indice.delete(nombre);
+  pedirRenderPuntual(motivo);
+}
+
+/**
+ * RF-7. Reemplaza los anillos de distancia: una polilinea discontinua pegada
+ * al suelo por radio y un rotulo en `coordenadas[0]` (borde norte).
+ *
+ * @param {Array<{km: number, campos: number, coordenadas: Array<[number, number]>, etiqueta: string}>} anillos
+ */
+export function dibujarAnillos(anillos) {
+  if (!viewer) return;
+  const capa = nuevaCapa("anillos");
+  const entidades = [];
+
+  for (const anillo of anillos) {
+    entidades.push(
+      capa.entities.add({
+        name: anillo.etiqueta,
+        polyline: {
+          positions: aPosiciones(anillo.coordenadas),
+          width: 2,
+          material: new PolylineDashMaterialProperty({
+            color: Color.fromCssColorString(COLOR_ANILLO).withAlpha(0.9),
+            dashLength: 16,
+          }),
+          clampToGround: true,
+        },
+      }),
+      capa.entities.add({
+        name: anillo.etiqueta,
+        position: Cartesian3.fromDegrees(...anillo.coordenadas[0]),
+        label: rotuloSinDistancia(anillo.etiqueta, COLOR_ANILLO),
+      })
+    );
+  }
+
+  mostrarCapaGeometria(capa, "anillos", entidades, "anillos");
+}
+
+/** Quita los anillos (salir del modo). */
+export function quitarAnillos() {
+  retirarCapaGeometria("anillos", "anillos", "anillos:quitar");
+}
+
+/**
+ * RF-9. Reemplaza las lineas de proximidad: discontinuas COLOR_CIUDAD desde el
+ * origen (la sede) hasta cada destino, con un rotulo en el punto medio.
+ *
+ * @param {{lng: number, lat: number}} origen
+ * @param {Array<{lng: number, lat: number, etiqueta: string}>} destinos
+ */
+export function mostrarLineasProximidad(origen, destinos) {
+  if (!viewer) return;
+  const capa = nuevaCapa("proximidad");
+  const entidades = [];
+
+  for (const destino of destinos) {
+    entidades.push(
+      capa.entities.add({
+        name: destino.etiqueta,
+        polyline: {
+          positions: aPosiciones([
+            [origen.lng, origen.lat],
+            [destino.lng, destino.lat],
+          ]),
+          width: 2,
+          material: new PolylineDashMaterialProperty({
+            color: Color.fromCssColorString(COLOR_CIUDAD).withAlpha(0.9),
+            dashLength: 12,
+          }),
+          clampToGround: true,
+        },
+      }),
+      capa.entities.add({
+        name: destino.etiqueta,
+        position: Cartesian3.fromDegrees(
+          (origen.lng + destino.lng) / 2,
+          (origen.lat + destino.lat) / 2
+        ),
+        label: rotuloSinDistancia(destino.etiqueta, COLOR_CIUDAD),
+      })
+    );
+  }
+
+  mostrarCapaGeometria(capa, "lineas-proximidad", entidades, "lineas-proximidad");
+}
+
+/** RF-10. Quita las lineas de proximidad y su hold. */
+export function ocultarLineasProximidad() {
+  retirarCapaGeometria("proximidad", "lineas-proximidad", "lineas-proximidad:quitar");
+}
+
 // --- Navegacion a un activo --------------------------------------------------
 
 /**
@@ -1322,7 +1702,7 @@ export function dibujarCentrales(featureCollection) {
  * Quien llama es responsable de que la capa este encendida: volar a una
  * entidad oculta no encuadra nada.
  *
- * @param {string} capa — "campos", "ductos", "downstream" o "centrales"
+ * @param {string} capa — "campos", "ductos", "downstream", "centrales", "ciudadBolivar" o "iniciativasCcieb"
  * @param {string | Array<string>} ids — id estable del activo, o varios
  * @returns {boolean} si habia algo a lo que volar
  */

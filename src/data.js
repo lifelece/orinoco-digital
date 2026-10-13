@@ -170,3 +170,211 @@ export function normalizarActivo(props = {}) {
 export function tieneProcedencia(activoNormalizado) {
   return Boolean(activoNormalizado.fuente);
 }
+
+// --- Proximidad -------------------------------------------------------------
+//
+// Calculo geodesico puro para el modo Ciudad Bolivar (E1). Todas las funciones
+// miden en linea recta sobre la esfera: no son distancias por carretera.
+
+/** Radio medio de la Tierra, en km (IUGG). */
+const RADIO_TIERRA_KM = 6371.0088;
+
+const aRadianes = (grados) => (grados * Math.PI) / 180;
+
+/** Acepta `[lng, lat]` o `{lng, lat}` y devuelve `[lng, lat]`. */
+const comoPosicion = (p) => (Array.isArray(p) ? p : [p.lng, p.lat]);
+
+/**
+ * Distancia haversine entre dos posiciones, en km (R = 6371,0088 km).
+ * @param {[number, number] | {lng: number, lat: number}} a — [lng, lat]
+ * @param {[number, number] | {lng: number, lat: number}} b — [lng, lat]
+ * @returns {number} km, en linea recta sobre la esfera
+ */
+export function haversineKm(a, b) {
+  const [lng1, lat1] = comoPosicion(a);
+  const [lng2, lat2] = comoPosicion(b);
+  const dFi = aRadianes(lat2 - lat1);
+  const dLambda = aRadianes(lng2 - lng1);
+  const h =
+    Math.sin(dFi / 2) ** 2 +
+    Math.cos(aRadianes(lat1)) * Math.cos(aRadianes(lat2)) * Math.sin(dLambda / 2) ** 2;
+  return 2 * RADIO_TIERRA_KM * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+
+/** Recorre todas las posiciones [lng, lat] de unas coordenadas GeoJSON anidadas. */
+function* posiciones(coordenadas) {
+  if (!Array.isArray(coordenadas)) return;
+  if (typeof coordenadas[0] === "number") {
+    yield coordenadas;
+    return;
+  }
+  for (const hijo of coordenadas) yield* posiciones(hijo);
+}
+
+/**
+ * Distancia minima, en km, de un punto a los VERTICES de una feature.
+ *
+ * Mide al vertice mas cercano, no al segmento ni al interior: es APROXIMADA y
+ * es el metodo con el que se fijaron los anillos (ADR-020). Sirve para Point,
+ * LineString, Polygon, MultiPoint, MultiLineString y MultiPolygon.
+ *
+ * @param {[number, number] | {lng: number, lat: number}} punto
+ * @param {{geometry?: {coordinates?: unknown}}} feature
+ * @returns {number} km; Infinity si la feature no tiene geometria utilizable
+ */
+export function distanciaMinimaKm(punto, feature) {
+  let minima = Infinity;
+  for (const posicion of posiciones(feature?.geometry?.coordinates)) {
+    const d = haversineKm(punto, posicion);
+    if (d < minima) minima = d;
+  }
+  return minima;
+}
+
+/**
+ * Los `n` campos mas cercanos a un punto, de menor a mayor distancia.
+ * No deduplica: dos registros con el mismo nombre son dos campos.
+ *
+ * @param {[number, number] | {lng: number, lat: number}} punto
+ * @param {{features: Array<Object>} | Array<Object>} campos — FeatureCollection o array de features
+ * @param {number} [n=5]
+ * @returns {Array<{id: string, nombre: string | null, km: number, confianza: string | null}>}
+ */
+export function camposMasCercanos(punto, campos, n = 5) {
+  const features = Array.isArray(campos) ? campos : campos.features;
+  return features
+    .map((f) => ({
+      id: f.properties?.id,
+      nombre: f.properties?.nombre ?? null,
+      km: distanciaMinimaKm(punto, f),
+      confianza: f.properties?.confianza ?? null,
+    }))
+    .filter((c) => Number.isFinite(c.km))
+    .sort((a, b) => a.km - b.km)
+    .slice(0, n);
+}
+
+/**
+ * Cuantos campos quedan dentro de cada anillo (acumulado: el de 200 km incluye
+ * los del de 50 km).
+ *
+ * @param {[number, number] | {lng: number, lat: number}} punto
+ * @param {{features: Array<Object>} | Array<Object>} campos — FeatureCollection o array de features
+ * @param {number[]} radiosKm
+ * @returns {Array<{km: number, campos: number}>}
+ */
+export function contarPorAnillo(punto, campos, radiosKm) {
+  const features = Array.isArray(campos) ? campos : campos.features;
+  const distancias = features.map((f) => distanciaMinimaKm(punto, f));
+  return radiosKm.map((km) => ({ km, campos: distancias.filter((d) => d <= km).length }));
+}
+
+/**
+ * Anillo cerrado de `n` vertices a `km` del centro, sobre la esfera.
+ *
+ * @param {[number, number] | {lng: number, lat: number}} centro
+ * @param {number} km
+ * @param {number} [n=128] — segmentos
+ * @returns {Array<[number, number]>} n + 1 posiciones [lng, lat]; la ultima repite la primera
+ */
+export function circuloGeodesico(centro, km, n = 128) {
+  const [lng, lat] = comoPosicion(centro);
+  const fi1 = aRadianes(lat);
+  const lambda1 = aRadianes(lng);
+  const delta = km / RADIO_TIERRA_KM;
+  const anillo = [];
+  for (let i = 0; i < n; i += 1) {
+    const rumbo = (2 * Math.PI * i) / n;
+    const fi2 = Math.asin(
+      Math.sin(fi1) * Math.cos(delta) +
+        Math.cos(fi1) * Math.sin(delta) * Math.cos(rumbo)
+    );
+    const lambda2 =
+      lambda1 +
+      Math.atan2(
+        Math.sin(rumbo) * Math.sin(delta) * Math.cos(fi1),
+        Math.cos(delta) - Math.sin(fi1) * Math.sin(fi2)
+      );
+    anillo.push([(((lambda2 * 180) / Math.PI + 540) % 360) - 180, (fi2 * 180) / Math.PI]);
+  }
+  anillo.push(anillo[0]);
+  return anillo;
+}
+
+/**
+ * Vertice de la feature mas cercano al punto y su distancia.
+ * Mismo metodo (y mismo km) que `distanciaMinimaKm`: sirve para dibujar la
+ * linea de proximidad hasta el punto que se midio, no hasta otro.
+ *
+ * @param {[number, number] | {lng: number, lat: number}} punto
+ * @param {{geometry?: {coordinates?: unknown}} | null | undefined} feature
+ * @returns {{posicion: [number, number], km: number} | null} null sin geometria utilizable
+ */
+export function verticeMasCercano(punto, feature) {
+  let mejor = null;
+  for (const posicion of posiciones(feature?.geometry?.coordinates)) {
+    const km = haversineKm(punto, posicion);
+    if (!mejor || km < mejor.km) mejor = { posicion: [posicion[0], posicion[1]], km };
+  }
+  return mejor;
+}
+
+/**
+ * Elementos por `properties.clase`; 0 para las clases sin elementos.
+ * Las clases que no estan en `clases` no se cuentan.
+ *
+ * @param {Array<{properties?: {clase?: string}}>} features
+ * @param {string[]} clases
+ * @returns {Object<string, number>}
+ */
+export function contarPorClase(features, clases) {
+  const conteo = Object.fromEntries(clases.map((clase) => [clase, 0]));
+  for (const f of features) {
+    const clase = f.properties?.clase;
+    if (Object.hasOwn(conteo, clase)) conteo[clase] += 1;
+  }
+  return conteo;
+}
+
+/**
+ * Semilla de iniciativas -> FeatureCollection SIN geometria (RFC 7946 §3.2),
+ * una feature por iniciativa. Solo para listas: no pasa por
+ * `validarFeatureCollection` (que descarta lo que no tiene geometria) ni
+ * llega a map.js. Los textos se copian tal cual.
+ *
+ * @param {{iniciativas?: Array<Object>, ultima_verificacion?: string} | null} semilla
+ * @returns {{type: "FeatureCollection", features: Array<Object>}}
+ */
+export function iniciativasSinGeometria(semilla) {
+  const lista = Array.isArray(semilla?.iniciativas) ? semilla.iniciativas : [];
+  return {
+    type: "FeatureCollection",
+    features: lista.map((i) => ({
+      type: "Feature",
+      geometry: null,
+      properties: {
+        id: i.id,
+        nombre: i.nombre,
+        fecha: i.fechas ?? i.fecha_fuente ?? null,
+        fecha_fuente: i.fecha_fuente ?? null,
+        fuente: i.fuente ?? null,
+        en_mapa: i.ubicacion?.osm != null,
+        ultima_verificacion: semilla.ultima_verificacion ?? null,
+      },
+    })),
+  };
+}
+
+/**
+ * Posicion {lng, lat} de una feature: la del punto, o la primera de su
+ * geometria. Sirve para usar la sede de la capa como origen sin escribir sus
+ * coordenadas a mano.
+ *
+ * @param {{geometry?: {coordinates?: unknown}} | null | undefined} feature
+ * @returns {{lng: number, lat: number} | null}
+ */
+export function posicionDe(feature) {
+  const coords = feature?.geometry?.coordinates;
+  const primera = coords ? primeraPosicion(coords) : null;
+  return primera ? { lng: primera[0], lat: primera[1] } : null;
+}
