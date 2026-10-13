@@ -293,3 +293,44 @@ test("RF-33: el UID es estable, lleva @orinoco-digital y es distinto en cada ses
   // el UID del .ics es el de la sesion
   assert.ok(generarIcs(s, dia("2026-10-16"), null, GENERADO).includes(`UID:${uidSesion(dia("2026-10-16"), s)}\r\n`));
 });
+
+// --- E4.1: memoria del evento (RF-21) ---------------------------------------
+
+import { presentacionEvento, mostrarEtiquetaAhora } from "../src/expofaja/agenda.js";
+
+test("E4.1/RF-21: despues del cierre no hay calendario, etiqueta Ahora ni reloj; la franja es Resumen", () => {
+  for (const hora of ["2026-10-17T20:00", "2026-10-18T10:00", "2027-01-05T09:00"]) {
+    const p = presentacionEvento(agenda, caracas(hora));
+    assert.deepEqual(
+      { estado: p.estado, celebrado: p.celebrado, franja: p.franja, calendario: p.calendario, etiquetaAhora: p.etiquetaAhora, reloj: p.reloj },
+      { estado: "despues", celebrado: true, franja: "resumen", calendario: false, etiquetaAhora: false, reloj: false },
+      hora,
+    );
+  }
+});
+
+test("E4.1: antes y durante conservan Ahora/Siguiente, calendario y reloj", () => {
+  for (const [hora, estado] of [["2026-10-14T09:00", "antes"], ["2026-10-16T10:30", "durante"], ["2026-10-17T19:59", "durante"]]) {
+    const p = presentacionEvento(agenda, caracas(hora));
+    assert.equal(p.estado, estado, hora);
+    assert.deepEqual([p.celebrado, p.franja, p.calendario, p.etiquetaAhora, p.reloj], [false, "ahoraSiguiente", true, true, true], hora);
+  }
+});
+
+test("E4.1: la etiqueta Ahora no aparece despues aunque la hora caiga dentro de una sesion; en vivo si", () => {
+  const d = dia("2026-10-16");
+  const ponencia = d.sesiones.find((s) => s.tipo !== "exposicion" && s.inicio && s.fin);
+  const dentro = caracas(`2026-10-16T${ponencia.inicio}`);
+  assert.equal(mostrarEtiquetaAhora(agenda, d, ponencia, dentro), true);
+  const despues = caracas("2026-10-18T10:00");
+  for (const dd of agenda.dias) {
+    for (const s of dd.sesiones) assert.equal(mostrarEtiquetaAhora(agenda, dd, s, despues), false);
+  }
+});
+
+test("E4.1: el modo sale de ?ahora= simulado en desarrollo y se ignora en produccion", () => {
+  const sim = leerAhora("?ahora=2026-10-18T10:00", true, () => caracas("2026-10-14T09:00"));
+  assert.equal(presentacionEvento(agenda, sim).celebrado, true);
+  const prod = leerAhora("?ahora=2026-10-18T10:00", false, () => caracas("2026-10-14T09:00"));
+  assert.equal(presentacionEvento(agenda, prod).celebrado, false);
+});

@@ -29,6 +29,15 @@ hidrocarburos venezolanos:
 
 Todo dato visible es rastreable hasta una fuente publica documentada.
 
+## Ciudad Bolivar y ExpoFaja 2026
+
+El mapa abre en **Ciudad Bolivar** (`/?modo=ciudadBolivar`): anillos de
+distancia a los campos petroleros (63 de 105 a menos de 200 km en linea recta),
+95 servicios de OpenStreetMap y los 5 campos mas cercanos a la sede. Para la
+ExpoFaja 2026 de la CCIEB hay ademas un micrositio de agenda (`/expofaja/`) y un
+embed para su web. Que se pidio, que se construyo, cifras, decisiones y
+pendientes, en espanol e ingles: [docs/expofaja/MEMORIA.md](docs/expofaja/MEMORIA.md).
+
 ## Que NO es
 
 No es una fuente oficial, no es asesoria de inversion, no contiene informacion
@@ -129,3 +138,35 @@ Codigo bajo [Apache-2.0](LICENSE). Datos originales bajo
 ---
 
 Hecho en Venezuela por Luis Carlos Vasquez.
+
+---
+
+## English summary
+
+**Orinoco Digital** is an open-source 3D digital twin of Venezuela's oil and gas
+industry (Orinoco Belt, midstream, downstream) on real terrain, built only on
+public, traceable data. It is not an official source or investment advice; read
+[DISCLAIMER.md](DISCLAIMER.md).
+
+- **Layers:** upstream (105 oil and gas fields, Global Energy Monitor), midstream
+  (346 pipelines and 25 tank farms, OpenStreetMap), downstream (refineries,
+  petrochemical and gas plants, terminals), context (borders, rivers, place
+  names, 43 power plants from WRI) and a clearly labeled **DEMO** AI layer.
+- **Stack:** Vanilla JS (ES modules), Vite 7, Tailwind CSS 4, CesiumJS with Cesium
+  ion, static GeoJSON versioned in Git, deployed on Vercel. Tests with
+  `node:test`, no extra dependencies. UI in Spanish and English.
+- **Ciudad Bolivar and ExpoFaja 2026:** the map opens on Ciudad Bolivar
+  (`/?modo=ciudadBolivar`) with distance rings (63 of 105 fields within 200 km in
+  a straight line), 95 OpenStreetMap services and the 5 fields closest to the
+  venue. For the CCIEB's ExpoFaja 2026 there is also a schedule microsite
+  (`/expofaja/`) and an embed for the CCIEB website. What was asked, built,
+  measured and decided, in Spanish and English:
+  [docs/expofaja/MEMORIA.md](docs/expofaja/MEMORIA.md).
+- **Licenses:** code under [Apache-2.0](LICENSE); original data under
+  [CC BY 4.0](LICENSE-DATA); third-party data (OpenStreetMap ODbL, Global Energy
+  Monitor CC BY 4.0, Cesium terrain) keeps its own license, listed in
+  [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Third-party marks used at the
+  event are not covered by either license.
+- **Links:** [live site](https://orinoco-digital.vercel.app) ·
+  [docs/PLAN.md](docs/PLAN.md) · [CONTRIBUTING.md](CONTRIBUTING.md) ·
+  [docs/expofaja/MEMORIA.md](docs/expofaja/MEMORIA.md)
