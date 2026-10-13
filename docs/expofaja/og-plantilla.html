@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+  Plantilla de la imagen Open Graph del micrositio (1200x630).
+  La renderiza scripts/expofaja-og.mjs con un navegador headless y la guarda en
+  public/expofaja/og.png. Colores: tokens ef-* de 02-IDENTIDAD-VISUAL.md §5.
+  Logos tal cual (public/expofaja/marcas/, autorizados por la CCIEB 2026-10-12).
+-->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: #014655;
+        color: #ffffff;
+        font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+        position: relative;
+      }
+      .franja { position: absolute; left: 0; right: 0; height: 10px; }
+      .franja.sup { top: 0; background: #ffa201; }
+      .franja.inf { bottom: 0; background: #58a51e; }
+      .rio { position: absolute; left: 0; right: 0; bottom: 10px; height: 6px; background: #04d5d6; }
+      .contenido { position: absolute; inset: 64px 72px 72px; display: flex; flex-direction: column; }
+      .comarca { display: flex; align-items: center; gap: 28px; }
+      .orinoco { font-size: 34px; font-weight: 700; letter-spacing: -0.01em; }
+      .por { font-size: 34px; color: #04d5d6; font-weight: 300; }
+      .logo-expo { height: 132px; width: auto; }
+      h1 { margin-top: 44px; font-size: 64px; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
+      .datos { margin-top: 22px; font-size: 30px; line-height: 1.4; color: #e6f7f7; }
+      .datos b { color: #ffffff; }
+      .pie { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
+      .temas { font-size: 26px; color: #04d5d6; font-weight: 600; }
+      .organiza { display: flex; align-items: center; gap: 16px; font-size: 20px; color: #e6f7f7; }
+      .organiza img { height: 84px; width: 84px; }
+      .organiza img.alcaldia { width: auto; background: #ffffff; border-radius: 8px; padding: 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="franja sup"></div>
+    <div class="contenido">
+      <div class="comarca">
+        <span class="orinoco">Orinoco Digital</span>
+        <span class="por">×</span>
+        <img class="logo-expo" src="../../public/expofaja/marcas/expofaja-sobre-oscuro.webp" alt="ExpoFaja Ciudad Bolívar 2026" />
+      </div>
+      <h1>Agenda, ponentes y mapa</h1>
+      <p class="datos"><b>15, 16 y 17 de octubre de 2026</b><br />Museo de Arte Moderno Jesús Soto · Ciudad Bolívar</p>
+      <div class="pie">
+        <span class="temas">Ahora / Siguiente · Ciudad Bolívar en 3D</span>
+        <span class="organiza">Organizan <img src="../../public/expofaja/marcas/ccieb.webp" alt="CCIEB" /><img class="alcaldia" src="../../public/expofaja/marcas/alcaldia-angostura-del-orinoco.webp" alt="Alcaldía de Angostura del Orinoco" /></span>
+      </div>
+    </div>
+    <div class="rio"></div>
+    <div class="franja inf"></div>
+  </body>
+</html>

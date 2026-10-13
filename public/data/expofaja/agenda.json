@@ -1,0 +1,198 @@
+{
+  "fuente": "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12)",
+  "ultima_verificacion": "2026-10-12",
+  "dias": [
+    {
+      "fecha": "2026-10-15",
+      "nombre": "Jueves 15 de octubre",
+      "eje": "Acto de inauguración",
+      "sesiones": [
+        {
+          "inicio": "17:00",
+          "fin": "20:00",
+          "tipo": "protocolo",
+          "titulo": "Acto de inauguración: corte de cinta, recorrido institucional por el área expositiva, acto cultural y brindis",
+          "nota": "Lugar: Lobby del Museo de Arte Moderno Jesús Soto"
+        }
+      ]
+    },
+    {
+      "fecha": "2026-10-16",
+      "nombre": "Viernes 16 de octubre",
+      "eje": "1er ciclo de conferencias — Mercados internacionales",
+      "sesiones": [
+        {
+          "inicio": "08:00",
+          "fin": "20:00",
+          "tipo": "exposicion",
+          "titulo": "Apertura de exposiciones en áreas asignadas"
+        },
+        {
+          "inicio": "09:00",
+          "fin": "10:00",
+          "tipo": "ponencia",
+          "titulo": "Geoestructura petrolera internacional y el desarrollo industrial venezolano",
+          "ponente_id": "alfredo-ordonez-lopez",
+          "sala": "Sala 5"
+        },
+        {
+          "inicio": "10:00",
+          "fin": "11:00",
+          "tipo": "ponencia",
+          "titulo": "Atracción de la inversión privada y las políticas públicas",
+          "ponente_id": "julio-perez-graterol",
+          "sala": "Sala 5"
+        },
+        {
+          "inicio": "11:00",
+          "fin": "12:00",
+          "tipo": "ponencia",
+          "titulo": "El futuro de la Faja Petrolífera del Orinoco frente a los desafíos de la economía venezolana en la actualidad",
+          "ponente_id": "jesus-farias",
+          "sala": "Sala 5",
+          "nota": "El PDF dice '11:00 AM - 12:00 AM' (errata). Sala inferida por la maquetacion."
+        },
+        {
+          "inicio": "12:00",
+          "fin": "14:00",
+          "tipo": "pausa",
+          "titulo": "Pausa / coffee break",
+          "nota": "El PDF dice '12:00 AM - 2:00 PM' (errata)"
+        },
+        {
+          "inicio": "14:00",
+          "fin": "15:00",
+          "tipo": "ponencia",
+          "titulo": "La inteligencia artificial y la ciberseguridad en el campo comercial",
+          "ponente_id": "jehyson-guzman",
+          "sala": "Sala 5",
+          "nota": "Sala inferida por la maquetacion"
+        },
+        {
+          "inicio": "15:00",
+          "fin": "16:00",
+          "tipo": "ponencia",
+          "titulo": "El desafío energético: generar valor en la industria petrolera, gerenciando los riesgos de manera inteligente",
+          "ponente_id": "jose-manuel-linares-gabaldon",
+          "sala": "Sala 5",
+          "nota": "Sala inferida por la maquetacion"
+        },
+        {
+          "inicio": "16:00",
+          "fin": "17:00",
+          "tipo": "mesa",
+          "titulo": "Mesa de trabajo: la academia y las empresas petroleras, participación especial de exponentes",
+          "sala": "Sala 5",
+          "nota": "Sala inferida por la maquetacion"
+        },
+        {
+          "inicio": "17:00",
+          "fin": "17:30",
+          "tipo": "ponencia",
+          "titulo": "Ponencia libre: Toxicología del crudo extrapesado, impacto en la salud y el ambiente",
+          "ponente_id": "yolangel-hernandez",
+          "sala": "Sala 6"
+        },
+        {
+          "inicio": "17:30",
+          "fin": "18:00",
+          "tipo": "ponencia",
+          "titulo": "Ponencia libre: Estado Bolívar, epicentro de transformación y oportunidades asociadas a la minería no metálica",
+          "ponente_id": "armando-jhon-madero",
+          "sala": "Sala 6"
+        },
+        {
+          "inicio": "19:00",
+          "fin": "20:00",
+          "tipo": "protocolo",
+          "titulo": "Cierre de la jornada"
+        }
+      ]
+    },
+    {
+      "fecha": "2026-10-17",
+      "nombre": "Sábado 17 de octubre",
+      "eje": "2do ciclo de conferencias — Marco legal, análisis geopolítico, energético y mercados internacionales",
+      "sesiones": [
+        {
+          "inicio": "08:00",
+          "fin": "20:00",
+          "tipo": "exposicion",
+          "titulo": "Apertura de exposiciones en áreas asignadas"
+        },
+        {
+          "inicio": "09:00",
+          "fin": "10:00",
+          "tipo": "ponencia",
+          "titulo": "Venezuela en el marco del petróleo internacional",
+          "ponente_id": "german-jose-marquez-gil",
+          "sala": "Sala 5"
+        },
+        {
+          "inicio": "10:00",
+          "fin": "11:00",
+          "tipo": "ponencia",
+          "titulo": "Golpe y contragolpe de la Ley Orgánica de Hidrocarburos en Venezuela",
+          "ponente_id": "rolin-iguaran-valdeblanquez",
+          "sala": "Sala 5"
+        },
+        {
+          "inicio": "11:00",
+          "fin": "12:00",
+          "tipo": "ponencia",
+          "titulo": "Ciudad Bolívar petrolera: un hub estratégico desde el punto de vista logístico, operacional y económico para la Faja Petrolífera del Orinoco",
+          "ponente_id": "ramiro-royero",
+          "sala": "Sala 5"
+        },
+        {
+          "inicio": "12:00",
+          "fin": "14:00",
+          "tipo": "pausa",
+          "titulo": "Pausa / coffee break",
+          "nota": "El PDF dice '12:00 AM - 2:00 PM' (errata)"
+        },
+        {
+          "inicio": "14:00",
+          "fin": "15:00",
+          "tipo": "ponencia",
+          "titulo": "Sembrando el petróleo o efectos colaterales del desarrollo socioeconómico",
+          "ponente_id": "alejandro-teran-martinez",
+          "sala": "Sala 5",
+          "nota": "Sala inferida por la maquetacion"
+        },
+        {
+          "inicio": "15:00",
+          "fin": "16:00",
+          "tipo": "ponencia",
+          "titulo": "Agenda energética bilateral Venezuela–EE. UU.",
+          "ponente_id": "carlos-e-sanchez-p",
+          "sala": "Sala 5",
+          "nota": "Sala inferida por la maquetacion"
+        },
+        {
+          "inicio": "16:00",
+          "fin": "17:00",
+          "tipo": "mesa",
+          "titulo": "Mesa técnica de diálogo intersectorial: encuentro entre ponentes invitados, afiliados a la Cámara y expositores",
+          "sala": "Sala 5",
+          "nota": "Sala inferida por la maquetacion"
+        },
+        {
+          "inicio": "17:00",
+          "fin": "17:30",
+          "tipo": "ponencia",
+          "titulo": "Ponencia libre: El potencial de la Faja Petrolífera del Orinoco en el estado Anzoátegui",
+          "ponente_id": "william-hernandez",
+          "sala": "Sala 6"
+        },
+        {
+          "inicio": null,
+          "fin": null,
+          "tipo": "protocolo",
+          "titulo": "Ceremonia de clausura, acto cultural y cierre oficial del evento",
+          "nota": "El PDF no da hora"
+        }
+      ]
+    }
+  ]
+}

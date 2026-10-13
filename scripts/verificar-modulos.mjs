@@ -51,6 +51,9 @@ const PERMITE_CESIUM = new Set(["map.js"]);
  */
 const RE_IMPORT_CESIUM = /\bimport\b[^;\n]*["']cesium(?:\/[^"']*)?["']/;
 
+/** Import de map.js (que arrastra Cesium), estatico o dinamico. */
+const RE_IMPORT_MAP = /\bimport\b[^;\n]*["'][^"']*\bmap(?:\.js)?["']/;
+
 /** Llamada a fetch(. La interfaz no hace red (CLAUDE.md, fila de ui.js). */
 const RE_FETCH = /\bfetch\s*\(/;
 
@@ -61,6 +64,7 @@ const RE_FETCH = /\bfetch\s*\(/;
  */
 const RE_RUTA_MARCAS = /\/expofaja\/marcas\//;
 const PERMITE_RUTA_MARCAS = new Set(["config.js"]);
+// El micrositio src/expofaja/ si muestra marcas: es la vitrina del evento (02 §4.2).
 
 /** Uso de MARCAS_MODO: solo la cabecera DOM del modo lo importa. */
 const RE_USA_MARCAS_MODO = /\bMARCAS_MODO\b/;
@@ -102,7 +106,20 @@ function verificar() {
       );
     }
 
-    if (RE_RUTA_MARCAS.test(contenido) && !PERMITE_RUTA_MARCAS.has(rel)) {
+    if (rel.startsWith("expofaja/") && RE_IMPORT_MAP.test(contenido)) {
+      errores.push(
+        `src/${rel}: importa map.js. El micrositio no carga Cesium (ADR-020).`
+      );
+    }
+
+    if (rel === "expofaja/vista.js" && RE_FETCH.test(contenido)) {
+      errores.push(
+        `src/${rel}: usa fetch(. La vista no hace red; los datos llegan desde main.js.`
+      );
+    }
+
+    const esMicrositio = rel.startsWith("expofaja/");
+    if (RE_RUTA_MARCAS.test(contenido) && !PERMITE_RUTA_MARCAS.has(rel) && !esMicrositio) {
       errores.push(
         `src/${rel}: contiene una ruta de /expofaja/marcas/. Solo config.js ` +
           `declara los logos (MARCAS_MODO); la marca no va en el mapa (ADR-020).`

@@ -521,3 +521,29 @@ export const FUENTES = [
 
 export const IDIOMA_POR_DEFECTO = "es";
 export const IDIOMAS = ["es", "en"];
+
+// --- Micrositio ExpoFaja (E2, ADR-020 pieza 3) -------------------------------
+
+/** true solo en `vite dev`. Habilita ?ahora= para simular la hora (spec 002, RF-23/24). */
+export const MODO_DESARROLLO = import.meta.env.DEV === true;
+
+/** Datos del micrositio: copias de docs/expofaja/semillas/ (npm run data:expofaja). */
+export const RUTAS_EXPOFAJA = {
+  evento: "/data/expofaja/evento.json",
+  agenda: "/data/expofaja/agenda.json",
+  ponentes: "/data/expofaja/ponentes.json",
+  aliados: "/data/expofaja/aliados.json",
+  manifiesto: "/data/expofaja/marcas-manifiesto.json",
+  noticias: "/data/expofaja/noticias.json",
+  iniciativas: "/data/expofaja/iniciativas-ccieb.json",
+  resumen: "/data/ciudad-bolivar-resumen.json",
+};
+
+/** Desfase de la hora del evento: Venezuela, UTC-04:00 fijo, sin horario de verano. */
+export const DESFASE_EVENTO = "-04:00";
+
+/** Unico origen al que el modo embed envia la altura por postMessage (nunca "*"). */
+export const ORIGEN_CCIEB = "https://camaradecomerciobolivar.org";
+
+/** Deep-link del boton "Ver Ciudad Bolivar en 3D" (E1). */
+export const URL_MAPA_CIUDAD = "/?modo=ciudadBolivar";

@@ -1,0 +1,488 @@
+{
+  "fuentes": [
+    "CCIEB, Brochure ExpoFaja 2026 (PDF, 10 paginas, mod. 2026-08-26) p.10",
+    "https://camaradecomerciobolivar.org/expofaja/ (consultada 2026-10-12, modificada 2026-10-09)",
+    "CCIEB, Programacion oficial ExpoFaja 2026 (PDF de 2 paginas recibido por Luis el 2026-10-12) (pie)"
+  ],
+  "ultima_verificacion": "2026-10-12",
+  "institucionales": [
+    {
+      "nombre": "Cámara de Comercio e Industrias del Estado Bolívar",
+      "rubro": "organizador",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/cropped-logo-Camara-de-comercio-fdot-nvo5.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Alcaldía de Angostura del Orinoco",
+      "rubro": "co-organizador",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/alcaldia-angostura-del-orinoco.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Gobernación del Estado Bolívar",
+      "rubro": "apoyo institucional",
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/gobernacion-logo.webp",
+      "nombre_confirmado": true,
+      "nota": "En el pie del programa y en la web"
+    },
+    {
+      "nombre": "Museo de Arte Moderno Jesús Soto",
+      "rubro": "sede",
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/Logo-Museo-Jesus-Soto-2016.jpg-768x415.webp",
+      "nombre_confirmado": true
+    }
+  ],
+  "aliados_comerciales": [
+    {
+      "nombre": "Construir",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/construir.jpg",
+      "nombre_confirmado": true,
+      "nota": "En el brochure se lee 'constru-ir'"
+    },
+    {
+      "nombre": "Cauchos DV Store 4Wheels",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": false,
+      "logo_web": null,
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Parke 52 (Puerto Ordaz)",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": false,
+      "logo_web": null,
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Chocolate Color",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-CHOCOLATE-COLOR-768x435.png",
+      "nombre_confirmado": true,
+      "nota": "En el brochure el logo dice 'Chocolate Cafe'"
+    },
+    {
+      "nombre": "Tornillería del Sur JG, C.A.",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/tornilleria-del-sur-768x306.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Ledezma Asesores Inmobiliarios & Financieros",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": false,
+      "logo_web": null,
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Hotel Laja Real",
+      "rubro": "hotel",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/472aedab-efb4-4543-b008-af06bf3771d7-768x768.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "R&S Distribuciones",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2025-11-19-at-11.02.13-AM-3-768x768.jpeg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Calazán (ron añejo premium)",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-PNG.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Panadería República",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/IMG-20250702-WA0367.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Arco Iris C.A. (agencia de festejos)",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2025-11-19-at-11.02.02-AM-1-Photoroom-1-768x768.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Farmacia Lucas 2413, C.A.",
+      "rubro": "salud",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/farmacia-lucas.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Centro Médico Orinoco, C.A.",
+      "rubro": "salud",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/CMO-PNG-768x307.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Servicios Exequiales La Fe, C.A.",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/la-fe-1-768x517.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Distribuidora Prasan",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/prasan.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Sonidos Guayana",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/Imagen-de-WhatsApp-2025-04-29-a-las-17.13.23_a186a3a4-768x768.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "[ALI — nombre por confirmar]",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/IMG_5320-1-768x768.png",
+      "nombre_confirmado": false,
+      "nota": "alt='ali'. El texto circular del logo no es legible con certeza en el brochure"
+    },
+    {
+      "nombre": "Distribuidora de Licores La Rumbera",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-rumbera-768x405.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Tealca",
+      "rubro": "logistica",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-TEALCA-SIN-FONDO-768x553.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "MOY Publicidad",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/Recurso-1logo-moy-1-768x600.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "EuroBrands",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/EUROBRANDS-1.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Kuravaina Tours",
+      "rubro": "turismo",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/kuravaina-768x422.jpeg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "DPH",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/logo-c-rif.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Centro Clínico Andrés Bello, C.A.",
+      "rubro": "salud",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/CC-andres-bello-768x478.jpeg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Tigasco Gas Licuado, C.A.",
+      "rubro": "energia",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/LOGO-TIGASCO-PARA-USO-COMERCIAL-1-768x696.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "M Lourd",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2026-08-25-at-12.08.49-AM-768x741.jpeg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Lavanclean Group, C.A.",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/WhatsApp-Image-2025-03-19-at-7.45.10-PM-1-768x622.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Entre Copas y Panas",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/ecyp-768x768.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Liberal Trade",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/liberal-trade-768x396.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Pinturas del Pueblo",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/PINTURAS-DEL-PUEBLO-768x726.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "SITEG",
+      "rubro": "tecnologia",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/siteg-1-768x669.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Bodegón El Andinito",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/bodegon-el-andinito.jpg",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Medic Semka",
+      "rubro": "salud",
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/semka-768x576.png",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "[logo circular 'C' — nombre por confirmar]",
+      "rubro": null,
+      "en_brochure": true,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/CCARDENAS-768x768.png",
+      "nombre_confirmado": false,
+      "nota": "Archivo 'CCARDENAS' en la web; no asumir el nombre"
+    },
+    {
+      "nombre": "Megafibra",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/megafibra-768x746.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "La Mundial de Seguros",
+      "rubro": "seguros",
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/la-mundial-seguros-768x768.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Ferretería Prince",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/ferreteria-prince-768x728.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Toxacademy",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/toxacademy-768x741.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Pintica",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/pintica-768x237.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Pirámide",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/piramide-768x802.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Única",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/unica-768x739.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Fundaudo",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/fundaudo.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Seguros CCS",
+      "rubro": "seguros",
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/seguros-ccs-768x754.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Constructora Getsemaní",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/construtora-getsemani-768x788.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "LAE",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/lae-768x745.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Naviera",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/naviera-768x795.webp",
+      "nombre_confirmado": false,
+      "nota": "Nombre del archivo; nombre completo por confirmar"
+    },
+    {
+      "nombre": "Sitelca",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/sitelca.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Oceánica de Seguros",
+      "rubro": "seguros",
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/oceanica-de-seguros-768x799.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Ronalca",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/ronalca-768x497.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Service Torres",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/service-torres-768x769.webp",
+      "nombre_confirmado": true
+    },
+    {
+      "nombre": "Corporación CMT de Venezuela",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/09/cmt-768x387.png",
+      "nombre_confirmado": true,
+      "nota": "Tambien en el pie del programa"
+    },
+    {
+      "nombre": "Multisumi, C.A.",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": true,
+      "logo_web": "https://camaradecomerciobolivar.org/wp-content/uploads/2026/10/multisumi-768x768.webp",
+      "nombre_confirmado": true,
+      "nota": "Tambien en el pie del programa"
+    },
+    {
+      "nombre": "Don Ventura (por confirmar)",
+      "rubro": null,
+      "en_brochure": false,
+      "en_web": false,
+      "logo_web": null,
+      "nombre_confirmado": false,
+      "nota": "Logo en el pie del programa; lectura dudosa"
+    }
+  ],
+  "sin_identificar_en_web": [
+    "2026/10/mobiliario-b-768x702.webp",
+    "2026/09/LOGO-CON-SLOGAN-MEJORADO-JPEG-768x384.jpg",
+    "2026/10/5064704982992489545-e1791560412581-768x200.webp",
+    "2026/09/WhatsApp-Image-2026-08-28-at-9.01.55-AM-768x230.jpeg",
+    "2026/10/5064704982992489546-768x821.webp",
+    "2026/10/5064372762977176650-e1791560155775-768x674.webp",
+    "2026/09/611740442_18042456842707495_4116866776014132057_n-1.jpg",
+    "2026/10/WhatsApp-Image-2026-05-19-at-8.13.11-PM-2-convertido-a-pequeno-e1791556576169.webp",
+    "2026/10/5064704982992489544-768x739.webp"
+  ]
+}
