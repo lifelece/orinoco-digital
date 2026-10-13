@@ -1102,7 +1102,7 @@ reales y cifras en monoespaciada. Luis la aprobo el 2026-10-13.
    (`cubic-bezier(.2,.7,.2,1)`, sin rebotes): `--dur-instante` 90 ms (hover,
    foco), `--dur-rapido` 180 ms (paneles), `--dur-medio` 260 ms (filas),
    `--dur-trazo` 400 ms (dibujar la regla), `--dur-contador` 600 ms (countUp, una
-   vez), `--dur-vuelo` 3000 ms (camara; ya vive en `config.js`, se documenta
+   vez), `--dur-vuelo` 3000 ms (camara; ya vive en `config.js` como `duracionVuelo`, 3 s, se documenta
    aqui). Se mueve para orientar o para presentar un dato una vez; lo unico en
    bucle es la barra de carga. `prefers-reduced-motion` lo apaga todo.
 4. **Familia de iconos de ciudad**: cuadricula de 24 px, trazo de 1,5 px,

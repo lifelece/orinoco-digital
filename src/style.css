@@ -21,6 +21,11 @@
   --color-refino: #b388ff;
   --color-activo: #3fb950;
   --color-alerta: #f85149;
+  /* Identidad "instrumento de cuenca" (ADR-021). tinta: texto permitido (7,15:1
+     sobre shell). tinta-baja: SOLO lineas (2,36:1), nunca texto. Ninguna de las
+     dos pinta marcadores, capas ni leyendas de datos. */
+  --color-tinta: #7fa3b5;
+  --color-tinta-baja: #3a5266;
 
   /* Sin fuentes web: cada KB cuenta en una red movil venezolana, y la pila del
      sistema ya da una monoespaciada digna en todas las plataformas. Los numeros
@@ -28,15 +33,24 @@
   --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Roboto Mono",
     Menlo, Consolas, monospace;
 
-  --animate-entrar: entrar-lateral 180ms ease-out;
-  --animate-subir: entrar-inferior 180ms ease-out;
+  /* Duraciones con nombre y una sola curva de frenado, sin rebotes (ADR-021).
+     dur-vuelo (3 s) es config.js -> duracionVuelo: lo usa Cesium, no el CSS. */
+  --dur-instante: 90ms;
+  --dur-rapido: 180ms;
+  --dur-medio: 260ms;
+  --dur-trazo: 400ms;
+  --dur-contador: 600ms;
+  --ease-cuenca: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-entrar: entrar-lateral var(--dur-rapido) ease-out;
+  --animate-subir: entrar-inferior var(--dur-rapido) ease-out;
   --animate-indeterminada: barra-indeterminada 1.4s ease-in-out infinite;
   /* Adelanto de M3 (paquete visual, ver docs/DECISIONS.md -> ADR-018): entrada
      escalonada de las filas del panel de capas y "dibujado" de las muestras de
      linea de la leyenda. Cortas (<=600ms) y con el mismo ease-out que ya usan
      entrar-lateral/entrar-inferior arriba. */
-  --animate-fila-entra: fila-entra 260ms ease-out both;
-  --animate-linea-dibujar: linea-dibujar 400ms ease-out both;
+  --animate-fila-entra: fila-entra var(--dur-medio) ease-out both;
+  --animate-linea-dibujar: linea-dibujar var(--dur-trazo) ease-out both;
 
   @keyframes entrar-lateral {
     from {
@@ -124,7 +138,7 @@ body {
    la capa base, para que una utilidad concreta pueda sustituirlo si hace falta. */
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--color-gas);
+    outline: 2px solid var(--color-tinta);
     outline-offset: 2px;
   }
 }
