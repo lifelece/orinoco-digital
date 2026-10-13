@@ -1,0 +1,66 @@
+<!doctype html>
+<!--
+  Pagina de prueba de E3: simula la pagina /expofaja/ del WordPress de la CCIEB
+  con el snippet EXACTO que recibe su administrador (E3-EMBED-WORDPRESS.md).
+
+  Uso:
+  - Abrirla desde disco o desde cualquier dominio que no sea la CCIEB: el iframe
+    NO debe cargar (frame-ancestors lo impide). Esa es la prueba negativa.
+  - ?src=<url> cambia el origen del iframe (p. ej. http://localhost:4173/expofaja/?embed=1
+    con `npm run preview`, que no aplica las cabeceras de vercel.json: ahi si carga
+    y sirve para ver el modo embed a 390 px).
+  - La altura automatica solo llega si esta pagina se sirve desde la CCIEB: el
+    micrositio envia postMessage unicamente a https://camaradecomerciobolivar.org.
+-->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Prueba del embed ExpoFaja (simula el WordPress de la CCIEB)</title>
+    <style>
+      body { margin: 0; font-family: system-ui, sans-serif; background: #f2f6f7; color: #014655; }
+      .simulado { padding: 16px; border-bottom: 1px solid #ccd; background: #fff; }
+      .simulado h1 { margin: 0 0 4px; font-size: 18px; }
+      .simulado p { margin: 0; font-size: 13px; color: #3b5560; }
+      #programafaja { padding: 16px 0; }
+    </style>
+  </head>
+  <body>
+    <div class="simulado">
+      <h1>Pagina simulada: camaradecomerciobolivar.org/expofaja/</h1>
+      <p>Seccion "Sobre el evento" de la CCIEB. Debajo va el widget HTML de Elementor (ID CSS <code>programafaja</code>).</p>
+    </div>
+
+    <section id="programafaja">
+      <!-- INICIO del snippet exacto de E3-EMBED-WORDPRESS.md -->
+      <div style="max-width:1200px;margin:0 auto;">
+        <iframe
+          id="orinoco-expofaja"
+          src="https://orinoco-digital.vercel.app/expofaja/?embed=1"
+          title="ExpoFaja Ciudad Bolivar 2026: agenda, ponentes y mapa de Ciudad Bolivar"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          style="width:100%;height:1800px;border:0;border-radius:12px;display:block;">
+        </iframe>
+      </div>
+      <script>
+        // Ajusta la altura del iframe a su contenido. Solo acepta mensajes de
+        // orinoco-digital.vercel.app.
+        window.addEventListener("message", function (e) {
+          if (e.origin !== "https://orinoco-digital.vercel.app") return;
+          if (!e.data || e.data.tipo !== "expofaja:altura") return;
+          var f = document.getElementById("orinoco-expofaja");
+          if (f) f.style.height = Math.ceil(e.data.altura) + "px";
+        });
+      </script>
+      <!-- FIN del snippet -->
+    </section>
+
+    <script>
+      // Solo para pruebas locales: ?src= sustituye el origen del iframe.
+      var otro = new URLSearchParams(location.search).get("src");
+      if (otro) document.getElementById("orinoco-expofaja").src = otro;
+    </script>
+  </body>
+</html>
