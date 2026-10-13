@@ -54,6 +54,15 @@ const RE_IMPORT_CESIUM = /\bimport\b[^;\n]*["']cesium(?:\/[^"']*)?["']/;
 /** Import de map.js (que arrastra Cesium), estatico o dinamico. */
 const RE_IMPORT_MAP = /\bimport\b[^;\n]*["'][^"']*\bmap(?:\.js)?["']/;
 
+/**
+ * Import ESTATICO de map.js (`import ... from "./map.js"` o `import "./map.js"`).
+ * Desde ADR-022 nadie lo hace: main.js lo trae con `import("./map.js")`
+ * dinamico tras el primer pintado y ui.js habla con el mapa por puenteMapa.js.
+ * Un import estatico devolveria Cesium (~1,1 MB) al camino del primer pintado.
+ */
+const RE_IMPORT_MAP_ESTATICO =
+  /(?:^|[;\n])\s*(?:import|export)\b(?:[^;"'()]*?\bfrom\s*)?["'][^"']*\bmap(?:\.js)?["']/m;
+
 /** Llamada a fetch(. La interfaz no hace red (CLAUDE.md, fila de ui.js). */
 const RE_FETCH = /\bfetch\s*\(/;
 
@@ -103,6 +112,13 @@ function verificar() {
       errores.push(
         `src/${rel}: importa "cesium". Solo src/map.js puede ` +
           `(CLAUDE.md, tabla "Arquitectura modular").`
+      );
+    }
+
+    if (RE_IMPORT_MAP_ESTATICO.test(contenido)) {
+      errores.push(
+        `src/${rel}: importa map.js de forma estatica. Solo se carga con ` +
+          `import("./map.js") dinamico desde main.js (ADR-022).`
       );
     }
 
