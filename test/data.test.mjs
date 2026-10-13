@@ -15,6 +15,7 @@ import {
   tieneProcedencia,
   distanciaMinimaKm,
   verticeMasCercano,
+  posicionDe,
   contarPorClase,
   iniciativasSinGeometria,
 } from "../src/data.js";
@@ -237,4 +238,10 @@ test("tieneProcedencia: sin fuente no entra al mapa", () => {
   assert.equal(tieneProcedencia(normalizarActivo({})), false);
   assert.equal(tieneProcedencia(normalizarActivo({ fuente: "" })), false);
   assert.equal(tieneProcedencia(normalizarActivo({ fuente: "OSM" })), true);
+});
+
+test("posicionDe devuelve {lng, lat} de un punto y null sin geometria utilizable", () => {
+  assert.deepEqual(posicionDe(punto(-63.5, 8.1)), { lng: -63.5, lat: 8.1 });
+  assert.equal(posicionDe({ type: "Feature", geometry: null, properties: {} }), null);
+  assert.equal(posicionDe(null), null);
 });
