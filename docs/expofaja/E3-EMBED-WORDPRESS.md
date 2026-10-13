@@ -95,8 +95,8 @@ muestrame una captura del embed en esa pagina de prueba en 390 px de ancho.
 
 ## STOP GATE
 
-- [ ] `prueba-embed.html` muestra el micrositio sin doble scroll en 390 px
-- [ ] Desde otro dominio (no CCIEB, no Vercel) el iframe **no** carga
-      (prueba de `frame-ancestors`)
+- [x] `prueba-embed.html` muestra el micrositio sin doble scroll en 390 px
+- [x] Desde otro dominio (no CCIEB, no Vercel) el iframe **no** carga
+      (prueba de `frame-ancestors`, 13/10 en produccion)
 - [ ] El administrador recibio los pasos y el codigo
 - [ ] Visto en `camaradecomerciobolivar.org/expofaja/` desde un telefono real

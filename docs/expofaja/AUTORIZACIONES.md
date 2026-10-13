@@ -6,7 +6,7 @@
 
 | Fecha | Que se autoriza | Quien autoriza (cargo) | Medio | Alcance | Evidencia |
 |---|---|---|---|---|---|
-| 2026-10-12 | **Uso de todos los recursos disponibles** de la ExpoFaja y la CCIEB: logos del evento y de la Camara, logos de aliados que la Camara publica, fotos de ponentes, programa, brochure y contenidos de su web y prensa | `[nombre]`, `[cargo]` | `[medio]` | Sitio orinoco-digital.vercel.app, repositorio publico y material de divulgacion de Orinoco Digital | `data/raw/expofaja/privado/[archivo]` |
+| 2026-10-12 | **Uso de todos los recursos disponibles** de la ExpoFaja y la CCIEB: logos del evento y de la Camara, logos de aliados que la Camara publica, fotos de ponentes, programa, brochure y contenidos de su web y prensa | `[nombre]`, director de la CCIEB | `[medio]` | Sitio orinoco-digital.vercel.app, repositorio publico y material de divulgacion de Orinoco Digital | `data/raw/expofaja/privado/[archivo]` |
 
 ## Lo que esto habilita
 
@@ -26,5 +26,6 @@
 
 ## Pendiente de completar (Luis)
 
-- [ ] Nombre y cargo de quien autorizo, y por que medio.
+- [x] Cargo de quien autorizo: director de la CCIEB (Luis, 2026-10-13).
+- [ ] Nombre de quien autorizo y por que medio.
 - [ ] Guardar la evidencia en `data/raw/expofaja/privado/`.
