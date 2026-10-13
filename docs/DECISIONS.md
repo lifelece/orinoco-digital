@@ -440,7 +440,7 @@ integra en el suyo en vez de duplicarse.
 
 ## ADR-016 — Tests con `node:test`, sin dependencias
 
-**Fecha:** 2026-09-25 · **Estado:** propuesta, pendiente de revision del autor
+**Fecha:** 2026-09-25 · **Estado:** aceptada (2026-10-13; implementada en el PR #1, mergeado el 2026-09-29)
 
 **Contexto.** La auditoria de septiembre (P5) dejo el proyecto sin tests ni CI
 de codigo, y su seccion 6 explica por que importa: los tres errores criticos

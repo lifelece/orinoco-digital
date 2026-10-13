@@ -9,13 +9,12 @@
 - v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010); 6-7 en curso: falta material de divulgacion, tag v1.0 y Lighthouse (rendimiento 25 el 2026-09-17, lastrado por Cesium).
 - Token de Cesium restringido por dominio (2026-09-29).
 - Mergeados el 2026-09-29: PR #1 shell de UI (ADR-014), #2 paquete visual (ADR-018), #3 controlador de render (ADR-019), #4 limpieza de falsos positivos OSM (downstream 97 -> 64).
-- ExpoFaja 2026 (15-17/10) con la CCIEB: E1 modo Ciudad Bolivar implementado (`specs/001`, rama `expofaja-e1`, PR abierto, falta gate en telefono); E2 micrositio `/expofaja` en `specs/002` (rama `expofaja-e2`). Mandatos en `docs/expofaja/`. La "04 Especificacion tecnica" de Notion sigue sin copiar al repo.
+- ExpoFaja 2026 (15-17/10) con la CCIEB: E1 (modo Ciudad Bolivar, PR #6) y E2 (micrositio `/expofaja`, PR #7) en produccion desde 2026-10-13; E3 (embed WordPress) con cabeceras verificadas en produccion; E4 tras el evento. Mandatos en `docs/expofaja/`.
 
 ## Decisiones abiertas de Luis
 
-- ADR-017, 018 y 019 aceptados por Luis el 2026-10-12. ADR-016 (node:test) sigue "propuesta" aunque se mergeo en el PR #1: [Luis: aceptarlo o no].
 - `docs/fases/README.md` dice M1 "pendiente del gate"; se mergeo tras vista previa: [Luis: confirmar gate en telefono].
-- ADR-020: aceptado piezas 1, 2, 5, 7 y 10; 3, 4, 6, 8 y 9 en propuesta hasta el gate de E2.
+- ADR-020: aceptado piezas 1, 2, 5, 7 y 10; 3, 4, 6, 8 y 9 (micrositio, embed, caducidad) en produccion pero en propuesta: [Luis: aceptarlas tras el gate de E2 en telefono].
 - `MODO_INICIAL = "ciudadBolivar"`: revisar en E4 si la portada vuelve a la vista nacional.
 
 ## Decisiones vigentes (no reabrir sin ADR)
