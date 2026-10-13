@@ -16,6 +16,7 @@
 
 import { t, idioma } from "../i18n/index.js";
 import { MARCAS_MODO, CLASES_CIUDAD } from "../config.js";
+import { crearReglaRio } from "./reglaRio.js";
 
 /**
  * @typedef {Object} DatosModo  Cada campo: null = cargando · false = fallo (la
@@ -23,16 +24,17 @@ import { MARCAS_MODO, CLASES_CIUDAD } from "../config.js";
  * @property {Array<{km: number, campos: number}>|null|false} resumenAnillos  ascendente
  * @property {number|null|false} totalCampos
  * @property {Array<{id: string, nombre: string|null, km: number, confianza: string|null}>|null|false} cercanos  desde la sede
+ * @property {import("./reglaRio.js").ReglaRio|null|false} reglaRio  cauce y cruces (ADR-021); decorativa: si falta, no se pinta
  * @property {Object<string, number>|null|false} conteos  por clase de CLASES_CIUDAD
  * @property {Array<{id: string, nombre: string, fecha: string|null, fuente: string, enMapa: boolean}>|null|false} iniciativas
  */
 
-const CLAVES_DATOS = ["resumenAnillos", "totalCampos", "cercanos", "conteos", "iniciativas"];
+const CLAVES_DATOS = ["resumenAnillos", "totalCampos", "cercanos", "conteos", "iniciativas", "reglaRio"];
 
 /** Estado del modulo: las ranuras de ui.js se recrean al cambiar de idioma. */
 const estado = {
   /** @type {DatosModo} */
-  datos: { resumenAnillos: null, totalCampos: null, cercanos: null, conteos: null, iniciativas: null },
+  datos: { resumenAnillos: null, totalCampos: null, cercanos: null, conteos: null, iniciativas: null, reglaRio: null },
   montado: false,
   /** @type {(() => void) | null} */
   alSalir: null,
@@ -42,6 +44,8 @@ const estado = {
   alEntrar: null,
   /** Solo importa en movil: en escritorio el panel va siempre desplegado. */
   detallesAbiertos: false,
+  /** La regla se dibuja una vez; los repintados por datos que llegan no la repiten. */
+  reglaTrazada: false,
 };
 
 // --- Utilidades de DOM -------------------------------------------------------
@@ -155,7 +159,7 @@ const cargando = () => nodo("p", "text-xs text-lo", t("capa.cargando"));
 function seccion(titulo, dato, cuerpo) {
   if (dato === false) return null;
   const sec = nodo("section", "mt-3 border-t border-trazo pt-3");
-  sec.append(nodo("h3", "mb-1.5 text-[10px] font-medium uppercase tracking-wider text-lo", titulo));
+  sec.append(nodo("h3", "mb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-tinta", titulo));
   sec.append(dato === null || dato === undefined ? cargando() : cuerpo());
   return sec;
 }
@@ -177,16 +181,37 @@ function crearFrase() {
   );
 }
 
+/**
+ * La regla del rio entre la frase y los anillos (ADR-021). Decorativa: cada
+ * marca es un anillo de la lista de debajo, que lleva la distancia en texto.
+ * @returns {HTMLElement|null}
+ */
+function crearRegla() {
+  const regla = estado.datos.reglaRio;
+  if (!regla) return null;
+  const trazar = !estado.reglaTrazada;
+  const svg = crearReglaRio(regla, { trazar });
+  if (trazar) svg.addEventListener("animationend", () => { estado.reglaTrazada = true; }, { once: true });
+  const marco = nodo("div", "mt-2.5");
+  marco.append(svg);
+  return marco;
+}
+
+/**
+ * Anillos como escala: etiqueta de km en tinta y cifra en monoespaciada
+ * tabular. El nombre accesible es la frase completa de siempre.
+ */
 function crearAnillos(anillos) {
-  const lista = nodo("ul", "mt-2 flex flex-wrap gap-1.5");
+  const lista = nodo("ul", "mt-2 grid grid-cols-4 rounded-md border border-trazo");
   for (const a of anillos) {
-    lista.append(
-      nodo(
-        "li",
-        "rounded-md border border-trazo px-2 py-1 font-mono text-[11px] tabular-nums text-lo",
-        t("modo.anillo", { km: formatoNumero(a.km, 0), n: formatoNumero(a.campos, 0) })
-      )
+    const celda = nodo("li", "grid gap-0.5 border-l border-trazo px-2 py-1.5 first:border-l-0", "", {
+      "aria-label": t("modo.anillo", { km: formatoNumero(a.km, 0), n: formatoNumero(a.campos, 0) }),
+    });
+    celda.append(
+      nodo("span", "font-mono text-[10px] uppercase tracking-[0.08em] text-tinta", t("modo.distancia", { km: formatoNumero(a.km, 0) }), { "aria-hidden": "true" }),
+      nodo("span", "font-mono text-base tabular-nums text-hi", formatoNumero(a.campos, 0), { "aria-hidden": "true" })
     );
+    lista.append(celda);
   }
   return lista;
 }
@@ -198,7 +223,7 @@ function crearCercanos(cercanos) {
     const fila = nodo("li", "flex items-baseline justify-between gap-3 py-1.5");
     fila.append(
       nodo("span", "min-w-0 break-words text-hi", c.nombre ?? t("ciudad.sinNombre")),
-      nodo("span", "shrink-0 font-mono text-[12px] tabular-nums text-lo", t("modo.distancia", { km: formatoNumero(c.km) }))
+      nodo("span", "shrink-0 font-mono text-[12px] tabular-nums text-tinta", t("modo.distancia", { km: formatoNumero(c.km) }))
     );
     lista.append(fila);
   }
@@ -284,6 +309,8 @@ function crearPanel() {
 
   const frase = crearFrase();
   if (frase) panel.append(frase);
+  const regla = crearRegla();
+  if (regla) panel.append(regla);
 
   // Plegado (movil): solo titulo, frase y boton. En escritorio siempre visible.
   const detalles = nodo("div", estado.detallesAbiertos ? "" : "max-sm:hidden", "", { id: "modo-detalles" });
@@ -335,8 +362,8 @@ export function repintarModoCiudadBolivar() {
  * Monta cabecera (RF-16) y panel (RF-15) en las ranuras de ui.js; quita el acceso.
  * @param {DatosModo & {alSalir: () => void, alVerEnMapa: (id: string) => void}} opciones
  */
-export function montarModoCiudadBolivar({ resumenAnillos = null, totalCampos = null, cercanos = null, conteos = null, iniciativas = null, alSalir, alVerEnMapa }) {
-  estado.datos = { resumenAnillos, totalCampos, cercanos, conteos, iniciativas };
+export function montarModoCiudadBolivar({ resumenAnillos = null, totalCampos = null, cercanos = null, conteos = null, iniciativas = null, reglaRio = null, alSalir, alVerEnMapa }) {
+  estado.datos = { resumenAnillos, totalCampos, cercanos, conteos, iniciativas, reglaRio };
   estado.alSalir = alSalir ?? null;
   estado.alVerEnMapa = alVerEnMapa ?? null;
   estado.montado = true;
