@@ -20,7 +20,11 @@ import { fileURLToPath } from "node:url";
 export const ORIGEN_CCIEB = "https://camaradecomerciobolivar.org";
 export const ENDPOINT =
   `${ORIGEN_CCIEB}/wp-json/wp/v2/posts?categories=163,7&per_page=8&_fields=id,date,link,title,excerpt`;
-const RUTA_JSON = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "data", "expofaja", "noticias.json");
+const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..");
+const RUTA_JSON = join(RAIZ, "public", "data", "expofaja", "noticias.json");
+// La semilla es la fuente del micrositio (spec 002, RF-2: la copia publicada es
+// identica a la semilla salvo _nota). Se escriben las dos a la vez.
+const RUTA_SEMILLA = join(RAIZ, "docs", "expofaja", "semillas", "noticias-ccieb.json");
 const CATEGORIAS = {
   7: "Eventos",
   40: "Noticias",
@@ -139,6 +143,8 @@ async function main() {
     consultado: new Date().toISOString().slice(0, 10),
     items,
   };
+  const semilla = JSON.parse(await readFile(RUTA_SEMILLA, "utf8"));
+  await writeFile(RUTA_SEMILLA, `${JSON.stringify({ _nota: semilla._nota, ...nuevo }, null, 2)}\n`);
   await writeFile(RUTA_JSON, `${JSON.stringify(nuevo, null, 2)}\n`);
   const ids = new Set((actual.items ?? []).map((n) => n.id));
   const nuevas = items.filter((n) => !ids.has(n.id));

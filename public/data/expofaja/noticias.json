@@ -1,48 +1,68 @@
 {
-  "endpoint": "https://camaradecomerciobolivar.org/wp-json/wp/v2/posts?per_page=10&_fields=id,date,link,title,excerpt,categories",
+  "endpoint": "https://camaradecomerciobolivar.org/wp-json/wp/v2/posts?categories=163,7&per_page=8&_fields=id,date,link,title,excerpt",
   "categorias_relevantes": {
     "7": "Eventos",
     "40": "Noticias",
     "68": "Pronunciamientos",
     "163": "CBO Capital de Oportunidades"
   },
-  "consultado": "2026-10-12",
+  "consultado": "2026-10-13",
   "items": [
+    {
+      "id": 43195,
+      "fecha": "2026-10-13",
+      "titulo": "Expertos expondrán herramientas estratégicas en la ExpoFaja Ciudad Bolívar 2026",
+      "extracto": "Prensa CCIEB.- La evolución económica regional exige que el sector comercial y de servicios avance hacia la comprensión de los […]",
+      "url": "https://camaradecomerciobolivar.org/2026/10/13/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026-2/"
+    },
     {
       "id": 43134,
       "fecha": "2026-10-12",
       "titulo": "La Bolsa de Empleo Energética se presentará en la Expo Faja 2026",
+      "extracto": "Un puente estratégico entre la academia, el sector productivo y el capital humano calificado del estado Bolívar PRENSA CCIEB – […]",
       "url": "https://camaradecomerciobolivar.org/2026/10/12/la-bolsa-de-empleo-energetica-se-presentara-en-la-expo-faja-2026/"
     },
     {
       "id": 43130,
       "fecha": "2026-10-12",
       "titulo": "Expertos expondrán herramientas estratégicas en la ExpoFaja Ciudad Bolívar 2026",
+      "extracto": "Prensa CCIEB.- La evolución económica regional exige que el sector comercial y de servicios avance hacia la comprensión de los […]",
       "url": "https://camaradecomerciobolivar.org/2026/10/12/expertos-expondran-herramientas-estrategicas-en-la-expofaja-ciudad-bolivar-2026/"
     },
     {
       "id": 42947,
       "fecha": "2026-10-08",
       "titulo": "Gremio gastronómico adecúa logística de catering ante el despliegue en la Faja del Orinoco",
+      "extracto": "Prensa CCIEB/ CNP: 11.009.- Ante la reactivación proyectada de operaciones en el Bloque Ayacucho de la Faja Petrolífera del Orinoco […]",
       "url": "https://camaradecomerciobolivar.org/2026/10/08/gremio-gastronomico-adecua-logistica-de-catering-ante-el-despliegue-en-la-faja-del-orinoco/"
     },
     {
-      "id": 42945,
+      "id": 42941,
       "fecha": "2026-10-08",
-      "titulo": "Expo Faja Ciudad Bolívar 2026 consolida una agenda académica con expertos del sector energético",
-      "url": "https://camaradecomerciobolivar.org/2026/10/08/expo-faja-ciudad-bolivar-2026-consolida-una-agenda-academica-con-expertos-del-sector-energetico/"
+      "titulo": "Gremio empresarial del estado Bolívar defiende su autonomía y exige elecciones en Fedcámaras Bolívar",
+      "extracto": "Prensa CCIEB.- Más del 85% del tejido productivo, comercial, industrial y agropecuario del estado Bolívar, representado por 17 cámaras y […]",
+      "url": "https://camaradecomerciobolivar.org/2026/10/08/gremio-empresarial-del-estado-bolivar-defiende-su-autonomia-y-exige-elecciones-en-fedcamaras-bolivar/"
+    },
+    {
+      "id": 42938,
+      "fecha": "2026-10-08",
+      "titulo": "Cámara de Comercio y Ecobolívar instalan mesa de trabajo para regularizar la eliminación de la deuda y el cobro del servicio",
+      "extracto": "El gremio espera la eliminación definitiva de la deuda del sistema y unas tarifas cónsonas a la realidad de la […]",
+      "url": "https://camaradecomerciobolivar.org/2026/10/08/camara-de-comercio-y-ecobolivar-instalan-mesa-de-trabajo-para-regularizar-la-eliminacion-de-la-deuda-y-el-cobro-del-servicio/"
+    },
+    {
+      "id": 40777,
+      "fecha": "2026-08-10",
+      "titulo": "Fundación Social y Cultural Cámara de Comercio llevó más de 300 sonrisas a los niños de las riberas del Orinoco",
+      "extracto": "En una demostración de solidaridad y compromiso con el desarrollo social de la capital bolivarense, la Fundación Social y Cultural […]",
+      "url": "https://camaradecomerciobolivar.org/2026/08/10/fundacion-social-y-cultural-camara-de-comercio-llevo-mas-de-300-sonrisas-a-los-ninos-de-las-riberas-del-orinoco/"
     },
     {
       "id": 40772,
       "fecha": "2026-08-10",
       "titulo": "Cámara de Comercio organizó exitosa conferencia: contratación con la industria petrolera",
+      "extracto": "La Cámara de Comercio e Industrias del Estado Bolívar (CCIEB) organizó con éxito la conferencia: contratación con la industria petrolera, […]",
       "url": "https://camaradecomerciobolivar.org/2026/08/10/camara-de-comercio-organizo-exitosa-conferencia-contratacion-con-la-industria-petrolera/"
-    },
-    {
-      "id": 40768,
-      "fecha": "2026-07-23",
-      "titulo": "Cámara de Comercio presenta estrategia de posicionamiento de Ciudad Bolívar como capital de oportunidades",
-      "url": "https://camaradecomerciobolivar.org/2026/07/23/camara-de-comercio-presenta-estrategia-de-posicionamiento-de-ciudad-bolivar-como-capital-de-oportunidades/"
     }
   ]
 }
