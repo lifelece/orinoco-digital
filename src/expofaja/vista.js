@@ -10,11 +10,12 @@ import { crearReglaRio } from "../ui/reglaRio.js";
 import {
   cuentaRegresiva,
   diaInicial,
-  enCurso,
   estadoEvento,
   exposicionEnCurso,
   generarIcs,
   horaEvento,
+  mostrarEtiquetaAhora,
+  presentacionEvento,
   proximaSesion,
   sesionActual,
 } from "./agenda.js";
@@ -27,7 +28,7 @@ const MAPA_IMG = { src: "/expofaja/mapa.webp", w: 1200, h: 675 }; // Captura del
 const MAX_NOTICIAS = 4;
 
 /** Estado de la vista montada. */
-const est = { datos: null, reglaRio: null, embed: false, ahora: new Date(), dia: null, ponentes: new Map(), refs: {}, sesiones: [] };
+const est = { datos: null, reglaRio: null, embed: false, ahora: new Date(), dia: null, ponentes: new Map(), refs: {}, sesiones: [], pres: null };
 
 // --- Utilidades de DOM --------------------------------------------------------
 
@@ -189,9 +190,9 @@ function pintarAhora(ahora) {
     const sig = proximaSesion(agenda, ahora);
     partes.push(bloqueEtiquetado(t("expofaja.siguiente"), [sig ? filaSesion(sig, true) : el("p", "ef-vacio", t("expofaja.sinSiguiente"))]));
   } else {
-    partes.push(el("p", "ef-cuenta", t("expofaja.terminoEvento")));
+    partes.push(bloqueEtiquetado(t("expofaja.resumen.titulo"), [el("p", "ef-cuenta", t("expofaja.terminoEvento")), el("p", "ef-vacio", t("expofaja.resumen.sinCifras"))]));
   }
-  est.refs.hora.textContent = t("expofaja.horaCaracas", { hora: horaEvento(ahora) });
+  est.refs.hora.textContent = est.pres.reloj ? t("expofaja.horaCaracas", { hora: horaEvento(ahora) }) : "";
   est.refs.cuerpoAhora.replaceChildren(...partes);
 }
 
@@ -199,7 +200,7 @@ function crearAhora() {
   const s = el("section", "ef-ahora");
   s.id = "ahora";
   s.setAttribute("aria-labelledby", "ahora-h");
-  const h = el("h2", "ef-sr", t("expofaja.ahoraSiguiente"));
+  const h = el("h2", "ef-sr", t(est.pres.franja === "resumen" ? "expofaja.resumen.titulo" : "expofaja.ahoraSiguiente"));
   h.id = "ahora-h";
   est.refs.hora = el("p", "ef-reloj");
   est.refs.cuerpoAhora = el("div", "ef-ahora-cuerpo");
@@ -265,7 +266,7 @@ function crearCabecera() {
   h.append(
     barra,
     h1,
-    el("p", "ef-fechas", textoFechas(evento.fechas)),
+    el("p", "ef-fechas", est.pres.celebrado ? t("expofaja.seCelebro", { fechas: textoFechas(evento.fechas) }) : textoFechas(evento.fechas)),
     textoEs("p", "ef-sede", `${evento.sede.nombre}, ${evento.sede.ciudad}`),
     organizan,
     crearAhora(),
@@ -315,7 +316,7 @@ function crearSesion(dia, sesion, i) {
     contenido(linea);
     li.append(linea);
   }
-  if (sesion.inicio) {
+  if (sesion.inicio && est.pres.calendario) {
     const b = el("button", "ef-btn ef-btn-calendario", t("expofaja.agregarCalendario"));
     b.type = "button";
     b.setAttribute("aria-label", t("expofaja.agregarCalendarioAria", { titulo: sesion.titulo }));
@@ -347,7 +348,7 @@ function alTeclearPestana(e) {
 
 function crearAgenda() {
   const { agenda } = est.datos;
-  const s = seccion("agenda", t("expofaja.agenda.titulo"));
+  const s = seccion("agenda", t(est.pres.celebrado ? "expofaja.agenda.archivo" : "expofaja.agenda.titulo"));
   const lista = el("div", "ef-pestanas");
   lista.setAttribute("role", "tablist");
   lista.setAttribute("aria-label", t("expofaja.agenda.dias"));
@@ -376,7 +377,7 @@ function crearAgenda() {
     est.refs.paneles.push(panel);
     paneles.push(panel);
   });
-  const pie = el("p", "ef-nota", t("expofaja.agenda.nota"));
+  const pie = el("p", "ef-nota", t(est.pres.celebrado ? "expofaja.agenda.notaArchivo" : "expofaja.agenda.nota"));
   const fuente = el("p", "ef-nota");
   fuente.append(t("expofaja.agenda.fuente", { fuente: agenda.fuente, fecha: agenda.ultima_verificacion }));
   contenido(fuente);
@@ -645,6 +646,39 @@ function crearMapa() {
   return s;
 }
 
+// --- Registro de lo hecho (solo tras el evento, E4.1) ----------------------------
+
+/** Total de servicios OSM del resumen (suma de clases). */
+function totalServicios(r) {
+  return Object.values(r.servicios_por_clase ?? {}).reduce((a, n) => a + n, 0);
+}
+
+function crearHecho() {
+  const s = seccion("hecho", t("expofaja.hecho.titulo"));
+  const r = est.datos.resumen;
+  let mapa = t("expofaja.hecho.mapaSinDatos");
+  if (r) {
+    const mayor = r.anillos.reduce((a, b) => (b.km > a.km ? b : a));
+    mapa = t("expofaja.hecho.mapa", {
+      n: mayor.campos,
+      total: r.total_campos,
+      km: mayor.km,
+      servicios: totalServicios(r),
+      cercanos: r.campos_mas_cercanos.length,
+    });
+  }
+  const ul = el("ul", "ef-lista");
+  ul.append(...[mapa, t("expofaja.hecho.micrositio"), t("expofaja.hecho.embed"), t("expofaja.hecho.abierto")].map((x) => el("li", "", x)));
+  const botones = el("div", "ef-botones");
+  botones.append(
+    enlace(URL_MAPA_CIUDAD, t("expofaja.hecho.verMapa"), "ef-btn ef-btn-azul"),
+    enlace(REPO, t("expofaja.hecho.verRepo"), "ef-enlace"),
+    enlace(`${REPO}/blob/main/docs/expofaja/MEMORIA.md`, t("expofaja.hecho.verMemoria"), "ef-enlace"),
+  );
+  s.append(el("p", "", t("expofaja.hecho.intro")), ul, botones);
+  return s;
+}
+
 // --- Seccion 7: aliados ----------------------------------------------------------
 
 /** Logo publicable de un aliado segun el manifiesto, o null. */
@@ -805,6 +839,7 @@ export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma,
   est.ahora = ahora;
   est.alCambiarIdioma = alCambiarIdioma;
   est.sesiones = [];
+  est.pres = presentacionEvento(datos.agenda, ahora);
   est.ponentes = new Map(datos.ponentes.ponentes.map((p) => [p.id, p]));
   contenedor.classList.add("ef-pagina");
   const hijos = [];
@@ -814,7 +849,7 @@ export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma,
     hijos.push(crearCabecera());
   }
   const main = el("div", "ef-contenido");
-  main.append(crearAgenda(), crearPonentes(), crearSeparadorRegla() ?? "", crearCiudad(), crearMapa(), crearAliados(), crearParticipa(), crearNoticias());
+  main.append(crearAgenda(), crearPonentes(), crearSeparadorRegla() ?? "", crearCiudad(), crearMapa(), ...(est.pres.celebrado ? [crearHecho()] : []), crearAliados(), crearParticipa(), crearNoticias());
   hijos.push(main, embed ? crearFinEmbed() : crearPie());
   contenedor.replaceChildren(...hijos);
   actualizarTiempo(ahora);
@@ -829,9 +864,14 @@ export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma,
 export function actualizarTiempo(ahora) {
   if (!est.datos) return;
   est.ahora = ahora;
+  // Si el reloj cruza el cierre con la pagina abierta, se repinta el modo completo
+  if (presentacionEvento(est.datos.agenda, ahora).celebrado !== est.pres.celebrado && est.alCambiarIdioma) {
+    est.alCambiarIdioma(idioma());
+    return;
+  }
   pintarAhora(ahora);
   for (const { dia, sesion, badge } of est.sesiones) {
-    badge.hidden = !(sesion.tipo !== "exposicion" && enCurso(dia, sesion, ahora));
+    badge.hidden = !mostrarEtiquetaAhora(est.datos.agenda, dia, sesion, ahora);
   }
 }
 
