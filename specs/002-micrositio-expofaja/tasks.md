@@ -79,9 +79,9 @@ export function iniciarEmbed(documento, ventana)  // noindex, target=_top, postM
 
 ## Paquete C — HTML, cabeceras e imagenes
 
-- [ ] C1 · `expofaja/index.html`: meta descripcion, canonical `/expofaja/`, OG/Twitter (`%SITIO_URL%` como ya hace `index.html`), JSON-LD `Event` (RF-72, `location` con geo del Museo Soto tomada de `docs/expofaja/semillas/ciudad-bolivar-verificacion.geojson`, sin `offers`) · RF: 70-72 · test: `test/expofaja-html.test.mjs` — JSON-LD parsea y trae fechas exactas; meta OG presentes; marcadores noscript intactos · vueltas: 0/2
-- [ ] C2 · `vercel.json`: retirar la redireccion temporal `/expofaja` de E1; cabeceras `frame-ancestors` solo en `/expofaja/(.*)` y `Cache-Control` corto en `/data/expofaja/(.*)` (spec tecnica §8); JSON estricto · RF: 66-69 · test: en el mismo test, el JSON parsea, no hay redirect de `/expofaja`, la CSP no aplica a `/` · vueltas: 0/2
-- [ ] C3 · `og.png` 1200x630 <= 300 KB: `docs/expofaja/og-plantilla.html` (co-marca con `public/expofaja/marcas/`, fechas, sede; tokens ef-*) renderizada con Edge/Chrome headless instalado (`--headless --screenshot --window-size=1200,630`) por `scripts/expofaja-og.mjs` (sin dependencias npm) · RF: 71, RNF-2 · test: tamano y dimensiones leidas de la cabecera PNG · vueltas: 0/2
+- [x] C1 · `expofaja/index.html`: meta descripcion, canonical `/expofaja/`, OG/Twitter (`%SITIO_URL%` como ya hace `index.html`), JSON-LD `Event` (RF-72, `location` con geo del Museo Soto tomada de `docs/expofaja/semillas/ciudad-bolivar-verificacion.geojson`, sin `offers`) · RF: 70-72 · test: `test/expofaja-html.test.mjs` — JSON-LD parsea y trae fechas exactas; meta OG presentes; marcadores noscript intactos · vueltas: 0/2
+- [x] C2 · `vercel.json`: retirar la redireccion temporal `/expofaja` de E1; cabeceras `frame-ancestors` solo en `/expofaja/(.*)` y `Cache-Control` corto en `/data/expofaja/(.*)` (spec tecnica §8); JSON estricto · RF: 66-69 · test: en el mismo test, el JSON parsea, no hay redirect de `/expofaja`, la CSP no aplica a `/` · vueltas: 0/2
+- [x] C3 · `og.png` 1200x630 <= 300 KB: `docs/expofaja/og-plantilla.html` (co-marca con `public/expofaja/marcas/`, fechas, sede; tokens ef-*) renderizada con Edge/Chrome headless instalado (`--headless --screenshot --window-size=1200,630`) por `scripts/expofaja-og.mjs` (sin dependencias npm) · RF: 71, RNF-2 · test: tamano y dimensiones leidas de la cabecera PNG · vueltas: 0/2
 
 ## Integracion (coordinador)
 

@@ -3,13 +3,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "redirects": [
-    {
-      "source": "/expofaja",
-      "destination": "/?modo=ciudadBolivar",
-      "permanent": false
-    }
-  ],
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -39,10 +32,43 @@
       ]
     },
     {
+      "source": "/expofaja/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://camaradecomerciobolivar.org https://www.camaradecomerciobolivar.org"
+        }
+      ]
+    },
+    {
+      "source": "/expofaja",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://camaradecomerciobolivar.org https://www.camaradecomerciobolivar.org"
+        }
+      ]
+    },
+    {
+      "source": "/data/expofaja/(.*).json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=3600"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
         {
           "key": "Permissions-Policy",
           "value": "geolocation=(), microphone=(), camera=()"

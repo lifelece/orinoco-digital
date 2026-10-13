@@ -4,7 +4,72 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>ExpoFaja Ciudad Bolívar 2026 — agenda, ponentes y mapa</title>
+    <meta
+      name="description"
+      content="Agenda, ponentes y mapa de la ExpoFaja Ciudad Bolívar 2026: 15, 16 y 17 de octubre en el Museo de Arte Moderno Jesús Soto. Contenido del evento provisto por la CCIEB."
+    />
+    <meta name="author" content="Luis Carlos Vasquez" />
+    <meta name="theme-color" content="#014655" />
+
+    <!-- Open Graph. %SITIO_URL% lo sustituye vite.config.js en el build. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Orinoco Digital" />
+    <meta property="og:title" content="ExpoFaja Ciudad Bolívar 2026 — agenda, ponentes y mapa" />
+    <meta
+      property="og:description"
+      content="15, 16 y 17 de octubre de 2026, Museo de Arte Moderno Jesús Soto, Ciudad Bolívar. Agenda por día, ponentes y Ciudad Bolívar en el mapa 3D."
+    />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:image" content="%SITIO_URL%/expofaja/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="%SITIO_URL%/expofaja/" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ExpoFaja Ciudad Bolívar 2026 — agenda, ponentes y mapa" />
+    <meta
+      name="twitter:description"
+      content="15, 16 y 17 de octubre de 2026, Museo de Arte Moderno Jesús Soto, Ciudad Bolívar."
+    />
+    <meta name="twitter:image" content="%SITIO_URL%/expofaja/og.png" />
+
+    <link rel="canonical" href="%SITIO_URL%/expofaja/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- schema.org/Event (spec 002, RF-72). Sin "offers": aqui no se venden
+         entradas. Geo del Museo Soto: public/data/ciudad-bolivar-osm.geojson
+         (OSM relation 7948635, consulta Overpass 2026-10-13). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "Expo Faja Ciudad Bolívar 2026 — Capital Estratégica",
+        "startDate": "2026-10-15T17:00-04:00",
+        "endDate": "2026-10-17T20:00-04:00",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+          "@type": "Place",
+          "name": "Museo de Arte Moderno Jesús Soto",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ciudad Bolívar",
+            "addressRegion": "Bolívar",
+            "addressCountry": "VE"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 8.1321794,
+            "longitude": -63.53703035
+          }
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "Cámara de Comercio e Industrias del Estado Bolívar",
+          "url": "https://camaradecomerciobolivar.org"
+        }
+      }
+    </script>
   </head>
   <body>
     <main id="app"></main>
