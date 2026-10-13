@@ -51,6 +51,9 @@ const PERMITE_CESIUM = new Set(["map.js"]);
  */
 const RE_IMPORT_CESIUM = /\bimport\b[^;\n]*["']cesium(?:\/[^"']*)?["']/;
 
+/** Import de map.js (que arrastra Cesium), estatico o dinamico. */
+const RE_IMPORT_MAP = /\bimport\b[^;\n]*["'][^"']*\bmap(?:\.js)?["']/;
+
 /** Llamada a fetch(. La interfaz no hace red (CLAUDE.md, fila de ui.js). */
 const RE_FETCH = /\bfetch\s*\(/;
 
@@ -87,6 +90,18 @@ function verificar() {
       errores.push(
         `src/${rel}: importa "cesium". Solo src/map.js puede ` +
           `(CLAUDE.md, tabla "Arquitectura modular").`
+      );
+    }
+
+    if (rel.startsWith("expofaja/") && RE_IMPORT_MAP.test(contenido)) {
+      errores.push(
+        `src/${rel}: importa map.js. El micrositio no carga Cesium (ADR-020).`
+      );
+    }
+
+    if (rel === "expofaja/vista.js" && RE_FETCH.test(contenido)) {
+      errores.push(
+        `src/${rel}: usa fetch(. La vista no hace red; los datos llegan desde main.js.`
       );
     }
 

@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/*
+ * Tokens del micrositio ExpoFaja. Origen: docs/expofaja/02-IDENTIDAD-VISUAL.md
+ * seccion 5 (ADR-020). Prefijos ef- y cc- para no colisionar con los del mapa.
+ * ef-fondo esta medido a ojo sobre el brochure, no sale del logo.
+ */
+@theme {
+  --color-ef-petroleo: #014655;
+  --color-ef-cian: #04d5d6;
+  --color-ef-azul: #066e86;
+  --color-ef-verde: #58a51e;
+  --color-ef-naranja: #ffa201;
+  --color-ef-gris: #bbbbbb;
+  --color-ef-cian-texto: #00787a;
+  --color-ef-verde-texto: #3e7a12;
+  --color-ef-naranja-texto: #a35f00;
+  --color-ef-fondo: #f2f6f7;
+  --color-cc-azul: #131a8d;
+}

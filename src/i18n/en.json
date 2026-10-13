@@ -134,5 +134,6 @@
   "pie.codigo": "Source code",
   "aviso.cerrar": "Dismiss notice",
   "error.tokenFaltante": "The Cesium ion token is missing. Check your .env file.",
-  "error.cargaCapas": "These layers could not be loaded: {capas}. The rest of the map works."
+  "error.cargaCapas": "These layers could not be loaded: {capas}. The rest of the map works.",
+  "expofaja.titulo": "ExpoFaja Ciudad Bolívar 2026"
 }

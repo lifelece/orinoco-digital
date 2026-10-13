@@ -134,5 +134,6 @@
   "pie.codigo": "Código fuente",
   "aviso.cerrar": "Cerrar aviso",
   "error.tokenFaltante": "Falta el token de Cesium ion. Revisa tu archivo .env.",
-  "error.cargaCapas": "No se pudieron cargar estas capas: {capas}. El resto del mapa funciona."
+  "error.cargaCapas": "No se pudieron cargar estas capas: {capas}. El resto del mapa funciona.",
+  "expofaja.titulo": "ExpoFaja Ciudad Bolívar 2026"
 }

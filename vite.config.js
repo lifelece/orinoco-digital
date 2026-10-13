@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { fileURLToPath } from "node:url";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -51,6 +52,11 @@ export default defineConfig({
     chunkSizeWarningLimit: 1500,
 
     rollupOptions: {
+      // Dos paginas: el mapa y el micrositio /expofaja (ADR-020, pieza 3).
+      input: {
+        main: fileURLToPath(new URL("index.html", import.meta.url)),
+        expofaja: fileURLToPath(new URL("expofaja/index.html", import.meta.url)),
+      },
       output: {
         /**
          * Cesium en su propio chunk.
