@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.53703035,
+          8.1321794
+        ]
+      },
+      "properties": {
+        "id": "INI-EXPOFAJA-2026",
+        "nombre": "Expo Faja Ciudad Bolívar 2026 — Capital Estratégica",
+        "tipo": "evento",
+        "resumen": "Plataforma de negocios del sector energético: ruedas de negocio B2B, foros técnicos y exposición comercial.",
+        "fechas": "2026-10-15/2026-10-17",
+        "fuente": "https://camaradecomerciobolivar.org/expofaja/",
+        "fecha_fuente": "2026-10-09",
+        "ubicacion_osm": "relation/7948635",
+        "confianza": "alta",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.53703035,
+          8.1321794
+        ]
+      },
+      "properties": {
+        "id": "INI-BOLSA-EMPLEO-ENERGETICA",
+        "nombre": "Bolsa de Empleo Energética (petróleo, electricidad y minería)",
+        "tipo": "iniciativa",
+        "resumen": "Se lanza en la ExpoFaja: pre-registro y caracterización técnica de los primeros 100 especialistas; academia valida perfiles, gremios garantizan idoneidad, empresas demandan.",
+        "fuente": "https://camaradecomerciobolivar.org/2026/10/12/la-bolsa-de-empleo-energetica-se-presentara-en-la-expo-faja-2026/",
+        "fecha_fuente": "2026-10-12",
+        "ubicacion_osm": "relation/7948635",
+        "confianza": "alta",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    }
+  ]
+}

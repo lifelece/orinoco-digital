@@ -1,0 +1,2006 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5267931,
+          8.1326393
+        ]
+      },
+      "properties": {
+        "id": "OSM-N1238667947",
+        "nombre": "Hospital psiquiátrico",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/1238667947",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5524307,
+          8.0890191
+        ]
+      },
+      "properties": {
+        "id": "OSM-N13899430445",
+        "nombre": "UNES",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/13899430445",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5321251,
+          8.1136795
+        ]
+      },
+      "properties": {
+        "id": "OSM-N13986923882",
+        "nombre": null,
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/13986923882",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5266252,
+          8.126107
+        ]
+      },
+      "properties": {
+        "id": "OSM-N14022292928",
+        "nombre": "Hotel La Redoma",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/14022292928",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5262577,
+          8.1288459
+        ]
+      },
+      "properties": {
+        "id": "OSM-N14024916275",
+        "nombre": "Banco Nacional de Crédito",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/14024916275",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5293673,
+          8.1329987
+        ]
+      },
+      "properties": {
+        "id": "OSM-N14027994590",
+        "nombre": "Hospital del Tórax",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/14027994590",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5523744,
+          8.1303144
+        ]
+      },
+      "properties": {
+        "id": "OSM-N14027994591",
+        "nombre": "Centro Médico Orinoco",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/14027994591",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5809895,
+          8.1234478
+        ]
+      },
+      "properties": {
+        "id": "OSM-N14051755538",
+        "nombre": "Motel Confort",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/14051755538",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5493301,
+          8.1273205
+        ]
+      },
+      "properties": {
+        "id": "OSM-N14104335272",
+        "nombre": "Caroní",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/14104335272",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5361738,
+          8.1273886
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4277341094",
+        "nombre": "Restaurant Da Gino",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4277341094",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5416111,
+          8.1316928
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4278152493",
+        "nombre": "Hotel laja city",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4278152493",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.531699,
+          8.131685
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4307515090",
+        "nombre": "Banco de Venezuela",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4307515090",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5316475,
+          8.1317432
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4307527190",
+        "nombre": "BANFANB",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4307527190",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5448775,
+          8.1193233
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4307549989",
+        "nombre": "Bancamiga",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4307549989",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5318052,
+          8.1317603
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4307550189",
+        "nombre": "Banesco",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4307550189",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5413523,
+          8.1383601
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4340096490",
+        "nombre": "Universidad Nacional Experimental de Guayana",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4340096490",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5476033,
+          8.1241887
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4359282897",
+        "nombre": "Banesco",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4359282897",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5367744,
+          8.1273326
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4359302091",
+        "nombre": "Hotel Laja Real",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4359302091",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5524846,
+          8.1432489
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4738198521",
+        "nombre": "Hotel Don Carlos",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4738198521",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5496977,
+          8.1268757
+        ]
+      },
+      "properties": {
+        "id": "OSM-N4910609722",
+        "nombre": "Hotel Jardín",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/4910609722",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5508944,
+          8.13139
+        ]
+      },
+      "properties": {
+        "id": "OSM-N5264089424",
+        "nombre": "Banco Bicentenario",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/5264089424",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5508762,
+          8.1313146
+        ]
+      },
+      "properties": {
+        "id": "OSM-N5264089525",
+        "nombre": "Tesoro",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/5264089525",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5551819,
+          8.1331851
+        ]
+      },
+      "properties": {
+        "id": "OSM-N5378923421",
+        "nombre": "IVSS Lino Maradei",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/5378923421",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.544277,
+          8.1233688
+        ]
+      },
+      "properties": {
+        "id": "OSM-N5378924722",
+        "nombre": "BBVA Provincial",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/node/5378924722",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.53703035,
+          8.1321794
+        ]
+      },
+      "properties": {
+        "id": "OSM-R7948635",
+        "nombre": "Museo de Arte Moderno Jesús Soto",
+        "clase": "sede_evento",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/relation/7948635",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5622463,
+          8.1179884
+        ]
+      },
+      "properties": {
+        "id": "OSM-W107168664",
+        "nombre": "Sol Bolívar Gran Hotel Boutique",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/107168664",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5417113,
+          8.1367071
+        ]
+      },
+      "properties": {
+        "id": "OSM-W107181518",
+        "nombre": "Hotel La Cumbre",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/107181518",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5558989,
+          8.1268866
+        ]
+      },
+      "properties": {
+        "id": "OSM-W107234807",
+        "nombre": "Terminal de Ciudad Bolívar",
+        "clase": "transporte",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/107234807",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5339607,
+          8.1333147
+        ]
+      },
+      "properties": {
+        "id": "OSM-W107825658",
+        "nombre": "UBV",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/107825658",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5487143,
+          8.1291089
+        ]
+      },
+      "properties": {
+        "id": "OSM-W110099703",
+        "nombre": "Hospital Héctor Nouel Joubert",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/110099703",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4934409,
+          8.1172509
+        ]
+      },
+      "properties": {
+        "id": "OSM-W112477626",
+        "nombre": "Hotel Country",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/112477626",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5306229,
+          8.1347476
+        ]
+      },
+      "properties": {
+        "id": "OSM-W112726101",
+        "nombre": "Ipasme",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/112726101",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5311904,
+          8.129527
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1324668954",
+        "nombre": "Escuela de Ciencias de la Salud",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1324668954",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5450633,
+          8.1231129
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1394218008",
+        "nombre": "Centro Medico DANA1",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1394218008",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5576556,
+          8.1288326
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1458853406",
+        "nombre": "Universo Gran Hotel",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1458853406",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -63.6037212,
+            8.1383185
+          ],
+          [
+            -63.5930898,
+            8.1496604
+          ]
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1485676372",
+        "nombre": "Puente Angostura",
+        "clase": "puente",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1485676372",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "exacta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5114183,
+          8.1193519
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1518531377",
+        "nombre": "Indra Hotel",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1518531377",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4943018,
+          8.1178069
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1519593713",
+        "nombre": null,
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1519593713",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4987212,
+          8.117109
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1519617339",
+        "nombre": "Automotel Cachamay",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1519617339",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5003496,
+          8.1201678
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1519621702",
+        "nombre": "Módulo de Barrio Venezuela",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1519621702",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4741015,
+          8.1061166
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1520640283",
+        "nombre": "Motel Venus",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1520640283",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4637441,
+          8.1005658
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1520676485",
+        "nombre": null,
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1520676485",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5234395,
+          8.077298
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1521666023",
+        "nombre": "INCE",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1521666023",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5261665,
+          8.0661889
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1521795564",
+        "nombre": "Motel La Troja",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1521795564",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5236379,
+          8.0780239
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1521818171",
+        "nombre": "Módulo de La Paragua",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1521818171",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5250534,
+          8.0746229
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1522889927",
+        "nombre": "Motel Platinium",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1522889927",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5305446,
+          8.0860748
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524221672",
+        "nombre": "Módulo del Barrio Angostura",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524221672",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5266366,
+          8.0808566
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524221680",
+        "nombre": "Motel El Dorado",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524221680",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5264539,
+          8.0802043
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524224646",
+        "nombre": "Hotel Turístico Libertador",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524224646",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5460719,
+          8.1085227
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524233427",
+        "nombre": "INCE Talleres",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524233427",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5301187,
+          8.1072143
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524348253",
+        "nombre": "Centro Médico de Diagnóstico de Alta Tecnología",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524348253",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5432555,
+          8.1137639
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524486991",
+        "nombre": "Módulo de Negro Primero",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524486991",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5443512,
+          8.1194266
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524486994",
+        "nombre": "Policlínica Santa Ana",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524486994",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5523637,
+          8.125253
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524491604",
+        "nombre": "Centro Diagnóstico Guayana",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524491604",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5485837,
+          8.1219017
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524491606",
+        "nombre": "Hotel Paoca",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524491606",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5484171,
+          8.0620872
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524761328",
+        "nombre": "Módulo de Cuyuní",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524761328",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5533132,
+          8.1161061
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524911161",
+        "nombre": "Universidad de Oriente",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524911161",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5524482,
+          8.0972226
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1524919299",
+        "nombre": "Ambulatorio de Los Aceiticos",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1524919299",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5539033,
+          8.1113298
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1525004679",
+        "nombre": "Posada Mi Refugio",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1525004679",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5625134,
+          8.1161105
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1528808088",
+        "nombre": "Golden Dynasty Apart-Hotel",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1528808088",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5591595,
+          8.1156986
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1528842481",
+        "nombre": "Módulo de La Sabanita",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1528842481",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5623797,
+          8.1099424
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1529946623",
+        "nombre": "Motel Guanare",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1529946623",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5260146,
+          8.0712282
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1531959030",
+        "nombre": "Cruz Roja",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1531959030",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5429315,
+          8.0996192
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1533110442",
+        "nombre": "Módulo de Primero de Mayo",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1533110442",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5389739,
+          8.1024358
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1534361441",
+        "nombre": "Residencias Marmión",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1534361441",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5325608,
+          8.1168524
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1535081342",
+        "nombre": "UPEL",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1535081342",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5420863,
+          8.1130566
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1535205792",
+        "nombre": "Hotel Edi",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1535205792",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4888617,
+          8.1049135
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1536656808",
+        "nombre": "S.R.I. Simón Rodríguez",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1536656808",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4597258,
+          8.0922492
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1537335770",
+        "nombre": "Módulo de Marhuanta",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1537335770",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5570814,
+          8.0736418
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1537366106",
+        "nombre": "Módulo de Brisas del Orinoco",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1537366106",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4774587,
+          8.1086075
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1537791162",
+        "nombre": "Módulo de Maipure",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1537791162",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5162373,
+          8.1304943
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1540312247",
+        "nombre": "Módulo de Las Moreas",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1540312247",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5294163,
+          8.1331457
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1540916581",
+        "nombre": "Hospital Ruiz y Páez",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1540916581",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5709037,
+          8.1005578
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1543899363",
+        "nombre": "Ambulatorio de El Perú",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1543899363",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5895219,
+          8.1119196
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1544354185",
+        "nombre": "Módulo Dr. Francisco Canónico",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1544354185",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5887787,
+          8.1107765
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1544642721",
+        "nombre": "UNESR",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1544642721",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5875013,
+          8.1050329
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1544646363",
+        "nombre": "Ambulatorio de Los Próceres",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1544646363",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.573712,
+          8.1206604
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1544845395",
+        "nombre": "Hotel La Churuata",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1544845395",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5753043,
+          8.1221522
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1546448167",
+        "nombre": null,
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1546448167",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5721956,
+          8.1234196
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1546450674",
+        "nombre": "Motel Turístico Parador",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1546450674",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5670444,
+          8.1133597
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1546612145",
+        "nombre": null,
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1546612145",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5653281,
+          8.0431808
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1551195846",
+        "nombre": "Liceo Militar Eleazar López Contreras",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1551195846",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5670068,
+          8.0647727
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1551195858",
+        "nombre": "Módulo de Brisas del Sur",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1551195858",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5737664,
+          8.0515642
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1551195862",
+        "nombre": "Módulo de Nueva Guayana",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1551195862",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5395664,
+          8.0459817
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1551418789",
+        "nombre": "Complejo Educacional Los Caribes",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1551418789",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.541888,
+          8.0425673
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1551630142",
+        "nombre": "Módulo de Guaricongo",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1551630142",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5393102,
+          8.0456591
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1551732361",
+        "nombre": "CEFOCAPEB",
+        "clase": "educacion_superior",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1551732361",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5639149,
+          8.0438082
+        ]
+      },
+      "properties": {
+        "id": "OSM-W1552166729",
+        "nombre": "Módulo de Los Caribes",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/1552166729",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5363681,
+          8.1219373
+        ]
+      },
+      "properties": {
+        "id": "OSM-W307294526",
+        "nombre": "Aeropuerto Nacional Tomás de Heres",
+        "clase": "aeropuerto",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/307294526",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5689161,
+          8.1274515
+        ]
+      },
+      "properties": {
+        "id": "OSM-W547839499",
+        "nombre": "Hotel Alí Baba",
+        "clase": "hotel",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/547839499",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5429336,
+          8.1455652
+        ]
+      },
+      "properties": {
+        "id": "OSM-W547839515",
+        "nombre": "Mercantil",
+        "clase": "banca",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/547839515",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5387399,
+          8.1328463
+        ]
+      },
+      "properties": {
+        "id": "OSM-W556441644",
+        "nombre": "Clinica UDO",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/556441644",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5365695,
+          8.130535
+        ]
+      },
+      "properties": {
+        "id": "OSM-W556441646",
+        "nombre": "Clínica Las Nieves",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/556441646",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5357518,
+          8.1289025
+        ]
+      },
+      "properties": {
+        "id": "OSM-W557739891",
+        "nombre": "Clínica Andrés Bello",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/557739891",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.5365309,
+          8.128455
+        ]
+      },
+      "properties": {
+        "id": "OSM-W694629132",
+        "nombre": "Clínica Andrés Bello",
+        "clase": "salud",
+        "sector": "servicios",
+        "osm_url": "https://www.openstreetmap.org/way/694629132",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "confianza": "media",
+        "ultima_verificacion": "2026-10-13",
+        "geom_precision": "centro_aproximado"
+      }
+    }
+  ]
+}

@@ -824,3 +824,78 @@ registro por `id` con el anterior: 43 y 43, geometria identica, y solo cambian
   (ADR-013), separada de la exclusion de `power=plant` de la seccion 11.
 - **No es un inventario actual.** Es la foto de WRI congelada en 2022.
 - **No dice que opera.** Capacidad instalada no es generacion ni disponibilidad.
+
+---
+
+## 17. Capa Ciudad Bolivar (OSM) — modo E1
+
+**Fuente:** OpenStreetMap contributors, consulta Overpass del **2026-10-13**
+(mirror que respondio: `overpass-api.de`; la lista de mirrors esta en
+`scripts/descargar-fuentes.mjs`, con `maps.mail.ru` como cuarto).
+**Licencia:** **ODbL 1.0** (share-alike). **Atribucion obligatoria:**
+"© OpenStreetMap contributors", visible en la interfaz. **CRS:** EPSG:4326
+nativo. **Confianza:** media en los servicios (dato colaborativo, elegido por
+etiqueta). **Generado con:** `npm run data:ciudad-bolivar`
+(`scripts/ciudad-bolivar-to-geojson.mjs`; `-- --sin-red` reutiliza el crudo
+de `data/raw/osm-ciudad-bolivar.json`, que no se versiona).
+
+### Archivos
+
+| Archivo | Contenido | Features | Peso |
+|---|---|---|---|
+| `ciudad-bolivar-osm.geojson` | Servicios de la ciudad (sufijo `-osm`, ver seccion 4) | 95 | 56 KB |
+| `iniciativas-ccieb.geojson` | Iniciativas de la CCIEB/ExpoFaja **con ubicacion OSM** (la geometria sale del elemento OSM, nunca de coordenadas escritas a mano) | 2 | 2 KB |
+| `ciudad-bolivar-resumen.json` | Conteos por clase, campos GEM por anillo y 5 mas cercanos a la sede | — | 2 KB |
+
+### Consulta y caja
+
+Caja de trabajo `8.03, -63.72, 8.20, -63.42` (sur, oeste, norte, este):
+**no es el limite oficial** de la ciudad ni del municipio
+(`CIUDAD_BOLIVAR_CAJA` en `src/config.js`). Dos elementos se piden por id:
+`relation(7948635)` (Museo de Arte Moderno Jesus Soto, sede de ExpoFaja) y
+`way(1485676372)` (Puente Angostura, con geometria completa: es un tramo de
+dos nodos, un segmento recto, no todo el puente).
+
+### Clases (propiedad `clase`)
+
+| Clase | Seleccion OSM |
+|---|---|
+| `sede_evento` | por id: relation 7948635 |
+| `puente` | por id: way 1485676372 (LineString) |
+| `aeropuerto` | `aeroway=aerodrome` |
+| `educacion_superior` | `amenity=university`; `amenity=college` con el filtro de abajo |
+| `salud` | `amenity` o `healthcare` = `hospital` / `clinic` |
+| `hotel` | `tourism=hotel` / `motel` / `guest_house` |
+| `banca` | `amenity=bank` |
+| `transporte` | `amenity=bus_station` |
+
+Se deduplica por tipo + id. Todo es Point (centro del elemento) salvo el
+puente. `geom_precision` es `exacta` en nodos y puente, y `centro_aproximado`
+en vias y relaciones reducidas a punto. Sin `name` en OSM: `nombre: null`.
+
+### Filtro de educacion superior (y excluidos)
+
+OSM etiqueta `amenity=college` a liceos y escuelas tecnicas. Se excluyen los
+nombres que empiezan por `I.E.E.`, `E.T.`, `U.E.` o `Academia`. El script
+imprime cada excluido para revision humana. El 2026-10-13: 17 elementos
+university+college antes de filtrar, **5 excluidos** (I.E.E. Caridad Osio de
+Irala, I.E.E. Elia de Rapposelli, Academia Zulay, E.T.I. Antonio Diaz, E.T.C.
+Dalla Costa), 12 publicados.
+
+### Resultado (control, no dato: OSM cambia entre consultas)
+
+Salud 36, hotel 32, educacion superior 12, banca 11, aeropuerto 1,
+transporte 1, puente 1, sede 1 = 95; 5 hoteles sin nombre. Los tests **no**
+fijan estos conteos; fijan los ids por id, la procedencia y los tamanos.
+La ausencia en OSM no prueba inexistencia: la capa es lo cartografiado, no un
+censo de servicios.
+
+### Anillos de distancia
+
+Centro: OSM `relation/14534562` (8,1028532 N, -63,5469562 O, via Nominatim,
+2026-10-12). Distancia en linea recta (haversine, R = 6371,0088 km) al
+**vertice mas cercano** de cada campo GEM GOGET marzo 2026
+(`campos.geojson`), acumulada: 50 km → 0, 100 km → 10, 150 km → 45, 200 km →
+63 de 105 campos. Es aproximada (no considera interior ni aristas) y **no es
+distancia por carretera**. Los 5 campos mas cercanos se miden desde la sede
+(Museo Soto). Ninguna distancia a bloques: no tienen geometria con fuente.

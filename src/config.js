@@ -179,7 +179,50 @@ export const RUTAS_DATOS = {
   // Ver docs/DECISIONS.md -> ADR-013.
   centrales: "/data/centrales.geojson",
   probGrid: "/data/prob_grid.geojson", // Fase 5 (DEMO)
+  // Modo Ciudad Bolivar (E1). Servicios de OSM (ODbL, de ahi el sufijo -osm) e
+  // iniciativas de la CCIEB con ubicacion en OSM.
+  ciudadBolivar: "/data/ciudad-bolivar-osm.geojson",
+  iniciativasCcieb: "/data/iniciativas-ccieb.geojson",
 };
+
+// --- Ciudad Bolivar (E1) ----------------------------------------------------
+
+/**
+ * Centro de los anillos de distancia: punto de referencia de Ciudad Bolivar.
+ *
+ * VERIFICADO — OpenStreetMap relation 14534562 (limite de la ciudad), punto
+ * devuelto por Nominatim el 2026-10-12. Decision en ADR-020.
+ */
+export const CENTRO_CIUDAD_BOLIVAR = { lng: -63.5469562, lat: 8.1028532 };
+
+/**
+ * Caja de trabajo para consultar OSM: sur, oeste, norte, este (grados).
+ * Es una caja de trabajo, no el limite oficial de la ciudad ni del municipio.
+ */
+export const CIUDAD_BOLIVAR_CAJA = {
+  sur: 8.03,
+  oeste: -63.72,
+  norte: 8.2,
+  este: -63.42,
+};
+
+/** Id del Museo Soto en la capa ciudadBolivar: sede de la ExpoFaja (OSM relation 7948635). */
+export const ID_SEDE_EXPOFAJA = "OSM-R7948635";
+
+/** Radios de los anillos de distancia, en km, medidos en linea recta. */
+export const ANILLOS_KM = [50, 100, 150, 200];
+
+/** Clases de servicio de la capa Ciudad Bolivar (propiedad `clase`). */
+export const CLASES_CIUDAD = [
+  "sede_evento",
+  "aeropuerto",
+  "puente",
+  "educacion_superior",
+  "salud",
+  "hotel",
+  "banca",
+  "transporte",
+];
 
 /**
  * Color por hidrocarburo del campo.
