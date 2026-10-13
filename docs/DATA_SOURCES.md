@@ -827,6 +827,40 @@ registro por `id` con el anterior: 43 y 43, geometria identica, y solo cambian
 
 ---
 
+## 16. Contenido del organizador ExpoFaja (CCIEB)
+
+**Fuente:** Camara de Comercio e Industrias del Estado Bolivar (CCIEB),
+organizadora de la ExpoFaja Ciudad Bolivar 2026 (15–17/10/2026), y los
+titulares de cada marca. **Autorizacion:** la CCIEB autorizo el 2026-10-12 el
+uso de sus recursos en Orinoco Digital (cargo, medio y alcance en
+`docs/expofaja/AUTORIZACIONES.md`; la evidencia no se versiona). **Licencia:**
+**ninguna del proyecto**: este contenido queda **fuera de Apache-2.0 y de
+CC BY 4.0**. Es de sus titulares y se usa con permiso, atribuido.
+
+### Que entra
+
+| Contenido | Donde | Procedencia | Uso |
+|---|---|---|---|
+| Logos del evento, de la CCIEB, de la alcaldia, la gobernacion, el museo y aliados | `public/expofaja/marcas/` (con `AVISO.md`) | WordPress publico de la CCIEB, descargados el 2026-10-12; archivo por archivo en `docs/expofaja/semillas/marcas-manifiesto.json` | Solo la cabecera DOM del modo Ciudad Bolivar (E1) y el micrositio (E2). Nunca en los marcadores del mapa |
+| Iniciativas anunciadas (6) | `docs/expofaja/semillas/iniciativas-ccieb.json` | Notas de prensa de la CCIEB; cada una lleva su URL (`fuente`), `fecha_fuente` y fecha de consulta (2026-10-12) | Lista del panel del modo, atribuida. Solo se dibujan en el mapa las que tienen ubicacion OSM (hoy 2, ambas en el Museo Soto) |
+
+### Reglas
+
+- Los logos `expofaja-sobre-oscuro.webp` y `expofaja-mono-blanco.webp` son
+  variantes derivadas del logo oficial para fondo oscuro, hasta recibir las
+  versiones oficiales.
+- Los textos de las iniciativas se muestran tal cual y **no se traducen**; la
+  interfaz avisa de que los anuncio la CCIEB y de que Orinoco Digital no los
+  verifica. Las coordenadas de una iniciativa salen del elemento OSM de su
+  `ubicacion`, nunca escritas a mano.
+- Los colores de marca ExpoFaja/CCIEB no se usan para colorear datos
+  (`docs/expofaja/02-IDENTIDAD-VISUAL.md` §4).
+- Sin autorizacion registrada no entra nada mas: el recorte duplicado del afiche
+  y un ponente sin confirmar siguen sin publicarse (`AUTORIZACIONES.md`).
+- Aviso equivalente en `LICENSE-DATA` y decision en ADR-020, pieza 7.
+
+---
+
 ## 17. Capa Ciudad Bolivar (OSM) — modo E1
 
 **Fuente:** OpenStreetMap contributors, consulta Overpass del **2026-10-13**

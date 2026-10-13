@@ -364,3 +364,17 @@ export function iniciativasSinGeometria(semilla) {
     })),
   };
 }
+
+/**
+ * Posicion {lng, lat} de una feature: la del punto, o la primera de su
+ * geometria. Sirve para usar la sede de la capa como origen sin escribir sus
+ * coordenadas a mano.
+ *
+ * @param {{geometry?: {coordinates?: unknown}} | null | undefined} feature
+ * @returns {{lng: number, lat: number} | null}
+ */
+export function posicionDe(feature) {
+  const coords = feature?.geometry?.coordinates;
+  const primera = coords ? primeraPosicion(coords) : null;
+  return primera ? { lng: primera[0], lat: primera[1] } : null;
+}

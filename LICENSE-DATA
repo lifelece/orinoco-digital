@@ -44,5 +44,17 @@ La matriz completa, con CRS y fecha de verificacion de cada dataset, esta en
 
 ---
 
+## Marcas y contenido del organizador
+
+`public/expofaja/marcas/` y `public/expofaja/ponentes/` contienen logos y
+fotos que son **propiedad de sus titulares** (CCIEB, ExpoFaja, alcaldia,
+gobernacion, museo y aliados). Se usan con autorizacion de la CCIEB del
+2026-10-12 (`docs/expofaja/AUTORIZACIONES.md`) y **no estan bajo CC BY 4.0 ni
+Apache-2.0**. Los textos de las iniciativas de la CCIEB y de la ExpoFaja son
+suyos y se citan atribuidos a su nota de prensa. Detalle en
+[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md), seccion 16.
+
+---
+
 **El codigo fuente se licencia por separado bajo Apache-2.0.** Ver
 [LICENSE](LICENSE).

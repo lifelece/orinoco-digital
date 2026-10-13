@@ -21,12 +21,13 @@ const TAMANO = 40;
  * @param {string} contenido — elementos SVG del simbolo, en blanco
  * @param {string} color — color del disco, en CSS
  * @param {number} opacidadDisco
+ * @param {string} trazo — color del trazo del simbolo y del borde del disco
  * @returns {string} data URI listo para un billboard
  */
-function envolver(contenido, color, opacidadDisco = 0.92) {
+function envolver(contenido, color, opacidadDisco = 0.92, trazo = "#ffffff") {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${TAMANO}" height="${TAMANO}" viewBox="0 0 ${TAMANO} ${TAMANO}">
-<circle cx="20" cy="20" r="15" fill="${color}" fill-opacity="${opacidadDisco}" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2"/>
-<g fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${contenido}</g>
+<circle cx="20" cy="20" r="15" fill="${color}" fill-opacity="${opacidadDisco}" stroke="${trazo}" stroke-opacity="0.85" stroke-width="2"/>
+<g fill="none" stroke="${trazo}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${contenido}</g>
 </svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
@@ -143,6 +144,109 @@ export function iconoAproximado(tipo, color) {
 
   const uri = envolver(SIMBOLOS[tipo] ?? INSTALACION, color, 0.22);
   cache.set(clave, uri);
+  return uri;
+}
+
+// --- Ciudad Bolivar (E1) -----------------------------------------------------
+
+/**
+ * Trazo de los simbolos de la ciudad: mismo valor que --color-shell. El blanco
+ * de `envolver()` no se veria sobre el disco claro de COLOR_CIUDAD (D11).
+ */
+const TRAZO_CIUDAD = "#0b0f14";
+
+/** Edificio con fronton y columnas: museo (sede del evento). */
+const MUSEO = `
+<path d="M11 15 L20 10 L29 15 Z"/>
+<path d="M13 17.5 L13 26"/>
+<path d="M18 17.5 L18 26"/>
+<path d="M22 17.5 L22 26"/>
+<path d="M27 17.5 L27 26"/>
+<path d="M11 28 L29 28"/>`;
+
+/** Avion visto desde arriba: aeropuerto. */
+const AVION = `
+<path d="M20 9.5 C21.2 9.5 21.8 10.5 21.8 12 L21.8 17.5 L30 22.5 L30 24.5 L21.8 22 L21.8 27 L24.5 29 L24.5 30.5 L20 29.3 L15.5 30.5 L15.5 29 L18.2 27 L18.2 22 L10 24.5 L10 22.5 L18.2 17.5 L18.2 12 C18.2 10.5 18.8 9.5 20 9.5 Z"/>`;
+
+/** Tablero con arco sobre el: puente. */
+const PUENTE = `
+<path d="M10 20 L30 20"/>
+<path d="M12 20 C14 12 26 12 28 20"/>
+<path d="M16 15.2 L16 20"/>
+<path d="M20 13.7 L20 20"/>
+<path d="M24 15.2 L24 20"/>
+<path d="M12 20 L12 26"/>
+<path d="M28 20 L28 26"/>`;
+
+/** Birrete: educacion superior. */
+const BIRRETE = `
+<path d="M20 12 L31 17.5 L20 23 L9 17.5 Z"/>
+<path d="M14.5 20.5 L14.5 25 C17 27 23 27 25.5 25 L25.5 20.5"/>
+<path d="M31 17.5 L31 24"/>`;
+
+/** Cruz: salud. */
+const CRUZ = `
+<path d="M17 11 L23 11 L23 17 L29 17 L29 23 L23 23 L23 29 L17 29 L17 23 L11 23 L11 17 L17 17 Z"/>`;
+
+/** Cama con almohada: hotel. */
+const CAMA = `
+<path d="M10 14 L10 27"/>
+<path d="M10 23 L30 23 L30 27"/>
+<path d="M10 23 L10 19 L27 19 C29 19 30 20.5 30 23"/>
+<circle cx="14.5" cy="21" r="1.8"/>`;
+
+/** Fachada con columnas y base: banco. */
+const BANCO = `
+<path d="M10 16 L20 10.5 L30 16 Z"/>
+<path d="M12.5 19 L12.5 25"/>
+<path d="M17 19 L17 25"/>
+<path d="M23 19 L23 25"/>
+<path d="M27.5 19 L27.5 25"/>
+<path d="M10 28 L30 28"/>
+<path d="M11 25.5 L29 25.5"/>`;
+
+/** Autobus de frente: transporte. */
+const BUS = `
+<rect x="11.5" y="11" width="17" height="15" rx="2.5"/>
+<path d="M11.5 18 L28.5 18"/>
+<path d="M15 22.5 L15.8 22.5"/>
+<path d="M24.2 22.5 L25 22.5"/>
+<path d="M14 26 L14 29"/>
+<path d="M26 26 L26 29"/>`;
+
+/** Estrella de contorno: iniciativa anunciada. */
+const ESTRELLA = `
+<path d="M20 10.5 L22.7 16.6 L29.3 17.2 L24.3 21.6 L25.8 28.1 L20 24.7 L14.2 28.1 L15.7 21.6 L10.7 17.2 L17.3 16.6 Z"/>`;
+
+const SIMBOLOS_CIUDAD = {
+  sede_evento: MUSEO,
+  aeropuerto: AVION,
+  puente: PUENTE,
+  educacion_superior: BIRRETE,
+  salud: CRUZ,
+  hotel: CAMA,
+  banca: BANCO,
+  transporte: BUS,
+  iniciativa: ESTRELLA,
+};
+
+/**
+ * Simbolo de un servicio de Ciudad Bolivar o de una iniciativa de la CCIEB.
+ * Disco de `color` con trazo oscuro (no blanco) para que el glifo se lea sobre
+ * un disco claro. Una clave desconocida cae al simbolo del museo (nunca
+ * rompe el dibujo de la capa).
+ *
+ * @param {string} clave — una de CLASES_CIUDAD o "iniciativa"
+ * @param {string} color — CSS del disco (COLOR_CIUDAD)
+ * @returns {string} data URI
+ */
+export function iconoCiudad(clave, color) {
+  const llave = `${clave}|${color}|ciudad`;
+  const guardado = cache.get(llave);
+  if (guardado) return guardado;
+
+  const uri = envolver(SIMBOLOS_CIUDAD[clave] ?? MUSEO, color, 0.96, TRAZO_CIUDAD);
+  cache.set(llave, uri);
   return uri;
 }
 

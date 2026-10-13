@@ -1,7 +1,8 @@
 # Spec 001 — Modo Ciudad Bolivar: la ciudad como eje del mapa
 
-> Estado: EN PLAN (2026-10-12) — `plan.md` y `tasks.md` escritos, pendientes
-> del OK de Luis. Dudas abiertas: 2 y 3 (seccion 9); ninguna bloquea el arranque.
+> Estado: IMPLEMENTADA (2026-10-13), pendiente del gate de Luis en telefono real.
+> Validada por el revisor (cambios aplicados) y en navegador headless a 1440x900
+> y 390x844. Dudas 1 y 2 resueltas; la 3 (D10) aplicada.
 > Peticion de Luis (literal): "poner a ciudad Bolivar como eje del mapa y las
 > cosas que quiere hacer la camara de comercio y la Expo"
 > Origen: `docs/expofaja/E1-MODO-CIUDAD-BOLIVAR.md` (mandato con datos medidos),

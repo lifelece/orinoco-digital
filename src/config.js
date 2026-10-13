@@ -246,13 +246,19 @@ export const ZOOM_CIUDAD = {
 };
 
 /**
- * RF-4: anillo que debe verse completo segun la orientacion de la pantalla, y
- * margen sobre el encuadre geometrico. `margen` SIN VERIFICAR (medir en I1).
+ * RF-4: anillo que debe verse completo segun la orientacion de la pantalla.
+ * `margen` / `margenVertical`: factor sobre el encuadre geometrico (la
+ * perspectiva oblicua agranda la mitad cercana del anillo).
+ * `desplazamientoNorteVertical`: en vertical el encuadre apunta al norte de la
+ * ciudad (fraccion del radio) para que el anillo quede bajo cabecera y panel.
+ * Medido en captura a 1440x900 y 390x844 (I1, 2026-10-13).
  */
 export const CAMARA_CIUDAD_BOLIVAR = {
   anilloEscritorioKm: 150,
   anilloVerticalKm: 100,
-  margen: 1.15,
+  margen: 1.3,
+  margenVertical: 1.8,
+  desplazamientoNorteVertical: 0.5,
 };
 
 /**

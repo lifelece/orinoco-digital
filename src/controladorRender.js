@@ -121,6 +121,66 @@ export function pedirRenderPuntual(motivo = "sin especificar") {
 }
 
 /**
+ * Sostenidos por `sostenerHastaListo`, por id: {token, quitar}. El token
+ * distingue a un sostenido de su reemplazo con el mismo id.
+ * @type {Map<string, {token: symbol, quitar: () => void}>}
+ */
+const sostenidos = new Map();
+
+/** Tiempo maximo que sostenerHastaListo retiene el render continuo (ms). */
+export const TOPE_SOSTENER_MS = 10000;
+
+/**
+ * Render continuo hasta que `listo()` devuelva true, comprobado tras cada
+ * frame (`scene.postRender`). Es para trabajo asincrono de Cesium que solo
+ * avanza en frames renderizados (geometria pegada al suelo en modo reposo):
+ * el hold dura lo justo, no mientras una ficha este abierta (ADR-019).
+ * Llamarla de nuevo con el mismo id reemplaza la anterior. Sin viewer con
+ * `scene.postRender` no retiene nada. Nunca retiene mas de TOPE_SOSTENER_MS.
+ *
+ * @param {string} id
+ * @param {() => boolean} listo
+ * @returns {() => void} cancelar: libera el hold y quita el listener
+ */
+export function sostenerHastaListo(id, listo) {
+  const postRender = viewerInstalado?.scene.postRender;
+  if (!id || typeof postRender?.addEventListener !== "function") return () => {};
+
+  // Reemplazo: se quita el listener viejo pero el hold sigue (se re-pide abajo).
+  sostenidos.get(id)?.quitar();
+
+  const token = Symbol(id);
+  const oyente = () => {
+    if (listo()) cancelar();
+  };
+  const remover = postRender.addEventListener(oyente);
+  const quitar = () => {
+    if (typeof remover === "function") remover();
+    else postRender.removeEventListener?.(oyente);
+  };
+  function cancelar() {
+    // Ya reemplazado o terminado: no se toca el hold del reemplazo.
+    if (sostenidos.get(id)?.token !== token) return;
+    const entrada = sostenidos.get(id);
+    sostenidos.delete(id);
+    entrada.quitar();
+    liberarRenderContinuo(id);
+  }
+
+  // Tope: si la geometria nunca se da por lista (p. ej. un navegador sin
+  // polilineas pegadas al suelo), el render no se queda continuo para siempre.
+  const tope = setTimeout(cancelar, TOPE_SOSTENER_MS);
+  const quitarConTope = () => {
+    clearTimeout(tope);
+    quitar();
+  };
+
+  sostenidos.set(id, { token, quitar: quitarConTope });
+  pedirRenderContinuo(id);
+  return cancelar;
+}
+
+/**
  * Estado actual, para depurar o para tests de integracion.
  * @returns {{modo: "continuo" | "reposo", holds: string[]}}
  */
@@ -137,12 +197,16 @@ export function estadoControladorRender() {
  */
 export function desinstalarControladorRender(viewer) {
   if (viewer !== undefined && viewer !== viewerInstalado) return;
+  for (const { quitar } of sostenidos.values()) quitar();
+  sostenidos.clear();
   viewerInstalado = null;
   holds.clear();
 }
 
 /** Test seam: resetea el modulo entre pruebas, sin pasar por un viewer real. */
 export function _resetControladorRenderParaTest() {
+  for (const { quitar } of sostenidos.values()) quitar();
+  sostenidos.clear();
   viewerInstalado = null;
   holds.clear();
 }
