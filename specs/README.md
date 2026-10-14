@@ -8,8 +8,8 @@ spec (`/sdd-cambio`). Los numeros de RF no se reutilizan.
 
 | Spec | Estado |
 |---|---|
-| [001-modo-ciudad-bolivar](001-modo-ciudad-bolivar/spec.md) | Cerrada: en produccion (PR #6) y gate en telefono superado el 2026-10-13 |
-| [002-micrositio-expofaja](002-micrositio-expofaja/spec.md) | Cerrada: en produccion (PR #7; memoria del evento en #9), telefono y QR superados el 2026-10-13; pendientes Lighthouse movil y `.ics` en telefono |
+| [001-modo-ciudad-bolivar](001-modo-ciudad-bolivar/spec.md) | Cerrada: en produccion (PR #6) y gate en telefono superado el 2026-10-13; RF-22/23 (PR #18) superados el 2026-10-14 |
+| [002-micrositio-expofaja](002-micrositio-expofaja/spec.md) | Cerrada: en produccion (PR #7; memoria del evento en #9), telefono y QR superados el 2026-10-13; `.ics` y RF-78 (PR #17) superados el 2026-10-14; pendiente Lighthouse movil |
 
 Flujo: `/sdd-spec` -> `/sdd-aclarar` -> `/sdd-plan` -> `/sdd-tareas` ->
 `/sdd-implementar` (una tarea cada vez) -> `/sdd-validar`. Estado de todo:

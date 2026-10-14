@@ -1,6 +1,6 @@
 # Spec 002 — Micrositio `/expofaja`: la vitrina unida al mapa
 
-> Estado: CERRADA (2026-10-13). En produccion (PR #7, memoria en #9); telefono y QR superados; pendientes Lighthouse movil y `.ics` en telefono.
+> Estado: CERRADA (2026-10-13). En produccion (PR #7, memoria en #9); telefono y QR superados; `.ics` en telefono superado el 2026-10-14 (con RF-78, PR #17); pendiente Lighthouse movil.
 > Peticion de Luis (literal, mandato E2): "Una pagina ligera, con la identidad
 > ExpoFaja, que cualquiera abre desde el QR en el museo y en 3 segundos sabe
 > que charla hay ahora, que viene despues, quien habla, quien organiza y por

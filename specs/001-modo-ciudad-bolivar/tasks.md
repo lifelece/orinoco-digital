@@ -92,3 +92,7 @@ Recuento: T1 en curso · P0: 2 tareas · A: 5 · B: 3 · C: 6 · integracion: 2.
 ## Gate de Luis (2026-10-13)
 
 Superado: Luis probo produccion en su telefono real con datos moviles ("funciona bien") y el QR impreso. Repetido en produccion con Edge + CDP a 390x844 y 1440x900: modo, "Ver toda la Faja", `history.back()`, `/` en el modo, `?modo=nacional`, parametros desconocidos ignorados, `?capa=centrales`, `?vuelo=OSM-R7948635` (ficha con Dobokubi a 57,2 km), sin desborde. `npm test` 191/191. Una de cuatro corridas tardo en abrir la ficha de `?vuelo` (carga lenta de teselas en headless); las otras tres, bien.
+
+## Gate de Luis (2026-10-14): RF-22 y RF-23
+
+Superado: Luis probo produccion en su telefono real ("todo bien"): "Despejar pantalla" deja solo mapa, creditos y atribucion; "Mostrar todo" lo devuelve; tocar un activo con la pantalla despejada devuelve la interfaz con su ficha; "Ver agenda" abre `/expofaja/`. Antes, Edge + CDP a 360x844, 390x844 y 1440x900 (ES y EN): sin desborde, estado conservado al cambiar de idioma, boton oculto en escritorio. `npm test` 194/194. PR #18.
