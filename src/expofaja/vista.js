@@ -8,11 +8,13 @@ import { t, idioma, cambiarIdioma } from "../i18n/index.js";
 import { ORIGEN_CCIEB, REPO, URL_MAPA_CIUDAD } from "../config.js";
 import { crearReglaRio } from "../ui/reglaRio.js";
 import {
+  contarSesionesConHora,
   cuentaRegresiva,
   diaInicial,
   estadoEvento,
   exposicionEnCurso,
   generarIcs,
+  generarIcsPrograma,
   horaEvento,
   mostrarEtiquetaAhora,
   presentacionEvento,
@@ -279,17 +281,35 @@ function crearCabecera() {
 
 // --- Seccion 3: agenda ---------------------------------------------------------
 
-function descargarIcs(dia, sesion) {
-  const p = sesion.ponente_id ? est.ponentes.get(sesion.ponente_id) : undefined;
-  const ics = generarIcs(sesion, dia, p, new Date(), est.datos.evento);
+/** Descarga un texto .ics generado en el navegador, sin red (RF-31, RF-78). */
+function descargarCalendario(ics, nombre) {
   const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
   const a = el("a");
   a.href = url;
-  a.download = `expofaja-${dia.fecha}-${sesion.inicio.replace(":", "")}.ics`;
+  a.download = nombre;
   document.body.append(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function descargarIcs(dia, sesion) {
+  const p = sesion.ponente_id ? est.ponentes.get(sesion.ponente_id) : undefined;
+  const ics = generarIcs(sesion, dia, p, new Date(), est.datos.evento);
+  descargarCalendario(ics, `expofaja-${dia.fecha}-${sesion.inicio.replace(":", "")}.ics`);
+}
+
+/** Boton "Agregar las N sesiones": todo el programa en un solo .ics (RF-78). */
+function crearBotonPrograma() {
+  const n = contarSesionesConHora(est.datos.agenda);
+  if (!est.pres.calendario || n === 0) return null;
+  const b = el("button", "ef-btn ef-btn-azul ef-btn-programa", t("expofaja.agregarPrograma", { n }));
+  b.type = "button";
+  b.addEventListener("click", () => {
+    const ics = generarIcsPrograma(est.datos.agenda, est.ponentes, new Date(), est.datos.evento);
+    descargarCalendario(ics, "expofaja-2026-programa.ics");
+  });
+  return b;
 }
 
 function idSesion(dia, i) {
@@ -381,7 +401,7 @@ function crearAgenda() {
   const fuente = el("p", "ef-nota");
   fuente.append(t("expofaja.agenda.fuente", { fuente: agenda.fuente, fecha: agenda.ultima_verificacion }));
   contenido(fuente);
-  s.append(lista, ...paneles, pie, fuente);
+  s.append(crearBotonPrograma() ?? "", lista, ...paneles, pie, fuente);
   seleccionarDia(Math.min(est.dia ?? diaInicial(agenda, est.ahora), agenda.dias.length - 1), false);
   return s;
 }

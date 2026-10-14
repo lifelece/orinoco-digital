@@ -229,25 +229,29 @@ const marcaLocal = (fecha, hhmm) => `${fecha.replaceAll("-", "")}T${hhmm.replace
 /** Date -> "AAAAMMDDTHHMMSSZ" en UTC. */
 const marcaUtc = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
 
-/**
- * Genera un evento iCalendar (RFC 5545) para una sesion con hora (RF-31..34).
- * @param {Object} sesion sesion con inicio y fin
- * @param {Object} dia dia de la agenda ({fecha})
- * @param {?Object} ponente entrada de ponentes.json, o null/undefined si no hay
- * @param {Date} [generado=new Date()] instante del DTSTAMP (inyectable en tests)
- * @param {?Object} [evento] contenido de evento.json: de `sede` salen nombre y ciudad
- *   de LOCATION; sin el, no se escribe LOCATION (no se inventa la sede)
- * @returns {string} texto .ics con lineas CRLF
- * @throws {Error} si la sesion no tiene hora
- */
-export function generarIcs(sesion, dia, ponente, generado = new Date(), evento = null) {
-  if (!sesion.inicio || !sesion.fin) throw new Error("generarIcs: la sesion no tiene hora");
+/** Lineas sin plegar del VEVENT de una sesion con hora (RF-32..34). */
+function lineasEvento(sesion, dia, ponente, generado, evento) {
   const descripcion = [
     ponente ? [ponente.titulo, ponente.nombre].filter(Boolean).join(" ") : null,
     sesion.sala || null,
     "Programa oficial de la CCIEB",
   ].filter(Boolean);
   const sede = evento?.sede;
+  return [
+    "BEGIN:VEVENT",
+    `UID:${uidSesion(dia, sesion)}`,
+    `DTSTAMP:${marcaUtc(generado)}`,
+    `DTSTART;TZID=${ZONA_ICS}:${marcaLocal(dia.fecha, sesion.inicio)}`,
+    `DTEND;TZID=${ZONA_ICS}:${marcaLocal(dia.fecha, sesion.fin)}`,
+    `SUMMARY:${escaparIcs(sesion.titulo)}`,
+    ...(sede?.nombre ? [`LOCATION:${escaparIcs([sede.nombre, sede.ciudad].filter(Boolean).join(", "))}`] : []),
+    `DESCRIPTION:${escaparIcs(descripcion.join("\n"))}`,
+    "END:VEVENT",
+  ];
+}
+
+/** Envuelve VEVENTs en un VCALENDAR con su VTIMEZONE, plegado y con CRLF (RF-32). */
+function calendarioIcs(eventos) {
   const lineas = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -262,18 +266,53 @@ export function generarIcs(sesion, dia, ponente, generado = new Date(), evento =
     "TZNAME:-04",
     "END:STANDARD",
     "END:VTIMEZONE",
-    "BEGIN:VEVENT",
-    `UID:${uidSesion(dia, sesion)}`,
-    `DTSTAMP:${marcaUtc(generado)}`,
-    `DTSTART;TZID=${ZONA_ICS}:${marcaLocal(dia.fecha, sesion.inicio)}`,
-    `DTEND;TZID=${ZONA_ICS}:${marcaLocal(dia.fecha, sesion.fin)}`,
-    `SUMMARY:${escaparIcs(sesion.titulo)}`,
-    ...(sede?.nombre ? [`LOCATION:${escaparIcs([sede.nombre, sede.ciudad].filter(Boolean).join(", "))}`] : []),
-    `DESCRIPTION:${escaparIcs(descripcion.join("\n"))}`,
-    "END:VEVENT",
+    ...eventos,
     "END:VCALENDAR",
   ];
   return `${lineas.map(plegar).join("\r\n")}\r\n`;
+}
+
+/**
+ * Genera un evento iCalendar (RFC 5545) para una sesion con hora (RF-31..34).
+ * @param {Object} sesion sesion con inicio y fin
+ * @param {Object} dia dia de la agenda ({fecha})
+ * @param {?Object} ponente entrada de ponentes.json, o null/undefined si no hay
+ * @param {Date} [generado=new Date()] instante del DTSTAMP (inyectable en tests)
+ * @param {?Object} [evento] contenido de evento.json: de `sede` salen nombre y ciudad
+ *   de LOCATION; sin el, no se escribe LOCATION (no se inventa la sede)
+ * @returns {string} texto .ics con lineas CRLF
+ * @throws {Error} si la sesion no tiene hora
+ */
+export function generarIcs(sesion, dia, ponente, generado = new Date(), evento = null) {
+  if (!sesion.inicio || !sesion.fin) throw new Error("generarIcs: la sesion no tiene hora");
+  return calendarioIcs(lineasEvento(sesion, dia, ponente, generado, evento));
+}
+
+/**
+ * Numero de sesiones que entran en el .ics del programa completo (RF-78).
+ * @param {Object} agenda
+ * @returns {number}
+ */
+export function contarSesionesConHora(agenda) {
+  return sesionesConHora(agenda).length;
+}
+
+/**
+ * Un solo .ics con todas las sesiones con hora del programa, en su orden (RF-78).
+ * Cada VEVENT es identico al que da generarIcs para esa sesion.
+ * @param {Object} agenda
+ * @param {Map<string, Object>} ponentes ponentes.json indexado por id
+ * @param {Date} [generado=new Date()] instante del DTSTAMP (inyectable en tests)
+ * @param {?Object} [evento] contenido de evento.json (ver generarIcs)
+ * @returns {string} texto .ics con lineas CRLF
+ * @throws {Error} si ninguna sesion tiene hora
+ */
+export function generarIcsPrograma(agenda, ponentes, generado = new Date(), evento = null) {
+  const eventos = sesionesConHora(agenda).flatMap(({ dia, sesion }) =>
+    lineasEvento(sesion, dia, sesion.ponente_id ? ponentes.get(sesion.ponente_id) : null, generado, evento),
+  );
+  if (eventos.length === 0) throw new Error("generarIcsPrograma: ninguna sesion tiene hora");
+  return calendarioIcs(eventos);
 }
 
 /**

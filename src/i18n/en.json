@@ -218,6 +218,7 @@
   "expofaja.horaPorConfirmar": "Time to be confirmed",
   "expofaja.agregarCalendario": "Add to my calendar",
   "expofaja.agregarCalendarioAria": "Add to my calendar: {titulo}",
+  "expofaja.agregarPrograma": "Add all {n} sessions to my calendar",
   "expofaja.agenda.nota": "Official CCIEB program. Times and rooms are subject to change by the organizer.",
   "expofaja.agenda.fuente": "Source: {fuente}. Last checked: {fecha}.",
   "expofaja.ponentes.titulo": "Speakers",

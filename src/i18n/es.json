@@ -218,6 +218,7 @@
   "expofaja.horaPorConfirmar": "Hora por confirmar",
   "expofaja.agregarCalendario": "Agregar a mi calendario",
   "expofaja.agregarCalendarioAria": "Agregar a mi calendario: {titulo}",
+  "expofaja.agregarPrograma": "Agregar las {n} sesiones a mi calendario",
   "expofaja.agenda.nota": "Programa oficial de la CCIEB. Horarios y salas sujetos a cambios del organizador.",
   "expofaja.agenda.fuente": "Fuente: {fuente}. Última verificación: {fecha}.",
   "expofaja.ponentes.titulo": "Ponentes",
