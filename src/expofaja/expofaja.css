@@ -386,6 +386,11 @@ body {
 }
 
 /* --- Agenda --- */
+.ef-btn-programa {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
 .ef-pestanas {
   display: flex;
   gap: 8px;
@@ -833,6 +838,10 @@ body {
   .ef-botones {
     grid-template-columns: auto auto;
     justify-content: start;
+  }
+
+  .ef-btn-programa {
+    width: auto;
   }
 
   .ef-tarjetas,
