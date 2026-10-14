@@ -9,15 +9,15 @@
 - v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010); 6-7 en curso: falta material de divulgacion, tag v1.0 y Lighthouse (rendimiento 25 el 2026-09-17, lastrado por Cesium).
 - Token de Cesium restringido por dominio (2026-09-29).
 - Mergeados el 2026-09-29: PR #1 shell de UI (ADR-014), #2 paquete visual (ADR-018), #3 controlador de render (ADR-019), #4 limpieza de falsos positivos OSM (downstream 97 -> 64).
-- ExpoFaja 2026 (15-17/10) con la CCIEB, en produccion desde 2026-10-13: E1 modo Ciudad Bolivar (#6), E2 micrositio `/expofaja` (#7), E3 embed (#8), E4.1 memoria bilingue (#9). El 2026-10-18 00:00 (Caracas), por fecha y sin desplegar: el micrositio pasa a memoria y la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`). Bitacora en Notion: "Bitacora 12-13 Oct 2026".
+- ExpoFaja 2026 (15-17/10) con la CCIEB, en produccion desde 2026-10-13: E1 modo Ciudad Bolivar (#6), E2 micrositio `/expofaja` (#7), E3 embed (#8), E4.1 memoria bilingue (#9). 2026-10-14: todo el programa en un .ics (RF-78, #17); despejar pantalla en movil y enlace "Ver agenda" del modo al micrositio (RF-22/23, #18). El 2026-10-18 00:00 (Caracas), por fecha y sin desplegar: el micrositio pasa a memoria y la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`). Bitacora en Notion: "Bitacora 12-13 Oct 2026".
 - Identidad visual "instrumento de cuenca" (ADR-021, #10) en produccion desde 2026-10-13: tokens `tinta`/`tinta-baja`, regla del rio (`public/data/regla-rio.json`, `npm run data:regla`).
 - Datos automaticos (#12): workflow `datos-semanal` (lunes) y `noticias-ccieb` (diario) abren PR; GEM sigue manual. `FECHA_DATOS` lo pone `npm run data:actualizar`.
 - Abierto: carga diferida de Cesium (ADR-022, #11), no mergear antes del 18/10. FCP medido 7,6 s -> 1,0 s (aprox., 4G lenta).
 
 ## Decisiones abiertas de Luis
 
-- Gates cerrados el 2026-10-13 (Luis en telefono + QR): M1, E1, E2, E3 (codigo). ADR-020 aceptado completo.
-- Pendientes de Luis: nombre y medio de quien autorizo en `AUTORIZACIONES.md` (cargo: director de la CCIEB); mensaje de seguimiento E0; PDF al webmaster y ver el embed en su web; `.ics` en telefono.
+- Gates cerrados el 2026-10-13 (Luis en telefono + QR): M1, E1, E2, E3 (codigo). ADR-020 aceptado completo. El 2026-10-14: `.ics` en telefono, RF-78 (#17) y RF-22/23 (#18).
+- Pendientes de Luis: nombre y medio de quien autorizo en `AUTORIZACIONES.md` (cargo: director de la CCIEB); mensaje de seguimiento E0; PDF al webmaster y ver el embed en su web.
 - Pendiente tecnico: Lighthouse movil de `/expofaja` y del mapa (cuota de PageSpeed agotada el 13/10); tag v1.0 tras #11.
 
 ## Decisiones vigentes (no reabrir sin ADR)

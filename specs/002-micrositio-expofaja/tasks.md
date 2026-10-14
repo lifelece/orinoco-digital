@@ -86,7 +86,7 @@ export function iniciarEmbed(documento, ventana)  // noindex, target=_top, postM
 ## Integracion (coordinador)
 
 - [x] I1 · Merge de lo ultimo de `expofaja-e1`; `npm test`, `npm run build`: `dist/expofaja/index.html` sin chunk cesium (RF-69), JS propio <= 30 KB gzip (RNF-1), pesos de imagenes; Lighthouse movil si hay Chrome DevTools MCP; `mapa.webp` desde la vista previa de E1 (duda 2: sin captura, RF-50, hasta tenerla) · vueltas: 0/2
-- [x] I2 · PR contra `main` sin merge (#7, mergeado por Luis el 13/10; telefono y QR superados el 13/10; `.ics` en el telefono y Lighthouse movil pendientes); checklist de Luis (telefono, QR impreso con dos telefonos, `.ics` en Google Calendar y en el telefono)
+- [x] I2 · PR contra `main` sin merge (#7, mergeado por Luis el 13/10; telefono y QR superados el 13/10; `.ics` en el telefono superado el 14/10 junto con RF-78, PR #17; Lighthouse movil pendiente); checklist de Luis (telefono, QR impreso con dos telefonos, `.ics` en Google Calendar y en el telefono)
 
 ## Resultado de I1 (coordinador, 2026-10-13)
 
@@ -96,3 +96,7 @@ export function iniciarEmbed(documento, ventana)  // noindex, target=_top, postM
 - RNF-2: `og.png` 1200x630 95 KB; `mapa.webp` 1200x675 111,7 KB (captura del modo Ciudad Bolivar sin la interfaz, con creditos de Cesium; duda 2 resuelta); fotos <= 4,1 KB; logos <= 40 KB.
 - Navegador headless (Edge + CDP, 390x844 movil): sin desborde, un solo h1, ninguna imagen rota, boton 3D -> `/?modo=ciudadBolivar`, aviso de independencia visible. Embed: `noindex`, sin cabecera, todo enlace externo con `target=_top` salvo los `mailto:` (no navegan el marco; decision de B en `embed.js:57`).
 - Pendiente: Lighthouse movil (sin Chrome DevTools MCP en la sesion; medir en la vista previa), `.ics` en Google Calendar y en el telefono, QR impreso.
+
+## Gate de Luis (2026-10-14): `.ics` y RF-78
+
+Superado: Luis probo en su telefono real ("todo bien") el boton "Agregar las 21 sesiones a mi calendario" (un solo `.ics`, PR #17). Antes, Edge + CDP a 390x844 en produccion: 1 descarga `text/calendar`, 1 VCALENDAR, 21 VEVENT, CRLF, sin desborde. `npm test` 194/194. Sigue pendiente Lighthouse movil.
