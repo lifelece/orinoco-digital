@@ -143,6 +143,19 @@ body {
   }
 }
 
+/* Pantalla despejada en movil (#btn-despejar, ui.js): la interfaz se esconde,
+   no se desmonta. Quedan el mapa, sus creditos, el pie con la atribucion y el
+   aviso DEMO, que no se oculta mientras la capa esta encendida (principio 8). */
+@media (width < 40rem) {
+  [data-despejado] #columna > :not(#ranura-banner),
+  [data-despejado] #panel-activo,
+  [data-despejado] #btn-capas-movil,
+  [data-despejado] #btn-faja-movil,
+  [data-despejado] #btn-tabla-movil {
+    visibility: hidden;
+  }
+}
+
 /* Respeta a quien pidio menos movimiento en su sistema. */
 @media (prefers-reduced-motion: reduce) {
   *,
