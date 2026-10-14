@@ -15,7 +15,7 @@
  */
 
 import { t, idioma } from "../i18n/index.js";
-import { MARCAS_MODO, CLASES_CIUDAD } from "../config.js";
+import { MARCAS_MODO, CLASES_CIUDAD, URL_MICROSITIO } from "../config.js";
 import { crearReglaRio } from "./reglaRio.js";
 
 /**
@@ -111,7 +111,9 @@ function crearCabecera() {
 
   const fila = nodo("div", "flex min-w-0 items-center gap-2 sm:ml-auto sm:gap-3");
   fila.append(
-    nodo("span", "shrink-0 text-[10px] leading-none text-lo sm:text-[11px]", t("modo.ciudadBolivar.alianza"))
+    // Se parte en dos lineas si hace falta: a 360 px, en ingles, con el enlace a
+    // la agenda en la misma fila, desbordaba la tarjeta.
+    nodo("span", "min-w-0 text-[10px] leading-none text-lo sm:shrink-0 sm:text-[11px]", t("modo.ciudadBolivar.alianza"))
   );
 
   // El sello lleva aro azul oscuro: sobre el tema oscuro se pierde, asi que va
@@ -134,7 +136,13 @@ function crearCabecera() {
     height: "238",
     decoding: "async",
   });
-  fila.append(sello, logo);
+  // Unico camino del mapa al micrositio; en movil queda al final de la fila 2.
+  const agenda = nodo("a", `${BOTON} shrink-0 max-sm:ml-auto`, t("modo.verAgenda"), {
+    href: URL_MICROSITIO,
+    "aria-label": t("modo.verAgendaAria"),
+    id: "enlace-micrositio",
+  });
+  fila.append(sello, logo, agenda);
 
   const volver = nodo("button", `${BOTON} shrink-0 sm:order-last`, t("modo.verFaja"), { type: "button", id: "btn-ver-faja" });
   volver.addEventListener("click", () => estado.alSalir?.());
