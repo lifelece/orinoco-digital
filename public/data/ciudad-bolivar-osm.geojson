@@ -16,9 +16,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/1238667947",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -37,9 +37,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/13899430445",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -58,9 +58,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/13986923882",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -79,9 +79,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/14022292928",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -100,9 +100,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/14024916275",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -121,9 +121,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/14027994590",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -142,9 +142,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/14027994591",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -163,9 +163,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/14051755538",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -184,9 +184,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/14104335272",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -205,9 +205,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4277341094",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -226,9 +226,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4278152493",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -247,9 +247,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4307515090",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -268,9 +268,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4307527190",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -289,9 +289,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4307549989",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -310,9 +310,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4307550189",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -331,9 +331,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4340096490",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -352,9 +352,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4359282897",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -373,9 +373,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4359302091",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -394,9 +394,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4738198521",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -415,9 +415,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/4910609722",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -436,9 +436,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/5264089424",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -457,9 +457,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/5264089525",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -478,9 +478,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/5378923421",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -499,9 +499,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/node/5378924722",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -520,9 +520,9 @@
         "clase": "sede_evento",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/relation/7948635",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -541,9 +541,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/107168664",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -562,9 +562,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/107181518",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -583,9 +583,9 @@
         "clase": "transporte",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/107234807",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -604,9 +604,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/107825658",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -625,9 +625,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/110099703",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -646,9 +646,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/112477626",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -667,9 +667,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/112726101",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -688,9 +688,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1324668954",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -709,9 +709,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1394218008",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -730,9 +730,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1458853406",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -757,9 +757,9 @@
         "clase": "puente",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1485676372",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "exacta"
       }
     },
@@ -778,9 +778,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1518531377",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -799,9 +799,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1519593713",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -820,9 +820,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1519617339",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -841,9 +841,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1519621702",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -862,9 +862,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1520640283",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -883,9 +883,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1520676485",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -904,9 +904,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1521666023",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -925,9 +925,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1521795564",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -946,9 +946,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1521818171",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -967,9 +967,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1522889927",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -988,9 +988,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524221672",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1009,9 +1009,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524221680",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1030,9 +1030,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524224646",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1051,9 +1051,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524233427",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1072,9 +1072,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524348253",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1093,9 +1093,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524486991",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1114,9 +1114,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524486994",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1135,9 +1135,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524491604",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1156,9 +1156,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524491606",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1177,9 +1177,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524761328",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1198,9 +1198,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524911161",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1219,9 +1219,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1524919299",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1240,9 +1240,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1525004679",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1261,9 +1261,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1528808088",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1282,9 +1282,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1528842481",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1303,9 +1303,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1529946623",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1324,9 +1324,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1531959030",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1345,9 +1345,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1533110442",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1366,9 +1366,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1534361441",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1387,9 +1387,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1535081342",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1408,9 +1408,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1535205792",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1429,9 +1429,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1536656808",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1450,9 +1450,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1537335770",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1471,9 +1471,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1537366106",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1492,9 +1492,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1537791162",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1513,9 +1513,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1540312247",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1534,9 +1534,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1540916581",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1555,9 +1555,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1543899363",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1576,9 +1576,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1544354185",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1597,9 +1597,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1544642721",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1618,9 +1618,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1544646363",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1639,9 +1639,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1544845395",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1660,9 +1660,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1546448167",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1681,9 +1681,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1546450674",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1702,9 +1702,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1546612145",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1723,9 +1723,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1551195846",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1744,9 +1744,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1551195858",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1765,9 +1765,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1551195862",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1786,9 +1786,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1551418789",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1807,9 +1807,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1551630142",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1828,9 +1828,9 @@
         "clase": "educacion_superior",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1551732361",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1849,9 +1849,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/1552166729",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1870,9 +1870,9 @@
         "clase": "aeropuerto",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/307294526",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1891,9 +1891,9 @@
         "clase": "hotel",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/547839499",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1912,9 +1912,9 @@
         "clase": "banca",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/547839515",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1933,9 +1933,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/556441644",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1954,9 +1954,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/556441646",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1975,9 +1975,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/557739891",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -1996,9 +1996,9 @@
         "clase": "salud",
         "sector": "servicios",
         "osm_url": "https://www.openstreetmap.org/way/694629132",
-        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-13",
+        "fuente": "OpenStreetMap contributors (ODbL), consulta Overpass 2026-10-19",
         "confianza": "media",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     }
