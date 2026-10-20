@@ -453,7 +453,7 @@ export const REPO = "https://github.com/lifelece/orinoco-digital";
  *
  * Actualizar en el mismo commit en que se actualicen los GeoJSON.
  */
-export const FECHA_DATOS = "2026-09-15";
+export const FECHA_DATOS = "2026-10-19";
 
 // --- Interfaz ---------------------------------------------------------------
 

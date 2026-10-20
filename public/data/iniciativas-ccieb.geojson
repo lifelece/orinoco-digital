@@ -20,7 +20,7 @@
         "fecha_fuente": "2026-10-09",
         "ubicacion_osm": "relation/7948635",
         "confianza": "alta",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     },
@@ -42,7 +42,7 @@
         "fecha_fuente": "2026-10-12",
         "ubicacion_osm": "relation/7948635",
         "confianza": "alta",
-        "ultima_verificacion": "2026-10-13",
+        "ultima_verificacion": "2026-10-19",
         "geom_precision": "centro_aproximado"
       }
     }
