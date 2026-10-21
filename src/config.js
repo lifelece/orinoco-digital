@@ -555,3 +555,6 @@ export const ORIGEN_CCIEB = "https://camaradecomerciobolivar.org";
 
 /** Deep-link del boton "Ver Ciudad Bolivar en 3D" (E1). */
 export const URL_MAPA_CIUDAD = "/?modo=ciudadBolivar";
+
+/** Enlace del modo Ciudad Bolivar al micrositio de la ExpoFaja. */
+export const URL_MICROSITIO = "/expofaja/";

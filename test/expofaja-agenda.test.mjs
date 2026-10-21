@@ -294,6 +294,49 @@ test("RF-33: el UID es estable, lleva @orinoco-digital y es distinto en cada ses
   assert.ok(generarIcs(s, dia("2026-10-16"), null, GENERADO).includes(`UID:${uidSesion(dia("2026-10-16"), s)}\r\n`));
 });
 
+// --- RF-78: todo el programa en un solo .ics ---------------------------------
+
+import { generarIcsPrograma, contarSesionesConHora } from "../src/expofaja/agenda.js";
+
+const mapaPonentes = new Map(ponentes.map((p) => [p.id, p]));
+const conHora = agenda.dias.flatMap((d) => d.sesiones.filter((s) => s.inicio && s.fin).map((s) => ({ d, s })));
+
+test("RF-78: un VCALENDAR y un VTIMEZONE con un VEVENT por sesion con hora, en el orden del programa", () => {
+  const texto = generarIcsPrograma(agenda, mapaPonentes, GENERADO, evento);
+  const lineas = texto.split("\r\n");
+  const cuantas = (l) => lineas.filter((x) => x === l).length;
+  assert.equal(contarSesionesConHora(agenda), conHora.length);
+  assert.ok(conHora.length >= 20);
+  assert.equal(cuantas("BEGIN:VCALENDAR"), 1);
+  assert.equal(cuantas("END:VCALENDAR"), 1);
+  assert.equal(cuantas("BEGIN:VTIMEZONE"), 1);
+  assert.equal(cuantas("BEGIN:VEVENT"), conHora.length);
+  assert.equal(cuantas("END:VEVENT"), conHora.length);
+  const uids = lineas.filter((l) => l.startsWith("UID:")).map((l) => l.slice(4));
+  assert.deepEqual(uids, conHora.map(({ d, s }) => uidSesion(d, s)));
+  // la clausura sin hora no entra
+  assert.equal(texto.replace(/\r\n /g, "").includes("Ceremonia de clausura"), false);
+  assert.ok(texto.endsWith("END:VCALENDAR\r\n"));
+  assert.equal(texto.replace(/\r\n/g, "").includes("\n"), false);
+  for (const linea of lineas) assert.ok(Buffer.byteLength(linea, "utf8") <= 75, linea);
+});
+
+test("RF-78: cada VEVENT del programa es identico al del boton de su sesion", () => {
+  const texto = generarIcsPrograma(agenda, mapaPonentes, GENERADO, evento);
+  for (const { d, s } of conHora) {
+    const p = s.ponente_id ? mapaPonentes.get(s.ponente_id) : null;
+    const solo = generarIcs(s, d, p, GENERADO, evento);
+    const vevent = solo.slice(solo.indexOf("BEGIN:VEVENT"), solo.indexOf("END:VEVENT\r\n") + "END:VEVENT\r\n".length);
+    assert.ok(texto.includes(vevent), s.titulo);
+  }
+});
+
+test("RF-78: sin sesiones con hora no se genera el .ics del programa", () => {
+  const vacia = { dias: [{ fecha: "2026-10-17", sesiones: [dia("2026-10-17").sesiones.at(-1)] }] };
+  assert.equal(contarSesionesConHora(vacia), 0);
+  assert.throws(() => generarIcsPrograma(vacia, new Map(), GENERADO), /ninguna sesion/);
+});
+
 // --- E4.1: memoria del evento (RF-21) ---------------------------------------
 
 import { presentacionEvento, mostrarEtiquetaAhora } from "../src/expofaja/agenda.js";

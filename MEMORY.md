@@ -9,19 +9,23 @@
 - v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010); 6-7 en curso: falta material de divulgacion, tag v1.0 y Lighthouse (rendimiento 25 el 2026-09-17, lastrado por Cesium).
 - Token de Cesium restringido por dominio (2026-09-29).
 - Mergeados el 2026-09-29: PR #1 shell de UI (ADR-014), #2 paquete visual (ADR-018), #3 controlador de render (ADR-019), #4 limpieza de falsos positivos OSM (downstream 97 -> 64).
-- ExpoFaja 2026 (15-17/10) con la CCIEB: E1 (modo Ciudad Bolivar, PR #6) y E2 (micrositio `/expofaja`, PR #7) en produccion desde 2026-10-13; E3 (embed WordPress) con cabeceras verificadas en produccion; E4 tras el evento. Mandatos en `docs/expofaja/`.
+- ExpoFaja 2026 (15-17/10) con la CCIEB, en produccion desde 2026-10-13: E1 modo Ciudad Bolivar (#6), E2 micrositio `/expofaja` (#7), E3 embed (#8), E4.1 memoria bilingue (#9). 2026-10-14: todo el programa en un .ics (RF-78, #17); despejar pantalla en movil y enlace "Ver agenda" del modo al micrositio (RF-22/23, #18). El 2026-10-18 00:00 (Caracas), por fecha y sin desplegar: el micrositio pasa a memoria y la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`). Bitacora en Notion: "Bitacora 12-13 Oct 2026".
+- Identidad visual "instrumento de cuenca" (ADR-021, #10) en produccion desde 2026-10-13: tokens `tinta`/`tinta-baja`, regla del rio (`public/data/regla-rio.json`, `npm run data:regla`).
+- Datos automaticos (#12): workflow `datos-semanal` (lunes) y `noticias-ccieb` (diario) abren PR; GEM sigue manual. `FECHA_DATOS` lo pone `npm run data:actualizar`.
+- Abierto: carga diferida de Cesium (ADR-022, #11), no mergear antes del 18/10. FCP medido 7,6 s -> 1,0 s (aprox., 4G lenta).
 
 ## Decisiones abiertas de Luis
 
-- `docs/fases/README.md` dice M1 "pendiente del gate"; se mergeo tras vista previa: [Luis: confirmar gate en telefono].
-- ADR-020: aceptado piezas 1, 2, 5, 7 y 10; 3, 4, 6, 8 y 9 (micrositio, embed, caducidad) en produccion pero en propuesta: [Luis: aceptarlas tras el gate de E2 en telefono].
-- `MODO_INICIAL = "ciudadBolivar"`: revisar en E4 si la portada vuelve a la vista nacional.
+- Gates cerrados el 2026-10-13 (Luis en telefono + QR): M1, E1, E2, E3 (codigo). ADR-020 aceptado completo. El 2026-10-14: `.ics` en telefono, RF-78 (#17) y RF-22/23 (#18).
+- Pendientes de Luis: nombre y medio de quien autorizo en `AUTORIZACIONES.md` (cargo: director de la CCIEB); mensaje de seguimiento E0; PDF al webmaster y ver el embed en su web.
+- Pendiente tecnico: Lighthouse movil de `/expofaja` y del mapa (cuota de PageSpeed agotada el 13/10); tag v1.0 tras #11.
 
 ## Decisiones vigentes (no reabrir sin ADR)
 
 - Static-first; Supabase saltado (ADR-003, ADR-010).
 - Campos coloreados por hidrocarburo (ADR-012); centrales apagadas por defecto (ADR-013).
 - Tests con `node:test` sin dependencias (ADR-016); gate de modulos dentro de `npm test` (ADR-019).
+- Identidad (ADR-021): `tinta` nunca en marcadores ni capas de datos; colores de marca ExpoFaja/CCIEB solo en cabecera DOM y micrositio; la regla del rio sin ejes (no es un grafico).
 - El "Prompt maestro" de Notion choca con el repo (Supabase, GSAP, otra estructura): manda el repo (docs/NOTION.md).
 
 ## Errores a evitar (sintoma -> causa -> como se evita)
@@ -37,3 +41,5 @@
 9. Overpass: overpass-api.de corta conexiones -> rotar `OVERPASS_MIRRORS` de `scripts/descargar-fuentes.mjs`.
 10. Falsos positivos OSM (fabrica de velas como instalacion petrolera) -> filtro por evidencia de hidrocarburos (DATA_SOURCES.md seccion 11).
 11. "Desborde" en movil que no existe -> `msedge --headless --window-size=390,...` no emula movil (la ventana tiene ancho minimo) -> medir con CDP `Emulation.setDeviceMetricsOverride` (mobile: true).
+12. La regla del rio parecia un grafico de tendencia -> eje y guias verticales -> sin ejes, marcas cortas y leyenda.
+13. Medir rendimiento sin token -> Vite elimina Cesium (13 kB) -> construir con `VITE_CESIUM_TOKEN` (real o ficticio) por entorno.

@@ -1,6 +1,6 @@
 # Spec 001 — Modo Ciudad Bolivar: la ciudad como eje del mapa
 
-> Estado: IMPLEMENTADA (2026-10-13), pendiente del gate de Luis en telefono real.
+> Estado: CERRADA (2026-10-13). En produccion (PR #6); gate de Luis en telefono real superado. Ajustes RF-22 y RF-23 en produccion (PR #18) con gate superado el 2026-10-14.
 > Validada por el revisor (cambios aplicados) y en navegador headless a 1440x900
 > y 390x844. Dudas 1 y 2 resueltas; la 3 (D10) aplicada.
 > Peticion de Luis (literal): "poner a ciudad Bolivar como eje del mapa y las
@@ -75,6 +75,10 @@ Enlaces y errores
 - RF-19. CUANDO se visita `/expofaja`, EL SISTEMA DEBE redirigir de forma temporal (no permanente) a `/?modo=ciudadBolivar`.
 - RF-20. SI falla la carga de una capa del modo, ENTONCES EL SISTEMA DEBE mostrar el aviso con `mostrarError` y mantener el resto del mapa usable.
 - RF-21. EL SISTEMA DEBE mostrar todos los textos del modo en ES y EN, sin traducir nombres propios ni titulos de iniciativas.
+
+Ajustes del 2026-10-14 (pedido de Luis, probando en el telefono)
+- RF-22. MIENTRAS el modo esta activo, EL SISTEMA DEBE mostrar en la cabecera, junto a los logos, un enlace "Ver agenda" a `/expofaja/` (el micrositio), sin desbordar la cabecera a 360 px en ES ni en EN.
+- RF-23. EN pantallas de menos de 640 px, CUANDO el usuario pulsa "Despejar pantalla", EL SISTEMA DEBE esconder la cabecera, la tarjeta y el panel del modo, la ficha, las capas y los botones flotantes, y dejar visibles el mapa, sus creditos, el pie con la atribucion, el aviso DEMO si la capa esta encendida y un boton "Mostrar todo" que lo devuelve todo como estaba. CUANDO el usuario toca un activo del mapa con la pantalla despejada, EL SISTEMA DEBE volver a mostrar la interfaz con su ficha. Aplica a todo el mapa, no solo al modo.
 
 ## 5. Requisitos no funcionales
 

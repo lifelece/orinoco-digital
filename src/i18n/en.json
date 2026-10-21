@@ -7,6 +7,8 @@
   "boton.verTabla": "View table",
   "boton.verMapa": "View map",
   "boton.capas": "Layers",
+  "boton.despejar": "Clear the screen",
+  "boton.mostrarTodo": "Show all",
   "capa.titulo": "Layers",
   "capa.ocultar": "Hide layers",
   "capa.grupoCadena": "Value chain",
@@ -140,6 +142,8 @@
   "modo.ciudadBolivar.alianza": "In partnership with",
   "modo.verFaja": "View the whole Belt",
   "modo.verCiudad": "View Ciudad Bolívar",
+  "modo.verAgenda": "Schedule",
+  "modo.verAgendaAria": "ExpoFaja 2026 schedule",
   "modo.anillo": "{km} km · {n} fields",
   "modo.frasePrincipal": "{n} of the {total} oil fields on the map lie within {km} km (straight line) of Ciudad Bolívar",
   "modo.impulsaCcieb": "What CCIEB is promoting",
@@ -219,6 +223,7 @@
   "expofaja.horaPorConfirmar": "Time to be confirmed",
   "expofaja.agregarCalendario": "Add to my calendar",
   "expofaja.agregarCalendarioAria": "Add to my calendar: {titulo}",
+  "expofaja.agregarPrograma": "Add all {n} sessions to my calendar",
   "expofaja.agenda.nota": "Official CCIEB program. Times and rooms are subject to change by the organizer.",
   "expofaja.agenda.fuente": "Source: {fuente}. Last checked: {fecha}.",
   "expofaja.ponentes.titulo": "Speakers",
@@ -278,5 +283,6 @@
   "expofaja.error.oficial": "See the official event page (CCIEB)",
   "expofaja.error.reintentar": "Retry",
   "expofaja.cargando": "Loading program…",
-  "expofaja.embed.abrir": "Open full screen"
+  "expofaja.embed.abrir": "Open full screen",
+  "regla.leyenda": "The Orinoco River and where it crosses the 50 to 200 km rings from Ciudad Bolívar"
 }

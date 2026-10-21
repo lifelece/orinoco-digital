@@ -70,13 +70,13 @@
 
 ## Verificacion de Luis (al final, telefono real, datos moviles, DevTools cerrado)
 
-- [ ] La portada abre en el modo: la ciudad en el centro, la Faja hacia el horizonte, anillos legibles.
-- [ ] "Ver toda la Faja", "Volar a la Faja" y el gesto atras (despues de tocar el mapa) llevan a la vista nacional; "Ver Ciudad Bolivar" vuelve.
-- [ ] Ficha del Museo Soto: 5 campos con km y lineas discontinuas; al cerrarla, las lineas desaparecen.
-- [ ] Sede, aeropuerto y puente donde deben (comparar con OSM o Google Maps).
-- [ ] Logos nitidos sobre el tema oscuro; cabecera sin tapar el mapa.
-- [ ] Ingles: interfaz traducida; nombres propios y titulos de iniciativas intactos.
-- [ ] `<preview>/expofaja` lleva al modo; tras el merge, el QR de `docs/expofaja/qr/` hace lo mismo en dos telefonos.
+- [x] La portada abre en el modo: la ciudad en el centro, la Faja hacia el horizonte, anillos legibles.
+- [x] "Ver toda la Faja", "Volar a la Faja" y el gesto atras (despues de tocar el mapa) llevan a la vista nacional; "Ver Ciudad Bolivar" vuelve.
+- [x] Ficha del Museo Soto: 5 campos con km y lineas discontinuas; al cerrarla, las lineas desaparecen.
+- [x] Sede, aeropuerto y puente donde deben (comparar con OSM o Google Maps).
+- [x] Logos nitidos sobre el tema oscuro; cabecera sin tapar el mapa.
+- [x] Ingles: interfaz traducida; nombres propios y titulos de iniciativas intactos.
+- [x] `<preview>/expofaja` lleva al modo; tras el merge, el QR de `docs/expofaja/qr/` hace lo mismo en dos telefonos. (superado por E2: `/expofaja` es ahora el micrositio; el QR impreso funciona, Luis 13/10)
 
 Recuento: T1 en curso · P0: 2 tareas · A: 5 · B: 3 · C: 6 · integracion: 2.
 
@@ -88,3 +88,11 @@ Recuento: T1 en curso · P0: 2 tareas · A: 5 · B: 3 · C: 6 · integracion: 2.
 - Camara medida en captura: `margen` 1.3 (anillo de 150 km entre los paneles a 1440x900), `margenVertical` 1.8 y `desplazamientoNorteVertical` 0.5 (anillo de 100 km entero bajo el panel a 390x844).
 - Revisor: CAMBIOS NECESARIOS -> aplicados: trampolin del historial no se duplica al recargar (main.js), tope de 10 s en `sostenerHastaListo`, `Object.hasOwn` en `fijarCapas`, km con un decimal en la ficha.
 - Capturas: `docs/capturas/e1-antes-*`, `e1-despues-*`, `e1-ficha-sede-movil.png`.
+
+## Gate de Luis (2026-10-13)
+
+Superado: Luis probo produccion en su telefono real con datos moviles ("funciona bien") y el QR impreso. Repetido en produccion con Edge + CDP a 390x844 y 1440x900: modo, "Ver toda la Faja", `history.back()`, `/` en el modo, `?modo=nacional`, parametros desconocidos ignorados, `?capa=centrales`, `?vuelo=OSM-R7948635` (ficha con Dobokubi a 57,2 km), sin desborde. `npm test` 191/191. Una de cuatro corridas tardo en abrir la ficha de `?vuelo` (carga lenta de teselas en headless); las otras tres, bien.
+
+## Gate de Luis (2026-10-14): RF-22 y RF-23
+
+Superado: Luis probo produccion en su telefono real ("todo bien"): "Despejar pantalla" deja solo mapa, creditos y atribucion; "Mostrar todo" lo devuelve; tocar un activo con la pantalla despejada devuelve la interfaz con su ficha; "Ver agenda" abre `/expofaja/`. Antes, Edge + CDP a 360x844, 390x844 y 1440x900 (ES y EN): sin desborde, estado conservado al cambiar de idioma, boton oculto en escritorio. `npm test` 194/194. PR #18.

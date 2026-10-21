@@ -206,9 +206,10 @@ Manual (Luis):
 
 ## STOP GATE
 
-- [ ] Capturas antes/despues en `docs/capturas/e1-*` (escritorio y movil)
-- [ ] Telefono real, datos moviles, DevTools cerrado: carga, modo, anillos,
-      ficha, lineas, salir del modo, gesto atras
-- [ ] Revisado el diff: sin dependencias nuevas, sin datos inventados,
+- [x] Capturas antes/despues en `docs/capturas/e1-*` (escritorio y movil)
+- [x] Telefono real, datos moviles, DevTools cerrado: carga, modo, anillos,
+      ficha, lineas, salir del modo, gesto atras (Luis, 13/10; repetido en
+      produccion con Edge + CDP a 390x844 y 1440x900)
+- [x] Revisado el diff: sin dependencias nuevas, sin datos inventados,
       contrato de `api.js` intacto, sin colores de marca en marcadores
-- [ ] PR abierto contra `main`; **no** se mergea sin el OK de Luis
+- [x] PR abierto contra `main`; **no** se mergea sin el OK de Luis (#6, mergeado por Luis el 13/10)

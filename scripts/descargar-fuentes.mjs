@@ -35,8 +35,11 @@ export const OVERPASS_MIRRORS = [
 export const USER_AGENT =
   "orinoco-digital/0.1 (https://github.com/lifelece/orinoco-digital)";
 
-/** Consultas Overpass acotadas a Venezuela. Datos OSM, licencia ODbL. */
-const CONSULTAS_OSM = {
+/**
+ * Consultas Overpass acotadas a Venezuela. Datos OSM, licencia ODbL.
+ * Exportadas para scripts/actualizar-datos.mjs.
+ */
+export const CONSULTAS_OSM = {
   "osm-pozos.json": `
     [out:json][timeout:180];
     area["ISO3166-1"="VE"][admin_level=2]->.ve;
@@ -57,6 +60,21 @@ const CONSULTAS_OSM = {
       way["industrial"="oil"](area.ve);
       node["man_made"="works"]["product"~"oil|petroleum|fuel",i](area.ve);
       way["man_made"="works"]["product"~"oil|petroleum|fuel",i](area.ve);
+    );
+    out center;`,
+
+  // Segunda consulta de refinerias (docs/DATA_SOURCES.md seccion 11): la primera
+  // no devuelve Amuay, El Palito ni Punta Cardon. Trae todo man_made=works y lo
+  // filtra osm-to-geojson (esRelevante). SIN VERIFICAR: la consulta original de
+  // 2026-09-08 no quedo guardada; esta es su reconstruccion, y el informe de
+  // actualizacion compara el resultado contra el crudo anterior.
+  "osm-refinerias-2.json": `
+    [out:json][timeout:180];
+    area["ISO3166-1"="VE"][admin_level=2]->.ve;
+    (
+      nwr["man_made"="works"](area.ve);
+      nwr["industrial"~"^(oil|refinery)$"](area.ve);
+      nwr["name"~"refiner|Amuay|Palito|Cardon|Cardón",i](area.ve);
     );
     out center;`,
 
@@ -91,6 +109,19 @@ async function guardar(nombre, contenido) {
 }
 
 /**
+ * Tiempo maximo de espera del cliente para una consulta: el [timeout:N] que la
+ * propia consulta le concede al servidor, mas 30 s de margen de red. Con un
+ * limite fijo menor (antes 60 s) cortabamos consultas que Overpass aun estaba
+ * resolviendo en dias de saturacion (2026-10-13, osm-refinerias-2.json).
+ * @param {string} consulta
+ * @returns {number} milisegundos
+ */
+export function limiteCliente(consulta) {
+  const servidor = Number(/\[timeout:(\d+)\]/.exec(consulta)?.[1] ?? 60);
+  return (servidor + 30) * 1000;
+}
+
+/**
  * Consulta Overpass rotando los mirrors. Devuelve el JSON y el host que respondio.
  * Exportada para que otros scripts de datos reutilicen los mismos mirrors.
  */
@@ -107,7 +138,7 @@ export async function consultarOverpass(consulta, conMirror = false) {
         },
         body: new URLSearchParams({ data: consulta }),
         // Un mirror caido puede no responder nunca: sin limite, el script se cuelga.
-        signal: AbortSignal.timeout(60000),
+        signal: AbortSignal.timeout(limiteCliente(consulta)),
       });
       if (respuesta.ok) {
         const json = await respuesta.json();

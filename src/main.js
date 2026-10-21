@@ -41,6 +41,10 @@ import {
   getIniciativasCcieb,
   getListaIniciativasCcieb,
 } from "./api.js";
+// La regla del rio (ADR-021) no es una FeatureCollection, asi que no pasa por
+// api.js (su contrato no cambia): se importa en el build, como la semilla de
+// iniciativas. Sin fetch extra; la genera `npm run data:regla`.
+import reglaRio from "../public/data/regla-rio.json";
 import {
   tieneProcedencia,
   normalizarActivo,
@@ -298,6 +302,7 @@ function datosDelModo() {
     cercanos: cercanosDeSede(),
     conteos: conDatos(colecciones.ciudadBolivar, (c) => contarPorClase(c.features, CLASES_CIUDAD)),
     iniciativas: estado.iniciativas,
+    reglaRio: anillos ? reglaRio : null,
   };
 }
 

@@ -15,7 +15,8 @@
  */
 
 import { t, idioma } from "../i18n/index.js";
-import { MARCAS_MODO, CLASES_CIUDAD } from "../config.js";
+import { MARCAS_MODO, CLASES_CIUDAD, URL_MICROSITIO } from "../config.js";
+import { crearReglaRio } from "./reglaRio.js";
 
 /**
  * @typedef {Object} DatosModo  Cada campo: null = cargando · false = fallo (la
@@ -23,16 +24,17 @@ import { MARCAS_MODO, CLASES_CIUDAD } from "../config.js";
  * @property {Array<{km: number, campos: number}>|null|false} resumenAnillos  ascendente
  * @property {number|null|false} totalCampos
  * @property {Array<{id: string, nombre: string|null, km: number, confianza: string|null}>|null|false} cercanos  desde la sede
+ * @property {import("./reglaRio.js").ReglaRio|null|false} reglaRio  cauce y cruces (ADR-021); decorativa: si falta, no se pinta
  * @property {Object<string, number>|null|false} conteos  por clase de CLASES_CIUDAD
  * @property {Array<{id: string, nombre: string, fecha: string|null, fuente: string, enMapa: boolean}>|null|false} iniciativas
  */
 
-const CLAVES_DATOS = ["resumenAnillos", "totalCampos", "cercanos", "conteos", "iniciativas"];
+const CLAVES_DATOS = ["resumenAnillos", "totalCampos", "cercanos", "conteos", "iniciativas", "reglaRio"];
 
 /** Estado del modulo: las ranuras de ui.js se recrean al cambiar de idioma. */
 const estado = {
   /** @type {DatosModo} */
-  datos: { resumenAnillos: null, totalCampos: null, cercanos: null, conteos: null, iniciativas: null },
+  datos: { resumenAnillos: null, totalCampos: null, cercanos: null, conteos: null, iniciativas: null, reglaRio: null },
   montado: false,
   /** @type {(() => void) | null} */
   alSalir: null,
@@ -42,6 +44,8 @@ const estado = {
   alEntrar: null,
   /** Solo importa en movil: en escritorio el panel va siempre desplegado. */
   detallesAbiertos: false,
+  /** La regla se dibuja una vez; los repintados por datos que llegan no la repiten. */
+  reglaTrazada: false,
 };
 
 // --- Utilidades de DOM -------------------------------------------------------
@@ -107,7 +111,9 @@ function crearCabecera() {
 
   const fila = nodo("div", "flex min-w-0 items-center gap-2 sm:ml-auto sm:gap-3");
   fila.append(
-    nodo("span", "shrink-0 text-[10px] leading-none text-lo sm:text-[11px]", t("modo.ciudadBolivar.alianza"))
+    // Se parte en dos lineas si hace falta: a 360 px, en ingles, con el enlace a
+    // la agenda en la misma fila, desbordaba la tarjeta.
+    nodo("span", "min-w-0 text-[10px] leading-none text-lo sm:shrink-0 sm:text-[11px]", t("modo.ciudadBolivar.alianza"))
   );
 
   // El sello lleva aro azul oscuro: sobre el tema oscuro se pierde, asi que va
@@ -130,7 +136,13 @@ function crearCabecera() {
     height: "238",
     decoding: "async",
   });
-  fila.append(sello, logo);
+  // Unico camino del mapa al micrositio; en movil queda al final de la fila 2.
+  const agenda = nodo("a", `${BOTON} shrink-0 max-sm:ml-auto`, t("modo.verAgenda"), {
+    href: URL_MICROSITIO,
+    "aria-label": t("modo.verAgendaAria"),
+    id: "enlace-micrositio",
+  });
+  fila.append(sello, logo, agenda);
 
   const volver = nodo("button", `${BOTON} shrink-0 sm:order-last`, t("modo.verFaja"), { type: "button", id: "btn-ver-faja" });
   volver.addEventListener("click", () => estado.alSalir?.());
@@ -155,7 +167,7 @@ const cargando = () => nodo("p", "text-xs text-lo", t("capa.cargando"));
 function seccion(titulo, dato, cuerpo) {
   if (dato === false) return null;
   const sec = nodo("section", "mt-3 border-t border-trazo pt-3");
-  sec.append(nodo("h3", "mb-1.5 text-[10px] font-medium uppercase tracking-wider text-lo", titulo));
+  sec.append(nodo("h3", "mb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-tinta", titulo));
   sec.append(dato === null || dato === undefined ? cargando() : cuerpo());
   return sec;
 }
@@ -177,16 +189,37 @@ function crearFrase() {
   );
 }
 
+/**
+ * La regla del rio entre la frase y los anillos (ADR-021). Decorativa: cada
+ * marca es un anillo de la lista de debajo, que lleva la distancia en texto.
+ * @returns {HTMLElement|null}
+ */
+function crearRegla() {
+  const regla = estado.datos.reglaRio;
+  if (!regla) return null;
+  const trazar = !estado.reglaTrazada;
+  const svg = crearReglaRio(regla, { trazar });
+  if (trazar) svg.addEventListener("animationend", () => { estado.reglaTrazada = true; }, { once: true });
+  const marco = nodo("div", "mt-2.5");
+  marco.append(svg, nodo("p", "regla-leyenda", t("regla.leyenda")));
+  return marco;
+}
+
+/**
+ * Anillos como escala: etiqueta de km en tinta y cifra en monoespaciada
+ * tabular. El nombre accesible es la frase completa de siempre.
+ */
 function crearAnillos(anillos) {
-  const lista = nodo("ul", "mt-2 flex flex-wrap gap-1.5");
+  const lista = nodo("ul", "mt-2 grid grid-cols-4 rounded-md border border-trazo");
   for (const a of anillos) {
-    lista.append(
-      nodo(
-        "li",
-        "rounded-md border border-trazo px-2 py-1 font-mono text-[11px] tabular-nums text-lo",
-        t("modo.anillo", { km: formatoNumero(a.km, 0), n: formatoNumero(a.campos, 0) })
-      )
+    const celda = nodo("li", "grid gap-0.5 border-l border-trazo px-2 py-1.5 first:border-l-0", "", {
+      "aria-label": t("modo.anillo", { km: formatoNumero(a.km, 0), n: formatoNumero(a.campos, 0) }),
+    });
+    celda.append(
+      nodo("span", "font-mono text-[10px] uppercase tracking-[0.08em] text-tinta", t("modo.distancia", { km: formatoNumero(a.km, 0) }), { "aria-hidden": "true" }),
+      nodo("span", "font-mono text-base tabular-nums text-hi", formatoNumero(a.campos, 0), { "aria-hidden": "true" })
     );
+    lista.append(celda);
   }
   return lista;
 }
@@ -198,7 +231,7 @@ function crearCercanos(cercanos) {
     const fila = nodo("li", "flex items-baseline justify-between gap-3 py-1.5");
     fila.append(
       nodo("span", "min-w-0 break-words text-hi", c.nombre ?? t("ciudad.sinNombre")),
-      nodo("span", "shrink-0 font-mono text-[12px] tabular-nums text-lo", t("modo.distancia", { km: formatoNumero(c.km) }))
+      nodo("span", "shrink-0 font-mono text-[12px] tabular-nums text-tinta", t("modo.distancia", { km: formatoNumero(c.km) }))
     );
     lista.append(fila);
   }
@@ -286,7 +319,11 @@ function crearPanel() {
   if (frase) panel.append(frase);
 
   // Plegado (movil): solo titulo, frase y boton. En escritorio siempre visible.
+  // La regla va dentro: plegada en movil haria crecer el panel y taparia el
+  // anillo de 100 km que encuadra CAMARA_CIUDAD_BOLIVAR.
   const detalles = nodo("div", estado.detallesAbiertos ? "" : "max-sm:hidden", "", { id: "modo-detalles" });
+  const regla = crearRegla();
+  if (regla) detalles.append(regla);
   if (d.resumenAnillos) detalles.append(crearAnillos(d.resumenAnillos));
   const partes = [
     seccion(t("modo.cercanosSede"), d.cercanos, () => crearCercanos(d.cercanos)),
@@ -335,8 +372,8 @@ export function repintarModoCiudadBolivar() {
  * Monta cabecera (RF-16) y panel (RF-15) en las ranuras de ui.js; quita el acceso.
  * @param {DatosModo & {alSalir: () => void, alVerEnMapa: (id: string) => void}} opciones
  */
-export function montarModoCiudadBolivar({ resumenAnillos = null, totalCampos = null, cercanos = null, conteos = null, iniciativas = null, alSalir, alVerEnMapa }) {
-  estado.datos = { resumenAnillos, totalCampos, cercanos, conteos, iniciativas };
+export function montarModoCiudadBolivar({ resumenAnillos = null, totalCampos = null, cercanos = null, conteos = null, iniciativas = null, reglaRio = null, alSalir, alVerEnMapa }) {
+  estado.datos = { resumenAnillos, totalCampos, cercanos, conteos, iniciativas, reglaRio };
   estado.alSalir = alSalir ?? null;
   estado.alVerEnMapa = alVerEnMapa ?? null;
   estado.montado = true;

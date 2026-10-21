@@ -6,12 +6,15 @@
 
 import { t, idioma, cambiarIdioma } from "../i18n/index.js";
 import { ORIGEN_CCIEB, REPO, URL_MAPA_CIUDAD } from "../config.js";
+import { crearReglaRio } from "../ui/reglaRio.js";
 import {
+  contarSesionesConHora,
   cuentaRegresiva,
   diaInicial,
   estadoEvento,
   exposicionEnCurso,
   generarIcs,
+  generarIcsPrograma,
   horaEvento,
   mostrarEtiquetaAhora,
   presentacionEvento,
@@ -27,7 +30,7 @@ const MAPA_IMG = { src: "/expofaja/mapa.webp", w: 1200, h: 675 }; // Captura del
 const MAX_NOTICIAS = 4;
 
 /** Estado de la vista montada. */
-const est = { datos: null, embed: false, ahora: new Date(), dia: null, ponentes: new Map(), refs: {}, sesiones: [], pres: null };
+const est = { datos: null, reglaRio: null, embed: false, ahora: new Date(), dia: null, ponentes: new Map(), refs: {}, sesiones: [], pres: null };
 
 // --- Utilidades de DOM --------------------------------------------------------
 
@@ -278,17 +281,35 @@ function crearCabecera() {
 
 // --- Seccion 3: agenda ---------------------------------------------------------
 
-function descargarIcs(dia, sesion) {
-  const p = sesion.ponente_id ? est.ponentes.get(sesion.ponente_id) : undefined;
-  const ics = generarIcs(sesion, dia, p, new Date(), est.datos.evento);
+/** Descarga un texto .ics generado en el navegador, sin red (RF-31, RF-78). */
+function descargarCalendario(ics, nombre) {
   const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
   const a = el("a");
   a.href = url;
-  a.download = `expofaja-${dia.fecha}-${sesion.inicio.replace(":", "")}.ics`;
+  a.download = nombre;
   document.body.append(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function descargarIcs(dia, sesion) {
+  const p = sesion.ponente_id ? est.ponentes.get(sesion.ponente_id) : undefined;
+  const ics = generarIcs(sesion, dia, p, new Date(), est.datos.evento);
+  descargarCalendario(ics, `expofaja-${dia.fecha}-${sesion.inicio.replace(":", "")}.ics`);
+}
+
+/** Boton "Agregar las N sesiones": todo el programa en un solo .ics (RF-78). */
+function crearBotonPrograma() {
+  const n = contarSesionesConHora(est.datos.agenda);
+  if (!est.pres.calendario || n === 0) return null;
+  const b = el("button", "ef-btn ef-btn-azul ef-btn-programa", t("expofaja.agregarPrograma", { n }));
+  b.type = "button";
+  b.addEventListener("click", () => {
+    const ics = generarIcsPrograma(est.datos.agenda, est.ponentes, new Date(), est.datos.evento);
+    descargarCalendario(ics, "expofaja-2026-programa.ics");
+  });
+  return b;
 }
 
 function idSesion(dia, i) {
@@ -380,7 +401,7 @@ function crearAgenda() {
   const fuente = el("p", "ef-nota");
   fuente.append(t("expofaja.agenda.fuente", { fuente: agenda.fuente, fecha: agenda.ultima_verificacion }));
   contenido(fuente);
-  s.append(lista, ...paneles, pie, fuente);
+  s.append(crearBotonPrograma() ?? "", lista, ...paneles, pie, fuente);
   seleccionarDia(Math.min(est.dia ?? diaInicial(agenda, est.ahora), agenda.dias.length - 1), false);
   return s;
 }
@@ -611,6 +632,18 @@ function iniciativasCcieb() {
   return caja;
 }
 
+/**
+ * Separador entre secciones (ADR-021): la regla del rio en ef-azul, nunca en la
+ * tinta del mapa. Decorativo; sin regla (null) no se pinta nada.
+ * @returns {HTMLElement|null}
+ */
+function crearSeparadorRegla() {
+  if (!est.reglaRio) return null;
+  const caja = el("div", "ef-regla");
+  caja.append(crearReglaRio(est.reglaRio), el("p", "ef-regla-leyenda", t("regla.leyenda")));
+  return caja;
+}
+
 function crearCiudad() {
   const s = seccion("ciudad-bolivar", t("expofaja.ciudad.titulo"));
   const dos = el("div", "ef-dos-columnas");
@@ -819,8 +852,9 @@ function crearFinEmbed() {
  * @param {{embed?: boolean, alCambiarIdioma?: Function, ahora?: Date}} opciones
  * @returns {void} efecto: reemplaza el contenido del contenedor
  */
-export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma, ahora = new Date() } = {}) {
+export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma, ahora = new Date(), reglaRio = null } = {}) {
   est.datos = datos;
+  est.reglaRio = reglaRio;
   est.embed = embed;
   est.ahora = ahora;
   est.alCambiarIdioma = alCambiarIdioma;
@@ -835,7 +869,7 @@ export function montarVista(contenedor, datos, { embed = false, alCambiarIdioma,
     hijos.push(crearCabecera());
   }
   const main = el("div", "ef-contenido");
-  main.append(crearAgenda(), crearPonentes(), crearCiudad(), crearMapa(), ...(est.pres.celebrado ? [crearHecho()] : []), crearAliados(), crearParticipa(), crearNoticias());
+  main.append(crearAgenda(), crearPonentes(), crearSeparadorRegla() ?? "", crearCiudad(), crearMapa(), ...(est.pres.celebrado ? [crearHecho()] : []), crearAliados(), crearParticipa(), crearNoticias());
   hijos.push(main, embed ? crearFinEmbed() : crearPie());
   contenedor.replaceChildren(...hijos);
   actualizarTiempo(ahora);

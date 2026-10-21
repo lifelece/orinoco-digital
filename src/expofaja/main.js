@@ -10,6 +10,8 @@ import { cargarDatosEvento } from "./datos.js";
 import { leerAhora } from "./agenda.js";
 import { esEmbed, iniciarEmbed } from "./embed.js";
 import { actualizarTiempo, montarVista, mostrarErrorCarga } from "./vista.js";
+// Regla del rio (ADR-021): derivada de la hidrografia, importada en el build.
+import reglaRio from "../../public/data/regla-rio.json";
 
 /** Instante actual: el reloj, o ?ahora= solo en desarrollo (RF-23/24). */
 function ahora() {
@@ -52,7 +54,7 @@ async function arrancar() {
   }
   for (const aviso of datos.avisos) console.warn(aviso);
 
-  const pintar = () => montarVista(contenedor, datos, { embed, alCambiarIdioma: pintar, ahora: ahora() });
+  const pintar = () => montarVista(contenedor, datos, { embed, alCambiarIdioma: pintar, ahora: ahora(), reglaRio });
   pintar();
   cadaMinuto(() => actualizarTiempo(ahora()));
 }

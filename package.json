@@ -21,7 +21,10 @@
     "data:disputa": "node scripts/zona-disputada.mjs",
     "data:centrales": "node scripts/centrales-to-geojson.mjs",
     "data:ciudad-bolivar": "node --import ./test/entorno.mjs scripts/ciudad-bolivar-to-geojson.mjs",
+    "data:regla": "node --import ./test/entorno.mjs scripts/regla-rio.mjs",
     "data:expofaja": "node scripts/expofaja-datos.mjs",
+    "data:actualizar": "node scripts/actualizar-datos.mjs",
+    "data:noticias": "node scripts/noticias-ccieb.mjs",
     "og:expofaja": "node scripts/expofaja-og.mjs"
   },
   "dependencies": {

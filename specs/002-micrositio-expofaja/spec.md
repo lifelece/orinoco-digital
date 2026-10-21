@@ -1,6 +1,6 @@
 # Spec 002 — Micrositio `/expofaja`: la vitrina unida al mapa
 
-> Estado: BORRADOR (2026-10-12) — pasar por `/sdd-aclarar 002-micrositio-expofaja`
+> Estado: CERRADA (2026-10-13). En produccion (PR #7, memoria en #9); telefono y QR superados; `.ics` en telefono superado el 2026-10-14 (con RF-78, PR #17); pendiente Lighthouse movil.
 > Peticion de Luis (literal, mandato E2): "Una pagina ligera, con la identidad
 > ExpoFaja, que cualquiera abre desde el QR en el museo y en 3 segundos sabe
 > que charla hay ahora, que viene despues, quien habla, quien organiza y por
@@ -102,6 +102,7 @@ Agenda (seccion 3)
 - RF-32. EL SISTEMA DEBE generar el `.ics` conforme a RFC 5545: lineas terminadas en CRLF y plegadas a 75 octetos; un VCALENDAR con VERSION 2.0, PRODID `-//Orinoco Digital//ExpoFaja 2026//ES` y un VTIMEZONE `America/Caracas` (UTC−04:00); y un VEVENT con DTSTAMP en UTC, DTSTART y DTEND con `TZID=America/Caracas`, SUMMARY (titulo), LOCATION (nombre de la sede y ciudad de `evento.json`) y DESCRIPTION (ponente si lo hay, sala si la hay y "Programa oficial de la CCIEB").
 - RF-33. EL SISTEMA DEBE asignar a cada sesion con hora un UID estable derivado de su fecha, hora de inicio y sala, con dominio `@orinoco-digital`, distinto para cada sesion del programa.
 - RF-34. EL SISTEMA DEBE escapar en el `.ics` las barras invertidas, comas, puntos y coma y saltos de linea de los textos.
+- RF-78 (anadido 2026-10-14, pedido de Luis). MIENTRAS el boton de calendario esta disponible (RF-21), EL SISTEMA DEBE mostrar al inicio de la agenda un boton "Agregar las N sesiones a mi calendario" que, CUANDO el usuario lo pulsa, descarga un solo `.ics` generado en el navegador, sin peticiones de red, con un VCALENDAR y un VTIMEZONE (RF-32) y un VEVENT por cada sesion con hora del programa, en su orden, identico al de RF-31..34 para esa sesion. Las sesiones sin hora no entran.
 
 Ponentes (seccion 4)
 - RF-35. EL SISTEMA DEBE mostrar una tarjeta por cada ponente visible, en el orden en que aparece por primera vez en el programa, y ninguna para los demas ponentes.

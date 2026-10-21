@@ -127,6 +127,11 @@ const ICONO = {
   plegar: svg('<path d="m15 6-6 6 6 6"/>'),
   flecha: svg('<path d="m9 6 6 6-6 6"/>', 14),
   externo: svg('<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>', 13),
+  ojo: svg('<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>'),
+  ojoTachado: svg(
+    '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/>' +
+      '<circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/>'
+  ),
 };
 
 // --- Color y vocabulario de cada activo --------------------------------------
@@ -290,6 +295,8 @@ let extraActual = {};
 let accionFaja = volarAFaja;
 /** Elemento que tenia el foco al abrir el dialogo, para devolverselo. */
 let origenFoco = null;
+/** Pantalla despejada en movil: solo mapa, pie y aviso DEMO (CSS en style.css). */
+let despejado = false;
 
 // --- Integracion con el historial del navegador ------------------------------
 //
@@ -482,6 +489,7 @@ export function montarUI() {
         ${ICONO.capas}<span>${esc(t("boton.capas"))}</span>
       </button>
       <div class="pointer-events-auto flex gap-2">
+        <button id="btn-despejar" type="button"></button>
         <button id="btn-faja-movil" type="button" aria-label="${esc(t("boton.volarFaja"))}"
           class="${BOTON_FLOTANTE}">${ICONO.faja}</button>
         <button id="btn-tabla-movil" type="button" class="${BOTON_FLOTANTE}"></button>
@@ -528,8 +536,10 @@ export function montarUI() {
     document.getElementById("btn-cerrar-capas")?.focus();
   });
   document.getElementById("btn-fuentes")?.addEventListener("click", abrirFuentes);
+  document.getElementById("btn-despejar")?.addEventListener("click", () => fijarDespejado(!despejado));
 
   conectarBuscador();
+  pintarBotonDespejar();
   pintarBotonesTabla();
   montarCapas();
   pintarBannerDemo();
@@ -538,6 +548,36 @@ export function montarUI() {
   montarTabla();
   pintarFuentes();
   repintarModoCiudadBolivar();
+}
+
+/**
+ * Esconde (no desmonta) la interfaz encima del mapa en movil, o la devuelve.
+ * El atributo vive en <html>, fuera de #ui-root: sobrevive a un redibujado.
+ * @param {boolean} valor
+ */
+function fijarDespejado(valor) {
+  despejado = valor;
+  document.documentElement.toggleAttribute("data-despejado", valor);
+  pintarBotonDespejar();
+}
+
+/** Icono redondo para despejar; con la pantalla despejada, "Mostrar todo" con texto. */
+function pintarBotonDespejar() {
+  const boton = document.getElementById("btn-despejar");
+  if (!boton) return;
+  if (despejado) {
+    boton.className =
+      "inline-flex h-11 items-center gap-2 rounded-full border border-trazo bg-shell/90 pl-3.5 " +
+      "pr-4 text-sm font-medium text-hi shadow-lg shadow-black/30 backdrop-blur";
+    boton.innerHTML = `${ICONO.ojo}<span>${esc(t("boton.mostrarTodo"))}</span>`;
+    boton.removeAttribute("aria-label");
+    boton.removeAttribute("title");
+  } else {
+    boton.className = BOTON_FLOTANTE;
+    boton.innerHTML = ICONO.ojoTachado;
+    boton.setAttribute("aria-label", t("boton.despejar"));
+    boton.title = t("boton.despejar");
+  }
 }
 
 /**
@@ -1288,6 +1328,9 @@ export function mostrarPanelActivo(activo, extra = {}) {
     cerrarPanel();
     return;
   }
+  // Tocar un activo con la pantalla despejada la devuelve: una ficha escondida
+  // pareceria un toque perdido.
+  if (despejado) fijarDespejado(false);
   // Una sola cosa encima del mapa a la vez.
   sinHistorial(() => {
     cerrarTabla();
@@ -1812,7 +1855,7 @@ export function montarCargaInicial() {
       <p class="text-sm font-semibold tracking-tight text-hi">${esc(t("app.titulo"))}</p>
       <p class="mt-1 text-xs text-lo">${esc(t("carga.terreno"))}</p>
       <div class="mt-4 h-0.5 overflow-hidden rounded-full bg-trazo">
-        <div class="h-full w-1/3 rounded-full bg-gas animate-indeterminada"></div>
+        <div class="h-full w-1/3 rounded-full bg-tinta animate-indeterminada"></div>
       </div>
     </div>`;
   document.body.appendChild(nodo);

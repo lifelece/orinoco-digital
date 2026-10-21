@@ -134,13 +134,16 @@ agenda textual, ningun ponente destacado).
 
 ## STOP GATE
 
-- [ ] Telefono real, datos moviles, DevTools cerrado: cabecera, agenda,
+- [x] Telefono real, datos moviles, DevTools cerrado: cabecera, agenda,
       ponentes, salto al mapa 3D y vuelta atras
-- [ ] **QR impreso escaneado** con dos telefonos distintos
-- [ ] Logos nitidos sobre claro y oscuro; muro de aliados completo; fotos
+- [x] **QR impreso escaneado** con dos telefonos distintos (Luis, 13/10: funciona)
+- [x] Logos nitidos sobre claro y oscuro; muro de aliados completo; fotos
       de ponentes con avatar de iniciales donde no hay foto
-- [ ] Aviso de independencia visible sin hacer scroll en el pie
-- [ ] Revisado el diff: sin dependencias, sin datos inventados, sin
+- [x] Aviso de independencia visible sin hacer scroll en el pie
+- [x] Revisado el diff: sin dependencias, sin datos inventados, sin
       `[perfil_pendiente]` rellenado
-- [ ] PR abierto; merge a `main` solo con el OK de Luis y antes del jueves
-      15 a las 12:00
+- [x] PR abierto; merge a `main` solo con el OK de Luis y antes del jueves
+      15 a las 12:00 (#7, mergeado el 13/10)
+- [ ] Lighthouse movil de `/expofaja` (meta >= 90): pendiente; la cuota de
+      PageSpeed se agoto el 13/10
+- [ ] `.ics` importado en el calendario del telefono: sin confirmar
