@@ -410,7 +410,7 @@ export function montarUI() {
   raiz.innerHTML = `
     <div id="columna" class="pointer-events-none fixed inset-0 z-20 flex flex-col gap-2
          p-2 pt-[max(0.5rem,env(safe-area-inset-top))] sm:py-3 sm:pl-3">
-      <header class="pointer-events-auto relative flex items-center gap-2 rounded-xl border
+      <header class="pointer-events-auto relative z-30 flex items-center gap-2 rounded-xl border
                      border-trazo bg-shell/90 py-1.5 pl-3 pr-1.5 shadow-lg shadow-black/30
                      backdrop-blur sm:gap-3">
         <div class="shrink-0">
@@ -1611,6 +1611,11 @@ function pintarBotonesTabla() {
 function montarTabla() {
   const nodo = document.getElementById("vista-tabla");
   if (!nodo) return;
+  // La columna (z-20) va sobre la tabla (z-15): a 390 px, "Ver Ciudad Bolivar" y la
+  // cabecera y el panel del modo tapaban el titulo. Con la tabla abierta, se ocultan.
+  for (const id of ["ranura-modo", "ranura-panel-modo"]) {
+    document.getElementById(id)?.toggleAttribute("hidden", tablaVisible);
+  }
 
   if (!tablaVisible) {
     nodo.hidden = true;
