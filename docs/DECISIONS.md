@@ -1166,8 +1166,8 @@ marca que choque con el uso de `ef-azul`.
 
 ## ADR-022 — Carga diferida de Cesium (shell de UI primero, `map.js` por `import()`)
 
-**Fecha:** 2026-10-13 · **Estado:** propuesta. No se mergea antes del 18/10
-(despues de la ExpoFaja).
+**Fecha:** 2026-10-13 · **Estado:** aceptada (2026-10-21; implementada en el PR #11, mergeado
+el 2026-10-21, despues de la ExpoFaja).
 
 **Contexto.** El Lighthouse movil del mapa dio 25 el 2026-09-17
 (`docs/AUDITORIA-2026-09.md`, P2/P3), lastrado por Cesium: `main.js` y `ui.js`
