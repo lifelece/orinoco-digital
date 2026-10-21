@@ -1,7 +1,7 @@
 /**
  * ui.js — DOM e interfaz. No importa "cesium" ni hace fetch.
  *
- * Habla con el mapa solo a traves de las funciones que map.js exporta.
+ * Habla con el mapa solo a traves de puenteMapa.js (ADR-022), nunca de map.js.
  *
  * Estructura del shell (Notion "Mejora v2", M1 — ver docs/DECISIONS.md, ADR-014):
  * - Columna superior: cabecera con buscador, banner DEMO y control de capas.
@@ -22,7 +22,7 @@ import {
   alternarContexto,
   alternarDemo,
   hayCapaDemo,
-} from "./map.js";
+} from "./puenteMapa.js";
 import {
   COLOR_HIDROCARBURO,
   COLOR_FLUIDO,

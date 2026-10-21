@@ -136,6 +136,7 @@
   "pie.codigo": "Código fuente",
   "aviso.cerrar": "Cerrar aviso",
   "error.tokenFaltante": "Falta el token de Cesium ion. Revisa tu archivo .env.",
+  "error.mapaNoCargo": "No se pudo cargar el mapa 3D. Revisa tu conexion y recarga la pagina.",
   "error.cargaCapas": "No se pudieron cargar estas capas: {capas}. El resto del mapa funciona.",
   "modo.ciudadBolivar.titulo": "Ciudad Bolívar · Capital Estratégica de la Faja",
   "modo.ciudadBolivar.alianza": "En alianza con",

@@ -70,6 +70,11 @@ export default defineConfig({
          * En redes moviles venezolanas esa diferencia es la que importa.
          */
         manualChunks(id) {
+          // El ayudante de precarga de Vite (lo que hace funcionar import()) lo
+          // usan main.js y Cesium. Sin esta linea, Rollup lo deja DENTRO del
+          // chunk de Cesium y el primer pintado vuelve a depender de 1,1 MB
+          // (ADR-022): index.html lo precargaria como dependencia estatica.
+          if (id.includes("vite/preload-helper")) return "precarga";
           if (id.includes("node_modules/cesium")) return "cesium";
           return undefined;
         },

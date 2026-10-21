@@ -1161,3 +1161,69 @@ hidrografia; la regla es una derivada de ella. Sin dependencias nuevas.
 sobre la imagen satelital; si cambian los anillos o se sustituye la fuente del
 cauce (se regenera, no se retoca a mano); o si la CCIEB entrega un manual de
 marca que choque con el uso de `ef-azul`.
+
+---
+
+## ADR-022 — Carga diferida de Cesium (shell de UI primero, `map.js` por `import()`)
+
+**Fecha:** 2026-10-13 · **Estado:** propuesta. No se mergea antes del 18/10
+(despues de la ExpoFaja).
+
+**Contexto.** El Lighthouse movil del mapa dio 25 el 2026-09-17
+(`docs/AUDITORIA-2026-09.md`, P2/P3), lastrado por Cesium: `main.js` y `ui.js`
+importaban `map.js` de forma estatica, asi que el navegador descargaba y
+evaluaba el chunk `cesium` (~1,1 MB comprimido) antes de ejecutar nada
+nuestro. Hasta que ese JS terminaba, la pantalla estaba en blanco (FCP/LCP
+tardios) aunque la cabecera, el panel de capas y los datos JSON no necesitan
+Cesium para pintarse.
+
+**Decision.**
+
+1. `main.js` pinta el shell (pantalla de carga, cabecera, panel de capas,
+   cabecera y panel del modo, tabla con los datos de los JSON) sin esperar a
+   Cesium, y trae `map.js` con `import("./map.js")` tras el primer pintado
+   (doble `requestAnimationFrame`).
+2. `ui.js` deja de importar `map.js`. Habla con el mapa por un puente
+   (`src/puenteMapa.js`) que no importa Cesium: guarda en cola las ordenes
+   que llegan antes de que el mapa exista (activar capas, deseleccionar,
+   volar) y las reproduce al conectarse. Las preguntas al mapa devuelven un
+   valor neutro hasta entonces (`hayCapaDemo` = false).
+3. Los datos se piden en paralelo a la descarga de Cesium: la interfaz recibe
+   sus colecciones al llegar; el dibujo en el globo espera a `map.js`.
+4. El CSS de widgets de Cesium sigue importado desde `map.js`, por lo que
+   viaja con su chunk y deja de bloquear el primer pintado.
+5. Si `import("./map.js")` falla (red, chunk caducado tras un despliegue), el
+   error se ve en la UI (`mostrarError`) y no solo en consola.
+6. Se mantiene: solo `map.js` importa `cesium`; `manualChunks` de Cesium en
+   `vite.config.js`; `api.js` intacto; `/expofaja` sin Cesium; modos,
+   historial y enlaces `?modo`, `?capa`, `?vuelo` sin cambios.
+
+**Alternativas.**
+
+- *Portada estatica con boton "Abrir mapa 3D"* (Cesium solo bajo demanda):
+  mejor puntuacion posible, pero rompe la promesa de que la primera pantalla
+  es el globo y los enlaces profundos. Queda como **segunda fase** si esta no
+  basta.
+- *`modulepreload` de `map.js` en `index.html`*: opcional; adelantaria la
+  descarga pero compite con el primer pintado en redes lentas. No incluido.
+- *Dejarlo estatico y recortar Cesium*: ya hay `manualChunks` y el peso es el
+  de Cesium; no hay recorte posible sin salirse de CesiumJS.
+
+**Consecuencias.**
+
+- (+) FCP/LCP del shell ya no dependen de los ~1,1 MB de Cesium.
+- (+) Un globo que tarda queda en pantalla de carga con la interfaz usable.
+- (-) El globo aparece despues (mismos bytes, mas tarde respecto a la
+  interfaz); en redes muy lentas se ve la interfaz sin globo unos segundos.
+- (-) Una pieza nueva (`puenteMapa.js`) y un orden de arranque mas
+  complejo en `main.js`; `verificar-modulos` pasa a exigir que `ui.js` no
+  importe `map.js` y que `main.js` lo haga solo con `import()` dinamico.
+- (-) Un `?vuelo=` o clic sobre un activo antes de que el mapa exista queda en
+  cola hasta que el mapa se conecta.
+
+**Como se mide.** Con Edge headless + CDP (4G lenta: 150 ms, 1,6 Mbps /
+750 kbps; CPU 4x): FCP, LCP y KB transferidos antes del primer pintado, antes
+(produccion) y despues (`vite preview`). Son cifras aproximadas: el
+Lighthouse real se mide en produccion tras el merge (pagespeed.web.dev, movil).
+Presupuesto: JS propio del mapa < 150 KB gzip; `/expofaja` sin chunk de
+Cesium.
