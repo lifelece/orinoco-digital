@@ -117,8 +117,8 @@ docs/         Arquitectura, decisiones, fuentes, fases
 centrales, modos, enlaces profundos (`?modo=&capa=&vuelo=`), carga diferida de
 Cesium (ADR-022) y datos que se verifican cada semana. ExpoFaja 2026 (CCIEB)
 cerrada: memoria en [docs/expofaja/MEMORIA.md](docs/expofaja/MEMORIA.md). En curso:
-la Ruta de aprendizaje (recorridos guiados, glosario, laboratorio). Falta el tag
-v1.0 y medir Lighthouse movil. Hoja de ruta: [docs/PLAN.md](docs/PLAN.md); estado
+la Ruta de aprendizaje (recorridos guiados, glosario, laboratorio). v1.0 etiquetada
+el 2026-10-24; falta medir Lighthouse movil. Hoja de ruta: [docs/PLAN.md](docs/PLAN.md); estado
 al dia: [MEMORY.md](MEMORY.md).
 
 ## Contribuir

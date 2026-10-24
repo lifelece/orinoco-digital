@@ -158,8 +158,8 @@ documentado, para que nadie repita la busqueda.
 
 ## Lo que sigue abierto
 
-- Tag v1.0 (lo decide el autor) y despues el DOI de Zenodo (M12).
-- Lighthouse movil del mapa y de `/expofaja`: la cuota de PageSpeed se agoto; lo mide el autor.
+- DOI de Zenodo (M12): `v1.0` se etiqueto el 2026-10-24; falta enlazar el repo en Zenodo y publicar la release.
+- Lighthouse movil oficial del mapa y de `/expofaja` (PageSpeed sin cuota el 2026-10-24). Medicion por CDP con 4G lenta y CPU x4: FCP 4,48 s en el mapa, 1,45 s en `/expofaja`.
 - Ruta de aprendizaje: P0 en revision, P1-P6 por hacer.
 - Dividir `ui.js` y `map.js` (ADR-017): `src/ui/` va por 5 modulos.
 - Centros de los cuatro bloques de la Faja: sin fuente publica localizada.
