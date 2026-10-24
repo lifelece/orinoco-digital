@@ -31,10 +31,10 @@ impulsar, atribuido. Todo con datos publicos verificables.
 
 | Etapa | Archivo | Quien | Necesita permiso CCIEB | Fecha objetivo |
 |---|---|---|---|---|
-| E0 | `E0-GOBERNANZA-PERMISOS.md` + `AUTORIZACIONES.md` | Luis (sin codigo) | **Hecho** (12/10); falta anotar quien y por que medio | Lun 12 |
+| E0 | `E0-GOBERNANZA-PERMISOS.md` + `AUTORIZACIONES.md` | Luis (sin codigo) | **Hecho** (12/10): Dr. Wuilfredo Carrasco, en persona | Lun 12 |
 | E1 | `E1-MODO-CIUDAD-BOLIVAR.md` | Claude Code | Autorizado | Mar 13 |
 | E2 | `E2-MICROSITIO-EXPOFAJA.md` | Claude Code | Autorizado (modo marcas) | Mie 14 -> Jue 15 12:00 |
-| E3 | `E3-EMBED-WORDPRESS.md` | Claude Code + webmaster CCIEB | Autorizado | Tras E2 (ideal: antes del 16) |
+| E3 | `E3-EMBED-WORDPRESS.md` | Claude Code + webmaster CCIEB | Autorizado; envio de instrucciones al webmaster descartado por Luis (2026-10-24) | Tras E2 (ideal: antes del 16) |
 | E4 | `E4-POST-EVENTO.md` | Claude Code | Autorizado (salvo datos de afiliados no publicos) | Semana del 19/10 |
 | — | `data/raw/expofaja/privado/PROPUESTA-CCIEB.md` (no versionado) | Luis -> CCIEB | — | Enviar con E0 o tras E1 |
 

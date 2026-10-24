@@ -8,6 +8,7 @@ topografico real, con datos publicos y trazables.
 
 [![Licencia codigo: Apache 2.0](https://img.shields.io/badge/codigo-Apache--2.0-blue.svg)](LICENSE)
 [![Licencia datos: CC BY 4.0](https://img.shields.io/badge/datos-CC%20BY%204.0-green.svg)](LICENSE-DATA)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23628475.svg)](https://doi.org/10.5281/zenodo.23628475)
 
 ---
 

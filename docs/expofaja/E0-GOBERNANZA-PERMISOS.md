@@ -74,8 +74,8 @@ Completar nombre, cargo y medio; la evidencia va en
 
 - [x] Autorizacion de la CCIEB recibida (12/10)
 - [x] `AUTORIZACIONES.md` creado
-- [ ] Nombre, cargo y medio anotados en `AUTORIZACIONES.md` (cargo anotado el 13/10: director de la CCIEB; faltan nombre y medio)
-- [ ] Mensaje de seguimiento enviado (archivos que faltan)
+- [x] Nombre, cargo y medio anotados en `AUTORIZACIONES.md` (2026-10-24: Dr. Wuilfredo Carrasco, presidente de la CCIEB, en persona)
+- [x] Mensaje de seguimiento: descartado por Luis el 2026-10-24 (el evento ya paso)
 - [ ] Archivos recibidos guardados en `data/raw/expofaja/marcas/` y
       `data/raw/expofaja/referencias/`
 - [x] ADR-020 revisado por Luis (aceptado completo el 13/10)

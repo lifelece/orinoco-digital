@@ -6,7 +6,7 @@
 
 | Fecha | Que se autoriza | Quien autoriza (cargo) | Medio | Alcance | Evidencia |
 |---|---|---|---|---|---|
-| 2026-10-12 | **Uso de todos los recursos disponibles** de la ExpoFaja y la CCIEB: logos del evento y de la Camara, logos de aliados que la Camara publica, fotos de ponentes, programa, brochure y contenidos de su web y prensa | `[nombre]`, director de la CCIEB | `[medio]` | Sitio orinoco-digital.vercel.app, repositorio publico y material de divulgacion de Orinoco Digital | `data/raw/expofaja/privado/[archivo]` |
+| 2026-10-12 | **Uso de todos los recursos disponibles** de la ExpoFaja y la CCIEB: logos del evento y de la Camara, logos de aliados que la Camara publica, fotos de ponentes, programa, brochure y contenidos de su web y prensa | Dr. Wuilfredo Carrasco, presidente de la CCIEB | En persona (verbal) | Sitio orinoco-digital.vercel.app, repositorio publico y material de divulgacion de Orinoco Digital | No hay documento: autorizacion verbal |
 
 ## Lo que esto habilita
 
@@ -26,6 +26,6 @@
 
 ## Pendiente de completar (Luis)
 
-- [x] Cargo de quien autorizo: director de la CCIEB (Luis, 2026-10-13).
-- [ ] Nombre de quien autorizo y por que medio.
-- [ ] Guardar la evidencia en `data/raw/expofaja/privado/`.
+- [x] Cargo de quien autorizo (Luis, 2026-10-13; precisado el 2026-10-24 con 00-CONTEXTO.md: presidente de la CCIEB).
+- [x] Nombre y medio: Dr. Wuilfredo Carrasco, en persona (Luis, 2026-10-24).
+- [x] Evidencia: no aplica, la autorizacion fue verbal.
