@@ -63,7 +63,7 @@ El *Prompt maestro* §4 tenia todo como "Pendiente" y las fases 0-1 como
 | M9 Pipeline vivo | Pendiente | Todo | M8 |
 | M10 Pulso FIRMS | Pendiente | `MAP_KEY` de FIRMS | M9 |
 | M11 Capa de confianza | Adelantado: chip de frescura (M1) | Pagina `/estado-datos`, estilo por precision | M8 |
-| M12 Gobernanza OSS | LICENSE, LICENSE-DATA, CONTRIBUTING, CODE_OF_CONDUCT y DCO ya existian. **Anadidos** `CITATION.cff` y plantilla de dato incorrecto (ADR-015) | DOI de Zenodo | Tag `v1.0` |
+| M12 Gobernanza OSS | LICENSE, LICENSE-DATA, CONTRIBUTING, CODE_OF_CONDUCT y DCO ya existian. **Anadidos** `CITATION.cff` y plantilla de dato incorrecto (ADR-015) | Hecho: DOI 10.5281/zenodo.23628475 (2026-10-24) | Tag `v1.0` |
 | M13 a M15 | Pendientes | Todo | Ver C1 |
 
 ---

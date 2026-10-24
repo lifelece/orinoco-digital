@@ -158,7 +158,7 @@ documentado, para que nadie repita la busqueda.
 
 ## Lo que sigue abierto
 
-- DOI de Zenodo (M12): `v1.0` se etiqueto el 2026-10-24; falta enlazar el repo en Zenodo y publicar la release.
+- DOI de Zenodo (M12): hecho el 2026-10-24 (10.5281/zenodo.23628475; la v1.0 es .23628476).
 - Lighthouse movil oficial del mapa y de `/expofaja` (PageSpeed sin cuota el 2026-10-24). Medicion por CDP con 4G lenta y CPU x4: FCP 4,48 s en el mapa, 1,45 s en `/expofaja`.
 - Ruta de aprendizaje: P0 en revision, P1-P6 por hacer.
 - Dividir `ui.js` y `map.js` (ADR-017): `src/ui/` va por 5 modulos.

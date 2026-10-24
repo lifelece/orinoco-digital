@@ -5,6 +5,14 @@
 cff-version: 1.2.0
 version: "1.0"
 date-released: 2026-10-24
+doi: 10.5281/zenodo.23628475
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23628475
+    description: "Todas las versiones (DOI conceptual de Zenodo)"
+  - type: doi
+    value: 10.5281/zenodo.23628476
+    description: "Version 1.0"
 message: >-
   Si usas Orinoco Digital en un trabajo, citalo con estos metadatos. Los datos
   de terceros se citan ademas en su fuente original: ver docs/DATA_SOURCES.md

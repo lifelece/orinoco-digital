@@ -6,7 +6,7 @@
 ## Estado (2026-10-24)
 
 - Produccion: orinoco-digital.vercel.app (main `aa108df`). Merge a `main` = deploy. Nada abierto en GitHub (0 PR, 0 issues).
-- v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010). Tag `v1.0` el 2026-10-24 (21bb20f); falta el DOI de Zenodo (M12): enlazar el repo en Zenodo y publicar la release.
+- v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010). Tag `v1.0` el 2026-10-24 (21bb20f); release y DOI de Zenodo el mismo dia: 10.5281/zenodo.23628475 (todas las versiones; v1.0 = .23628476).
 - ExpoFaja 2026 (15-17/10) con la CCIEB: E1 modo Ciudad Bolivar, E2 micrositio `/expofaja`, E3 embed, E4.1 memoria; .ics (RF-78, #17); despejar pantalla en movil y "Ver agenda" (RF-22/23, #18); UI movil 390 px (#21). Desde el 2026-10-18 la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`, `src/config.js:309`); el modo sigue en `/?modo=ciudadBolivar`.
 - Identidad "instrumento de cuenca" (ADR-021) y carga diferida de Cesium (ADR-022, #11, #22): FCP 7,6 s -> 1,0 s aprox. en 4G lenta.
 - Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
@@ -17,7 +17,7 @@
 ## Abierto (del autor)
 
 - Gates M1, E1, E2, E3 (2026-10-13) y .ics, RF-78, RF-22/23 (2026-10-14): cerrados. ADR-020 y ADR-022 aceptados.
-- Pendientes: Lighthouse movil oficial (PageSpeed sin cuota el 24/10; medido por CDP con 4G lenta y CPU x4, una carga: mapa FCP y LCP 4,48 s, `/expofaja` FCP 1,45 s y LCP 3,07 s); nombre y medio de quien autorizo en `AUTORIZACIONES.md`; mensaje E0 y PDF al webmaster (a decidir tras el evento).
+- Pendientes: Lighthouse movil oficial (PageSpeed sin cuota el 24/10; medido por CDP con 4G lenta y CPU x4, una carga: mapa FCP y LCP 4,48 s, `/expofaja` FCP 1,45 s y LCP 3,07 s).
 - Refactor C3 (ADR-017): `src/ui/` tiene 5 modulos, pero `src/ui.js` sigue en 1.943 lineas y `src/map.js` en 1.831.
 
 ## Decisiones vigentes (no reabrir sin ADR)
