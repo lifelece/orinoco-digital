@@ -11,7 +11,7 @@
 - Identidad "instrumento de cuenca" (ADR-021) y carga diferida de Cesium (ADR-022, #11, #22): FCP 7,6 s -> 1,0 s aprox. en 4G lenta.
 - Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
 - `npm test`: 196/196 y `verificar:modulos` sin violaciones (2026-10-24).
-- En curso: Ruta de aprendizaje (7 recorridos guiados, glosario, laboratorio; fases P0-P6). P0 (spec 003 + ADR propuesto, piloto R5) en la rama `ruta-aprendizaje`: PR #23, espera gate del autor.
+- En curso: Ruta de aprendizaje (7 recorridos guiados, glosario, laboratorio; fases P0-P6). P0 cerrada el 2026-10-24: spec 003 en main (#23) con QA, gate aprobado y ADR-023 aceptado. Siguiente: P1 (piloto R5).
 - Bitacoras en Notion: "Bitacora 12-13 Oct 2026" y "Bitacora 24 Oct 2026".
 
 ## Abierto (del autor)
