@@ -226,6 +226,8 @@ Cada una con la recomendacion del planificador primero.
 
 Decisiones tecnicas tomadas por el planificador y aprobadas por el Director; Luis puede vetarlas: (a) P1 **no** espera a `modeStore` (la dependencia que Notion §8 anota): el recorrido es un modo mas de `DEFINICION_MODOS` y su nivel de lectura es un estado propio, que N1 podra absorber; (b) **excepcion declarada al principio 7 de la constitucion** (todo texto visible por `t(clave)`): el texto de las escenas vive en el archivo de datos, bilingue y con su procedencia, porque cada frase va unida a datos con fuente; la igualdad ES/EN la fuerza el validador y los textos de interfaz si usan `t(clave)`. Aprobar ADR-023 es aprobar ambas.
 
+**Respuesta de Luis (2026-10-24):** aprobadas las 4 recomendaciones y ADR-023 (P1 sin `modeStore` y excepcion declarada al principio 7). P1 puede empezar.
+
 ## 11. Dudas abiertas
 
 1. [NECESITA ACLARACION: nombre oficial del terminal de José (la prensa usa "Complejo Industrial José Antonio Anzoátegui"; aparece la sigla TAECJAA sin fuente primaria leida). Hasta confirmarlo con PDVSA o una fuente primaria, el texto usa "terminal de José, en el Complejo Industrial José Antonio Anzoátegui" o no lo nombra.]
