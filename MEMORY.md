@@ -3,22 +3,22 @@
 > Maximo 50 lineas. Lo actualiza la ultima tarea de cada spec y `/depurar`.
 > Lo viejo se condensa, no se acumula. Historia completa: docs/PROCESO.md.
 
-## Estado (2026-10-13)
+## Estado (2026-10-24)
 
-- Produccion: orinoco-digital.vercel.app. Vercel conectado a GitHub desde 2026-09-29: merge a `main` = deploy.
-- v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010); 6-7 en curso: falta material de divulgacion, tag v1.0 y Lighthouse (rendimiento 25 el 2026-09-17, lastrado por Cesium).
-- Token de Cesium restringido por dominio (2026-09-29).
-- Mergeados el 2026-09-29: PR #1 shell de UI (ADR-014), #2 paquete visual (ADR-018), #3 controlador de render (ADR-019), #4 limpieza de falsos positivos OSM (downstream 97 -> 64).
-- ExpoFaja 2026 (15-17/10) con la CCIEB, en produccion desde 2026-10-13: E1 modo Ciudad Bolivar (#6), E2 micrositio `/expofaja` (#7), E3 embed (#8), E4.1 memoria bilingue (#9). 2026-10-14: todo el programa en un .ics (RF-78, #17); despejar pantalla en movil y enlace "Ver agenda" del modo al micrositio (RF-22/23, #18). El 2026-10-18 00:00 (Caracas), por fecha y sin desplegar: el micrositio pasa a memoria y la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`). Bitacora en Notion: "Bitacora 12-13 Oct 2026".
-- Identidad visual "instrumento de cuenca" (ADR-021, #10) en produccion desde 2026-10-13: tokens `tinta`/`tinta-baja`, regla del rio (`public/data/regla-rio.json`, `npm run data:regla`).
-- Datos automaticos (#12): workflow `datos-semanal` (lunes) y `noticias-ccieb` (diario) abren PR; GEM sigue manual. `FECHA_DATOS` lo pone `npm run data:actualizar`.
-- Abierto: carga diferida de Cesium (ADR-022, #11), no mergear antes del 18/10. FCP medido 7,6 s -> 1,0 s (aprox., 4G lenta).
+- Produccion: orinoco-digital.vercel.app (main `aa108df`). Merge a `main` = deploy. Nada abierto en GitHub (0 PR, 0 issues).
+- v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010). Falta tag v1.0 (decide el autor) y DOI de Zenodo (M12).
+- ExpoFaja 2026 (15-17/10) con la CCIEB: E1 modo Ciudad Bolivar, E2 micrositio `/expofaja`, E3 embed, E4.1 memoria; .ics (RF-78, #17); despejar pantalla en movil y "Ver agenda" (RF-22/23, #18); UI movil 390 px (#21). Desde el 2026-10-18 la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`, `src/config.js:309`); el modo sigue en `/?modo=ciudadBolivar`.
+- Identidad "instrumento de cuenca" (ADR-021) y carga diferida de Cesium (ADR-022, #11, #22): FCP 7,6 s -> 1,0 s aprox. en 4G lenta.
+- Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
+- `npm test`: 196/196 y `verificar:modulos` sin violaciones (2026-10-24).
+- En curso: Ruta de aprendizaje (7 recorridos guiados, glosario, laboratorio; fases P0-P6). P0 (spec 003 + ADR propuesto, piloto R5) en la rama `ruta-aprendizaje`: PR #23, espera gate del autor.
+- Bitacoras en Notion: "Bitacora 12-13 Oct 2026" y "Bitacora 24 Oct 2026".
 
-## Decisiones abiertas de Luis
+## Abierto (del autor)
 
-- Gates cerrados el 2026-10-13 (Luis en telefono + QR): M1, E1, E2, E3 (codigo). ADR-020 aceptado completo. El 2026-10-14: `.ics` en telefono, RF-78 (#17) y RF-22/23 (#18).
-- Pendientes de Luis: nombre y medio de quien autorizo en `AUTORIZACIONES.md` (cargo: director de la CCIEB); mensaje de seguimiento E0; PDF al webmaster y ver el embed en su web.
-- Pendiente tecnico: Lighthouse movil de `/expofaja` y del mapa (cuota de PageSpeed agotada el 13/10); tag v1.0 tras #11.
+- Gates M1, E1, E2, E3 (2026-10-13) y .ics, RF-78, RF-22/23 (2026-10-14): cerrados. ADR-020 y ADR-022 aceptados.
+- Pendientes: Lighthouse movil del mapa y de `/expofaja` (lo mide el autor en pagespeed.web.dev); tag v1.0; nombre y medio de quien autorizo en `AUTORIZACIONES.md`; mensaje E0; PDF al webmaster.
+- Refactor C3 (ADR-017): `src/ui/` tiene 5 modulos, pero `src/ui.js` sigue en 1.943 lineas y `src/map.js` en 1.831.
 
 ## Decisiones vigentes (no reabrir sin ADR)
 
@@ -26,6 +26,7 @@
 - Campos coloreados por hidrocarburo (ADR-012); centrales apagadas por defecto (ADR-013).
 - Tests con `node:test` sin dependencias (ADR-016); gate de modulos dentro de `npm test` (ADR-019).
 - Identidad (ADR-021): `tinta` nunca en marcadores ni capas de datos; colores de marca ExpoFaja/CCIEB solo en cabecera DOM y micrositio; la regla del rio sin ejes (no es un grafico).
+- Carga diferida (ADR-022): el shell de UI pinta primero y `map.js` entra por `import()`.
 - El "Prompt maestro" de Notion choca con el repo (Supabase, GSAP, otra estructura): manda el repo (docs/NOTION.md).
 
 ## Errores a evitar (sintoma -> causa -> como se evita)
