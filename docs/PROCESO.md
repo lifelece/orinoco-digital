@@ -158,11 +158,14 @@ documentado, para que nadie repita la busqueda.
 
 ## Lo que sigue abierto
 
-- **Token de Cesium sin restringir por dominio.** Lo mas urgente.
+- Tag v1.0 (lo decide el autor) y despues el DOI de Zenodo (M12).
+- Lighthouse movil del mapa y de `/expofaja`: la cuota de PageSpeed se agoto; lo mide el autor.
+- Ruta de aprendizaje: P0 en revision, P1-P6 por hacer.
+- Dividir `ui.js` y `map.js` (ADR-017): `src/ui/` va por 5 modulos.
 - Centros de los cuatro bloques de la Faja: sin fuente publica localizada.
 - Poligono real de la Faja, en vez de su caja envolvente.
 - Historial por pozo: **no existe en publico**, y probablemente nunca lo hara.
-- Lighthouse, material de divulgacion y el tag v1.0.
+- Material de divulgacion.
 
 ---
 

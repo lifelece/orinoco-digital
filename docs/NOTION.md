@@ -1,6 +1,6 @@
 # Notion y el repositorio: indice, estado y contradicciones
 
-> **Fecha:** 2026-09-17.
+> **Fecha:** 2026-10-24.
 > Notion es donde se investiga y se planifica; el repositorio es donde se
 > decide y se construye. **Cuando chocan, manda `CLAUDE.md`** y la diferencia
 > se anota aqui hasta que un ADR la resuelva. Leer esto antes de ejecutar el
@@ -29,6 +29,11 @@ Todas cuelgan del hub *Proyecto Orinoco Digital — Documentacion Tecnica*.
 | Soluciones practicas a los puntos ciegos | `3d51848a-bfa7-8137-ac0f-e7684a72bdc1` | 2026-09-08 |
 | Sector Empresarial | `3d51848a-bfa7-81b4-a6bb-c3068e041a94` | 2026-09-08 |
 | Empresas del sector (base de datos) | `fad3ac1e-ccab-4a43-a963-8027dfeab678` | 2026-09-08 |
+| ExpoFaja 2026 × Orinoco Digital — Contexto y mandatos | `3f71848a-bfa7-8102-b04b-ffcd3be65a9a` | 2026-10-13 |
+| Bitacora 12–13 Oct 2026 — ExpoFaja | `3f81848a-bfa7-81a7-95d7-d6931db3e7bc` | 2026-10-14 |
+| Arnes de Claude Code v2 | `3f71848a-bfa7-8155-9923-cc9ff1e956e2` | — |
+| Orinoco Digital — Ruta de aprendizaje | `4011848a-bfa7-81ba-8d8b-ee489d8ec879` | 2026-10-22 |
+| Bitacora 24 Oct 2026 | `4031848a-bfa7-8102-bba8-f51f16bbcef0` | 2026-10-24 |
 | Fases 0 a 6-7 (planes originales) | ver hub | 2026-09-08 |
 
 Las paginas de fase de Notion son los planes **de partida**. Los guiones
@@ -46,8 +51,10 @@ El *Prompt maestro* §4 tenia todo como "Pendiente" y las fases 0-1 como
 | Fases 0, 1, 2, 3, 5 | **Cerradas** 2026-09-09 | — | — |
 | Fase 4 (Supabase) | **Saltada**, ADR-010 | — | — |
 | Fase 6-7 | Publicada | Token restringido, Lighthouse, material, tag `v1.0` | Autor |
-| M1 Shell de UI | **Implementado** (ADR-014), capturas hechas | Gate en telefono real | Autor |
-| M2 Navegacion | Adelantado: `/` busca, `Esc` cierra, limites de zoom | Jerarquia, breadcrumb, deep-links | Gate de M1 |
+| M1 Shell de UI | **Implementado** (ADR-014); gate en telefono cerrado el 2026-10-13 | — | — |
+| M2 Navegacion | Adelantado: `/` busca, `Esc` cierra, limites de zoom; **enlaces profundos** `?modo=&capa=&vuelo=` (`src/modos.js`, ADR-020) | Jerarquia, breadcrumb | M1 (cerrado) |
+| Carga diferida de Cesium | **Hecha** (ADR-022, #11): el shell pinta primero y `map.js` entra por `import()`; FCP 7,6 s -> 1,0 s aprox. en 4G lenta | Lighthouse movil medido por el autor | Autor |
+| Ruta de aprendizaje P0-P6 | **En curso**: P0 (spec 003, ADR propuesto, piloto R5) en la rama `ruta-aprendizaje`, PR #23 | Gate de P0 y fases P1-P6 | Autor |
 | M3 Animacion | Adelantado (ADR-018, 2026-09-29): entrada de ficha 180 ms; `countUp` de contadores del panel de capas, entrada escalonada de sus filas y `drawLine` en las muestras de linea y en el diagrama de cadena de valor, todo CSS y `prefers-reduced-motion` | Tabla de easing | M2 |
 | M4 Render | `requestRenderMode` activo desde la Fase 0. Adelantado (ADR-018, 2026-09-29): base oscura por ajuste de la ImageryLayer actual, sin proveedor nuevo (resuelve C8) | Iluminacion, AO, LOD | Gate de M1 |
 | M5 a M7 | Pendientes | Todo | M3 y M4 |
@@ -70,7 +77,7 @@ seguir mientras no haya ADR nuevo.
 |---|---|---|---|---|
 | C1 | **Supabase + PostGIS** es stack "no negociable" (*Prompt maestro*); consultas por radio con `ST_DWithin` (*Modos* §6, *Funcionalidad v2* §4) | Static-first (ADR-003) y Fase 4 saltada (ADR-010) | Repo | Reabrir solo en M13 o N5, y medir antes: con unos 590 activos publicados, una consulta por radio en el navegador no necesita base de datos |
 | C2 | "Todo string visible al usuario, en espanol" (*Prompt maestro*, regla 4) | i18n ES/EN desde el primer commit (regla 9, ADR-005) | Repo | Leerlo como "espanol primero" y corregir el prompt |
-| C3 | Modulos `viewer.js`, `camera.js`, `layers.js`, `ui/*.js`, `modes/*.js`; "nada de archivos de 800 lineas" | Estructura de modulos fija sin aprobacion. Hoy `ui.js` tiene 1.742 lineas y `map.js` 1.285 | Repo | **Decidir antes de M2.** Cada hito agranda `ui.js`. Un ADR que los divida manteniendo las restricciones duras: solo el modulo del mapa importa `cesium`, la interfaz no hace `fetch` |
+| C3 | Modulos `viewer.js`, `camera.js`, `layers.js`, `ui/*.js`, `modes/*.js`; "nada de archivos de 800 lineas" | Estructura de modulos fija sin aprobacion. Hoy `ui.js` tiene 1.943 lineas y `map.js` 1.831 | Repo | **ADR-017 aceptado** (dividir en `src/ui/` en dos pasos); `src/ui/` ya tiene 5 modulos y `ui.js` sigue grande (2026-10-24). Restricciones duras que se mantienen: solo el modulo del mapa importa `cesium`, la interfaz no hace `fetch` |
 | C4 | GSAP + ScrollTrigger y anime.js aprobados (*Skillstack*, *Prompt maestro*) | Ninguna dependencia nueva sin listarla y justificarla (regla 7). `package.json` no tiene ninguna | Repo | M3 con CSS, que basta para lo que pide. GSAP solo si M6 lo necesita, con ADR, peso medido y `THIRD-PARTY.md`: su licencia no es OSI (*Skillstack* §4) |
 | C5 | Presupuesto de menos de 250 KB de JS propio mas librerias (*Skillstack* §4) | 150 KB comprimidos de JS propio (`PERFORMANCE_BUDGET.md`) | Repo | Miden cosas distintas. Unificar cuando entre la primera libreria. Hoy: 69 KB, 22 KB gzip |
 | C6 | Inter o Geist + JetBrains Mono | Sin fuentes web, pila del sistema (ADR-014) | Repo, **resuelto** | Aviso anadido en *Mejora v2* el 2026-09-17 |

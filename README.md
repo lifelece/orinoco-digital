@@ -18,7 +18,7 @@ hidrocarburos venezolanos:
 
 - **Upstream** — 105 campos de petroleo y gas (Global Energy Monitor). Campos,
   no pozos: el historial por pozo no es publico
-- **Midstream** — 346 ductos y 25 parques de tanques (OpenStreetMap)
+- **Midstream** — 346 ductos y 24 parques de tanques (OpenStreetMap)
 - **Downstream** — refinerias, petroquimicas, plantas de gas y puertos
   (OpenStreetMap)
 - **Contexto** — limites, rios, toponimia, la Guayana Esequiba como zona en
@@ -31,8 +31,9 @@ Todo dato visible es rastreable hasta una fuente publica documentada.
 
 ## Ciudad Bolivar y ExpoFaja 2026
 
-El mapa abre en **Ciudad Bolivar** (`/?modo=ciudadBolivar`): anillos de
-distancia a los campos petroleros (63 de 105 a menos de 200 km en linea recta),
+El mapa abre en la vista nacional (desde el 2026-10-18; antes abria en
+Ciudad Bolivar). El modo **Ciudad Bolivar** sigue disponible por enlace
+(`/?modo=ciudadBolivar`): anillos de distancia a los campos petroleros (63 de 105 a menos de 200 km en linea recta),
 95 servicios de OpenStreetMap y los 5 campos mas cercanos a la sede. Para la
 ExpoFaja 2026 de la CCIEB hay ademas un micrositio de agenda (`/expofaja/`) y un
 embed para su web. Que se pidio, que se construyo, cifras, decisiones y
@@ -111,8 +112,14 @@ docs/         Arquitectura, decisiones, fuentes, fases
 
 ## Estado
 
-**Fase 0 — esqueleto y globo.** Ver [docs/PLAN.md](docs/PLAN.md) para la hoja
-de ruta completa.
+**Al 2026-10-24.** Fases 0-3 y 5 cerradas; la 4 se salto
+(ADR-010). En produccion: mapa 3D con 105 campos, 346 ductos, downstream y
+centrales, modos, enlaces profundos (`?modo=&capa=&vuelo=`), carga diferida de
+Cesium (ADR-022) y datos que se verifican cada semana. ExpoFaja 2026 (CCIEB)
+cerrada: memoria en [docs/expofaja/MEMORIA.md](docs/expofaja/MEMORIA.md). En curso:
+la Ruta de aprendizaje (recorridos guiados, glosario, laboratorio). Falta el tag
+v1.0 y medir Lighthouse movil. Hoja de ruta: [docs/PLAN.md](docs/PLAN.md); estado
+al dia: [MEMORY.md](MEMORY.md).
 
 ## Contribuir
 
@@ -149,14 +156,15 @@ public, traceable data. It is not an official source or investment advice; read
 [DISCLAIMER.md](DISCLAIMER.md).
 
 - **Layers:** upstream (105 oil and gas fields, Global Energy Monitor), midstream
-  (346 pipelines and 25 tank farms, OpenStreetMap), downstream (refineries,
+  (346 pipelines and 24 tank farms, OpenStreetMap), downstream (refineries,
   petrochemical and gas plants, terminals), context (borders, rivers, place
   names, 43 power plants from WRI) and a clearly labeled **DEMO** AI layer.
 - **Stack:** Vanilla JS (ES modules), Vite 7, Tailwind CSS 4, CesiumJS with Cesium
   ion, static GeoJSON versioned in Git, deployed on Vercel. Tests with
   `node:test`, no extra dependencies. UI in Spanish and English.
-- **Ciudad Bolivar and ExpoFaja 2026:** the map opens on Ciudad Bolivar
-  (`/?modo=ciudadBolivar`) with distance rings (63 of 105 fields within 200 km in
+- **Ciudad Bolivar and ExpoFaja 2026:** the map opens on the national view
+  (since 2026-10-18; it used to open on Ciudad Bolivar). The Ciudad Bolivar mode
+  stays available by link (`/?modo=ciudadBolivar`) with distance rings (63 of 105 fields within 200 km in
   a straight line), 95 OpenStreetMap services and the 5 fields closest to the
   venue. For the CCIEB's ExpoFaja 2026 there is also a schedule microsite
   (`/expofaja/`) and an embed for the CCIEB website. What was asked, built,
