@@ -48,7 +48,7 @@
 
 No se tocan: `api.js` (contrato), `vercel.json`, `package.json`, `vite.config.js`, `index.html`, `controladorRender.js`. Si una tarea necesita alguno, se para y se pregunta.
 
-### 2.2 Objetivos de camara de R5 (verificados el 2026-10-24; T01 los recomprueba)
+### 2.2 Objetivos de camara de R5 (verificados el 2026-10-24; recomprobados por T01 el 2026-10-26)
 
 | Escena | Objetivo | Id real | `referencia` | Observacion |
 |---|---|---|---|---|
@@ -58,7 +58,17 @@ No se tocan: `api.js` (contrato), `vercel.json`, `package.json`, `vite.config.js
 | 4 | Terminal de José | `OSM-W265071557` (mismo) | `ubicacion` | El terminal no esta en el dataset (los `terminal` son grupos `OSM-TANQUES-nnn` derivados y sin nombre; ninguno cae cerca de José en la busqueda del 2026-10-24). `[id_pendiente: terminal de José]` |
 | 5 | Salida al mercado | vista de la Faja (`volarAFaja`) | null | Sin rutas dibujadas |
 
-Mejoradores de José: `[id_pendiente]`. Si T01 encuentra un elemento nombrado, se anota aqui y se pregunta a Luis antes de usarlo.
+**Auditoria T01 (2026-10-26, Node sobre `public/data/*.geojson`):**
+
+- Confirmados con la misma linea: `GEM-L100000320738` Junin 6 (`campos.geojson:4633`, Polygon), `GEM-L100000309181` Junin 5 (`:4578`, Point), `OSM-W265071557` (`downstream-osm.geojson:83`, Point -64.8644, 10.0692, `petroquimica`, Pequiven). Sin correcciones a la tabla.
+- Caja de +-0.25 grados alrededor de José en `downstream-osm`: solo Puerto La Cruz (refineria y auxiliares, ~35 km) y el propio complejo; ningun mejorador ni terminal. En `ductos-osm`: el tramo mas cercano esta a ~31 km (`OSM-W544846129`, sin nombre, zona de Puerto La Cruz); ninguno llega a José.
+- Busqueda por nombre (mejorador/upgrader/Petropiar/Petromonagas/San Félix/terminal): sin coincidencias salvo las de abajo. No hay oleoducto Junín-José: el unico `Oleoducto` nombrado es `El Furrial - Mantecal`; los 11 tramos `Gasoducto Nororietal José Francisco Bermúdez` (grafia del dato; p. ej. `OSM-W972131980`) son gas y el "José" es una persona, no el complejo.
+- **Elemento nombrado hallado (NO usado; decide Luis): `OSM-W835524371` "PETROCEDEÑO"** (`downstream-osm.geojson:336`, Point -64.7065, 8.8512, `instalacion`, confianza baja). Es el mejorador de la Faja, ~135 km al sur de José: no sirve para las escenas 3 y 4 de José.
+- Terminal: los 24 `terminal` son `OSM-TANQUES-001..024`, sin nombre; los mas cercanos (`-006`, `-007`) quedan a >100 km de José.
+
+**Falta (sigue como `[id_pendiente]`):** terminal de José (escena 4 se queda en `OSM-W265071557`, `ubicacion`); mejoradores de José (Petropiar, Petromonagas, etc.: no estan en el dataset); oleoducto Junín-José (escena 2 sigue `esquematico`, par de ids, sin trazado).
+
+**Arsenal (`INVENTARIO.md` revisado el 2026-10-26):** la ficha 29 "Recorridos guiados" es esta misma spec (estado Spec, sin codigo reutilizable); la ficha 34 (carga diferida con `import()` y gate contra import estatico) aplica a T08/T12; la ficha 28 (presets de animacion) es privada y de otro stack. No hay motor de escenas reutilizable: se construye `src/ruta/`.
 
 ## 3. Contratos
 
