@@ -183,6 +183,8 @@ export const RUTAS_DATOS = {
   // iniciativas de la CCIEB con ubicacion en OSM.
   ciudadBolivar: "/data/ciudad-bolivar-osm.geojson",
   iniciativasCcieb: "/data/iniciativas-ccieb.geojson",
+  // Ruta de aprendizaje (spec 003): se descarga solo al iniciar un recorrido.
+  recorridos: "/data/ruta/recorridos.json",
 };
 
 // --- Ciudad Bolivar (E1) ----------------------------------------------------
@@ -292,6 +294,33 @@ export const DEFINICION_MODOS = {
     interfaz: "ciudadBolivar",
     vueltaAtras: "nacional",
   },
+  ruta: {
+    id: "ruta",
+    camara: "ruta",
+    capasEncendidas: [],
+    anillos: null,
+    interfaz: "ruta",
+    vueltaAtras: "nacional",
+  },
+};
+
+// --- Ruta de aprendizaje (spec 003) -----------------------------------------
+
+/** Recorridos publicados (solo ids; el JSON trae el resto). Decide RF-80 sin descargar datos. */
+export const RUTAS_PUBLICADAS = ["R5"];
+
+/** Constantes del recorrido (plan 003 §3.7). */
+export const RECORRIDO = {
+  porDefecto: "R5",
+  niveles: ["divulgacion", "tecnico"],
+  duracionVueloS: 2.0, // <= 2,5 (RF-87); SIN VERIFICAR hasta medir en T13
+  camara: {
+    margen: 1.4, // SIN VERIFICAR
+    inclinacionGrados: -45, // SIN VERIFICAR
+    desplazamientoVertical: 0.2, // SIN VERIFICAR
+  },
+  nombresPropios: ["Merey 16", "Petropiar", "Petrocedeño", "Petromonagas", "Petro San Félix", "Special Hamaca Blend", "Zuata Sweet", "Junín", "José"],
+  ejemplosForaneos: ["Alberta", "Texas", "Mar del Norte"],
 };
 
 /** Ids de modo validos: ["nacional", "ciudadBolivar"] (ADR-020). */
