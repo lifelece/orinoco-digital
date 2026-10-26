@@ -61,6 +61,7 @@ import {
   ZOOM_CIUDAD,
   CENTRO_CIUDAD_BOLIVAR,
   CAMARA_CIUDAD_BOLIVAR,
+  RECORRIDO,
 } from "./config.js";
 
 /** @type {Viewer | null} */
@@ -382,8 +383,9 @@ export function iniciarVistaConVuelo() {
  * @param {BoundingSphere} esfera
  * @param {HeadingPitchRange} offset
  * @param {string} holdId — id unico del hold (ADR-019)
+ * @param {number} [duracionS] — duracion del vuelo; por defecto `CAMARA.duracionVuelo`
  */
-function volarCancelable(esfera, offset, holdId) {
+function volarCancelable(esfera, offset, holdId, duracionS = CAMARA.duracionVuelo) {
   const canvas = viewer.scene.canvas;
   const eventosInteraccion = ["pointerdown", "wheel", "touchstart"];
   const cancelarPorInteraccion = () => {
@@ -407,7 +409,7 @@ function volarCancelable(esfera, offset, holdId) {
 
   viewer.camera.flyToBoundingSphere(esfera, {
     offset,
-    duration: CAMARA.duracionVuelo,
+    duration: duracionS,
     complete: terminar,
     cancel: terminar,
   });
@@ -458,6 +460,48 @@ export function vistaCiudadBolivar() {
     return;
   }
   volarCancelable(esfera, offset, `vista-ciudad-${++secuenciaVuelos}`);
+}
+
+/**
+ * Camara de una escena del recorrido (spec 003, plan §3.5). Recibe el encuadre
+ * que calcula `motor.encuadreDe`. `vista: "faja"` delega en `volarAFaja`.
+ * Si no, encuadra una esfera de `radioM` con la distancia sacada del campo de
+ * vision real (como `vistaCiudadBolivar`), desplazada al sur `desplazamiento`
+ * radios para que el objetivo quede en la parte alta de la zona visible
+ * (RF-109). Vuelo <= `RECORRIDO.duracionVueloS`, cancelable por el usuario con
+ * hold de render continuo (ADR-019); con movimiento reducido salta (ADR-018).
+ *
+ * @param {{centro:{lng:number,lat:number}|null, radioM:number, rumbo:number, inclinacion:number, desplazamiento:number, vista:"faja"|null}} encuadre
+ */
+export function vistaEscena(encuadre) {
+  if (!viewer || !encuadre) return;
+  if (encuadre.vista === "faja" || !encuadre.centro) {
+    volarAFaja();
+    return;
+  }
+  const { centro, radioM, rumbo, inclinacion, desplazamiento } = encuadre;
+  // 111 320 m por grado de latitud (aproximacion esferica, sobra a esta escala).
+  const lat = centro.lat - (desplazamiento * radioM) / 111320;
+  const esfera = new BoundingSphere(Cartesian3.fromDegrees(centro.lng, lat), radioM);
+
+  const frustum = viewer.camera.frustum;
+  const tanPhi = Math.tan(frustum.fovy / 2);
+  const aspecto = Number.isFinite(frustum.aspectRatio)
+    ? frustum.aspectRatio
+    : viewer.scene.canvas.clientWidth / viewer.scene.canvas.clientHeight;
+  const rango = radioM / Math.min(aspecto * tanPhi, tanPhi);
+  const offset = new HeadingPitchRange(
+    CesiumMath.toRadians(rumbo),
+    CesiumMath.toRadians(inclinacion),
+    rango
+  );
+
+  if (movimientoReducido()) {
+    viewer.camera.viewBoundingSphere(esfera, offset);
+    viewer.camera.lookAtTransform(Matrix4.IDENTITY);
+    return;
+  }
+  volarCancelable(esfera, offset, `vista-escena-${++secuenciaVuelos}`, RECORRIDO.duracionVueloS);
 }
 
 /** @returns {Viewer | null} */
