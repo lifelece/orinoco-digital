@@ -14,8 +14,6 @@ import { RUTAS_DATOS } from "../src/config.js";
 test("cada capa declarada en config.js tiene su archivo publicado", async () => {
   const faltan = [];
   for (const [capa, ruta] of Object.entries(RUTAS_DATOS)) {
-    // Spec 003: recorridos.json lo crea T06; hasta entonces no existe (se descarga solo al iniciar un recorrido).
-    if (capa === "recorridos") continue;
     try {
       await access(new URL(`../public${ruta}`, import.meta.url));
     } catch {
