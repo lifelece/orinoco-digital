@@ -22,7 +22,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { consultarOverpass } from "./descargar-fuentes.mjs";
+import { consultarOverpass, esCaidaExterna } from "./descargar-fuentes.mjs";
 import {
   ID_SEDE_EXPOFAJA,
   CENTRO_CIUDAD_BOLIVAR,
@@ -318,5 +318,12 @@ async function main() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  await main();
+  try {
+    await main();
+  } catch (error) {
+    // 75 (EX_TEMPFAIL): actualizar-datos.mjs lo traduce a "Overpass no disponible".
+    if (!esCaidaExterna(error)) throw error;
+    console.error(`Overpass no disponible: ${error.message}`);
+    process.exitCode = 75;
+  }
 }

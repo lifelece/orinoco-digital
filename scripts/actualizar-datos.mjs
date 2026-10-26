@@ -26,7 +26,9 @@ import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { consultarOverpass, CONSULTAS_OSM } from "./descargar-fuentes.mjs";
+import {
+  consultarOverpass, CONSULTAS_OSM, esCaidaExterna, OVERPASS_NO_DISPONIBLE,
+} from "./descargar-fuentes.mjs";
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CRUDO = join(RAIZ, "data", "raw");
@@ -155,12 +157,18 @@ function fechaHoy() {
   return process.env.DATOS_FECHA ?? new Date().toISOString().slice(0, 10);
 }
 
+/** Codigo de salida (EX_TEMPFAIL) con que un script hijo avisa de "Overpass no disponible". */
+const CODIGO_SALIDA_NO_DISPONIBLE = 75;
+
 /** Ejecuta un script de Node y devuelve su salida; lanza si termina con error. */
 function correr(args) {
   const r = spawnSync(process.execPath, args, {
     cwd: RAIZ, encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
     env: { ...process.env, OSM_FECHA: fechaHoy() },
   });
+  if (r.status === CODIGO_SALIDA_NO_DISPONIBLE) {
+    throw Object.assign(new Error(`${args.join(" ")}: Overpass no disponible`), { code: OVERPASS_NO_DISPONIBLE });
+  }
   if (r.status !== 0) throw new Error(`${args.join(" ")} fallo:\n${r.stdout}\n${r.stderr}`);
   return r.stdout;
 }
@@ -168,6 +176,7 @@ function correr(args) {
 /** Overpass satura a menudo: se repite la ronda de mirrors antes de rendirse. */
 async function consultarConReintentos(nombre, consulta, rondas = 3) {
   let ultimo = "sin intentos";
+  let todasExternas = true;
   for (let i = 1; i <= rondas; i++) {
     try {
       const r = await consultarOverpass(consulta, true);
@@ -175,12 +184,15 @@ async function consultarConReintentos(nombre, consulta, rondas = 3) {
       return r;
     } catch (error) {
       ultimo = error.message;
+      if (!esCaidaExterna(error)) todasExternas = false;
       console.log(`  ronda ${i}/${rondas} fallo: ${ultimo}`);
       // Espera creciente (60 s, 120 s): con 504 seguidos, Overpass necesita aire.
       if (i < rondas) await new Promise((res) => setTimeout(res, 60000 * i));
     }
   }
-  throw new Error(`Overpass fallo en todos los mirrors para ${nombre}: ${ultimo}. No se toco nada.`);
+  const error = new Error(`Overpass fallo en todos los mirrors para ${nombre}: ${ultimo}. No se toco nada.`);
+  if (todasExternas) error.code = OVERPASS_NO_DISPONIBLE;
+  throw error;
 }
 
 /** Descarga las consultas a la carpeta temporal. Lanza si alguna falla. */
@@ -249,6 +261,12 @@ async function main() {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch((error) => {
+    if (esCaidaExterna(error)) {
+      // Caida externa de Overpass: main() ya restauro los datos. Aviso, no fallo.
+      const motivo = error.message.split("\n")[0];
+      console.log(`::warning title=Overpass no disponible::Overpass no disponible; datos sin cambios; se reintenta la proxima semana. (${motivo})`);
+      return;
+    }
     console.error(`\nERROR: ${error.message}`);
     process.exitCode = 1;
   });

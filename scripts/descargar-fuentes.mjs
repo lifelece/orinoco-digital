@@ -121,15 +121,35 @@ export function limiteCliente(consulta) {
   return (servidor + 30) * 1000;
 }
 
+/** Marca de un fallo que no es culpa del codigo ni de los datos: Overpass caido. */
+export const OVERPASS_NO_DISPONIBLE = "OVERPASS_NO_DISPONIBLE";
+
+/**
+ * True si el error es "todos los mirrors caidos" (red, timeout, HTTP 5xx o 429).
+ * El workflow semanal lo trata como aviso, no como fallo: los datos no cambian
+ * y se reintenta la semana siguiente. Todo lo demas sigue siendo un error.
+ */
+export function esCaidaExterna(error) {
+  return error?.code === OVERPASS_NO_DISPONIBLE;
+}
+
+/** Un HTTP es caida del servicio (reintentable) si es 5xx o 429; el resto de 4xx es un bug nuestro. */
+const statusExterno = (status) => status >= 500 || status === 429;
+
 /**
  * Consulta Overpass rotando los mirrors. Devuelve el JSON y el host que respondio.
+ * Si TODOS fallan por red, timeout, 5xx o 429, lanza un error con
+ * `code: OVERPASS_NO_DISPONIBLE`; cualquier otro fallo lanza un Error normal.
  * Exportada para que otros scripts de datos reutilicen los mismos mirrors.
  */
 export async function consultarOverpass(consulta, conMirror = false) {
   let ultimoError = "sin intentos";
+  let todosExternos = true;
   for (const endpoint of OVERPASS_MIRRORS) {
+    const host = new URL(endpoint).host;
+    let respuesta;
     try {
-      const respuesta = await fetch(endpoint, {
+      respuesta = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -140,16 +160,28 @@ export async function consultarOverpass(consulta, conMirror = false) {
         // Un mirror caido puede no responder nunca: sin limite, el script se cuelga.
         signal: AbortSignal.timeout(limiteCliente(consulta)),
       });
-      if (respuesta.ok) {
-        const json = await respuesta.json();
-        return conMirror ? { json, mirror: new URL(endpoint).host } : json;
-      }
-      ultimoError = `HTTP ${respuesta.status} en ${new URL(endpoint).host}`;
     } catch (error) {
-      ultimoError = `${error.message} en ${new URL(endpoint).host}`;
+      // Sin respuesta (conexion rechazada, DNS, timeout): el mirror esta caido.
+      ultimoError = `${error.message} en ${host}`;
+      continue;
+    }
+    if (!respuesta.ok) {
+      ultimoError = `HTTP ${respuesta.status} en ${host}`;
+      if (!statusExterno(respuesta.status)) todosExternos = false;
+      continue;
+    }
+    try {
+      const json = await respuesta.json();
+      return conMirror ? { json, mirror: host } : json;
+    } catch (error) {
+      // HTTP 200 con cuerpo ilegible: no es una caida, es una respuesta rara.
+      ultimoError = `respuesta no valida (${error.message}) en ${host}`;
+      todosExternos = false;
     }
   }
-  throw new Error(ultimoError);
+  const error = new Error(ultimoError);
+  if (todosExternos) error.code = OVERPASS_NO_DISPONIBLE;
+  throw error;
 }
 
 async function descargarOSM() {
