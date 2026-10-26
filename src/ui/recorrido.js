@@ -94,10 +94,10 @@ export function htmlPanel(vm, util) {
         class="${BOTON}">${esc(vm.plegado ? t("ruta.desplegar") : t("ruta.plegar"))}</button>
     </div>
     ${cuerpo}
-    <div class="flex gap-2">
-      <button type="button" data-accion="anterior" class="${BOTON} flex-1"${vm.primera ? " disabled" : ""}>${esc(t("ruta.anterior"))}</button>
-      <button type="button" data-accion="siguiente" class="${BOTON} flex-1">${esc(vm.terminado ? t("ruta.terminar") : t("ruta.siguiente"))}</button>
-      <button type="button" data-accion="salir" class="${BOTON}">${esc(t("ruta.salir"))}</button>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" data-accion="anterior" class="${BOTON} min-w-fit flex-1 basis-20"${vm.primera ? " disabled" : ""}>${esc(t("ruta.anterior"))}</button>
+      <button type="button" data-accion="siguiente" class="${BOTON} min-w-fit flex-1 basis-20">${esc(vm.terminado ? t("ruta.terminar") : t("ruta.siguiente"))}</button>
+      <button type="button" data-accion="salir" class="${BOTON} min-w-fit flex-1 basis-32">${esc(t("ruta.salir"))}</button>
     </div>`;
 }
 

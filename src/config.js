@@ -313,11 +313,11 @@ export const RUTAS_PUBLICADAS = ["R5"];
 export const RECORRIDO = {
   porDefecto: "R5",
   niveles: ["divulgacion", "tecnico"],
-  duracionVueloS: 2.0, // <= 2,5 (RF-87); SIN VERIFICAR hasta medir en T13
+  duracionVueloS: 2.0, // <= 2,5 (RF-87); SIN VERIFICAR: en Edge sin GPU el vuelo midio 2,0-3,6 s; confirmar en el telefono (T13)
   camara: {
-    margen: 1.4, // SIN VERIFICAR
-    inclinacionGrados: -45, // SIN VERIFICAR
-    desplazamientoVertical: 0.2, // SIN VERIFICAR
+    margen: 1.4, // medido T13: objetivo al 46,9 % (390x844), 40 % (844x390), 50 % (1440x900) de la altura visible
+    inclinacionGrados: -45, // verificado en T13 (capturas r5-*)
+    desplazamientoVertical: 0.2, // verificado en T13 (objetivo dentro del 60 % superior)
   },
   nombresPropios: ["Merey 16", "Petropiar", "Petrocedeño", "Petromonagas", "Petro San Félix", "Special Hamaca Blend", "Zuata Sweet", "Junín", "José"],
   ejemplosForaneos: ["Alberta", "Texas", "Mar del Norte"],
