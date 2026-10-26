@@ -228,3 +228,18 @@ body {
     clip-path: inset(0 0 0 0);
   }
 }
+
+/* Panel del recorrido (src/ui/recorrido.js, spec 003 RF-109/110): tarjeta lateral en
+   escritorio; hoja inferior plegable de <= 45 vh en ancho < 640 px o alto < 500 px.
+   Solo tokens existentes. */
+.ruta-panel {
+  width: min(22rem, 100%);
+  max-height: 100%;
+}
+@media (max-width: 639px), (max-height: 499px) {
+  .ruta-panel {
+    width: 100%;
+    max-height: 45vh;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}

@@ -192,6 +192,8 @@ export function desmontarPanelRecorrido() {}
 
 Disposicion: ranuras propias creadas por `montarUI` (T11): escritorio, tarjeta lateral; ancho <640 px o alto <500 px, hoja inferior plegable <= 45 vh sin tapar los creditos de Cesium. Mientras hay recorrido, `ocultarAccesoCiudadBolivar(true)` y `ocultarAccesoRuta(true)` (RF-127). Botones >= 44 px; region de anuncio educada que no mueve el foco. Las ranuras nuevas se suman a la lista de `ui.js:1616` para que "Despejar pantalla" (spec 001, RF-23) las trate igual.
 
+**Decision H-03 (modal o no modal): NO modal.** La hoja inferior de <500 px de alto (y la de <640 px de ancho) no atrapa el foco, no pone `aria-modal` y no devuelve foco: no es la unica salida (se pliega con "Plegar panel", deja ver y mover el mapa, y Esc/"Salir de la ruta" siguen disponibles), asi que no aplica el patron de dialogo de `ui.js:1723-1731` y `:1756`. Es una `section` con `aria-label` y una region `role="status"` (`aria-live="polite"`) que anuncia "{titulo}: escena {n} de {total}" solo al cambiar de escena; los repintados conservan el foco en el mismo control. Si T13/Luis ven que plegada sigue tapando el mapa en horizontal bajo, se reabre la decision (pasaria a modal con el patron de `ui.js`). `registrarAccesoRuta(alEntrar, t)` recibe `t` para no importar i18n (T10).
+
 ### 3.7 Config, controlador, Esc, URL e historial
 
 ```js

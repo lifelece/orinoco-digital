@@ -308,5 +308,5 @@
   "ruta.errorCarga": "The path could not be loaded",
   "ruta.errorDatos": "The path data is not valid",
   "ruta.errorObjetivo": "The target for this scene was not found on the map",
-  "ruta.anuncioEscena": "Scene updated"
+  "ruta.anuncioEscena": "{titulo}: scene {n} of {total}"
 }

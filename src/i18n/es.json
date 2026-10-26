@@ -308,5 +308,5 @@
   "ruta.errorCarga": "No se pudo cargar el recorrido",
   "ruta.errorDatos": "Los datos del recorrido no son válidos",
   "ruta.errorObjetivo": "No se encontró el objetivo de esta escena en el mapa",
-  "ruta.anuncioEscena": "Escena actualizada"
+  "ruta.anuncioEscena": "{titulo}: escena {n} de {total}"
 }
