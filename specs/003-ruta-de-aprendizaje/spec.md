@@ -1,6 +1,6 @@
 # Spec 003 — Ruta de aprendizaje: recorridos guiados sobre el mapa (piloto R5)
 
-> Estado: P0 EN BORRADOR (revision 2 tras QA). Espera el gate de Luis (spec + plan + tareas + ADR-023 propuesto).
+> Estado: P1 implementada (T01, T03-T14 hechas; T02 queda con D3b pendiente de Luis), esperando el gate de Luis en su telefono real. P2-P6 sin empezar. PR contra `main` sin merge (merge = deploy).
 > Peticion de Luis (literal): "busca en Notion actualizaciones pendientes; si quedan fases por hacer, empieza a desarrollarlas".
 > Origen: pagina "Ruta de aprendizaje" de Notion (indice en `docs/NOTION.md`), editada 2026-10-22: §2 recorrido R5, §3 fichas, §7 soporte y esquema de escena, §8 fases, §9 prompt de P0, §10 riesgos; paginas "Sistema de Modos" (N1-N3) y "Mejora v2" (§3.4 motor de recorridos). Las fuentes publicas de cada cifra estan en §9.
 > Constitucion: `docs/constitution.md`. Manda el repo sobre Notion (`docs/NOTION.md`).

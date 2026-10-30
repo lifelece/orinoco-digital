@@ -1021,6 +1021,13 @@ fuente leida se retira del texto de la escena y no se publica con placeholder.
   — buscar el contenido de azufre del Merey 16 y la gravedad API. Si no abre (suscriptores), D3b queda retirado.
 - Opcional: `https://www.argusmedia.com/es/news/1936642-pdv-to-tap-fractionator-to-replace-imported-naphtha` (pagina vacia para la herramienta).
 
+### Estado final de P1 (2026-10-26)
+
+- **Publicado en R5** (`public/data/ruta/recorridos.json`): D1a (reescrito como "estaba previsto", nota 1), D2, D3 (solo lo leido), D4 (con fecha y "instalados", nota 4), D5, D6, D7, D8 (art. 51 incluido en la vigencia, nota 5) y D9. Cada dato lleva `fuente`, `confianza: media` y `ultima_verificacion: 2026-10-26`; `npm test` rechaza un dato sin fuente https.
+- **Retirado del texto:** D1b (nota 2), D3b (nota 3) y D10 (sin fuente publica). No hay placeholder en el archivo publicado.
+- **Pendiente de Luis:** abrir la nota de Platts en Chrome (seccion anterior). Si el azufre del Merey 16 se confirma, D3b vuelve como cifra aproximada y fechada en una tarea aparte; si no abre, queda retirado.
+- Ninguna fila subio a `confianza: alta`: son prensa especializada o resumen legal, no el documento primario completo.
+
 ### Fuera de R5
 
 - **D10** ("transferencia de custodia = medicion fiscal" en José): sin fuente publica hallada; no se publica
