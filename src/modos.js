@@ -68,3 +68,17 @@ export function buscarActivo(id, colecciones, orden) {
   }
   return null;
 }
+
+/**
+ * Modo pedido por la URL, sin descargar nada. `ruta` solo vale con un
+ * `recorrido` publicado; si no, null (= modo inicial por fecha). Spec 003, RF-79 y 80.
+ * @param {string} search — `location.search`
+ * @param {{modos: string[], publicadas: string[]}} opciones
+ * @returns {string|null}
+ */
+export function modoPedido(search, { modos, publicadas }) {
+  const { modo } = leerEnlace(search);
+  if (modo !== "ruta") return modo;
+  const recorrido = new URLSearchParams(search ?? "").get("recorrido");
+  return modos.includes("ruta") && publicadas.includes(recorrido) ? "ruta" : null;
+}

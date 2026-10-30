@@ -80,6 +80,26 @@ const RE_USA_MARCAS_MODO = /\bMARCAS_MODO\b/;
 const PERMITE_MARCAS_MODO = new Set(["config.js", "ui/modoCiudadBolivar.js"]);
 
 /**
+ * Reglas de la Ruta de aprendizaje (spec 003, plan §3.9). Materializan el
+ * patron de carga diferida con gate contra el import estatico (Arsenal, ficha
+ * 34): src/ruta/** y ui/recorrido.js solo viajan por import() dinamico, asi
+ * que nada del chunk inicial puede arrastrarlos con un import estatico.
+ */
+const RE_IMPORT_UI_O_MAP = /\bimport\b[^;\n]*["'][^"']*\/(?:ui|map)(?:\.js)?["']/;
+const RE_DOM_GLOBAL = /\b(?:document|window)\b/;
+const RE_IMPORT_RECORRIDO = /\bimport\b[^;\n]*["'][^"']*\brecorrido(?:\.js)?["']/;
+/** Import/export ESTATICO de algo bajo src/ruta/ o de ui/recorrido (no el dinamico import(...)). */
+const RE_IMPORT_RUTA_ESTATICO =
+  /(?:^|[;\n])\s*(?:import|export)\b(?:[^;"'()]*?\bfrom\s*)?\s*["'][^"']*(?:\/ruta\/|\bui\/recorrido)[^"']*["']/m;
+const SIN_DOM_EN_RUTA = new Set(["ruta/motor.js", "ruta/validar.js"]);
+const NO_IMPORTAN_RUTA = new Set(["main.js", "ui.js"]);
+
+/** Quita comentarios para que una regla de "uso" no salte por texto de documentacion. */
+function sinComentarios(texto) {
+  return texto.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|\s)\/\/[^\n]*/g, "$1");
+}
+
+/**
  * Todos los .js bajo un directorio, recursivamente.
  * @param {string} dir
  * @returns {string[]} rutas absolutas
@@ -147,6 +167,28 @@ function verificar() {
         `src/${rel}: usa MARCAS_MODO. Solo la cabecera del modo ` +
           `(src/ui/modoCiudadBolivar.js) muestra logos (ADR-020).`
       );
+    }
+
+    // --- Ruta de aprendizaje (plan 003 §3.9) ---
+    const esRuta = rel.startsWith("ruta/");
+    const codigo = sinComentarios(contenido);
+    if (esRuta && RE_IMPORT_CESIUM.test(contenido)) {
+      errores.push(`src/${rel}: importa "cesium". src/ruta/ no toca Cesium (plan 003 §3.9).`);
+    }
+    if (esRuta && rel !== "ruta/datos.js" && RE_FETCH.test(codigo)) {
+      errores.push(`src/${rel}: usa fetch(. En src/ruta/ solo datos.js hace red (plan 003 §3.9).`);
+    }
+    if (SIN_DOM_EN_RUTA.has(rel) && RE_DOM_GLOBAL.test(codigo)) {
+      errores.push(`src/${rel}: usa document o window. Es un modulo puro (plan 003 §3.9).`);
+    }
+    if (esRuta && RE_IMPORT_UI_O_MAP.test(contenido)) {
+      errores.push(`src/${rel}: importa ui.js o map.js. src/ruta/ recibe sus dependencias por parametro (plan 003 §3.2).`);
+    }
+    if (rel === "ui/accesoRuta.js" && RE_IMPORT_RECORRIDO.test(contenido)) {
+      errores.push(`src/${rel}: importa recorrido.js. El acceso es estatico; el panel solo se carga con import() (plan 003 §3.9).`);
+    }
+    if (NO_IMPORTAN_RUTA.has(rel) && RE_IMPORT_RUTA_ESTATICO.test(contenido)) {
+      errores.push(`src/${rel}: importa src/ruta/* o ui/recorrido.js de forma estatica. Solo con import() dinamico (plan 003 §3.9, Arsenal 34).`);
     }
 
     const esInterfaz = rel === "ui.js" || rel.startsWith("ui/");

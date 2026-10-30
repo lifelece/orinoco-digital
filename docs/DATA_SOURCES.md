@@ -958,3 +958,78 @@ Centro: OSM `relation/14534562` (8,1028532 N, -63,5469562 O, via Nominatim,
 63 de 105 campos. Es aproximada (no considera interior ni aristas) y **no es
 distancia por carretera**. Los 5 campos mas cercanos se miden desde la sede
 (Museo Soto). Ninguna distancia a bloques: no tienen geometria con fuente.
+
+---
+
+## 18. Ruta de aprendizaje R5 — fuentes D1a-D9 (spec 003 §9, tarea T02)
+
+**Verificacion:** 2026-10-26 (`ultima_verificacion` de todas las filas). **Confianza:** `media` en todas
+(prensa especializada, resumen legal o copia indexada; ninguna es `alta`). **Lecturas:**
+`directa` = pagina abierta con WebFetch; `indice-exa` = la herramienta dio 403 o pagina vacia y el texto
+se leyo en el indice de Exa (`agent-reach web search`), que devuelve el texto de la pagina pero no la
+abre en el navegador; `navegador-pendiente` = no se pudo leer. Regla (spec §9, RF-113): un dato sin
+fuente leida se retira del texto de la escena y no se publica con placeholder.
+
+### Tabla de datos
+
+| Id | Esc. | `tipo_dato` | Medio y fecha | URL | Cita literal (≤25 palabras) | Lectura | Veredicto |
+|---|---|---|---|---|---|---|---|
+| D1a | 2 | cualitativo | Reuters via Hydrocarbon Processing, 12/01/2026 | `https://hydrocarbonprocessing.com/news/2026/01/vitol-to-load-first-diluent-cargo-under-venezuela-supply-deal-last-weekend/` | "expected to load the first cargo of naphtha from the U.S. to Venezuela this weekend" | directa | **confirmado con ajuste** (nota 1) |
+| D1b | 2 | cualitativo | Argus, 09/07/2019 (fecha vista en la copia de Energy Analytics Institute) | `https://www.argusmedia.com/es/news/1936642-pdv-to-tap-fractionator-to-replace-imported-naphtha`; copia leida: `https://energy-analytics-institute.org/2019/07/09/pdv-to-tap-fractionator-to-replace-imported-naphtha/` | "a shortage of imported naphtha that is hindering heavy crude production and exports" | Argus: pagina vacia; copia EAI: indice-exa | **retirado** (nota 2) |
+| D2 | 2 | cualitativo | Argus, 10/05/2019 | `https://www.argusmedia.com/en/news/1900583-pdv-halts-upgrading-plots-shift-to-blending` (leida en `.../en/news-and-insights/latest-market-news/1900583-...`) | "shortage of domestic production of light grades such as Mesa and Santa Barbara" | indice-exa | **confirmado** como livianos de mezcla en José; el texto de escena dice "en la mezcla final" |
+| D3 | 3 | cifra | S&P Global Platts, 31/03/2026; refuerzo Argus 11/04/2019 | `https://www.spglobal.com/energy/en/pricing-benchmarks/our-methodology/subscriber-notes/033126-platts-launches-assessments-of-merey-16-dap-usgc` (403); refuerzo: `https://www.argusmedia.com/en/news-and-insights/latest-market-news/1883734-two-pdv-upgraders-to-restart-by-tomorrow` | Argus: "16°API Merey blend". Platts: la evaluacion se llama "Merey 16 DAP USGC" | Argus: indice-exa; nota Platts: no leida | **confirmado** como ≈16 °API (`aproximado`), por Argus 2019 y el nombre de la evaluacion; la nota Platts no se leyo |
+| D3b | 3 | cifra | S&P Global Platts, 31/03/2026 | misma nota que D3 | — (no hay texto leido de Platts con el azufre) | **navegador-pendiente** | **pendiente-Luis; retirado mientras tanto** (nota 3) |
+| D4 | 3 | instalacion | S&P Global Platts, 13/09/2021 (copia Hellenic Shipping News); Argus 11/04/2019 | `https://www.hellenicshippingnews.com/?p=886251`; `https://www.argusmedia.com/pt/news-and-insights/latest-market-news/1883734-two-pdv-upgraders-to-restart-by-tomorrow` (leida en `.../en/news-and-insights/...`) | Argus: "The four upgraders are located in Jose, an industrial complex and export terminal in Anzoategui state." | Hellenic: directa; Argus: indice-exa | **confirmado** como instalados en José (fecha del dato 2021); estado operativo actual NO confirmado (nota 4) |
+| D5 | 3 | cifra | Platts via Hellenic Shipping News, 13/09/2021 | `https://www.hellenicshippingnews.com/?p=886251` | "production of upgraded 17.2 degree API Special Hamaca Blend (SHB) crude for export" | directa | **confirmado** (17,2 °API, `aproximado`, 2021) |
+| D6 | 3 | cifra | Platts via Hellenic Shipping News, 13/09/2021 | `https://www.hellenicshippingnews.com/?p=886251` | "90,000 b/d of 22 degree API synthetic crude called Zuata Sweet" | directa | **confirmado** (≈22 °API, `aproximado`, 2021); la fuente habla de una meta de produccion, la cifra es del crudo |
+| D7 | 4 | legal | Finanzas Digital, 03/02/2026; Gaceta Oficial Extraordinaria N.º 6.978, 29/01/2026; Acceso a la Justicia, 26/02/2026 | `https://finanzasdigital.com/reforma-ley-hidrocarburos-2026/`; texto de la Gaceta: `http://www.gacetaoficial.gob.ve/storage/2026/6978-2026-01-29-EXTRAORDINARIA.pdf`; `https://accesoalajusticia.org/ley-de-reforma-de-la-ley-organica-de-hidrocarburos/`; PwC: `https://www.pwc.com/ve/es/assets/documentos/stl/NAL-GO-Nueva-Ley-Organica-de-Hidrocarburos.pdf` | Gaceta, art. 51: "el Estado tiene derecho a una participación de hasta treinta por ciento (30%) como regalía" | Finanzas Digital: directa; Gaceta y PwC: indice-exa; Acceso a la Justicia: directa, pero esa pagina NO trae la tasa de regalia | **confirmado** (art. 51, antes 44; sobre "volúmenes de hidrocarburos extraídos y no reinyectados") |
+| D8 | 4 | legal | Acceso a la Justicia (articulo del 26/02/2026); Gaceta 6.978 (29/01/2026); Finanzas Digital 03/02/2026 | las mismas URL de D7 | "será de hasta quince por ciento (15%) sobre la base imponible" (Acceso a la Justicia) | directa (Acceso a la Justicia, Finanzas Digital); indice-exa (Gaceta) | **confirmado** (nota 5) |
+| D9 | 5 | cualitativo | S&P Global (lista de simbolos), 31/03/2026 | `https://www.spglobal.com/energy/en/pricing-benchmarks/our-methodology/price-symbols/033126-new-merey-16-dap-usgc-symbols` (indice; la nota de D3 dio 403) | "Merey 16 DAP USGC" y "Merey 16 DAP USGC vs Latin American WTI Strip" | indice-exa | **confirmado**: precio absoluto y diferenciales contra Brent (futuros y Dated) y WTI, desde 31/03/2026 |
+
+### Notas
+
+1. **D1a.** La fuente dice que el cargamento estaba "previsto" para ese fin de semana ("looking for a window to load
+   the product over the weekend"); no da el dia 11/01 ni confirma que se cargara. "Licencias" aparece solo como
+   contexto (EE. UU. "began canceling licenses" el año anterior), no como condicion de este envio. **Reescribir en
+   spec §9 (escena 2, tabla y D1a):** "en enero de 2026 se cargó el primer cargamento" → "en enero de 2026 estaba
+   previsto cargar el primer cargamento…" (o buscar una nota posterior que confirme la carga), y quitar "11/01/2026".
+2. **D1b.** Fecha verificada: **09/07/2019** (Argus via EAI). Pero el texto solo habla de "escasez de nafta importada"
+   y de que las sanciones cortaron el suministro estadounidense; no dice "casi toda importada de EE. UU." y tiene siete
+   años. Sigue **fuera** (T02 pedia la fecha; la fecha existe, el respaldo de la frase no). No hay frase de escena
+   que reescribir: ya estaba retirado.
+3. **D3b.** No se pudo leer la nota de Platts. Cifras de terceros no sirven como fuente de este dato: un perfil de
+   producto (portfolio-pplus.com) da "2.45 – 3.4% wt" de azufre y Shale24 "about 2.5%"; ≈3,4 % es el extremo alto de
+   un rango, no una cifra de Platts. **Reescribir en spec §9 (escena 3, nivel tecnico):** quitar "≈3,4 % de azufre"
+   o sustituir por "crudo pesado y agrio" sin cifra, salvo que Luis lea la nota en Chrome y confirme.
+4. **D4.** Argus 10/05/2019 (D2) dice que PDVSA "se mueve hacia" convertir los mejoradores en instalaciones de
+   mezcla, no que tres ya se hubieran convertido. Platts 2021: Petrocedeño reinicio el 29/06/2021; Petromonagas
+   inactivo desde marzo de 2019; Petro San Félix inactivo desde noviembre de 2018. La `nota` bilingue de RF-111 debe
+   decir "instalados" con su fecha y no afirmar estado actual. **Revisar en spec §9:** si alguna frase dice "tres se
+   reconvirtieron", cambiar a "PDVSA planeó reconvertirlos" (fuente: Argus 2019).
+5. **D8.** Texto de la Gaceta (art. 55): la base imponible son "el total de los ingresos brutos devengados
+   mensualmente", sin deduccion alguna salvo devoluciones; por eso Finanzas Digital y la Asamblea Nacional dicen
+   "ingresos brutos" y Acceso a la Justicia "base imponible": es lo mismo. Vigencia: la disposicion final difiere
+   **60 dias continuos** desde la publicacion los **arts. 51, 55, 56, 57, 58 y 59** (Acceso a la Justicia); es decir,
+   **tambien la regalia (art. 51) entra 60 dias despues**, no solo el impuesto. Con publicacion el 29/01/2026, el
+   plazo (calculo propio, no cifra de la fuente) cae el 30/03/2026. **Revisar en spec §9 (escena 4):** si la frase
+   de vigencia lista solo el impuesto, añadir el art. 51. Articulos del impuesto: 55 a 59 (Finanzas Digital y
+   disposicion final); Acceso a la Justicia atribuye la tasa a "55, 56 y 57".
+
+### Para Luis: abrir en Chrome
+
+- Nota de Platts (D3b, y de paso D3 y D9): `https://www.spglobal.com/energy/en/pricing-benchmarks/our-methodology/subscriber-notes/033126-platts-launches-assessments-of-merey-16-dap-usgc`
+  — buscar el contenido de azufre del Merey 16 y la gravedad API. Si no abre (suscriptores), D3b queda retirado.
+- Opcional: `https://www.argusmedia.com/es/news/1936642-pdv-to-tap-fractionator-to-replace-imported-naphtha` (pagina vacia para la herramienta).
+
+### Estado final de P1 (2026-10-26)
+
+- **Publicado en R5** (`public/data/ruta/recorridos.json`): D1a (reescrito como "estaba previsto", nota 1), D2, D3 (solo lo leido), D4 (con fecha y "instalados", nota 4), D5, D6, D7, D8 (art. 51 incluido en la vigencia, nota 5) y D9. Cada dato lleva `fuente`, `confianza: media` y `ultima_verificacion: 2026-10-26`; `npm test` rechaza un dato sin fuente https.
+- **Retirado del texto:** D1b (nota 2), D3b (nota 3) y D10 (sin fuente publica). No hay placeholder en el archivo publicado.
+- **Pendiente de Luis:** abrir la nota de Platts en Chrome (seccion anterior). Si el azufre del Merey 16 se confirma, D3b vuelve como cifra aproximada y fechada en una tarea aparte; si no abre, queda retirado.
+- Ninguna fila subio a `confianza: alta`: son prensa especializada o resumen legal, no el documento primario completo.
+
+### Fuera de R5
+
+- **D10** ("transferencia de custodia = medicion fiscal" en José): sin fuente publica hallada; no se publica
+  (`[fuente_pendiente]`). El Reglamento (Decreto 5.381, GOE 7.052, 07/07/2026) es el candidato a revisar.
+- **D1b**: fuera (nota 2). Opcional Platts Merey 16 FOB Venezuela (05/10/2026): fuera de P1.
