@@ -67,6 +67,11 @@ export function htmlPanel(vm, util) {
     (n) => `<button type="button" data-nivel="${n}" aria-pressed="${vm.nivel === n}"
         class="${BOTON} flex-1 aria-pressed:border-hi aria-pressed:bg-white/10">${esc(t(`ruta.nivel.${n}`))}</button>`
   ).join("");
+  // Selector de nivel en la fila de cabecera: debajo del titulo en ancho normal y en la misma fila
+  // con alto < 500 px (style.css, .ruta-niveles). Plegado no se pinta.
+  const grupoNiveles = vm.plegado
+    ? ""
+    : `<div role="group" aria-label="${esc(t("ruta.nivel.divulgacion"))} / ${esc(t("ruta.nivel.tecnico"))}" class="ruta-niveles flex gap-2">${niveles}</div>`;
   const fuentes = vm.datos.length
     ? `<details class="rounded-lg border border-trazo px-3 text-xs">
         <summary class="flex min-h-11 cursor-pointer items-center font-medium text-hi">${esc(t("ruta.fuentes"))}</summary>
@@ -74,30 +79,30 @@ export function htmlPanel(vm, util) {
       </details>`
     : "";
   const etiquetaRotulo = rotulo
-    ? `<p class="w-fit rounded border border-trazo px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-lo">${esc(rotulo)}</p>`
+    ? `<p class="ruta-rotulo w-fit rounded border border-trazo px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-lo">${esc(rotulo)}</p>`
     : "";
   const cuerpo = vm.plegado
     ? ""
     : `<div class="ruta-cuerpo flex min-h-0 flex-col gap-2 overflow-y-auto">
-        <div role="group" aria-label="${esc(t("ruta.nivel.divulgacion"))} / ${esc(t("ruta.nivel.tecnico"))}" class="flex gap-2">${niveles}</div>
         ${etiquetaRotulo}
-        <p class="text-sm leading-relaxed text-hi">${esc(vm.texto)}</p>
+        <p class="ruta-texto text-sm leading-relaxed text-hi">${esc(vm.texto)}</p>
         ${fuentes}
       </div>`;
   return `
-    <div class="flex items-start gap-2">
-      <div class="min-w-0 flex-1">
+    <div class="ruta-cabecera flex flex-wrap items-start gap-2">
+      <div class="ruta-titulo min-w-0 flex-1">
         <h2 class="truncate text-sm font-semibold text-hi">${esc(vm.titulo)}</h2>
         <p class="font-mono text-[11px] text-lo">${esc(t("ruta.escenaDe", { n: vm.n, total: vm.total }))}</p>
       </div>
+      ${grupoNiveles}
       <button type="button" data-accion="plegar" aria-expanded="${!vm.plegado}"
         class="${BOTON}">${esc(vm.plegado ? t("ruta.desplegar") : t("ruta.plegar"))}</button>
     </div>
     ${cuerpo}
-    <div class="flex flex-wrap gap-2">
-      <button type="button" data-accion="anterior" class="${BOTON} min-w-fit flex-1 basis-20"${vm.primera ? " disabled" : ""}>${esc(t("ruta.anterior"))}</button>
-      <button type="button" data-accion="siguiente" class="${BOTON} min-w-fit flex-1 basis-20">${esc(vm.terminado ? t("ruta.terminar") : t("ruta.siguiente"))}</button>
-      <button type="button" data-accion="salir" class="${BOTON} min-w-fit flex-1 basis-32">${esc(t("ruta.salir"))}</button>
+    <div class="ruta-nav flex flex-wrap gap-2">
+      <button type="button" data-accion="anterior" class="${BOTON} min-w-fit flex-1 basis-20 gap-1"${vm.primera ? " disabled" : ""}><span aria-hidden="true">‹</span>${esc(t("ruta.anterior"))}</button>
+      <button type="button" data-accion="siguiente" class="${BOTON} min-w-fit flex-1 basis-20 gap-1">${esc(vm.terminado ? t("ruta.terminar") : t("ruta.siguiente"))}<span aria-hidden="true">${vm.terminado ? "✓" : "›"}</span></button>
+      <button type="button" data-accion="salir" class="${BOTON} min-w-fit flex-1 basis-32 gap-1"><span aria-hidden="true">✕</span>${esc(t("ruta.salir"))}</button>
     </div>`;
 }
 

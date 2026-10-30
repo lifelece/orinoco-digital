@@ -6,6 +6,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 
 import { htmlPanel } from "../src/ui/recorrido.js";
 import { datosDeEscena, textoDeEscena } from "../src/ruta/motor.js";
@@ -155,4 +156,28 @@ test("plegado oculta el cuerpo pero conserva navegacion; aria-expanded refleja e
 
 test("el panel no usa colores literales (RNF-4)", () => {
   assert.doesNotMatch(htmlPanel(vm(), util), /#[0-9a-f]{3,8}\b|rgb\(/i);
+});
+
+test("compacto (alto < 500 px): nivel y Plegar en la fila de cabecera; el cuerpo es la region con scroll (RF-109)", () => {
+  const html = htmlPanel(vm({ nivel: "tecnico" }), util);
+  const iCuerpo = html.indexOf('class="ruta-cuerpo');
+  const cabecera = html.slice(html.indexOf('class="ruta-cabecera'), iCuerpo);
+  assert.match(cabecera, /ruta-titulo/);
+  assert.match(cabecera, /data-nivel="divulgacion"/);
+  assert.match(cabecera, /data-nivel="tecnico"/);
+  assert.match(cabecera, /data-accion="plegar"/);
+  const cuerpo = html.slice(iCuerpo, html.indexOf("ruta-nav"));
+  assert.doesNotMatch(cuerpo, /data-nivel/);
+  assert.match(cuerpo, /ruta-texto/);
+  assert.match(cuerpo, /overflow-y-auto/);
+  const css = readFileSync(new URL("../src/style.css", import.meta.url), "utf8");
+  assert.match(css, /@media \(max-height: 499px\) \{[\s\S]*\.ruta-niveles \{\s*order: 0/);
+  assert.match(css, /max-height: 45vh/);
+});
+
+test("plegado no pinta el selector de nivel pero conserva Plegar y la navegacion", () => {
+  const html = htmlPanel(vm({ plegado: true }), util);
+  assert.doesNotMatch(html, /data-nivel/);
+  assert.match(html, /data-accion="plegar"/);
+  assert.match(html, /ruta-nav/);
 });
