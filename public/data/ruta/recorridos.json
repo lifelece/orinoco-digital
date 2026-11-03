@@ -1,0 +1,301 @@
+{
+  "version": 1,
+  "ultima_verificacion": "2026-10-26",
+  "recorridos": [
+    {
+      "id": "R5",
+      "estado": "publicado",
+      "titulo": {
+        "es": "Del pozo al tanquero",
+        "en": "From the well to the tanker"
+      },
+      "pregunta": {
+        "es": "¿Cómo llega un crudo extrapesado de la Faja al mercado?",
+        "en": "How does an extra-heavy crude from the Belt reach the market?"
+      },
+      "escenas": [
+        {
+          "id": "R5-E1",
+          "recorrido": "R5",
+          "orden": 1,
+          "camara": { "objetivo_ref": "GEM-L100000320738" },
+          "referencia": "ubicacion",
+          "capas": ["upstream"],
+          "texto": {
+            "divulgacion": {
+              "es": "Del pozo, el crudo llega a una \"estación de flujo\", donde se separa del agua y del gas.",
+              "en": "From the well, the crude goes to a \"flow station\", where it is separated from water and gas."
+            },
+            "tecnico": {
+              "es": "Separador trifásico por gravedad y medición; el gas va a recolección o al mechurrio.",
+              "en": "A three-phase gravity separator and metering; the gas goes to gathering or to the flare."
+            }
+          },
+          "datos": [],
+          "interaccion": null
+        },
+        {
+          "id": "R5-E2",
+          "recorrido": "R5",
+          "orden": 2,
+          "camara": { "entre": ["GEM-L100000320738", "OSM-W265071557"] },
+          "referencia": "esquematico",
+          "capas": ["upstream", "midstream"],
+          "texto": {
+            "divulgacion": {
+              "es": "Para viajar por tubería hay que mezclarlo con un líquido más ligero: el diluente.",
+              "en": "To travel through a pipeline it has to be mixed with a lighter liquid: the diluent."
+            },
+            "tecnico": {
+              "es": "Diluente = nafta (en enero de 2026 estaba previsto cargar el primer cargamento bajo un acuerdo de suministro con el gobierno estadounidense) o crudos livianos como Mesa y Santa Bárbara en la mezcla final.",
+              "en": "Diluent = naphtha (in January 2026 the first cargo was expected to load under a supply agreement with the U.S. government) or light crudes such as Mesa and Santa Bárbara in the final blend."
+            }
+          },
+          "datos": [
+            {
+              "id": "D1a",
+              "tipo_dato": "cualitativo",
+              "etiqueta": {
+                "es": "Primer cargamento de nafta bajo un acuerdo de suministro",
+                "en": "First naphtha cargo under a supply agreement"
+              },
+              "valor": "Primer cargamento previsto para un fin de semana de enero de 2026",
+              "unidad": null,
+              "aproximado": false,
+              "fecha_dato": "2026-01-12",
+              "fuente": "https://hydrocarbonprocessing.com/news/2026/01/vitol-to-load-first-diluent-cargo-under-venezuela-supply-deal-last-weekend/",
+              "fuente_nombre": {
+                "es": "Reuters, vía Hydrocarbon Processing",
+                "en": "Reuters, via Hydrocarbon Processing"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26"
+            },
+            {
+              "id": "D2",
+              "tipo_dato": "cualitativo",
+              "etiqueta": {
+                "es": "Crudos livianos usados en la mezcla",
+                "en": "Light crudes used in the blend"
+              },
+              "valor": "Mesa y Santa Bárbara",
+              "unidad": null,
+              "aproximado": false,
+              "fecha_dato": "2019-05-10",
+              "fuente": "https://www.argusmedia.com/en/news/1900583-pdv-halts-upgrading-plots-shift-to-blending",
+              "fuente_nombre": {
+                "es": "Argus Media (2019)",
+                "en": "Argus Media (2019)"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26"
+            }
+          ],
+          "interaccion": null
+        },
+        {
+          "id": "R5-E3",
+          "recorrido": "R5",
+          "orden": 3,
+          "camara": { "objetivo_ref": "OSM-W265071557" },
+          "referencia": "ubicacion",
+          "capas": ["midstream", "downstream"],
+          "texto": {
+            "divulgacion": {
+              "es": "En José hay dos caminos: mezclarlo y venderlo como Merey 16, o \"mejorarlo\" en plantas gigantes que lo vuelven más liviano. Según Platts (2021), allí están instaladas cuatro plantas de este tipo.",
+              "en": "In José there are two paths: blend it and sell it as Merey 16, or \"upgrade\" it in giant plants that make it lighter. According to Platts (2021), four plants of this kind are installed there."
+            },
+            "tecnico": {
+              "es": "Merey 16: crudo pesado y agrio, ≈16° API (Argus, 2019). Según Platts (2021), en José hay cuatro mejoradores instalados: Petropiar, Petrocedeño, Petromonagas y Petro San Félix. Entonces PDVSA ofrecía Special Hamaca Blend (17,2° API) y Zuata Sweet (≈22° API).",
+              "en": "Merey 16: a heavy, sour crude, ≈16° API (Argus, 2019). According to Platts (2021), José has four installed upgraders: Petropiar, Petrocedeño, Petromonagas and Petro San Félix. At that time PDVSA offered Special Hamaca Blend (17.2° API) and Zuata Sweet (≈22° API)."
+            }
+          },
+          "datos": [
+            {
+              "id": "D3",
+              "tipo_dato": "cifra",
+              "etiqueta": {
+                "es": "Gravedad del Merey 16",
+                "en": "Merey 16 gravity"
+              },
+              "valor": "16",
+              "unidad": "°API",
+              "aproximado": true,
+              "fecha_dato": "2019-04-11",
+              "fuente": "https://www.argusmedia.com/pt/news-and-insights/latest-market-news/1883734-two-pdv-upgraders-to-restart-by-tomorrow",
+              "fuente_nombre": {
+                "es": "Argus Media (2019)",
+                "en": "Argus Media (2019)"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26"
+            },
+            {
+              "id": "D4",
+              "tipo_dato": "instalacion",
+              "etiqueta": {
+                "es": "Mejoradores en José: Petropiar, Petrocedeño, Petromonagas y Petro San Félix",
+                "en": "Upgraders in José: Petropiar, Petrocedeño, Petromonagas and Petro San Félix"
+              },
+              "valor": "4 mejoradores",
+              "unidad": null,
+              "aproximado": false,
+              "fecha_dato": "2021-09-13",
+              "fuente": "https://www.hellenicshippingnews.com/?p=886251",
+              "fuente_nombre": {
+                "es": "S&P Global Platts (2021), copia en Hellenic Shipping News",
+                "en": "S&P Global Platts (2021), copy on Hellenic Shipping News"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26",
+              "nota": {
+                "es": "Instalados según Platts (2021); su estado operativo actual no está confirmado. Argus (2019) cuenta que PDVSA planeó reconvertirlos en instalaciones de mezcla.",
+                "en": "Installed according to Platts (2021); their current operating status is not confirmed. Argus (2019) reports that PDVSA planned to convert them into blending facilities."
+              }
+            },
+            {
+              "id": "D5",
+              "tipo_dato": "cifra",
+              "etiqueta": {
+                "es": "Gravedad del Special Hamaca Blend",
+                "en": "Special Hamaca Blend gravity"
+              },
+              "valor": "17,2",
+              "unidad": "°API",
+              "aproximado": true,
+              "fecha_dato": "2021-09-13",
+              "fuente": "https://www.hellenicshippingnews.com/?p=886251",
+              "fuente_nombre": {
+                "es": "S&P Global Platts (2021), copia en Hellenic Shipping News",
+                "en": "S&P Global Platts (2021), copy on Hellenic Shipping News"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26"
+            },
+            {
+              "id": "D6",
+              "tipo_dato": "cifra",
+              "etiqueta": {
+                "es": "Gravedad del Zuata Sweet",
+                "en": "Zuata Sweet gravity"
+              },
+              "valor": "22",
+              "unidad": "°API",
+              "aproximado": true,
+              "fecha_dato": "2021-09-13",
+              "fuente": "https://www.hellenicshippingnews.com/?p=886251",
+              "fuente_nombre": {
+                "es": "S&P Global Platts (2021), copia en Hellenic Shipping News",
+                "en": "S&P Global Platts (2021), copy on Hellenic Shipping News"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26"
+            }
+          ],
+          "interaccion": null
+        },
+        {
+          "id": "R5-E4",
+          "recorrido": "R5",
+          "orden": 4,
+          "camara": { "objetivo_ref": "OSM-W265071557" },
+          "referencia": "ubicacion",
+          "capas": ["midstream", "downstream"],
+          "texto": {
+            "divulgacion": {
+              "es": "Del terminal sale en tanqueros hacia refinerías de otros países.",
+              "en": "From the terminal it leaves on tankers bound for refineries in other countries."
+            },
+            "tecnico": {
+              "es": "Desde la reforma de la Ley Orgánica de Hidrocarburos (Gaceta Oficial Extraordinaria N.º 6.978, 29/01/2026), la ley establece una regalía de hasta 30 % sobre los volúmenes extraídos (art. 51) y un impuesto integrado de hasta 15 % sobre la base imponible; la regalía (art. 51) y los artículos del impuesto entran en vigor 60 días después de la publicación. El Ejecutivo fija el porcentaje por proyecto.",
+              "en": "Since the reform of the Organic Hydrocarbons Law (Official Gazette Extraordinary No. 6,978, 29/01/2026), the law sets a royalty of up to 30 % on extracted volumes (art. 51) and an integrated tax of up to 15 % on the taxable base; the royalty (art. 51) and the tax articles take effect 60 days after publication. The Executive sets the rate for each project."
+            }
+          },
+          "datos": [
+            {
+              "id": "D7",
+              "tipo_dato": "legal",
+              "etiqueta": {
+                "es": "Regalía sobre los volúmenes extraídos (art. 51)",
+                "en": "Royalty on extracted volumes (art. 51)"
+              },
+              "valor": "hasta 30 %",
+              "unidad": null,
+              "aproximado": false,
+              "fecha_dato": "2026-02-03",
+              "fuente": "https://finanzasdigital.com/reforma-ley-hidrocarburos-2026/",
+              "fuente_nombre": {
+                "es": "Finanzas Digital, sobre la Gaceta Oficial Extraordinaria N.º 6.978",
+                "en": "Finanzas Digital, on Official Gazette Extraordinary No. 6,978"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26",
+              "fecha_norma": "2026-01-29"
+            },
+            {
+              "id": "D8",
+              "tipo_dato": "legal",
+              "etiqueta": {
+                "es": "Impuesto integrado sobre la base imponible",
+                "en": "Integrated tax on the taxable base"
+              },
+              "valor": "hasta 15 %",
+              "unidad": null,
+              "aproximado": false,
+              "fecha_dato": "2026-02-26",
+              "fuente": "https://accesoalajusticia.org/ley-de-reforma-de-la-ley-organica-de-hidrocarburos/",
+              "fuente_nombre": {
+                "es": "Acceso a la Justicia, sobre la Gaceta Oficial Extraordinaria N.º 6.978",
+                "en": "Acceso a la Justicia, on Official Gazette Extraordinary No. 6,978"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26",
+              "fecha_norma": "2026-01-29"
+            }
+          ],
+          "interaccion": null
+        },
+        {
+          "id": "R5-E5",
+          "recorrido": "R5",
+          "orden": 5,
+          "camara": { "vista": "faja" },
+          "referencia": null,
+          "capas": ["upstream", "midstream", "downstream"],
+          "texto": {
+            "divulgacion": {
+              "es": "Un crudo pesado y con azufre se paga más barato: cuesta más refinarlo.",
+              "en": "A heavy, sulfur-rich crude sells for less: it costs more to refine."
+            },
+            "tecnico": {
+              "es": "Desde el 31/03/2026 Platts publica una evaluación del Merey 16 entregado en la Costa del Golfo de EE.UU. (DAP USGC), en precio absoluto y como diferencial contra Brent y WTI.",
+              "en": "Since 31/03/2026 Platts has published an assessment of Merey 16 delivered to the U.S. Gulf Coast (DAP USGC), as an absolute price and as a differential against Brent and WTI."
+            }
+          },
+          "datos": [
+            {
+              "id": "D9",
+              "tipo_dato": "cualitativo",
+              "etiqueta": {
+                "es": "Evaluación Merey 16 DAP USGC",
+                "en": "Merey 16 DAP USGC assessment"
+              },
+              "valor": "Precio absoluto y diferencial contra Brent y WTI",
+              "unidad": null,
+              "aproximado": false,
+              "fecha_dato": "2026-03-31",
+              "fuente": "https://www.spglobal.com/energy/en/pricing-benchmarks/our-methodology/price-symbols/033126-new-merey-16-dap-usgc-symbols",
+              "fuente_nombre": {
+                "es": "S&P Global, símbolos de precio (31/03/2026)",
+                "en": "S&P Global, price symbols (31/03/2026)"
+              },
+              "confianza": "media",
+              "ultima_verificacion": "2026-10-26"
+            }
+          ],
+          "interaccion": null
+        }
+      ]
+    }
+  ]
+}

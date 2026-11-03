@@ -183,6 +183,8 @@ export const RUTAS_DATOS = {
   // iniciativas de la CCIEB con ubicacion en OSM.
   ciudadBolivar: "/data/ciudad-bolivar-osm.geojson",
   iniciativasCcieb: "/data/iniciativas-ccieb.geojson",
+  // Ruta de aprendizaje (spec 003): se descarga solo al iniciar un recorrido.
+  recorridos: "/data/ruta/recorridos.json",
 };
 
 // --- Ciudad Bolivar (E1) ----------------------------------------------------
@@ -292,6 +294,33 @@ export const DEFINICION_MODOS = {
     interfaz: "ciudadBolivar",
     vueltaAtras: "nacional",
   },
+  ruta: {
+    id: "ruta",
+    camara: "ruta",
+    capasEncendidas: [],
+    anillos: null,
+    interfaz: "ruta",
+    vueltaAtras: "nacional",
+  },
+};
+
+// --- Ruta de aprendizaje (spec 003) -----------------------------------------
+
+/** Recorridos publicados (solo ids; el JSON trae el resto). Decide RF-80 sin descargar datos. */
+export const RUTAS_PUBLICADAS = ["R5"];
+
+/** Constantes del recorrido (plan 003 §3.7). */
+export const RECORRIDO = {
+  porDefecto: "R5",
+  niveles: ["divulgacion", "tecnico"],
+  duracionVueloS: 2.0, // <= 2,5 (RF-87); SIN VERIFICAR: en Edge sin GPU el vuelo midio 2,0-3,6 s; confirmar en el telefono (T13)
+  camara: {
+    margen: 1.4, // medido T13: objetivo al 46,9 % (390x844), 40 % (844x390), 50 % (1440x900) de la altura visible
+    inclinacionGrados: -45, // verificado en T13 (capturas r5-*)
+    desplazamientoVertical: 0.2, // verificado en T13 (objetivo dentro del 60 % superior)
+  },
+  nombresPropios: ["Merey 16", "Petropiar", "Petrocedeño", "Petromonagas", "Petro San Félix", "Special Hamaca Blend", "Zuata Sweet", "Junín", "José"],
+  ejemplosForaneos: ["Alberta", "Texas", "Mar del Norte"],
 };
 
 /** Ids de modo validos: ["nacional", "ciudadBolivar"] (ADR-020). */

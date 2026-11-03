@@ -46,6 +46,8 @@ const estado = {
   detallesAbiertos: false,
   /** La regla se dibuja una vez; los repintados por datos que llegan no la repiten. */
   reglaTrazada: false,
+  /** RF-127: con recorrido activo el acceso "Ver Ciudad Bolivar" no se ofrece. */
+  accesoOculto: false,
 };
 
 // --- Utilidades de DOM -------------------------------------------------------
@@ -363,7 +365,7 @@ export function repintarModoCiudadBolivar() {
   if (estado.montado) {
     ranura?.append(crearCabecera());
     ranuraPanel?.append(crearPanel());
-  } else if (estado.alEntrar) {
+  } else if (estado.alEntrar && !estado.accesoOculto) {
     ranura?.append(crearAcceso());
   }
 }
@@ -404,5 +406,11 @@ export function desmontarModoCiudadBolivar() {
  */
 export function registrarAccesoCiudadBolivar(alEntrar) {
   estado.alEntrar = alEntrar;
+  repintarModoCiudadBolivar();
+}
+
+/** RF-127. Oculta (o devuelve) "Ver Ciudad Bolivar" mientras hay recorrido. */
+export function ocultarAccesoCiudadBolivar(oculto) {
+  estado.accesoOculto = Boolean(oculto);
   repintarModoCiudadBolivar();
 }

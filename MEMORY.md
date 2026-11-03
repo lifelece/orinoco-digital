@@ -11,7 +11,7 @@
 - Identidad "instrumento de cuenca" (ADR-021) y carga diferida de Cesium (ADR-022, #11, #22): FCP 7,6 s -> 1,0 s aprox. en 4G lenta.
 - Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
 - `npm test`: 196/196 y `verificar:modulos` sin violaciones (2026-10-24).
-- En curso: Ruta de aprendizaje (7 recorridos guiados, glosario, laboratorio; fases P0-P6). P0 cerrada el 2026-10-24: spec 003 en main (#23) con QA, gate aprobado y ADR-023 aceptado. Siguiente: P1 (piloto R5).
+- Ruta de aprendizaje (spec 003, ADR-023 aceptado): P1 (piloto R5) implementada en la rama `ruta-r5` (T01, T03-T14), esperando el gate de Luis en telefono real; D3b (nota de Platts) pendiente de Chrome. Siguiente: P2.
 - Bitacoras en Notion: "Bitacora 12-13 Oct 2026" y "Bitacora 24 Oct 2026".
 
 ## Abierto (del autor)
@@ -26,7 +26,8 @@
 - Campos coloreados por hidrocarburo (ADR-012); centrales apagadas por defecto (ADR-013).
 - Tests con `node:test` sin dependencias (ADR-016); gate de modulos dentro de `npm test` (ADR-019).
 - Identidad (ADR-021): `tinta` nunca en marcadores ni capas de datos; colores de marca ExpoFaja/CCIEB solo en cabecera DOM y micrositio; la regla del rio sin ejes (no es un grafico).
-- Carga diferida (ADR-022): el shell de UI pinta primero y `map.js` entra por `import()`.
+- Carga diferida (ADR-022): el shell de UI pinta primero y `map.js` entra por `import()`; el recorrido (ADR-023) va en su propio chunk, el texto de escenas en `public/data/ruta/recorridos.json` (excepcion al principio 7).
+- Recorridos: toda cifra con fuente https leida; sin fuente se retira del texto (RF-113), nunca placeholder.
 - El "Prompt maestro" de Notion choca con el repo (Supabase, GSAP, otra estructura): manda el repo (docs/NOTION.md).
 
 ## Errores a evitar (sintoma -> causa -> como se evita)
@@ -44,3 +45,5 @@
 11. "Desborde" en movil que no existe -> `msedge --headless --window-size=390,...` no emula movil (la ventana tiene ancho minimo) -> medir con CDP `Emulation.setDeviceMetricsOverride` (mobile: true).
 12. La regla del rio parecia un grafico de tendencia -> eje y guias verticales -> sin ejes, marcas cortas y leyenda.
 13. Medir rendimiento sin token -> Vite elimina Cesium (13 kB) -> construir con `VITE_CESIUM_TOKEN` (real o ficticio) por entorno.
+14. Hoja inferior del recorrido sin texto en 844x390 -> el nivel y el rotulo comian los 176 px de 45 vh -> compactar en alto < 500 px y capturar con el globo (build con `.env`, no una copia sin token).
+15. Tiempos de vuelo medidos en Edge sin GPU (SwiftShader) no valen para RF-87 -> cronometrar en el telefono real.

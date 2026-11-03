@@ -20,13 +20,17 @@ import {
   irAActivo,
   soltarVistas,
   fijarAccionVolarFaja,
+  fijarSalidaPorEscape,
+  registrarAccesoRutaUI,
 } from "./ui.js";
 import {
   montarModoCiudadBolivar,
   actualizarModoCiudadBolivar,
   desmontarModoCiudadBolivar,
   registrarAccesoCiudadBolivar,
+  ocultarAccesoCiudadBolivar,
 } from "./ui/modoCiudadBolivar.js";
+import { ocultarAccesoRuta } from "./ui/accesoRuta.js";
 import {
   getCampos,
   getDuctos,
@@ -63,8 +67,9 @@ import {
   ORDEN_VUELO,
   CLASES_CIUDAD,
   ID_SEDE_EXPOFAJA,
+  RUTAS_PUBLICADAS,
 } from "./config.js";
-import { leerEnlace, resolverModo, urlDeModo, buscarActivo, modoInicialEn } from "./modos.js";
+import { leerEnlace, resolverModo, urlDeModo, buscarActivo, modoInicialEn, modoPedido } from "./modos.js";
 import { t, idioma } from "./i18n/index.js";
 
 /**
@@ -247,6 +252,7 @@ const CAMARAS = {
     if (!arranque) mapa?.volarAFaja();
   },
   ciudadBolivar: () => mapa?.vistaCiudadBolivar(),
+  ruta: () => rutaCtl?.aplicarCamaraActual(), // la escena actual (RF-125)
 };
 
 /** Interfaces de los modos: montar con los datos, actualizarlos, desmontar. */
@@ -261,7 +267,50 @@ const INTERFACES = {
     actualizar: actualizarModoCiudadBolivar,
     desmontar: desmontarModoCiudadBolivar,
   },
+  ruta: {
+    montar: () => montarRuta(),
+    actualizar: () => rutaCtl?.reintentarPendiente(), // RF-124: llego una capa
+    desmontar: () => {
+      rutaToken = null;
+      rutaCtl?.detener();
+      rutaCtl = null;
+    },
+  },
 };
+
+// --- Ruta de aprendizaje (spec 003): el controlador viaja en su chunk y solo se pide al iniciar (RF-110) ---
+let rutaCtl = null;
+let rutaToken = null;
+let entradaDesdeApp = false;
+
+const inicioPorFecha = () => irAModo(modoInicialEn(new Date(), MODO_INICIAL, PORTADA_POR_FECHA));
+
+async function montarRuta() {
+  const yo = (rutaToken = {});
+  const desdeApp = entradaDesdeApp;
+  entradaDesdeApp = false;
+  try {
+    const ctl = await import("./ruta/controlador.js");
+    if (rutaToken !== yo) return; // el modo se retiro mientras llegaba el chunk
+    rutaCtl = ctl;
+    await ctl.iniciarRecorrido(
+      {
+        fijarCapas, fijarSalidaPorEscape, t, idioma, mostrarError,
+        ordenBusqueda: ORDEN_VUELO,
+        mapa: () => mapa,
+        colecciones: () => colecciones,
+        ocultarAccesos: (oculto) => { ocultarAccesoCiudadBolivar(oculto); ocultarAccesoRuta(oculto); },
+        irAInicio: inicioPorFecha,
+      },
+      { entradaDesdeApp: desdeApp }
+    );
+  } catch (error) {
+    console.error(error);
+    if (rutaToken !== yo) return;
+    mostrarError(t("ruta.errorCarga")); // RF-105: mapa usable
+    inicioPorFecha();
+  }
+}
 
 /** Numeros con el formato del idioma activo (RNF-5). */
 const formatoNumero = () => new Intl.NumberFormat(idioma(), { maximumFractionDigits: 1 });
@@ -450,9 +499,10 @@ function alVolverEnHistorial(evento) {
  */
 function iniciarModo() {
   const enlace = leerEnlace(location.search);
-  estado.vuelo = enlace.vuelo;
   const inicial = modoInicialEn(new Date(), MODO_INICIAL, PORTADA_POR_FECHA);
-  const modo = resolverModo(enlace.modo, MODOS, inicial);
+  const modo = resolverModo(modoPedido(location.search, { modos: MODOS, publicadas: RUTAS_PUBLICADAS }), MODOS, inicial);
+  const esRuta = modo === "ruta"; // RF-128: ni ?capa= ni ?vuelo= mandan durante el recorrido
+  estado.vuelo = esRuta ? null : enlace.vuelo;
   const origen = location.href;
   const atras = DEFINICION_MODOS[modo].vueltaAtras;
   // Recarga (o reapertura en la misma pestana): el navegador conserva el
@@ -470,8 +520,9 @@ function iniciarModo() {
   window.addEventListener("popstate", alVolverEnHistorial);
   registrarAccesoCiudadBolivar(() => irAModo(MODO_CIUDAD));
   fijarAccionVolarFaja(() => irAModo(MODO_NACIONAL));
+  registrarAccesoRutaUI(() => { entradaDesdeApp = true; irAModo("ruta"); });
   aplicarModo(modo, { arranque: true });
-  if (enlace.capa && Object.keys(fijarCapas({ [enlace.capa]: true })).length === 0) {
+  if (!esRuta && enlace.capa && Object.keys(fijarCapas({ [enlace.capa]: true })).length === 0) {
     console.info(`?capa=${enlace.capa}: no es una capa conocida, se ignora.`);
   }
 }

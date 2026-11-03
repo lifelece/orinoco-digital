@@ -42,6 +42,7 @@ import { hidrocarburoDe } from "./data.js";
 import { activarContadores, entradaFila, claseDibujarLinea } from "./ui/animar.js";
 import { htmlCadena } from "./ui/cadena.js";
 import { repintarModoCiudadBolivar } from "./ui/modoCiudadBolivar.js";
+import { repintarRuta, registrarAccesoRuta } from "./ui/accesoRuta.js"; // unico import estatico de la ruta permitido (plan 003 §3.9)
 import { esFichaCiudad, partesFichaCiudad } from "./ui/fichaCiudad.js";
 
 // --- Utilidades --------------------------------------------------------------
@@ -466,6 +467,7 @@ export function montarUI() {
       </header>
 
       <div id="ranura-modo" class="flex flex-col"></div>
+      <div id="ranura-ruta-acceso" class="flex flex-col"></div>
       <div id="ranura-banner"></div>
 
       <div class="flex min-h-0 flex-1 items-start gap-2">
@@ -477,6 +479,7 @@ export function montarUI() {
           ${ICONO.capas}<span>${esc(t("boton.capas"))}</span>
         </button>
         <div id="ranura-panel-modo" class="flex min-h-0 w-full flex-col sm:ml-auto sm:w-auto sm:max-h-full"></div>
+        <div id="ranura-ruta-panel" class="flex min-h-0 w-full flex-col sm:ml-auto sm:w-auto sm:max-h-full"></div>
       </div>
     </div>
 
@@ -548,6 +551,7 @@ export function montarUI() {
   montarTabla();
   pintarFuentes();
   repintarModoCiudadBolivar();
+  repintarRuta();
 }
 
 /**
@@ -1613,7 +1617,7 @@ function montarTabla() {
   if (!nodo) return;
   // La columna (z-20) va sobre la tabla (z-15): a 390 px, "Ver Ciudad Bolivar" y la
   // cabecera y el panel del modo tapaban el titulo. Con la tabla abierta, se ocultan.
-  for (const id of ["ranura-modo", "ranura-panel-modo"]) {
+  for (const id of ["ranura-modo", "ranura-panel-modo", "ranura-ruta-acceso", "ranura-ruta-panel"]) {
     document.getElementById(id)?.toggleAttribute("hidden", tablaVisible);
   }
 
@@ -1942,7 +1946,19 @@ document.addEventListener("keydown", (ev) => {
   else if (panelAbierto) cerrarPanel();
   else if (capasAbiertas && esPequena()) cerrarHojaCapas();
   else if (tablaVisible) cerrarTabla();
+  else salidaPorEscape?.(); // nada abierto: gancho del recorrido (RF-90)
 });
+
+/** Gancho de Esc del recorrido (RF-90); lo fija el controlador, ui.js no lo importa. */
+let salidaPorEscape = null;
+export function fijarSalidaPorEscape(fn) {
+  salidaPorEscape = fn ?? null;
+}
+
+/** Callback del boton "Ruta de aprendizaje" (RF-81); pasa `t` para que accesoRuta no importe i18n. */
+export function registrarAccesoRutaUI(alEntrar) {
+  registrarAccesoRuta(alEntrar, t);
+}
 
 // Redibujar la UI cuando cambie el idioma.
 window.addEventListener("idioma:cambiado", montarUI);

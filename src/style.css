@@ -228,3 +228,74 @@ body {
     clip-path: inset(0 0 0 0);
   }
 }
+
+/* Panel del recorrido (src/ui/recorrido.js, spec 003 RF-109/110): tarjeta lateral en
+   escritorio; hoja inferior plegable de <= 45 vh en ancho < 640 px o alto < 500 px.
+   Solo tokens existentes. */
+.ruta-panel {
+  width: min(22rem, 100%);
+  max-height: 100%;
+}
+@media (max-width: 639px), (max-height: 499px) {
+  .ruta-panel {
+    width: 100%;
+    max-height: 45vh;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Selector de nivel: fila propia bajo el titulo en ancho normal. */
+.ruta-panel .ruta-niveles {
+  order: 3;
+  flex-basis: 100%;
+}
+/* Alto < 500 px (movil girado, 844x390, RF-109): la hoja sigue en 45 vh (176 px) y se compacta
+   para que el cuerpo muestre >= 3 lineas: cabecera (titulo, "Escena n de 5", nivel, Plegar) en
+   UNA fila de 44 px, navegacion en una fila de 44 px, el resto es el cuerpo con scroll. */
+@media (max-height: 499px) {
+  #panel-recorrido.ruta-panel {
+    padding: 0.375rem 0.5rem max(0.375rem, env(safe-area-inset-bottom));
+  }
+  #panel-recorrido.ruta-panel > div:first-child {
+    gap: 0.25rem;
+  }
+  .ruta-panel .ruta-cabecera {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .ruta-panel .ruta-titulo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .ruta-panel .ruta-titulo > p {
+    white-space: nowrap;
+  }
+  .ruta-panel .ruta-niveles {
+    order: 0;
+    flex: 0 0 auto;
+    gap: 0.25rem;
+  }
+  .ruta-panel .ruta-nav {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+  /* El rotulo (RF-101) flota a la izquierda de la 1.a linea: no le quita lineas al texto. */
+  .ruta-panel .ruta-cuerpo {
+    display: block;
+    min-height: 3.5rem;
+  }
+  .ruta-panel .ruta-rotulo {
+    float: left;
+    margin: 0 0.5rem 0 0;
+  }
+  .ruta-panel .ruta-cuerpo details {
+    clear: both;
+    margin-top: 0.25rem;
+  }
+  .ruta-panel .ruta-texto {
+    font-size: 13px;
+    line-height: 1.375;
+  }
+}

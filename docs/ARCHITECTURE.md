@@ -56,6 +56,15 @@ src/
   ui/
     modoCiudadBolivar.js  Cabecera, panel y acceso del modo Ciudad Bolivar.
     fichaCiudad.js        HTML de la ficha de servicio o iniciativa.
+    accesoRuta.js         Boton de acceso al recorrido (chunk inicial, minimo) y gancho
+                          de repintado del panel. Sin cesium, sin fetch (ADR-023).
+    recorrido.js          Panel del recorrido: htmlPanel pura + montaje. Chunk diferido.
+  ruta/                   Recorridos guiados (ADR-023). Todo el directorio es diferido.
+    motor.js              Escenas, encuadre y textos por nivel. Puro: sin DOM, fetch ni cesium.
+    validar.js            Validador del contrato de recorridos. Puro.
+    datos.js              Unico con red: carga public/data/ruta/recorridos.json y lo valida.
+    controlador.js        Orquesta motor, datos y panel; recibe sus dependencias por
+                          parametro. No importa ui.js ni map.js.
   style.css     Tailwind 4 + tokens de diseno (ADR-014) + estilos del viewer.
   i18n/
     index.js    Helper t(clave) y cambio de idioma.
@@ -71,13 +80,24 @@ importaciones de `config.js` y `data.js` desde `map.js` y `ui.js`.
 ```
 main.js   -> map.js, ui.js, ui/modoCiudadBolivar.js, api.js, data.js, modos.js, config.js, i18n, style.css
 map.js    -> cesium, config.js, data.js, iconos.js
-ui.js     -> i18n, map.js, config.js, data.js, ui/modoCiudadBolivar.js, ui/fichaCiudad.js
+ui.js     -> i18n, map.js, config.js, data.js, ui/modoCiudadBolivar.js, ui/fichaCiudad.js, ui/accesoRuta.js
+ruta/controlador.js -> ruta/datos.js, ruta/motor.js, ui/recorrido.js, config.js   (solo por import())
+ruta/datos.js       -> config.js, ruta/validar.js
+ruta/motor.js       -> modos.js
+ui/recorrido.js     -> ui/accesoRuta.js
 modos.js  -> (nada)
 api.js    -> config.js, data.js
 data.js   -> config.js
 iconos.js -> (nada)
 i18n      -> config.js
 ```
+
+Carga diferida del recorrido (ADR-023, sobre ADR-022): `main.js` pide
+`import("./ruta/controlador.js")` solo al iniciar el recorrido; ese chunk arrastra
+`motor`, `validar`, `datos`, `recorrido` y, con ellos, el JSON se descarga con `fetch`
+tras pulsar el boton. El chunk inicial solo contiene `accesoRuta.js`, `RUTAS_PUBLICADAS`
+y `modoPedido`. `scripts/verificar-modulos.mjs` impide que algo del chunk inicial
+importe `src/ruta/*` de forma estatica.
 
 Nota: `DEFINICION_MODOS` (config.js) describe cada modo; `main.js` lo aplica
 con una funcion generica y guarda el estado del modo. Ni `map.js` ni `ui.js`
