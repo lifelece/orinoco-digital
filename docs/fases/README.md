@@ -15,7 +15,7 @@ implementacion, prompt de arranque, verificacion y STOP gate.
 | 3 — Midstream + Downstream | [FASE-3-MID-DOWNSTREAM.md](FASE-3-MID-DOWNSTREAM.md) | Cerrada (2026-09-09) |
 | 4 — Backend Supabase | [FASE-4-BACKEND.md](FASE-4-BACKEND.md) | **Saltada** — ver ADR-010 |
 | 5 — IA predictiva DEMO | [FASE-5-IA-DEMO.md](FASE-5-IA-DEMO.md) | Cerrada (2026-09-09) |
-| 6-7 — Deploy + divulgacion | [FASE-6-7-DEPLOY.md](FASE-6-7-DEPLOY.md) | **En curso** — falta token restringido, Lighthouse, material y tag v1.0 |
+| 6-7 — Deploy + divulgacion | [FASE-6-7-DEPLOY.md](FASE-6-7-DEPLOY.md) | **En curso** — falta token restringido, Lighthouse y material |
 
 ## v2 — planificada en Notion
 
