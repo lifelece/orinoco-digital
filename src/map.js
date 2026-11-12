@@ -27,6 +27,7 @@ import {
   LabelStyle,
   Cartesian2,
   PolylineDashMaterialProperty,
+  ScreenSpaceEventType,
   BoundingSphereState,
 } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
@@ -57,6 +58,7 @@ import {
   ZOOM_ETIQUETA,
   TAMANO_ICONO,
   COLOR_CIUDAD,
+  COLOR_CAPA_BLOQUE,
   COLOR_ANILLO,
   ZOOM_CIUDAD,
   CENTRO_CIUDAD_BOLIVAR,
@@ -819,19 +821,36 @@ export function dibujarCampos(featureCollection) {
  * pero no son activos: tocarlas abria una ficha de "Instalacion petrolera".
  * Ahora tocarlas se comporta como tocar el mapa vacio.
  */
+function esPropsDeActivo(props) {
+  return Boolean(
+    props &&
+      (TIPOS.includes(props.tipo) ||
+        props.tipo === "demo" ||
+        CAPAS_FICHA_CIUDAD.includes(props.capa))
+  );
+}
+
 function conectarSeleccion() {
   if (!viewer) return;
+  // Recuerda el ultimo toque en el lienzo: el manejador por defecto de Cesium
+  // elige la entidad de arriba y, si es un bloque, hay que mirar que hay debajo.
+  const manejador = viewer.screenSpaceEventHandler;
+  const original = manejador.getInputAction(ScreenSpaceEventType.LEFT_CLICK);
+  manejador.setInputAction((movimiento) => {
+    ultimoToque = { pos: Cartesian2.clone(movimiento.position), t: performance.now() };
+    original?.(movimiento);
+  }, ScreenSpaceEventType.LEFT_CLICK);
   viewer.selectedEntityChanged.addEventListener((entidad) => {
     if (!alSeleccionar) return;
     // PropertyBag.getValue exige un instante; los valores son constantes,
     // asi que cualquiera sirve.
     const props = entidad?.properties?.getValue(JulianDate.now());
-    const esActivo = Boolean(
-      props &&
-        (TIPOS.includes(props.tipo) ||
-          props.tipo === "demo" ||
-          CAPAS_FICHA_CIUDAD.includes(props.capa))
-    );
+    // Bloques (spec 004): si bajo el toque hay un campo, gana el campo (RF-142).
+    if (props?.bloque === true) {
+      seleccionarBloque(entidad, props);
+      return;
+    }
+    const esActivo = esPropsDeActivo(props);
     if (entidad && !esActivo) {
       // Vuelve a entrar en este manejador con undefined, y eso cierra la ficha.
       viewer.selectedEntity = undefined;
@@ -839,6 +858,157 @@ function conectarSeleccion() {
     }
     alSeleccionar(esActivo ? props : null);
   });
+}
+
+// --- Capa "Bloques y contratos 2026" (spec 004, T13) -------------------------
+
+/** @type {{pos: Cartesian2, t: number} | null} */
+let ultimoToque = null;
+/** @type {((id: string) => void) | null} */
+let alSeleccionarBloque = null;
+
+/**
+ * Registra el callback de seleccion de un bloque (main.js abre su ficha).
+ * @param {(id: string) => void} callback
+ */
+export function alSeleccionarBloqueActivo(callback) {
+  alSeleccionarBloque = callback;
+}
+
+/**
+ * Un bloque tocado cede ante un campo (u otro activo) que este debajo del
+ * mismo punto: el campo gana. Si no hay nada debajo, abre la ficha del bloque.
+ */
+function seleccionarBloque(entidad, props) {
+  const toque = ultimoToque && performance.now() - ultimoToque.t < 800 ? ultimoToque.pos : null;
+  ultimoToque = null;
+  if (toque) {
+    const debajo = viewer.scene
+      .drillPick(toque, 8)
+      .map((p) => p?.id)
+      .find((e) => e && e !== entidad && esPropsDeActivo(e.properties?.getValue?.(JulianDate.now())));
+    if (debajo) {
+      viewer.selectedEntity = debajo; // vuelve a entrar como campo
+      return;
+    }
+  }
+  alSeleccionarBloque?.(props.id);
+}
+
+/**
+ * Opacidad del relleno por tratamiento. Alternativa del plan 5: el relleno
+ * rayado (StripeMaterialProperty) sobre terreno depende de
+ * GroundPrimitive.supportsMaterials(), que cambia con el hardware; sin soporte
+ * Cesium no drapea el poligono. Se usan 3 niveles de opacidad (no dependen del tono).
+ */
+const ALFA_BLOQUE = { solido: 0.5, rayado: 0.26, tenue: 0.1 };
+
+/**
+ * Dibuja los bloques como poligonos pegados al terreno, con el borde en una
+ * polilinea solo de cerca (como los campos). La capa nace apagada y se
+ * enciende con alternarBloques.
+ *
+ * @param {{features: Array<Object>}} featureCollection
+ * @param {Object<string, {colorClave: string, relleno: string, borde: string}>} estilos por id (estiloBloque)
+ * @returns {number} bloques dibujados
+ */
+export function dibujarBloques(featureCollection, estilos) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("bloques", false);
+  // Un material por combinacion: Cesium agrupa los bordes iguales en una primitiva.
+  const bordes = new Map();
+  const materialBorde = (colorClave, borde) => {
+    const clave = `${colorClave}|${borde}`;
+    if (!bordes.has(clave)) {
+      const color = Color.fromCssColorString(COLOR_CAPA_BLOQUE[colorClave]);
+      bordes.set(
+        clave,
+        borde === "discontinuo" ? new PolylineDashMaterialProperty({ color, dashLength: 14 }) : color
+      );
+    }
+    return bordes.get(clave);
+  };
+  let dibujados = 0;
+  for (const feature of featureCollection.features) {
+    const props = feature.properties ?? {};
+    const estilo = estilos?.[props.id];
+    if (!estilo) continue;
+    const color = Color.fromCssColorString(COLOR_CAPA_BLOQUE[estilo.colorClave]);
+    for (const [exterior, ...agujeros] of poligonosDe(feature.geometry)) {
+      const entidad = capa.entities.add({
+        name: props.nombre ?? props.id,
+        properties: { id: props.id, nombre: props.nombre ?? props.id, bloque: true },
+        polygon: {
+          hierarchy: new PolygonHierarchy(
+            aPosiciones(exterior),
+            agujeros.map((a) => new PolygonHierarchy(aPosiciones(a)))
+          ),
+          material: color.withAlpha(ALFA_BLOQUE[estilo.relleno] ?? ALFA_BLOQUE.tenue),
+          outline: false,
+        },
+        polyline: {
+          positions: aPosiciones(exterior),
+          width: 2,
+          material: materialBorde(estilo.colorClave, estilo.borde),
+          clampToGround: true,
+          distanceDisplayCondition: new DistanceDisplayCondition(0, PRESUPUESTO.distanciaBordes),
+        },
+      });
+      indexar("bloques", props.id, entidad);
+    }
+    dibujados += 1;
+  }
+  sincronizarEnViewer(capa, capa.show);
+  return dibujados;
+}
+
+/**
+ * Contorno de las 4 divisiones de la Faja (RF-137): contexto de la capa de
+ * bloques, sin relleno; se enciende y apaga con ella.
+ * @param {{features: Array<Object>}} featureCollection
+ * @returns {number} divisiones dibujadas
+ */
+export function dibujarDivisionesFaja(featureCollection) {
+  if (!viewer) return 0;
+  const capa = nuevaCapa("divisionesFaja", false);
+  const color = Color.fromCssColorString(COLOR_CAPA_BLOQUE.sin_registro).withAlpha(0.9);
+  let n = 0;
+  for (const feature of featureCollection.features) {
+    for (const [exterior] of poligonosDe(feature.geometry)) {
+      capa.entities.add({
+        name: feature.properties?.nombre ?? "",
+        polyline: { positions: aPosiciones(exterior), width: 1.5, material: color, clampToGround: true },
+      });
+    }
+    n += 1;
+  }
+  sincronizarEnViewer(capa, capa.show);
+  return n;
+}
+
+/**
+ * Muestra solo los bloques indicados (los que pasan los filtros), cambiando
+ * `show` por entidad. Sin red ni redibujo.
+ * @param {Set<string>} idsVisibles
+ */
+export function filtrarBloques(idsVisibles) {
+  const porId = indice.get("bloques");
+  if (!porId) return;
+  for (const [id, entidades] of porId) {
+    const visible = idsVisibles.has(id);
+    for (const e of entidades) e.show = visible;
+  }
+  pedirRenderPuntual("bloques:filtro");
+}
+
+/**
+ * Enciende o apaga la capa de bloques y su contorno de divisiones (ADR-019).
+ * @param {boolean} visible
+ */
+export function alternarBloques(visible) {
+  fijarVisible("bloques", visible);
+  fijarVisible("divisionesFaja", visible);
+  pedirRenderPuntual("bloques");
 }
 
 // --- Capas midstream y downstream (Fase 3) -----------------------------------
