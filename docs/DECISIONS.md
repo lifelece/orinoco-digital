@@ -1308,3 +1308,10 @@ publicados y `docs/DATA_SOURCES.md` §19 registra la fecha y el alcance. No hay 
 del autor de los poligonos: la capa se publica con atribucion visible, sin alterar el contenido y con la fecha de
 corte, y se retira o corrige si cualquiera de los dos lo pide (volver el flag a `false` la apaga sin tocar codigo).
 El relleno usa tres opacidades en vez de rayado (T13). La paleta sigue pendiente del gate en telefono.
+
+
+**Constancia de encendido al inicio (2026-11-12, RF-162, PR #36).** El autor decidio que la capa no se quede
+como capa aparte y apagada, porque el mapa abria pobre de informacion: arranca encendida junto al resto de los
+datos, despues de cargar las capas base; dentro de un recorrido no se dibuja (RF-161) y se enciende al salir. El
+interruptor sigue disponible. `CAPA_BLOQUES.encendidaAlInicio` en `false` devuelve el comportamiento anterior.
+Queda medir el rendimiento con la capa encendida desde el inicio (T16).
