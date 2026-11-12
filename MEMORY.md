@@ -12,6 +12,7 @@
 - Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
 - `npm test`: 196/196 y `verificar:modulos` sin violaciones (2026-10-24).
 - Ruta de aprendizaje (spec 003, ADR-023 aceptado): P1 (piloto R5) implementada en la rama `ruta-r5` (T01, T03-T14), en produccion desde el PR #29 (2026-11-03) con el gate en telefono superado. Fuentes: D2 leida en navegador el 2026-11-12; las paginas de S&P Global (D3, D3b, D9) responden "Access Denied" tambien en navegador real, asi que D3b sigue retirado (`docs/DATA_SOURCES.md` §18). Siguiente: P2 (sin empezar; la decide el autor).
+- Capa "Bloques y contratos 2026" (spec 004, ADR-024 Propuesto): construida y APAGADA en la rama `capa-contratos`. Los datos de Transparencia Venezuela no se versionan hasta tener permiso de redistribucion (`docs/DATA_SOURCES.md` §19); borrador de la solicitud en `specs/004-capa-bloques-contratos/solicitud-permiso.md`. El relleno usa tres opacidades, no rayado. El dibujo en el mapa no se ha visto en navegador (faltaba token de Cesium en local).
 - Bitacoras en Notion: "Bitacora 12-13 Oct 2026" y "Bitacora 24 Oct 2026".
 
 ## Abierto (del autor)

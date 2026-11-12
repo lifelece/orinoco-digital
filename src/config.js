@@ -587,3 +587,55 @@ export const URL_MAPA_CIUDAD = "/?modo=ciudadBolivar";
 
 /** Enlace del modo Ciudad Bolivar al micrositio de la ExpoFaja. */
 export const URL_MICROSITIO = "/expofaja/";
+
+// --- Capa "Bloques y contratos 2026" (spec 004, ADR-024) ----------------------
+
+/**
+ * Gate de licencia. `permisoRedistribucion` se cambia a true SOLO en la tarea
+ * posterior al permiso de Transparencia Venezuela y del autor de los poligonos
+ * (plan 004 §7). Sin permiso, un build de produccion no muestra ni pide la capa.
+ * La vista previa local exige `vite dev` y VITE_CAPA_BLOQUES_LOCAL=1.
+ * Test: test/bloques-licencia.test.mjs (RF-160).
+ */
+const PERMISO_BLOQUES = false;
+export const CAPA_BLOQUES = {
+  permisoRedistribucion: PERMISO_BLOQUES,
+  activa:
+    PERMISO_BLOQUES ||
+    (MODO_DESARROLLO && import.meta.env.VITE_CAPA_BLOQUES_LOCAL === "1"),
+  archivos: ["bloques-2026.geojson", "faja-divisiones-2026.geojson"],
+};
+
+/**
+ * Rutas de la capa, FUERA de RUTAS_DATOS a proposito: test/rutas-datos.test.mjs
+ * exige que toda ruta de RUTAS_DATOS exista en public/data, y estos dos
+ * archivos no se versionan hasta tener el permiso (ADR-024).
+ */
+// Vista previa local (solo `vite dev` + VITE_CAPA_BLOQUES_LOCAL=1, sin permiso): el servidor
+// de desarrollo sirve la carpeta ignorada con los datos reales; nunca entra a public/ ni al build.
+const BASE_BLOQUES = !PERMISO_BLOQUES && CAPA_BLOQUES.activa ? "/data/raw/tv-2026/publicado/" : "/data/";
+export const RUTAS_BLOQUES = {
+  bloques2026: `${BASE_BLOQUES}bloques-2026.geojson`,
+  divisionesFaja: `${BASE_BLOQUES}faja-divisiones-2026.geojson`,
+};
+
+/**
+ * Color de relleno por `capa` del bloque.
+ * SIN VERIFICAR: paleta provisional, la aprueba Luis en el gate (spec 004).
+ */
+export const COLOR_CAPA_BLOQUE = {
+  nabep: "#3b82c4",
+  chevron: "#d98a2b",
+  acuerdo_2026: "#4aa56b",
+  sin_registro: "#8b98a5",
+};
+
+/**
+ * Los 7 valores de `estatus_norm` agrupados en 3 tratamientos de relleno
+ * (solido / rayado / tenue, RF-135). Agrupacion propuesta en el plan, a confirmar.
+ */
+export const GRUPO_ESTATUS_BLOQUE = {
+  operando: ["activo", "intermitente"],
+  detenido: ["paralizado"],
+  sin_operacion_registrada: ["en_proyecto", "en_evaluacion", "sin_info", "sin_registro"],
+};

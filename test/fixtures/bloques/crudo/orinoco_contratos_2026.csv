@@ -1,0 +1,6 @@
+﻿id_registro,id_bloque,nombre_bloque,empresa_2026,referencia
+R901,B901,Bloque Prueba 1,"Operadora Ficticia A, S.A.","Referencia sintética ""uno"""
+R902,B901,Bloque Prueba 1,Operadora Ficticia B,"Referencia sintética
+con salto de línea"
+R903,B902,Bloque Prueba 2,Operadora Ficticia C,Referencia sintética 3
+R904,,,Operadora Ficticia D,Referencia sintética 4

@@ -99,6 +99,23 @@ tras pulsar el boton. El chunk inicial solo contiene `accesoRuta.js`, `RUTAS_PUB
 y `modoPedido`. `scripts/verificar-modulos.mjs` impide que algo del chunk inicial
 importe `src/ruta/*` de forma estatica.
 
+### Capa "Bloques y contratos 2026" (spec 004, ADR-024)
+
+Primera capa que se descarga **bajo demanda**: no entra en `cargarCapas`. `src/bloques/`
+(`validar`, `nucleo`, `cruce`) es logica pura, sin DOM, `fetch` ni `cesium`;
+`src/ui/fichaBloque.js` y `src/ui/capaBloques.js` devuelven HTML con los valores
+escapados (los datos son de un tercero). Al encender el interruptor por primera vez,
+`main.js` hace `import()` de esos modulos y `api.js` pide los dos GeoJSON; despues la
+capa solo se muestra u oculta.
+
+**Gate de licencia.** `CAPA_BLOQUES.permisoRedistribucion` (config.js) esta en `false`:
+en un build de produccion el interruptor no existe y nada pide los datos. Los dos archivos
+publicados estan en `.gitignore` y `test/bloques-licencia.test.mjs` falla si eso cambia sin
+la linea de permiso en `docs/DATA_SOURCES.md` §19. La vista previa con datos reales solo
+funciona en `vite dev` con `VITE_CAPA_BLOQUES_LOCAL=1`. El conversor
+`scripts/bloques-tv-a-geojson.mjs` y el CLI `scripts/validar-bloques.mjs` comparten el
+validador puro.
+
 Nota: `DEFINICION_MODOS` (config.js) describe cada modo; `main.js` lo aplica
 con una funcion generica y guarda el estado del modo. Ni `map.js` ni `ui.js`
 preguntan "en que modo estamos" (ADR-020, pieza 10).

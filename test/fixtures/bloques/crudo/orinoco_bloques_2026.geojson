@@ -1,0 +1,232 @@
+{
+ "type": "FeatureCollection",
+ "name": "crudo-sintetico",
+ "metadata": {
+  "fuente": "https://example.org/sintetico",
+  "corte": "2026-10-31",
+  "publicado": "2026-11-10",
+  "poligonos": "Polígonos sintéticos de prueba",
+  "extraido": "2026-11-11"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "B901",
+   "properties": {
+    "id": "B901",
+    "nombre": "Bloque Prueba 1",
+    "capa": "nabep",
+    "operador_2026": "Operadora Ficticia A; Operadora Ficticia B",
+    "operador_antes_2026": "Operadora Ficticia C",
+    "estatus": "Activo",
+    "estatus_norm": "activo",
+    "licencia_ofac": "Licencia ficticia L1",
+    "tiene_licencia_ofac": true,
+    "convenio_eeuu_vzla": true,
+    "tipo_alianza": "Empresa mixta",
+    "proyecto": "Proyecto Ficticio",
+    "pais_operador": "",
+    "producto": "",
+    "zona": "FPO",
+    "estado": "Estado Ficticio 1",
+    "municipios": "Municipio Ficticio 1; Municipio Ficticio 2",
+    "campo_pdvsa": "x",
+    "etiqueta_pdvsa": "x",
+    "empresa_mixta_pdvsa": "x",
+    "pais_socio_pdvsa": "x",
+    "caracteristica": "x",
+    "area_km2": 100.123456,
+    "registros_vinculados": 2,
+    "confianza_cruce": "Alta",
+    "fuente": "Dato sintético de prueba, inventado"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -63,
+       8
+      ],
+      [
+       -62.876543211,
+       8
+      ],
+      [
+       -62.876543211,
+       8
+      ],
+      [
+       -62.876543211,
+       8.2
+      ],
+      [
+       -63,
+       8.2
+      ],
+      [
+       -63,
+       8
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B902",
+   "properties": {
+    "id": "B902",
+    "nombre": "Bloque Prueba 2",
+    "capa": "sin_registro",
+    "operador_2026": "Sin registro en la tabla",
+    "operador_antes_2026": "",
+    "estatus": "",
+    "estatus_norm": "sin_registro",
+    "licencia_ofac": "Sin licencia registrada",
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": "",
+    "proyecto": "",
+    "pais_operador": "",
+    "producto": "",
+    "zona": "",
+    "estado": "",
+    "municipios": "",
+    "campo_pdvsa": "x",
+    "etiqueta_pdvsa": "x",
+    "empresa_mixta_pdvsa": "x",
+    "pais_socio_pdvsa": "x",
+    "caracteristica": "x",
+    "area_km2": 100.123456,
+    "registros_vinculados": 1,
+    "confianza_cruce": "Media",
+    "fuente": "Dato sintético de prueba, inventado"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62,
+       9
+      ],
+      [
+       -61.876543211,
+       9
+      ],
+      [
+       -61.876543211,
+       9
+      ],
+      [
+       -61.876543211,
+       9.2
+      ],
+      [
+       -62,
+       9.2
+      ],
+      [
+       -62,
+       9
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B903",
+   "properties": {
+    "id": "B903",
+    "nombre": "Bloque Prueba 3",
+    "capa": "chevron",
+    "operador_2026": "Operadora Ficticia D, subsidiaria de Operadora Ficticia E",
+    "operador_antes_2026": "",
+    "estatus": "Paralizado",
+    "estatus_norm": "paralizado",
+    "licencia_ofac": "Sin licencia registrada",
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": "",
+    "proyecto": "",
+    "pais_operador": "",
+    "producto": "",
+    "zona": "",
+    "estado": "",
+    "municipios": "Municipio Ficticio 3",
+    "campo_pdvsa": "x",
+    "etiqueta_pdvsa": "x",
+    "empresa_mixta_pdvsa": "x",
+    "pais_socio_pdvsa": "x",
+    "caracteristica": "x",
+    "area_km2": 0,
+    "registros_vinculados": 0,
+    "confianza_cruce": "Sin cruce",
+    "fuente": "Dato sintético de prueba, inventado"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        -61,
+        7
+       ],
+       [
+        -60.876543211,
+        7
+       ],
+       [
+        -60.876543211,
+        7
+       ],
+       [
+        -60.876543211,
+        7.2
+       ],
+       [
+        -61,
+        7.2
+       ],
+       [
+        -61,
+        7
+       ]
+      ]
+     ],
+     [
+      [
+       [
+        -60.5,
+        7
+       ],
+       [
+        -60.376543211,
+        7
+       ],
+       [
+        -60.376543211,
+        7
+       ],
+       [
+        -60.376543211,
+        7.2
+       ],
+       [
+        -60.5,
+        7.2
+       ],
+       [
+        -60.5,
+        7
+       ]
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
