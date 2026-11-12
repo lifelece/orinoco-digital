@@ -164,7 +164,8 @@ function cargarBloques() {
         getDivisionesFaja(),
       ]);
       // Regla del proyecto: un dato sin fuente no se dibuja.
-      const features = crudos.features.filter((f) => f.properties?.fuente);
+      // Tampoco se dibuja uno sin geometria: romperia el dibujo de toda la capa.
+      const features = crudos.features.filter((f) => f.properties?.fuente && f.geometry?.coordinates?.length);
       if (features.length < crudos.features.length) {
         console.warn(`${crudos.features.length - features.length} bloques sin fuente: no se dibujan.`);
       }
@@ -174,10 +175,10 @@ function cargarBloques() {
       bloques.corte = nucleo.corteDeDatos(features);
       recruzarBloques();
       const m = await mapaListo;
-      if (m) {
-        m.dibujarBloques(fc, Object.fromEntries(features.map((f) => [f.properties.id, nucleo.estiloBloque(f.properties)])));
-        m.dibujarDivisionesFaja(divisiones);
-      }
+      // Sin mapa no hay nada dibujado: es un error, no una capa "lista" con el interruptor encendido.
+      if (!m) throw new Error("El mapa no esta disponible: la capa de bloques no se dibujo.");
+      m.dibujarBloques(fc, Object.fromEntries(features.map((f) => [f.properties.id, nucleo.estiloBloque(f.properties)])));
+      m.dibujarDivisionesFaja(divisiones);
       bloques.estado = "lista";
       fijarDatosCapa("bloques", fc);
       return true;

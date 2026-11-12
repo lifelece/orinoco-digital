@@ -325,7 +325,12 @@ function aplicarFiltrosBloques(filtros, panel) {
   bloquesUI.filtros = filtros;
   controlBloques?.filtrar(visiblesBloques());
   montarCapas();
-  if (marca) document.querySelector(`#bloques-panel [data-filtro="${marca.f}"][data-valor="${marca.v}"]`)?.focus();
+  // Sin selector armado con el valor: viene de un tercero y una comilla o un "]" lo rompen.
+  if (marca) {
+    [...document.querySelectorAll("#bloques-panel [data-filtro]")]
+      .find((n) => n.dataset.filtro === marca.f && n.dataset.valor === marca.v)
+      ?.focus();
+  }
 }
 
 const SECTORES = ["upstream", "midstream", "downstream"];
