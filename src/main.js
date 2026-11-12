@@ -22,6 +22,8 @@ import {
   fijarAccionVolarFaja,
   fijarSalidaPorEscape,
   registrarAccesoRutaUI,
+  registrarCapaBloques,
+  mostrarPanelBloque,
 } from "./ui.js";
 import {
   montarModoCiudadBolivar,
@@ -44,6 +46,8 @@ import {
   getCiudadBolivar,
   getIniciativasCcieb,
   getListaIniciativasCcieb,
+  getBloques2026,
+  getDivisionesFaja,
 } from "./api.js";
 // La regla del rio (ADR-021) no es una FeatureCollection, asi que no pasa por
 // api.js (su contrato no cambia): se importa en el build, como la semilla de
@@ -68,6 +72,7 @@ import {
   CLASES_CIUDAD,
   ID_SEDE_EXPOFAJA,
   RUTAS_PUBLICADAS,
+  CAPA_BLOQUES,
 } from "./config.js";
 import { leerEnlace, resolverModo, urlDeModo, buscarActivo, modoInicialEn, modoPedido } from "./modos.js";
 import { t, idioma } from "./i18n/index.js";
@@ -105,6 +110,7 @@ const estado = {
   capasPrevias: {},
   sedeSeleccionada: false,
   vuelo: null,
+  bloquesPrevios: false,
   iniciativas: null,
 };
 
@@ -121,6 +127,112 @@ let mapa = null;
  * @type {Promise<typeof import("./map.js")|null>|null}
  */
 let mapaListo = null;
+
+// --- Capa "Bloques y contratos 2026" (spec 004): carga al primer encendido (RF-131) ---
+
+/**
+ * Estado de la capa. `sin_cargar` -> `cargando` -> `lista`, o `error` (se reintenta
+ * al volver a encender, RF-133). Sus modulos y datos solo se piden al encender.
+ */
+const bloques = {
+  estado: "sin_cargar",
+  promesa: null,
+  encendida: false,
+  fc: null,
+  cruce: null,
+  corte: null,
+  cruzar: null,
+};
+
+/** Cruza campos y bloques cuando estan los dos (los campos pueden llegar despues). */
+function recruzarBloques() {
+  if (!bloques.fc || !bloques.cruzar || !colecciones.campos) return;
+  bloques.cruce = bloques.cruzar(colecciones.campos.features, bloques.fc.features, posicionDe);
+}
+
+/** Descarga, cruza y dibuja la capa. Resuelve true si quedo lista. */
+function cargarBloques() {
+  if (bloques.estado === "cargando" || bloques.estado === "lista") return bloques.promesa;
+  bloques.estado = "cargando";
+  fijarEstadoCapa("bloques", "cargando");
+  bloques.promesa = (async () => {
+    try {
+      const [nucleo, cruce, crudos, divisiones] = await Promise.all([
+        import("./bloques/nucleo.js"),
+        import("./bloques/cruce.js"),
+        getBloques2026(),
+        getDivisionesFaja(),
+      ]);
+      // Regla del proyecto: un dato sin fuente no se dibuja.
+      const features = crudos.features.filter((f) => f.properties?.fuente);
+      if (features.length < crudos.features.length) {
+        console.warn(`${crudos.features.length - features.length} bloques sin fuente: no se dibujan.`);
+      }
+      const fc = { type: "FeatureCollection", features };
+      bloques.fc = fc;
+      bloques.cruzar = cruce.cruzarCamposConBloques;
+      bloques.corte = nucleo.corteDeDatos(features);
+      recruzarBloques();
+      const m = await mapaListo;
+      if (m) {
+        m.dibujarBloques(fc, Object.fromEntries(features.map((f) => [f.properties.id, nucleo.estiloBloque(f.properties)])));
+        m.dibujarDivisionesFaja(divisiones);
+      }
+      bloques.estado = "lista";
+      fijarDatosCapa("bloques", fc);
+      return true;
+    } catch (error) {
+      console.error(error);
+      bloques.estado = "error";
+      fijarEstadoCapa("bloques", "error");
+      mostrarError(t("bloques.errorCarga"));
+      return false;
+    }
+  })();
+  return bloques.promesa;
+}
+
+/**
+ * Interruptor de la capa. Con la capa ya cargada es sincrono (volar a un bloque
+ * justo despues lo necesita); si no, devuelve la promesa de la carga.
+ * @param {boolean} encendido
+ * @returns {boolean|Promise<boolean>} false si la carga fallo
+ */
+function alternarCapaBloques(encendido) {
+  bloques.encendida = encendido;
+  if (!encendido) {
+    mapa?.alternarBloques(false);
+    return true;
+  }
+  if (bloques.estado === "lista" && mapa) {
+    mapa.alternarBloques(true);
+    return true;
+  }
+  return cargarBloques().then(async (ok) => {
+    if (ok && bloques.encendida) (await mapaListo)?.alternarBloques(true);
+    return ok;
+  });
+}
+
+/** Bloques (propiedades) que contienen el punto de un campo; vacio si la capa no esta a la vista. */
+function bloquesDelCampo(idCampo) {
+  if (!bloques.encendida || !bloques.cruce) return [];
+  const ids = bloques.cruce.porCampo.get(idCampo) ?? [];
+  return ids.flatMap((id) => bloques.fc.features.filter((f) => f.properties.id === id).map((f) => f.properties));
+}
+
+/** Toque sobre un bloque (sin campo debajo): abre su ficha con los campos que contiene (RF-142). */
+function alSeleccionarBloque(id) {
+  const bloque = bloques.fc?.features.find((f) => f.properties.id === id);
+  if (!bloque) return;
+  estado.sedeSeleccionada = false;
+  mapa?.ocultarLineasProximidad();
+  const campos = (bloques.cruce?.porBloque.get(id) ?? []).map((idCampo) => {
+    const f = colecciones.campos?.features.find((x) => x.properties?.id === idCampo);
+    return { id: idCampo, nombre: f?.properties?.nombre ?? null };
+  });
+  mostrarPanelBloque(bloque, { campos, corte: bloques.corte });
+}
 
 /** Segmentos de cada anillo geodesico. */
 const SEGMENTOS_ANILLO = 96;
@@ -365,6 +477,7 @@ function refrescarInterfaz() {
 function alLlegarColeccion(clave, coleccion) {
   if (!Object.hasOwn(colecciones, clave)) return;
   colecciones[clave] = coleccion;
+  if (clave === "campos") recruzarBloques();
   // D13: los anillos esperan a los campos porque su etiqueta lleva el conteo.
   if (clave === "campos") pintarAnillos();
   refrescarInterfaz();
@@ -438,7 +551,7 @@ function alSeleccionar(activo) {
     mostrarLineasDeSede();
     return;
   }
-  mostrarPanelActivo(activo);
+  mostrarPanelActivo(activo, activo?.id ? { bloquesDelCampo: bloquesDelCampo(activo.id) } : {});
   mapa?.ocultarLineasProximidad();
 }
 
@@ -447,6 +560,8 @@ function retirarModo(def) {
   if (def.anillos) mapa?.quitarAnillos();
   INTERFACES[def.interfaz]?.desmontar();
   fijarCapas(estado.capasPrevias);
+  if (def.interfaz === "ruta" && estado.bloquesPrevios) fijarCapas({ bloques: true });
+  if (def.interfaz === "ruta") estado.bloquesPrevios = false;
 }
 
 /**
@@ -459,6 +574,8 @@ function aplicarModo(id, { arranque = false } = {}) {
   const entrante = DEFINICION_MODOS[id];
   if (estado.actual) retirarModo(DEFINICION_MODOS[estado.actual]);
   estado.actual = id;
+  // RF-161: con el recorrido abierto la capa de bloques se retira; al salir vuelve como estaba.
+  if (entrante.interfaz === "ruta") estado.bloquesPrevios = fijarCapas({ bloques: false }).bloques === true;
   estado.capasPrevias = fijarCapas(
     Object.fromEntries(entrante.capasEncendidas.map((capa) => [capa, true]))
   );
@@ -581,6 +698,7 @@ function arrancarMapa(modulo) {
     modulo.iniciarMapa();
     mapa = modulo;
     modulo.alSeleccionarActivo(alSeleccionar);
+    modulo.alSeleccionarBloqueActivo(alSeleccionarBloque);
     modulo.alTerminarCargaInicial(quitarCargaInicial);
     // Se registra ANTES de dibujar nada: sin banner, map.js se niega a dibujar
     // la capa DEMO. Es una condicion de codigo, no una convencion.
@@ -608,6 +726,10 @@ function arrancar() {
   montarCargaInicial();
   try {
     montarUI();
+    // Sin permiso ni vista previa local, el interruptor no existe y nada se pide (RF-129).
+    if (CAPA_BLOQUES.activa) {
+      registrarCapaBloques({ alternar: alternarCapaBloques, filtrar: (ids) => mapa?.filtrarBloques(ids) });
+    }
     iniciarModo();
     cargarListaIniciativas();
   } catch (error) {

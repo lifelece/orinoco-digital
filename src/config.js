@@ -611,9 +611,12 @@ export const CAPA_BLOQUES = {
  * exige que toda ruta de RUTAS_DATOS exista en public/data, y estos dos
  * archivos no se versionan hasta tener el permiso (ADR-024).
  */
+// Vista previa local (solo `vite dev` + VITE_CAPA_BLOQUES_LOCAL=1, sin permiso): el servidor
+// de desarrollo sirve la carpeta ignorada con los datos reales; nunca entra a public/ ni al build.
+const BASE_BLOQUES = !PERMISO_BLOQUES && CAPA_BLOQUES.activa ? "/data/raw/tv-2026/publicado/" : "/data/";
 export const RUTAS_BLOQUES = {
-  bloques2026: "/data/bloques-2026.geojson",
-  divisionesFaja: "/data/faja-divisiones-2026.geojson",
+  bloques2026: `${BASE_BLOQUES}bloques-2026.geojson`,
+  divisionesFaja: `${BASE_BLOQUES}faja-divisiones-2026.geojson`,
 };
 
 /**

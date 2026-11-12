@@ -226,6 +226,107 @@ const contexto = {
 const ciudad = { ciudadBolivar: false, iniciativas: false };
 const INTERRUPTORES_CIUDAD = ["ciudadBolivar", "iniciativas"];
 
+// --- Capa "Bloques y contratos 2026" (spec 004) -------------------------------
+// Solo existe si main.js registra el control (CAPA_BLOQUES.activa). Sus modulos
+// (nucleo, leyenda/filtros, ficha) se piden al primer encendido: fuera del chunk inicial.
+
+/** @type {{alternar: (encendido: boolean) => (boolean|Promise<boolean>), filtrar: (ids: Set<string>) => void} | null} */
+let controlBloques = null;
+const filtrosVaciosBloques = () => ({ empresas: new Set(), estatus: new Set(), licencias: new Set(), convenio: null });
+const bloquesUI = { encendida: false, m: null, filtros: filtrosVaciosBloques() };
+
+/**
+ * Registra el control de la capa de bloques; sin esta llamada no hay interruptor.
+ * @param {{alternar: Function, filtrar: Function}} control
+ */
+export function registrarCapaBloques(control) {
+  controlBloques = control;
+  montarCapas();
+}
+
+/** Trae nucleo, leyenda/filtros y ficha una sola vez. */
+async function modulosBloques() {
+  if (bloquesUI.m) return bloquesUI.m;
+  const [nucleo, panel, ficha] = await Promise.all([
+    import("./bloques/nucleo.js"),
+    import("./ui/capaBloques.js"),
+    import("./ui/fichaBloque.js"),
+  ]);
+  bloquesUI.m = { nucleo, panel, ficha };
+  return bloquesUI.m;
+}
+
+/** Enciende o apaga la capa como lo haria el usuario; si la carga falla, el interruptor vuelve a apagado. */
+async function cambiarBloques(encendido) {
+  bloquesUI.encendida = encendido;
+  montarCapas();
+  let ok = true;
+  try {
+    if (encendido) await modulosBloques();
+    ok = (await controlBloques.alternar(encendido)) !== false;
+  } catch (error) {
+    console.error(error);
+    ok = false;
+    mostrarError(t("bloques.errorCarga"));
+  }
+  if (encendido && !ok) bloquesUI.encendida = false;
+  montarCapas();
+}
+
+/** Ids de los bloques que pasan los filtros activos. */
+function visiblesBloques() {
+  const features = datosCapas.get("bloques")?.features ?? [];
+  return bloquesUI.m
+    ? bloquesUI.m.nucleo.filtrarBloques(features, bloquesUI.filtros)
+    : new Set(features.map((f) => f.properties.id));
+}
+
+/** Fila del interruptor y, con la capa cargada y encendida, su leyenda y filtros. */
+function htmlBloquesCapas() {
+  if (!controlBloques) return "";
+  const est = estadoCapas.get("bloques");
+  let indicador = "";
+  if (bloquesUI.encendida && est === "cargando") {
+    indicador =
+      '<span class="h-1 w-6 shrink-0 animate-pulse rounded-full bg-lo/40" aria-hidden="true"></span>' +
+      `<span class="sr-only">${esc(t("capa.cargando"))}</span>`;
+  } else if (est === "error") {
+    indicador = `<span class="shrink-0 font-mono text-[11px] text-alerta" title="${esc(t("bloques.errorCarga"))}">${esc(t("capa.error"))}</span>`;
+  }
+  const fila = `
+    <label class="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2 transition-colors hover:bg-white/5 sm:min-h-8">
+      <input type="checkbox" data-bloques="interruptor" ${bloquesUI.encendida ? "checked" : ""} class="h-4 w-4 shrink-0 accent-lo">
+      <span class="min-w-0 flex-1 text-[13px] leading-tight ${bloquesUI.encendida ? "text-hi" : "text-lo"}">${esc(t("bloques.interruptor"))}</span>
+      ${indicador}
+    </label>`;
+  const features = datosCapas.get("bloques")?.features;
+  if (!bloquesUI.encendida || !features || !bloquesUI.m) return fila;
+  const { nucleo, panel } = bloquesUI.m;
+  const visibles = visiblesBloques();
+  return `${fila}<div id="bloques-panel" class="px-2 pb-2">${panel.htmlLeyendaBloques(nucleo.conteoPorCapa(features, visibles), t)}${panel.htmlFiltrosBloques(nucleo.opcionesFiltro(features), bloquesUI.filtros, visibles.size, features.length, t)}</div>`;
+}
+
+/** Conecta el interruptor y los filtros tras repintar el panel de capas. */
+function conectarBloques(nodo) {
+  nodo.querySelector('input[data-bloques="interruptor"]')?.addEventListener("change", async (ev) => {
+    await cambiarBloques(ev.target.checked);
+    nodo.querySelector('input[data-bloques="interruptor"]')?.focus();
+  });
+  const panel = nodo.querySelector("#bloques-panel");
+  if (!panel || !bloquesUI.m) return;
+  bloquesUI.m.panel.montarFiltrosBloques(panel, (filtros) => aplicarFiltrosBloques(filtros, panel));
+}
+
+/** Guarda los filtros, los aplica al mapa y repinta conservando el foco. */
+function aplicarFiltrosBloques(filtros, panel) {
+  const ya = document.activeElement;
+  const marca = panel.contains(ya) && ya?.dataset?.filtro ? { f: ya.dataset.filtro, v: ya.dataset.valor } : null;
+  bloquesUI.filtros = filtros;
+  controlBloques?.filtrar(visiblesBloques());
+  montarCapas();
+  if (marca) document.querySelector(`#bloques-panel [data-filtro="${marca.f}"][data-valor="${marca.v}"]`)?.focus();
+}
+
 const SECTORES = ["upstream", "midstream", "downstream"];
 /** Orden en el control de capas: del fondo del mapa hacia arriba. */
 const CAPAS_CONTEXTO = ["toponimia", "hidrografia", "limites", "disputa", "faja", "centrales"];
@@ -867,6 +968,7 @@ function montarCapas() {
       ${CAPAS_CONTEXTO.map((c) => filaInterruptor(c, contexto[c], "contexto", animar, indiceFila++)).join("")}
       ${encabezado("capa.grupoCiudad")}
       ${INTERRUPTORES_CIUDAD.map((c) => filaInterruptor(c, ciudad[c], "ciudad", animar, indiceFila++)).join("")}
+      ${htmlBloquesCapas()}
       ${
         // El interruptor DEMO solo existe si el grid llego a cargarse. Sin
         // notebook ejecutado no hay capa, y un interruptor que no hace nada
@@ -940,6 +1042,8 @@ function montarCapas() {
       nodo.querySelector(`input[data-ciudad="${clave}"]`)?.focus();
     });
   });
+
+  conectarBloques(nodo);
 
   document.getElementById("chk-demo")?.addEventListener("change", (ev) => {
     demoActiva = ev.target.checked;
@@ -1289,6 +1393,12 @@ function sectorDeCapa(capa, ids) {
 export function fijarCapas(cambios) {
   const previo = {};
   for (const [id, valor] of Object.entries(cambios ?? {})) {
+    if (id === "bloques") {
+      if (!controlBloques) continue;
+      previo.bloques = bloquesUI.encendida;
+      if (Boolean(valor) !== bloquesUI.encendida) cambiarBloques(Boolean(valor));
+      continue;
+    }
     const grupo = [sectores, contexto, ciudad].find((g) => Object.hasOwn(g, id));
     if (!grupo) continue;
     previo[id] = grupo[id];
@@ -1347,6 +1457,52 @@ export function mostrarPanelActivo(activo, extra = {}) {
   apilarVista("panel");
   pintarPanel();
   aplicarHuecoPanel();
+}
+
+/**
+ * Ficha de un bloque (spec 004). La llama main.js al tocarlo en el mapa.
+ * @param {Object} bloque Feature del bloque
+ * @param {{campos?: Array<{id: string, nombre: string|null}>, corte?: string|null}} extra
+ */
+export function mostrarPanelBloque(bloque, extra = {}) {
+  const p = bloque.properties ?? {};
+  mostrarPanelActivo({ tipo: "bloque", id: p.id, nombre: p.nombre, bloque }, extra);
+}
+
+/** HTML de la ficha de un bloque: cabecera del panel + ficha pura (valores de un tercero, escapados ahi). */
+function contenidoFichaBloque(activo) {
+  if (!bloquesUI.m) return "";
+  const fecha = extraActual.corte ?? null;
+  const frescura = { fecha, dias: fecha ? diasDesde(fecha) : null };
+  const ficha = bloquesUI.m.ficha.htmlFichaBloque(
+    activo.bloque,
+    { campos: extraActual.campos ?? [], frescura },
+    { esc, t, enlaceSeguro, numero }
+  );
+  return `
+    <div class="mx-auto mb-2 h-1 w-10 rounded-full bg-white/20 sm:hidden" aria-hidden="true"></div>
+    <div class="flex items-start gap-3">
+      <div class="min-w-0 flex-1">
+        <p class="text-[10px] font-medium uppercase tracking-wider text-lo">${esc(t("bloques.buscar.tipo"))}</p>
+        <h2 id="panel-titulo" class="text-base font-semibold leading-snug text-hi">${esc(t("bloques.tabla.titulo"))}</h2>
+      </div>
+      <button id="btn-cerrar-panel" type="button" aria-label="${esc(t("panel.cerrar"))}"
+        class="-mr-2 -mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-lg text-lo
+               transition hover:bg-white/5 hover:text-hi">${ICONO.cerrar}</button>
+    </div>
+    <div class="mt-2">${ficha}</div>`;
+}
+
+/** Renglon "Bloque: X · Operador 2026: Y" de la ficha de un campo (RF-143); vacio si no cae en ninguno. */
+function renglonesBloquesDeCampo() {
+  return (extraActual.bloquesDelCampo ?? [])
+    .map((b) => {
+      const operador = Array.isArray(b.operadores_2026) && b.operadores_2026.length
+        ? b.operadores_2026.join(", ")
+        : t("bloques.ficha.sinRegistro");
+      return `<p class="mt-2 text-xs leading-relaxed text-lo">${esc(t("bloques.ficha.bloqueEnCampo", { nombre: b.nombre ?? b.id, operador }))}</p>`;
+    })
+    .join("");
 }
 
 /**
@@ -1409,6 +1565,7 @@ function pintarPanel() {
  * @returns {string}
  */
 function contenidoPanel(activo) {
+  if (activo.tipo === "bloque") return contenidoFichaBloque(activo);
   const esCampo = activo.tipo === "campo" || activo.tipo === "pozo";
   const esCentral = activo.tipo === "central";
   const esDemo = activo.tipo === "demo";
@@ -1506,6 +1663,7 @@ function contenidoPanel(activo) {
     </div>
 
     ${avisoHtml}
+    ${esCampo ? renglonesBloquesDeCampo() : ""}
 
     ${ficha ? ficha.cuerpo : filas ? `<dl class="mt-2 divide-y divide-trazo text-[13px]">${filas}</dl>` : ""}
 
