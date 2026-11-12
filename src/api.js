@@ -6,7 +6,7 @@
  * map.js ni ui.js. No lo rompas.
  */
 
-import { RUTAS_DATOS } from "./config.js";
+import { RUTAS_DATOS, RUTAS_BLOQUES } from "./config.js";
 import { validarFeatureCollection, iniciativasSinGeometria } from "./data.js";
 // Semilla en el bundle (D10): sin fetch extra, ~4 KB. Si falta, el build falla fuerte.
 import semillaIniciativas from "../docs/expofaja/semillas/iniciativas-ccieb.json";
@@ -148,6 +148,28 @@ export async function getIniciativasCcieb() {
  */
 export async function getListaIniciativasCcieb() {
   return iniciativasSinGeometria(semillaIniciativas);
+}
+
+/**
+ * Bloques petroleros y gasiferos 2026 (Transparencia Venezuela; spec 004).
+ * Poligonos (Polygon o MultiPolygon) con operadores, estatus y licencia en el
+ * esquema del plan 004 §3.1. Solo se pide cuando el usuario enciende la capa
+ * (RF-131) y solo si la capa esta publicada (RF-129): este modulo no lo decide,
+ * lo decide main.js con `CAPA_BLOQUES.activa`. Un fallo lanza (RF-133).
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getBloques2026() {
+  return cargarGeoJSON(RUTAS_BLOQUES.bloques2026);
+}
+
+/**
+ * Las 4 divisiones de la Faja del Orinoco (Boyaca, Junin, Ayacucho, Carabobo),
+ * como contorno de contexto de la capa de bloques (RF-137). Mismo gate y mismo
+ * origen que `getBloques2026`.
+ * @returns {Promise<FeatureCollection>}
+ */
+export async function getDivisionesFaja() {
+  return cargarGeoJSON(RUTAS_BLOQUES.divisionesFaja);
 }
 
 export { VACIA };
