@@ -1021,6 +1021,14 @@ fuente leida se retira del texto de la escena y no se publica con placeholder.
   — buscar el contenido de azufre del Merey 16 y la gravedad API. Si no abre (suscriptores), D3b queda retirado.
 - Opcional: `https://www.argusmedia.com/es/news/1936642-pdv-to-tap-fractionator-to-replace-imported-naphtha` (pagina vacia para la herramienta).
 
+### Verificacion en navegador (2026-11-12)
+
+Hecha con Edge real controlado por CDP (no con la herramienta de lectura):
+
+- **D2 — leida en navegador.** La pagina de Argus abre y contiene la cita literal: "shortage of domestic production of light grades such as Mesa and Santa Barbara". Su lectura pasa de `indice-exa` a `navegador`.
+- **D3, D3b y D9 (S&P Global) — no se pueden abrir.** Las dos URL de spglobal.com responden "Access Denied" (bloqueo del servidor) tambien en navegador real, con y sin ventana. Un segundo indice de busqueda resume la nota del 31/03/2026 con los mismos datos (≈16 °API, 3,4 % de azufre, precio absoluto y diferenciales contra Brent y WTI), pero sigue siendo lectura de indice, no de pagina. Por la regla de T02 no cambia nada: D3 sigue citando Argus 2019, D9 sigue como `indice` y **D3b sigue retirado**. Reincorporar el 3,4 % de azufre con lectura de indice es decision del autor.
+- **D7 y D8** ya tenian lectura directa (Finanzas Digital y Acceso a la Justicia); el PDF de la Gaceta sigue como `indice-exa`.
+
 ### Estado final de P1 (2026-10-26)
 
 - **Publicado en R5** (`public/data/ruta/recorridos.json`): D1a (reescrito como "estaba previsto", nota 1), D2, D3 (solo lo leido), D4 (con fecha y "instalados", nota 4), D5, D6, D7, D8 (art. 51 incluido en la vigencia, nota 5) y D9. Cada dato lleva `fuente`, `confianza: media` y `ultima_verificacion: 2026-10-26`; `npm test` rechaza un dato sin fuente https.

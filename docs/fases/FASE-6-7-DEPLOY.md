@@ -34,7 +34,7 @@ Variables de entorno **en Vercel, no en el repo**:
 - [x] Enlace a DISCLAIMER visible desde la interfaz
 - [x] Indicador de frescura de datos activo
 - [x] Code-splitting de Cesium revisado
-- [ ] Lighthouse movil en verde. **Medido el 2026-09-17: rendimiento 25, accesibilidad 96, buenas practicas 93, SEO 100.** Mas del 90 % del hilo principal es Cesium y la interfaz no pinta hasta que descarga: no se arregla con ajustes finos sino con carga diferida (P3 de la auditoria). Detalle en `docs/NOTION.md` §4
+- [ ] Lighthouse movil en verde. **Medido el 2026-11-12 en pagespeed.web.dev (Lighthouse 13.6.0, Moto G Power emulado, una carga): mapa `/` rendimiento 60, accesibilidad 100, buenas practicas 96, SEO 100 (FCP 0,9 s, LCP 0,9 s, TBT 34.090 ms, CLS 0,002, Speed Index 15,3 s); `/expofaja` 100/100/100/100 (FCP 0,8 s, LCP 1,1 s, TBT 0 ms, CLS 0).** Datos de campo (CrUX, 28 dias): LCP 2,9 s, INP 191 ms, CLS 0. El mapa no llega a verde: tras la carga diferida (ADR-022) el primer pintado es rapido, pero Cesium sigue ocupando el hilo principal (TBT). Subir de 60 exige sacar trabajo de Cesium del hilo principal o no cargarlo hasta una accion del usuario: es una decision de alcance, no un ajuste fino. Medicion anterior: **2026-09-17: rendimiento 25, accesibilidad 96, buenas practicas 93, SEO 100.** Mas del 90 % del hilo principal es Cesium y la interfaz no pinta hasta que descarga: no se arregla con ajustes finos sino con carga diferida (P3 de la auditoria). Detalle en `docs/NOTION.md` §4
 
 ## Verificacion final
 
