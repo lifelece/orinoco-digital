@@ -1,0 +1,613 @@
+{
+ "type": "FeatureCollection",
+ "name": "bloques-sinteticos",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "B901",
+   "properties": {
+    "id": "B901",
+    "nombre": "Bloque Prueba 1",
+    "capa": "nabep",
+    "operadores_2026": [
+     "Operadora Ficticia A"
+    ],
+    "operadores_antes_2026": [
+     "Operadora Ficticia B"
+    ],
+    "estatus_fuente": "Activo",
+    "estatus_norm": "activo",
+    "licencia_ofac": "Licencia ficticia L1",
+    "tiene_licencia_ofac": true,
+    "convenio_eeuu_vzla": true,
+    "tipo_alianza": "Empresa mixta",
+    "proyecto": "Proyecto Ficticio Uno",
+    "pais_operador": "País Ficticio",
+    "producto": "Petróleo",
+    "zona": "FPO",
+    "entidad_federal": "Estado Ficticio 1",
+    "municipios": [
+     "Municipio Ficticio 1",
+     "Municipio Ficticio 2"
+    ],
+    "area_km2": 400,
+    "registros_vinculados": 2,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "alta",
+    "confianza_cruce": "Alta"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -63,
+       8
+      ],
+      [
+       -62.8,
+       8
+      ],
+      [
+       -62.8,
+       8.2
+      ],
+      [
+       -63,
+       8.2
+      ],
+      [
+       -63,
+       8
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B902",
+   "properties": {
+    "id": "B902",
+    "nombre": "Bloque Prueba 2",
+    "capa": "chevron",
+    "operadores_2026": [
+     "Operadora Ficticia A",
+     "Operadora Ficticia C"
+    ],
+    "operadores_antes_2026": [
+     "Operadora Ficticia B"
+    ],
+    "estatus_fuente": "Intermitente",
+    "estatus_norm": "intermitente",
+    "licencia_ofac": null,
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": "Contrato de participación",
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": "FPO",
+    "entidad_federal": "Estado Ficticio 1",
+    "municipios": [
+     "Municipio Ficticio 1"
+    ],
+    "area_km2": 350,
+    "registros_vinculados": 1,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "media",
+    "confianza_cruce": "Media"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62.7,
+       8
+      ],
+      [
+       -62.5,
+       8
+      ],
+      [
+       -62.5,
+       8.2
+      ],
+      [
+       -62.7,
+       8.2
+      ],
+      [
+       -62.7,
+       8
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B903",
+   "properties": {
+    "id": "B903",
+    "nombre": "Bloque Prueba 3",
+    "capa": "acuerdo_2026",
+    "operadores_2026": [
+     "Operadora Ficticia D"
+    ],
+    "operadores_antes_2026": [],
+    "estatus_fuente": "Paralizado",
+    "estatus_norm": "paralizado",
+    "licencia_ofac": "Licencia ficticia L2",
+    "tiene_licencia_ofac": true,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": "Memorando de entendimiento",
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": "Oriente",
+    "entidad_federal": "Estado Ficticio 2",
+    "municipios": [
+     "Municipio Ficticio 3"
+    ],
+    "area_km2": 120,
+    "registros_vinculados": 1,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "alta",
+    "confianza_cruce": "Alta"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62.4,
+       8
+      ],
+      [
+       -62.199999999999996,
+       8
+      ],
+      [
+       -62.199999999999996,
+       8.2
+      ],
+      [
+       -62.4,
+       8.2
+      ],
+      [
+       -62.4,
+       8
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B904",
+   "properties": {
+    "id": "B904",
+    "nombre": "Bloque Prueba 4",
+    "capa": "sin_registro",
+    "operadores_2026": [],
+    "operadores_antes_2026": [],
+    "estatus_fuente": null,
+    "estatus_norm": "sin_registro",
+    "licencia_ofac": null,
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": null,
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": null,
+    "entidad_federal": null,
+    "municipios": [],
+    "area_km2": null,
+    "registros_vinculados": 0,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "baja",
+    "confianza_cruce": "Sin cruce"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -63,
+       8.3
+      ],
+      [
+       -62.8,
+       8.3
+      ],
+      [
+       -62.8,
+       8.5
+      ],
+      [
+       -63,
+       8.5
+      ],
+      [
+       -63,
+       8.3
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B905",
+   "properties": {
+    "id": "B905",
+    "nombre": "Bloque Prueba 5",
+    "capa": "nabep",
+    "operadores_2026": [
+     "Operadora Ficticia E"
+    ],
+    "operadores_antes_2026": [],
+    "estatus_fuente": "En proyecto",
+    "estatus_norm": "en_proyecto",
+    "licencia_ofac": null,
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": true,
+    "tipo_alianza": null,
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": "Costa afuera",
+    "entidad_federal": "Estado Ficticio 3",
+    "municipios": [],
+    "area_km2": 900,
+    "registros_vinculados": 0,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "alta",
+    "confianza_cruce": "Alta"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        -62.7,
+        8.3
+       ],
+       [
+        -62.5,
+        8.3
+       ],
+       [
+        -62.5,
+        8.5
+       ],
+       [
+        -62.7,
+        8.5
+       ],
+       [
+        -62.7,
+        8.3
+       ]
+      ],
+      [
+       [
+        -62.64,
+        8.34
+       ],
+       [
+        -62.56,
+        8.34
+       ],
+       [
+        -62.56,
+        8.42
+       ],
+       [
+        -62.64,
+        8.42
+       ],
+       [
+        -62.64,
+        8.34
+       ]
+      ]
+     ],
+     [
+      [
+       [
+        -62.4,
+        8.3
+       ],
+       [
+        -62.3,
+        8.3
+       ],
+       [
+        -62.3,
+        8.4
+       ],
+       [
+        -62.4,
+        8.4
+       ],
+       [
+        -62.4,
+        8.3
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B906",
+   "properties": {
+    "id": "B906",
+    "nombre": "Bloque Prueba 6",
+    "capa": "chevron",
+    "operadores_2026": [],
+    "operadores_antes_2026": [],
+    "estatus_fuente": "En evaluación",
+    "estatus_norm": "en_evaluacion",
+    "licencia_ofac": null,
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": null,
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": null,
+    "entidad_federal": null,
+    "municipios": [],
+    "area_km2": null,
+    "registros_vinculados": 0,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-09-30",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "baja",
+    "confianza_cruce": "Sin cruce"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -63,
+       8.6
+      ],
+      [
+       -62.8,
+       8.6
+      ],
+      [
+       -62.8,
+       8.799999999999999
+      ],
+      [
+       -63,
+       8.799999999999999
+      ],
+      [
+       -63,
+       8.6
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B907",
+   "properties": {
+    "id": "B907",
+    "nombre": "Bloque Prueba 7",
+    "capa": "acuerdo_2026",
+    "operadores_2026": [
+     "Operadora Ficticia F"
+    ],
+    "operadores_antes_2026": [],
+    "estatus_fuente": "Sin información",
+    "estatus_norm": "sin_info",
+    "licencia_ofac": null,
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": null,
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": "Centro",
+    "entidad_federal": null,
+    "municipios": [],
+    "area_km2": 80,
+    "registros_vinculados": 0,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "alta",
+    "confianza_cruce": "Alta"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62.9,
+       8.1
+      ],
+      [
+       -62.699999999999996,
+       8.1
+      ],
+      [
+       -62.699999999999996,
+       8.299999999999999
+      ],
+      [
+       -62.9,
+       8.299999999999999
+      ],
+      [
+       -62.9,
+       8.1
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B908",
+   "properties": {
+    "id": "B908",
+    "nombre": "Bloque Prueba 8",
+    "capa": "nabep",
+    "operadores_2026": [
+     "Operadora Ficticia A"
+    ],
+    "operadores_antes_2026": [],
+    "estatus_fuente": "Activo",
+    "estatus_norm": "activo",
+    "licencia_ofac": "Licencia ficticia L3",
+    "tiene_licencia_ofac": true,
+    "convenio_eeuu_vzla": true,
+    "tipo_alianza": null,
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": "Occidente",
+    "entidad_federal": "Estado Ficticio 4",
+    "municipios": [],
+    "area_km2": 60,
+    "registros_vinculados": 0,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "alta",
+    "confianza_cruce": "Alta"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62.7,
+       8.6
+      ],
+      [
+       -62.5,
+       8.6
+      ],
+      [
+       -62.5,
+       8.799999999999999
+      ],
+      [
+       -62.7,
+       8.799999999999999
+      ],
+      [
+       -62.7,
+       8.6
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "B909",
+   "properties": {
+    "id": "B909",
+    "nombre": "Bloque Prueba 9",
+    "capa": "acuerdo_2026",
+    "operadores_2026": [
+     "Operadora Ficticia D"
+    ],
+    "operadores_antes_2026": [
+     "Operadora Ficticia C"
+    ],
+    "estatus_fuente": "Activo",
+    "estatus_norm": "activo",
+    "licencia_ofac": null,
+    "tiene_licencia_ofac": false,
+    "convenio_eeuu_vzla": false,
+    "tipo_alianza": null,
+    "proyecto": null,
+    "pais_operador": null,
+    "producto": null,
+    "zona": "Oriente",
+    "entidad_federal": "Estado Ficticio 2",
+    "municipios": [],
+    "area_km2": 75,
+    "registros_vinculados": 0,
+    "fuente": "Dato sintético de prueba, inventado; no corresponde a ninguna fuente real",
+    "fuente_url": "https://example.org/sintetico",
+    "fuente_poligonos": "Polígonos sintéticos de prueba",
+    "fecha_corte": "2026-10-31",
+    "ultima_verificacion": "2026-11-11",
+    "confianza": "alta",
+    "confianza_cruce": "Alta"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62.4,
+       8.6
+      ],
+      [
+       -62.199999999999996,
+       8.6
+      ],
+      [
+       -62.199999999999996,
+       8.799999999999999
+      ],
+      [
+       -62.4,
+       8.799999999999999
+      ],
+      [
+       -62.4,
+       8.6
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
