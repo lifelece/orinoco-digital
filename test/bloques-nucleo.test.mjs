@@ -124,3 +124,19 @@ test("las funciones no modifican sus entradas", () => {
   corteDeDatos(features);
   assert.deepEqual(features, copia);
 });
+
+// --- T15: buscador (RF-151) ---
+import { buscarBloques } from "../src/bloques/nucleo.js";
+
+test("buscarBloques: por nombre, por id y sin distinguir mayusculas", () => {
+  assert.equal(buscarBloques(features, "prueba 3")[0].id, "B903");
+  assert.deepEqual(buscarBloques(features, "b907").map((b) => b.id), ["B907"]);
+  assert.equal(buscarBloques(features, "BLOQUE PRUEBA", 20).length, 9);
+});
+
+test("buscarBloques: id exacto primero, limite y consulta corta o sin resultados", () => {
+  assert.equal(buscarBloques(features, "B905", 3)[0].id, "B905");
+  assert.equal(buscarBloques(features, "bloque", 3).length, 3);
+  assert.deepEqual(buscarBloques(features, "b"), []);
+  assert.deepEqual(buscarBloques(features, "zzz"), []);
+});

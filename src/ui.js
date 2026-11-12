@@ -32,6 +32,7 @@ import {
   COLOR_LIMITE,
   COLOR_TOPONIMIA,
   COLOR_CIUDAD,
+  COLOR_CAPA_BLOQUE,
   UMBRAL_FRESCURA_DIAS,
   ESPERA_MAXIMA_CARGA,
   FUENTES,
@@ -1112,7 +1113,7 @@ export function fijarDatosCapa(clave, featureCollection) {
   if (["campos", "ductos", "downstream", "centrales", "ciudadBolivar", "iniciativasCcieb"].includes(clave)) {
     construirIndice();
   }
-  if (clave === "campos") montarTabla();
+  if (clave === "campos" || clave === "bloques") montarTabla();
   montarCapas();
 }
 
@@ -1220,15 +1221,35 @@ function buscar(consulta) {
   const q = normalizar(consulta).trim();
   if (q.length < 2) return [];
   const palabras = q.split(/\s+/);
-  return indiceBusqueda
+  const base = indiceBusqueda
     .filter((e) => palabras.every((p) => e.normal.includes(p)))
     .map((e) => ({
       e,
       peso: e.normal.startsWith(q) ? 0 : e.normal.includes(` ${palabras[0]}`) ? 1 : 2,
     }))
     .sort((a, b) => a.peso - b.peso || a.e.nombre.length - b.e.nombre.length)
-    .slice(0, 8)
     .map(({ e }) => e);
+  const delBloque = entradasBloques(consulta);
+  return [...base.slice(0, 8 - delBloque.length), ...delBloque];
+}
+
+/** Entradas del buscador para los bloques (RF-151): por nombre o id, solo con la capa cargada. */
+function entradasBloques(consulta) {
+  const features = datosCapas.get("bloques")?.features;
+  if (!features || !bloquesUI.m) return [];
+  return bloquesUI.m.nucleo.buscarBloques(features, consulta, 4).map(({ id, nombre }) => {
+    const capa = features.find((f) => f.properties.id === id)?.properties.capa;
+    return {
+      capa: "bloques",
+      ids: [id],
+      nombre,
+      normal: normalizar(nombre),
+      tipo: "bloque",
+      claveTipo: "bloques.buscar.tipo",
+      color: COLOR_CAPA_BLOQUE[capa] ?? COLOR_CAPA_BLOQUE.sin_registro,
+      sector: null,
+    };
+  });
 }
 
 function pintarResultados() {
@@ -1353,6 +1374,17 @@ export function irAActivo({ capa, ids, sector }) {
   if (capa === "centrales" && !contexto.centrales) {
     contexto.centrales = true;
     alternarContexto("centrales", true);
+  }
+  if (capa === "bloques" && controlBloques) {
+    // RF-151: la capa se enciende y los filtros que ocultan el bloque se quitan.
+    if (!bloquesUI.encendida) {
+      bloquesUI.encendida = true;
+      controlBloques.alternar(true);
+    }
+    if (!visiblesBloques().has(ids[0])) {
+      bloquesUI.filtros = filtrosVaciosBloques();
+      controlBloques.filtrar(visiblesBloques());
+    }
   }
   const claveCiudad = INTERRUPTORES_CIUDAD.find((c) => CAPAS_DE_INTERRUPTOR[c][0] === capa);
   if (claveCiudad && !ciudad[claveCiudad]) {
@@ -1859,6 +1891,8 @@ function montarTabla() {
         </table>
       </div>
 
+      ${htmlTablaBloques(celda)}
+
       <p class="mt-6 text-xs text-lo">${esc(t("pie.atribucionCorta"))}</p>
     </div>
   `;
@@ -1868,7 +1902,75 @@ function montarTabla() {
   nodo.onclick = (ev) => {
     const boton = ev.target.closest("[data-ir]");
     if (boton) irAActivo({ capa: "campos", ids: [boton.dataset.ir], sector: "upstream" });
+    const bloque = ev.target.closest("[data-ir-bloque]");
+    if (bloque) irAActivo({ capa: "bloques", ids: [bloque.dataset.irBloque] });
   };
+}
+
+/**
+ * Seccion de bloques de la tabla (RF-150): en texto, respetando los filtros
+ * activos. Los valores son de un tercero: todos pasan por esc().
+ * @param {string} celda clase comun de las celdas
+ * @returns {string}
+ */
+function htmlTablaBloques(celda) {
+  const features = datosCapas.get("bloques")?.features;
+  if (!features || !bloquesUI.m) return "";
+  const visibles = visiblesBloques();
+  const filas = features
+    .filter((f) => visibles.has(f.properties.id))
+    .map(({ properties: p }) => {
+      const operador = Array.isArray(p.operadores_2026) && p.operadores_2026.length
+        ? p.operadores_2026.join(", ")
+        : t("bloques.ficha.sinRegistro");
+      const capa = p.capa in COLOR_CAPA_BLOQUE ? t(`bloques.capa.${p.capa}`) : t("bloques.capa.sin_registro");
+      return `
+      <tr class="border-b border-trazo align-top">
+        <th scope="row" class="${celda} text-left font-medium text-hi">${esc(p.nombre ?? p.id)}</th>
+        <td class="${celda} text-hi/90">${esc(capa)}</td>
+        <td class="${celda} text-hi/90">${esc(operador)}</td>
+        <td class="${celda} text-hi/90">${esc(p.estatus_norm ? t(`bloques.estatus.${p.estatus_norm}`) : t("bloques.ficha.sinDato"))}</td>
+        <td class="${celda} text-hi/90">${esc(p.licencia_ofac || t("bloques.ficha.sinLicencia"))}</td>
+        <td class="${celda} text-hi/90">${esc(t(p.convenio_eeuu_vzla === true ? "bloques.ficha.convenioSi" : "bloques.ficha.convenioNo"))}</td>
+        <td class="py-1.5">
+          <button type="button" data-ir-bloque="${esc(p.id)}"
+            aria-label="${esc(`${t("tabla.verEnMapa")}: ${p.nombre ?? p.id}`)}"
+            class="inline-flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-lg border border-trazo px-2.5 text-xs text-hi transition hover:bg-white/5">
+            ${ICONO.faja}<span>${esc(t("tabla.verEnMapa"))}</span>
+          </button>
+        </td>
+      </tr>`;
+    })
+    .join("");
+  const cab = (clave) => `<th scope="col" class="py-2 pr-3 first:pl-3">${esc(t(clave))}</th>`;
+  return `
+      <h2 class="mt-8 text-lg font-semibold text-hi">${esc(t("bloques.tabla.titulo"))}</h2>
+      <p class="mt-1 font-mono text-xs text-lo" role="status">${esc(t("bloques.filtros.contador", { n: visibles.size, N: features.length }))}</p>
+      <div class="mt-4 overflow-x-auto rounded-xl border border-trazo">
+        <table class="w-full min-w-[60rem] border-collapse text-[13px]">
+          <caption class="sr-only">${esc(t("bloques.tabla.titulo"))}</caption>
+          <thead>
+            <tr class="border-b border-trazo bg-elev text-left text-[10px] uppercase tracking-wider text-lo">
+              ${cab("bloques.tabla.nombre")}${cab("bloques.tabla.capa")}${cab("bloques.tabla.operador")}${cab("bloques.tabla.estatus")}${cab("bloques.tabla.licencia")}${cab("bloques.tabla.convenio")}${cab("tabla.columnaMapa")}
+            </tr>
+          </thead>
+          <tbody class="[&_th]:pl-3">${filas}</tbody>
+        </table>
+      </div>`;
+}
+
+/** Atribucion de la capa de bloques en el panel de fuentes (RF-144), con la fecha de corte; vacia si no esta cargada. */
+function htmlFuenteBloques() {
+  const features = datosCapas.get("bloques")?.features;
+  if (!features || !bloquesUI.m) return "";
+  const corte = bloquesUI.m.nucleo.corteDeDatos(features);
+  const url = enlaceSeguro(features[0]?.properties?.fuente_url);
+  const texto = esc(t("bloques.fuente"));
+  return `
+          <li class="py-2.5">
+            ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-start gap-1.5 text-hi underline decoration-trazo underline-offset-2 hover:decoration-hi"><span>${texto}</span><span class="mt-0.5 shrink-0 text-lo">${ICONO.externo}</span></a>` : `<span class="text-hi">${texto}</span>`}
+            ${corte ? `<p class="mt-0.5 font-mono text-[11px] text-lo">${esc(t("bloques.ficha.corte", { fecha: corte }))}</p>` : ""}
+          </li>`;
 }
 
 // --- Dialogo de fuentes y licencias ------------------------------------------
@@ -1941,7 +2043,7 @@ function pintarFuentes() {
             </a>
             <p class="mt-0.5 font-mono text-[11px] text-lo">${esc(t(f.licencia))}</p>
           </li>`
-        ).join("")}
+        ).join("")}${htmlFuenteBloques()}
       </ul>
 
       <a href="${REPO}/blob/main/docs/DATA_SOURCES.md" target="_blank" rel="noopener noreferrer"

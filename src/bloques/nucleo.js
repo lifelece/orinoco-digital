@@ -118,3 +118,31 @@ export function corteDeDatos(features) {
   }
   return corte;
 }
+
+const sinTildes = (s) =>
+  String(s ?? "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase();
+
+/**
+ * Busca bloques por nombre o id (RF-151): todas las palabras deben aparecer, sin
+ * distinguir tildes ni mayusculas; primero los que empiezan por lo escrito y los
+ * ids exactos. Menos de 2 caracteres no busca.
+ * @param {Array<{properties: {id?: string, nombre?: string}}>} features
+ * @param {string} consulta
+ * @param {number} [limite=8]
+ * @returns {Array<{id: string, nombre: string}>}
+ */
+export function buscarBloques(features, consulta, limite = 8) {
+  const q = sinTildes(consulta).trim();
+  if (q.length < 2) return [];
+  const palabras = q.split(/\s+/);
+  return features
+    .map(({ properties: p }) => ({ id: p?.id, nombre: p?.nombre ?? p?.id, texto: sinTildes(`${p?.nombre ?? ""} ${p?.id ?? ""}`) }))
+    .filter((b) => b.id && palabras.every((w) => b.texto.includes(w)))
+    .map((b) => ({ b, peso: sinTildes(b.id) === q ? 0 : b.texto.startsWith(q) ? 1 : 2 }))
+    .sort((a, c) => a.peso - c.peso || COMPARAR(a.b.nombre, c.b.nombre))
+    .slice(0, limite)
+    .map(({ b }) => ({ id: b.id, nombre: b.nombre }));
+}
