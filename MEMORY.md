@@ -3,16 +3,15 @@
 > Maximo 50 lineas. Lo actualiza la ultima tarea de cada spec y `/depurar`.
 > Lo viejo se condensa, no se acumula. Historia completa: docs/PROCESO.md.
 
-## Estado (2026-10-24)
+## Estado (2026-11-12)
 
-- Produccion: orinoco-digital.vercel.app (main `aa108df`). Merge a `main` = deploy. Nada abierto en GitHub (0 PR, 0 issues).
+- Produccion: orinoco-digital.vercel.app (main `dc5bfff`, PR #36, 2026-11-12). Merge a `main` = deploy. `npm test`: 428/428 y `verificar:modulos` sin violaciones (2026-11-12).
 - v1.0: fases 0-3 y 5 cerradas (2026-09-09); 4 saltada (ADR-010). Tag `v1.0` el 2026-10-24 (21bb20f); release y DOI de Zenodo el mismo dia: 10.5281/zenodo.23628475 (todas las versiones; v1.0 = .23628476).
 - ExpoFaja 2026 (15-17/10) con la CCIEB: E1 modo Ciudad Bolivar, E2 micrositio `/expofaja`, E3 embed, E4.1 memoria; .ics (RF-78, #17); despejar pantalla en movil y "Ver agenda" (RF-22/23, #18); UI movil 390 px (#21). Desde el 2026-10-18 la portada vuelve a la vista nacional (`PORTADA_POR_FECHA`, `src/config.js:309`); el modo sigue en `/?modo=ciudadBolivar`.
 - Identidad "instrumento de cuenca" (ADR-021) y carga diferida de Cesium (ADR-022, #11, #22): FCP 7,6 s -> 1,0 s aprox. en 4G lenta.
 - Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
-- `npm test`: 196/196 y `verificar:modulos` sin violaciones (2026-10-24).
 - Ruta de aprendizaje (spec 003, ADR-023 aceptado): P1 (piloto R5) implementada en la rama `ruta-r5` (T01, T03-T14), en produccion desde el PR #29 (2026-11-03) con el gate en telefono superado. Fuentes: D2 leida en navegador el 2026-11-12; las paginas de S&P Global (D3, D3b, D9) responden "Access Denied" tambien en navegador real, asi que D3b sigue retirado (`docs/DATA_SOURCES.md` §18). Siguiente: P2 (sin empezar; la decide el autor).
-- Capa "Bloques y contratos 2026" (spec 004, ADR-024): ACTIVADA el 2026-11-12 por decision del autor (rama `capa-activa`). Datos de Transparencia Venezuela publicados con atribucion y sin licencia expresa (`docs/DATA_SOURCES.md` §19): si la fuente pide retirarla, `permisoRedistribucion: false` la apaga. Tres opacidades, no rayado. Gate en telefono superado y en produccion desde el PR #34 (2026-11-12). Desde la rama `bloques-integrada` arranca ENCENDIDA junto al resto de los datos (RF-162, `CAPA_BLOQUES.encendidaAlInicio`; fuera del recorrido). Queda medir rendimiento (T16), ahora con la capa encendida al inicio (+453 kB de GeoJSON sin comprimir).
+- Capa "Bloques y contratos 2026" (spec 004, ADR-024): ACTIVADA el 2026-11-12 por decision del autor (rama `capa-activa`). Datos de Transparencia Venezuela publicados con atribucion y sin licencia expresa (`docs/DATA_SOURCES.md` §19): si la fuente pide retirarla, `permisoRedistribucion: false` la apaga. Tres opacidades, no rayado. Gate en telefono superado y en produccion desde el PR #34 (2026-11-12). Arranca ENCENDIDA junto al resto de los datos (RF-162, `CAPA_BLOQUES.encendidaAlInicio`; en el recorrido se enciende al salir): en produccion desde el PR #36 (2026-11-12), gate del autor superado. Queda medir rendimiento (T16), ahora con la capa encendida al inicio (+453 kB de GeoJSON sin comprimir).
 - Bitacoras en Notion: "Bitacora 12-13 Oct 2026" y "Bitacora 24 Oct 2026".
 
 ## Abierto (del autor)
@@ -48,3 +47,4 @@
 13. Medir rendimiento sin token -> Vite elimina Cesium (13 kB) -> construir con `VITE_CESIUM_TOKEN` (real o ficticio) por entorno.
 14. Hoja inferior del recorrido sin texto en 844x390 -> el nivel y el rotulo comian los 176 px de 45 vh -> compactar en alto < 500 px y capturar con el globo (build con `.env`, no una copia sin token).
 15. Tiempos de vuelo medidos en Edge sin GPU (SwiftShader) no valen para RF-87 -> cronometrar en el telefono real.
+16. Globo en negro con marcadores y estrellas (2026-11-12) -> Cesium ion rechazo el token (401 `INVALID_TOKEN`): al editarlo en ion (p. ej. sus Allowed URLs) se reemite con otra cadena y la anterior deja de valer -> tras tocar el token, actualizar `VITE_CESIUM_TOKEN` en Vercel y redesplegar (Vite lo incrusta al compilar). En local, un token restringido por dominio da 403 si `localhost` no esta en Allowed URLs.
