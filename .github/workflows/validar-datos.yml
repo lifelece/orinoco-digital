@@ -11,11 +11,15 @@ on:
     paths:
       - "public/data/**"
       - "scripts/validate-geojson.mjs"
+      - "scripts/validar-bloques.mjs"
+      - "src/bloques/**"
       - ".github/workflows/validar-datos.yml"
   pull_request:
     paths:
       - "public/data/**"
       - "scripts/validate-geojson.mjs"
+      - "scripts/validar-bloques.mjs"
+      - "src/bloques/**"
       - ".github/workflows/validar-datos.yml"
   workflow_dispatch:
 
@@ -33,3 +37,7 @@ jobs:
           node-version: 22
       - name: Validar GeoJSON (geometria, CRS y procedencia)
         run: node scripts/validate-geojson.mjs
+      # Capa "Bloques y contratos 2026" (spec 004): verde con "capa no publicada" si los
+      # archivos no existen (estado normal sin permiso de redistribucion, ADR-024).
+      - name: Validar capa Bloques y contratos 2026
+        run: node scripts/validar-bloques.mjs

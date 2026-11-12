@@ -135,3 +135,80 @@ test("fixtures completos: bloques, registros del CSV y conteos cuadran", () => {
   assert.deepEqual(r.avisos, []);
   assert.equal(r.sinBloque, 1);
 });
+
+// --- T08: CLI scripts/validar-bloques.mjs (RF-158) y regla de modulos ---
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+
+const CLI = join(RAIZ, "scripts", "validar-bloques.mjs");
+const VERIFICAR = join(RAIZ, "scripts", "verificar-modulos.mjs");
+const correrCli = (...args) => spawnSync(process.execPath, [CLI, ...args], { encoding: "utf8" });
+
+function conCarpeta(prueba) {
+  const dir = mkdtempSync(join(tmpdir(), "bloques-cli-"));
+  try { return prueba(dir); } finally { rmSync(dir, { recursive: true, force: true }); }
+}
+
+test("RF-158: sin archivos publicados el CLI termina en verde con 'capa no publicada'", () => {
+  conCarpeta((dir) => {
+    const r = correrCli(dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, /capa no publicada/);
+  });
+});
+
+test("RF-158: archivos publicados validos pasan (fixtures sinteticos como publicados)", () => {
+  conCarpeta((dir) => {
+    writeFileSync(join(dir, "bloques-2026.geojson"), JSON.stringify(bloques()));
+    writeFileSync(join(dir, "faja-divisiones-2026.geojson"), JSON.stringify(divisiones()));
+    const r = correrCli(dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.doesNotMatch(r.stdout, /capa no publicada/);
+  });
+});
+
+test("RF-158: un archivo publicado malo hace fallar el CLI y lista el error", () => {
+  conCarpeta((dir) => {
+    const malo = bloques();
+    malo.features[0].properties.capa = "inventada";
+    writeFileSync(join(dir, "bloques-2026.geojson"), JSON.stringify(malo));
+    writeFileSync(join(dir, "faja-divisiones-2026.geojson"), JSON.stringify(divisiones()));
+    const r = correrCli(dir);
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /capa fuera de vocabulario/);
+  });
+});
+
+test("RF-158: si solo existe uno de los dos archivos, falla (publicacion a medias)", () => {
+  conCarpeta((dir) => {
+    writeFileSync(join(dir, "bloques-2026.geojson"), JSON.stringify(bloques()));
+    const r = correrCli(dir);
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /faja-divisiones-2026\.geojson/);
+  });
+});
+
+test("RF-158: JSON ilegible hace fallar el CLI sin traza", () => {
+  conCarpeta((dir) => {
+    writeFileSync(join(dir, "bloques-2026.geojson"), "{no es json");
+    writeFileSync(join(dir, "faja-divisiones-2026.geojson"), JSON.stringify(divisiones()));
+    const r = correrCli(dir);
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /bloques-2026\.geojson/);
+  });
+});
+
+test("verificar:modulos falla si src/bloques/* usa document o fetch, y no por texto en comentarios", () => {
+  const prueba = (contenido) => conCarpeta((dir) => {
+    mkdirSync(join(dir, "bloques"));
+    writeFileSync(join(dir, "bloques", "x.js"), contenido);
+    return spawnSync(process.execPath, [VERIFICAR], { encoding: "utf8", env: { ...process.env, VERIFICAR_MODULOS_SRC: dir } });
+  });
+  const conDocument = prueba("export const a = () => document.body;\n");
+  assert.equal(conDocument.status, 1);
+  assert.match(conDocument.stderr, /src\/bloques\/x\.js/);
+  assert.equal(prueba("export const a = () => fetch('/x');\n").status, 1);
+  assert.equal(prueba("// no usa document ni fetch(\nexport const a = 1;\n").status, 0);
+  assert.equal(prueba("import * as C from 'cesium';\nexport const a = 1;\n").status, 1);
+});

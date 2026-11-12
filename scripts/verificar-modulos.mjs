@@ -36,7 +36,9 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, extname, join, relative } from "node:path";
 
-const RAIZ_SRC = join(dirname(fileURLToPath(import.meta.url)), "..", "src");
+// VERIFICAR_MODULOS_SRC solo lo usan los tests para apuntar a una carpeta de prueba.
+const RAIZ_SRC =
+  process.env.VERIFICAR_MODULOS_SRC ?? join(dirname(fileURLToPath(import.meta.url)), "..", "src");
 
 /** Archivos que SI pueden importar "cesium". Ruta relativa a src/, con "/". */
 const PERMITE_CESIUM = new Set(["map.js"]);
@@ -86,6 +88,7 @@ const PERMITE_MARCAS_MODO = new Set(["config.js", "ui/modoCiudadBolivar.js"]);
  * que nada del chunk inicial puede arrastrarlos con un import estatico.
  */
 const RE_IMPORT_UI_O_MAP = /\bimport\b[^;\n]*["'][^"']*\/(?:ui|map)(?:\.js)?["']/;
+const RE_DOM_DOCUMENT = /\bdocument\b/;
 const RE_DOM_GLOBAL = /\b(?:document|window)\b/;
 const RE_IMPORT_RECORRIDO = /\bimport\b[^;\n]*["'][^"']*\brecorrido(?:\.js)?["']/;
 /** Import/export ESTATICO de algo bajo src/ruta/ o de ui/recorrido (no el dinamico import(...)). */
@@ -189,6 +192,17 @@ function verificar() {
     }
     if (NO_IMPORTAN_RUTA.has(rel) && RE_IMPORT_RUTA_ESTATICO.test(contenido)) {
       errores.push(`src/${rel}: importa src/ruta/* o ui/recorrido.js de forma estatica. Solo con import() dinamico (plan 003 §3.9, Arsenal 34).`);
+    }
+
+    // --- Capa Bloques (spec 004, plan §2): src/bloques/* es puro, sin DOM, sin red, sin cesium ---
+    if (rel.startsWith("bloques/")) {
+      const codigoBloques = sinComentarios(contenido);
+      if (RE_DOM_DOCUMENT.test(codigoBloques)) {
+        errores.push(`src/${rel}: usa document. src/bloques/ es puro, sin DOM (spec 004).`);
+      }
+      if (RE_FETCH.test(codigoBloques)) {
+        errores.push(`src/${rel}: usa fetch(. src/bloques/ es puro, sin red (spec 004).`);
+      }
     }
 
     const esInterfaz = rel === "ui.js" || rel.startsWith("ui/");
