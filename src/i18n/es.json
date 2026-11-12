@@ -323,7 +323,7 @@
   "bloques.estatus.sin_info": "Sin información",
   "bloques.estatus.sin_registro": "Sin registro",
   "bloques.grupo.operando": "Relleno sólido: operando (activo o intermitente)",
-  "bloques.grupo.detenido": "Relleno rayado: detenido (paralizado)",
+  "bloques.grupo.detenido": "Relleno medio: detenido (paralizado)",
   "bloques.grupo.sin_operacion_registrada": "Relleno tenue: sin operación registrada (en proyecto, en evaluación, sin información o sin registro)",
   "bloques.leyenda.titulo": "Leyenda de bloques",
   "bloques.leyenda.rellenoTitulo": "Relleno: el color indica la capa y el tratamiento indica el estatus",

@@ -27,7 +27,7 @@ function esc(valor) {
 
 const MUESTRA_RELLENO = {
   operando: `background:${GRIS}`,
-  detenido: `background:repeating-linear-gradient(45deg,${GRIS} 0 2px,transparent 2px 5px)`,
+  detenido: `background:${GRIS};opacity:.6`, // el mapa usa 3 opacidades, no rayado (T13)
   sin_operacion_registrada: `background:${GRIS};opacity:.3`,
 };
 

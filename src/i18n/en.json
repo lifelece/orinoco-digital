@@ -323,7 +323,7 @@
   "bloques.estatus.sin_info": "No information",
   "bloques.estatus.sin_registro": "No record",
   "bloques.grupo.operando": "Solid fill: operating (active or intermittent)",
-  "bloques.grupo.detenido": "Hatched fill: halted",
+  "bloques.grupo.detenido": "Medium fill: halted",
   "bloques.grupo.sin_operacion_registrada": "Faint fill: no operation recorded (planned, under evaluation, no information or no record)",
   "bloques.leyenda.titulo": "Blocks legend",
   "bloques.leyenda.rellenoTitulo": "Fill: color shows the layer and the treatment shows the status",
