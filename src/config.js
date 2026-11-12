@@ -621,7 +621,7 @@ export const RUTAS_BLOQUES = {
 
 /**
  * Color de relleno por `capa` del bloque.
- * SIN VERIFICAR: paleta provisional, la aprueba Luis en el gate (spec 004).
+ * Paleta aprobada por Luis en el gate en telefono del 2026-11-12 (PR #34): sin ambar ni azul.
  */
 export const COLOR_CAPA_BLOQUE = {
   nabep: "#e0449a",

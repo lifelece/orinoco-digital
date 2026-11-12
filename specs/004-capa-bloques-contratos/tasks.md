@@ -31,6 +31,8 @@
 ⛔ STOP: gate de Luis (abajo). No se abre PR hasta aplicar el QA; Luis mergea.
 
 ## Verificación de Luis (al final, teléfono real, DevTools cerrado)
+
+> **Gate superado el 2026-11-12.** Luis revisó la capa encendida en su teléfono, sobre la vista previa del PR #34 (no en local), y respondió "se ve bien": dibujo, fluidez, ficha, paleta e inglés. Mergeó el #34 el mismo día; la capa está en producción. La lista de abajo se conserva como estaba escrita antes de la activación.
 - [ ] Build de producción (Vercel preview del PR): no aparece el interruptor de bloques.
 - [ ] Vista previa local (`npm run dev:host` con `VITE_CAPA_BLOQUES_LOCAL=1` y el archivo generado por el conversor en tu equipo): enciendes la capa, se ve en ≤ 3 s y se mueve con fluidez.
 - [ ] Distingues capas, estatus y licencia sin leer los colores (leyenda, rayado, borde).

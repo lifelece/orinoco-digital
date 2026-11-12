@@ -1273,7 +1273,7 @@ Cesium.
 
 ## ADR-024 — M16 v2: poligonos en vez de `campo_id`, con gate de licencia
 
-**Fecha:** 2026-11-12 · **Estado:** Propuesto (espera la aprobacion de Luis; spec 004).
+**Fecha:** 2026-11-12 · **Estado:** Aceptado por Luis el 2026-11-12 (gate en telefono real sobre la vista previa del PR #34; en produccion desde ese merge).
 
 **Contexto.** M16 (capa de contratos y bloques) estaba planteada como atributos por `campo_id` sobre los campos del mapa. La fuente 2026 trae 303 poligonos de bloques con operador 2026, operador anterior, estatus, licencia OFAC y acuerdo EE. UU.-Venezuela, mas 4 divisiones de la Faja y registros de acuerdos vinculados a bloques (ver `docs/DATA_SOURCES.md` §19). La fuente declara atribucion obligatoria; la licencia de redistribucion de Transparencia Venezuela y del autor de los poligonos no esta confirmada.
 

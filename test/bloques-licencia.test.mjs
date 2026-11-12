@@ -47,12 +47,12 @@ test("RF-160: con permiso, exige archivos validos y la linea de permiso con fech
   for (const a of ARCHIVOS) assert.ok(!lineas.includes(a), `${a} sigue en .gitignore con permiso`);
 });
 
-test("config: 4 capas, 7 estatus en 3 grupos sin solapes, paleta marcada SIN VERIFICAR", () => {
+test("config: 4 capas, 7 estatus en 3 grupos sin solapes, paleta aprobada en el gate", () => {
   assert.deepEqual(Object.keys(COLOR_CAPA_BLOQUE).sort(), ["acuerdo_2026", "chevron", "nabep", "sin_registro"]);
   const todos = Object.values(GRUPO_ESTATUS_BLOQUE).flat();
   assert.equal(todos.length, 7);
   assert.equal(new Set(todos).size, 7);
   assert.deepEqual(Object.keys(GRUPO_ESTATUS_BLOQUE).sort(), ["detenido", "operando", "sin_operacion_registrada"]);
   const cfg = readFileSync(join(RAIZ, "src/config.js"), "utf8");
-  assert.match(cfg, /SIN VERIFICAR[^]{0,400}COLOR_CAPA_BLOQUE|COLOR_CAPA_BLOQUE[^]{0,200}SIN VERIFICAR/);
+  assert.match(cfg, /Paleta aprobada por Luis[^]{0,200}COLOR_CAPA_BLOQUE/); // gate del 2026-11-12
 });
