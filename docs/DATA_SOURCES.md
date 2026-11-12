@@ -1041,3 +1041,30 @@ Hecha con Edge real controlado por CDP (no con la herramienta de lectura):
 - **D10** ("transferencia de custodia = medicion fiscal" en José): sin fuente publica hallada; no se publica
   (`[fuente_pendiente]`). El Reglamento (Decreto 5.381, GOE 7.052, 07/07/2026) es el candidato a revisar.
 - **D1b**: fuera (nota 2). Opcional Platts Merey 16 FOB Venezuela (05/10/2026): fuera de P1.
+
+## 19. Capa "Bloques y contratos 2026" — Transparencia Venezuela y poligonos (spec 004, ADR-024)
+
+**Estado de la licencia: NO confirmada.** Atribucion obligatoria segun el README de la fuente. Sin permiso, los datos no se suben al repo ni se publican: viven en `data/raw/tv-2026/` (ignorado por git) y los dos archivos publicados estan en `.gitignore`.
+
+- **Fuente de asignaciones:** Transparencia Venezuela, "Mapa del negocio petrolero en Venezuela 2026" (https://transparenciave.org/mapapetrolero/). Corte de datos: 2026-10-31. Extraido: 2026-11-11.
+- **Fuente de poligonos:** repositorio publico ESRI del prof. Carlos Gonzalez (datos del Ministerio de Petroleo, hoy de Hidrocarburos), segun el README de la fuente.
+- **Confianza:** la que declara la fuente en `confianza_cruce`, traducida a `alta`/`media`/`baja` (plan 004 §3.1). Sin cifras propias.
+- **Ultima verificacion:** [fecha por fijar al convertir; plan 004 §3.1].
+
+### Comandos (los crea la tarea T07)
+
+```
+node scripts/bloques-tv-a-geojson.mjs            # salida en data/raw/tv-2026/publicado/ (no versionada)
+node scripts/bloques-tv-a-geojson.mjs --publicar # escribe en public/data/ (solo tras el permiso)
+node scripts/validar-bloques.mjs                 # valida public/data/ si existe; si no, "capa no publicada"
+```
+
+### Archivos publicados (excluidos de git hasta el permiso)
+
+`public/data/bloques-2026.geojson` y `public/data/faja-divisiones-2026.geojson`. Esquema en `specs/004-capa-bloques-contratos/plan.md` §3.1. Los registros de contratos no se publican.
+
+### Permiso de redistribucion
+
+Formato de la linea (la exige el test RF-160 cuando el permiso esta registrado): `Permiso de redistribucion: AAAA-MM-DD — alcance`.
+
+Permiso de redistribucion: [pendiente — sin fecha ni alcance]

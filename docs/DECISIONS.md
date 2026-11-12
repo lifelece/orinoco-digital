@@ -1270,3 +1270,34 @@ Cesium.
 **Como se mide.** `npm test` (motor, validador, archivo real, `modoPedido`, i18n, `verificar:modulos`); `npm run build` y gzip del chunk inicial y del chunk del recorrido; vuelo de camara cronometrado del clic al fin del vuelo; capturas 1440x900, 390x844 y 844x390 en ES y EN; Chrome DevTools MCP para URLs, historial y red; gate: Luis en telefono real con DevTools cerrado y una persona ajena al tema que entienda R5 sin explicacion.
 
 **Constancia de P1 (2026-10-26).** La decision se cumplio tal como se acepto. Lo que P1 aclaro: (a) el texto de las escenas vive en `public/data/ruta/recorridos.json` (excepcion 3) y el validador de `npm test` lo comprueba contra `public/data/*.geojson`; (b) las correcciones de verificacion de fuentes (RF-113) retiraron del texto D1b y D3b y reescribieron D1a, D4 y D8 (DATA_SOURCES §18); (c) el titulo del recorrido y su pregunta los redacto el agente y los aprueba Luis en el gate; (d) en alto < 500 px el panel se compacta sin pasar de 45 vh (RF-109). Abierto: D3b (nota de Platts, la abre Luis en Chrome) y el gate en telefono real; hasta entonces el estado de esta ADR no cambia.
+
+## ADR-024 — M16 v2: poligonos en vez de `campo_id`, con gate de licencia
+
+**Fecha:** 2026-11-12 · **Estado:** Propuesto (espera la aprobacion de Luis; spec 004).
+
+**Contexto.** M16 (capa de contratos y bloques) estaba planteada como atributos por `campo_id` sobre los campos del mapa. La fuente 2026 trae 303 poligonos de bloques con operador 2026, operador anterior, estatus, licencia OFAC y acuerdo EE. UU.-Venezuela, mas 4 divisiones de la Faja y registros de acuerdos vinculados a bloques (ver `docs/DATA_SOURCES.md` §19). La fuente declara atribucion obligatoria; la licencia de redistribucion de Transparencia Venezuela y del autor de los poligonos no esta confirmada.
+
+**Decision.**
+
+1. La capa se modela con poligonos de bloque (`bloques-2026.geojson`) y divisiones (`faja-divisiones-2026.geojson`), no con `campo_id`. El cruce campo-bloque se calcula en el cliente (punto representativo dentro del poligono).
+2. Esquema publicado propio (plan 004 §3.1): operadores como arreglos, `entidad_federal` en vez de `estado`, `confianza` del proyecto, campos PDVSA descartados.
+3. Gate de licencia: la capa se construye completa pero apagada (`CAPA_BLOQUES.permisoRedistribucion = false`). Los dos archivos publicados estan en `.gitignore`; los datos reales viven solo en `data/raw/tv-2026/` (ignorado). Fixtures y tests usan datos sinteticos.
+4. Los registros de contratos no se publican; solo se validan en local.
+5. Vista previa local solo con `MODO_DESARROLLO` y `VITE_CAPA_BLOQUES_LOCAL=1`.
+
+**Alternativas.**
+
+- *Atributos por `campo_id`:* no cubre bloques sin campo ni bloques costa afuera. Rechazada.
+- *Publicar los datos ya, con atribucion:* la licencia no esta confirmada. Rechazada hasta tener permiso.
+- *Sondeo de red (HEAD) para decidir si mostrar la capa:* produce un 404 en consola en produccion. Rechazada; se usa un flag de configuracion.
+- *Cruce campo-bloque en el conversor:* acopla el archivo de terceros con `campos.geojson`. Rechazada.
+
+**Consecuencias.**
+
+- (+) Sin permiso, un build de produccion no muestra ni pide nada de la capa.
+- (+) El nucleo (validador, filtros, cruce) es puro y reutilizable.
+- (-) Hasta que haya permiso, la capa solo se ve en local.
+- (-) Un formato de GeoJSON nuevo y un validador propio que mantener.
+- (-) La paleta (`COLOR_CAPA_BLOQUE`) queda SIN VERIFICAR hasta que la apruebe Luis.
+
+**Como se mide.** `npm test` (validador, nucleo, cruce, test de licencia RF-160); `git check-ignore` de los dos archivos publicados; `git ls-files` sin datos reales; Network con 0 peticiones de la capa mientras este apagada; tamanos crudo y gzip medidos en T16.
