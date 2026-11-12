@@ -82,3 +82,15 @@ export function modoPedido(search, { modos, publicadas }) {
   const recorrido = new URLSearchParams(search ?? "").get("recorrido");
   return modos.includes("ruta") && publicadas.includes(recorrido) ? "ruta" : null;
 }
+
+/**
+ * Que hacer con la capa "Bloques y contratos 2026" al arrancar (spec 004, RF-162).
+ * Con un recorrido abierto la capa no se dibuja (RF-161): queda pendiente para
+ * encenderse al salir. Sin efectos.
+ * @param {{activa: boolean, encendidaAlInicio: boolean, enRecorrido: boolean}} situacion
+ * @returns {"encender"|"pendiente"|"nada"}
+ */
+export function arranqueBloques({ activa, encendidaAlInicio, enRecorrido }) {
+  if (!activa || !encendidaAlInicio) return "nada";
+  return enRecorrido ? "pendiente" : "encender";
+}

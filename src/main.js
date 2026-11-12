@@ -74,7 +74,7 @@ import {
   RUTAS_PUBLICADAS,
   CAPA_BLOQUES,
 } from "./config.js";
-import { leerEnlace, resolverModo, urlDeModo, buscarActivo, modoInicialEn, modoPedido } from "./modos.js";
+import { leerEnlace, resolverModo, urlDeModo, buscarActivo, modoInicialEn, modoPedido, arranqueBloques } from "./modos.js";
 import { t, idioma } from "./i18n/index.js";
 
 /**
@@ -128,7 +128,7 @@ let mapa = null;
  */
 let mapaListo = null;
 
-// --- Capa "Bloques y contratos 2026" (spec 004): carga al primer encendido (RF-131) ---
+// --- Capa "Bloques y contratos 2026" (spec 004): carga al primer encendido (RF-131), que es el arranque (RF-162) ---
 
 /**
  * Estado de la capa. `sin_cargar` -> `cargando` -> `lista`, o `error` (se reintenta
@@ -213,6 +213,21 @@ function alternarCapaBloques(encendido) {
     if (ok && bloques.encendida) (await mapaListo)?.alternarBloques(true);
     return ok;
   });
+}
+
+/**
+ * RF-162: la capa arranca encendida. Se llama cuando las capas base ya llegaron,
+ * para no competir con ellas por la red movil. Con un recorrido abierto no se
+ * dibuja (RF-161): queda anotada para encenderse al salir.
+ */
+function encenderBloquesAlInicio() {
+  const accion = arranqueBloques({
+    activa: CAPA_BLOQUES.activa,
+    encendidaAlInicio: CAPA_BLOQUES.encendidaAlInicio,
+    enRecorrido: DEFINICION_MODOS[estado.actual]?.interfaz === "ruta",
+  });
+  if (accion === "pendiente") estado.bloquesPrevios = true;
+  if (accion === "encender") fijarCapas({ bloques: true });
 }
 
 /** Bloques (propiedades) que contienen el punto de un campo; vacio si la capa no esta a la vista. */
@@ -745,10 +760,12 @@ function arrancar() {
   // Con catch explicito: una promesa rechazada sin manejar no llega a la
   // interfaz, y un error que solo vive en la consola es invisible. Es la
   // leccion del import que falto en produccion (docs/PROCESO.md, error 6).
-  cargarCapas().catch((error) => {
-    console.error(error);
-    mostrarError(String(error?.message ?? error));
-  });
+  cargarCapas()
+    .catch((error) => {
+      console.error(error);
+      mostrarError(String(error?.message ?? error));
+    })
+    .finally(encenderBloquesAlInicio);
 }
 
 /**

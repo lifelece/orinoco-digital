@@ -6,8 +6,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { leerEnlace, resolverModo, urlDeModo, buscarActivo } from "../src/modos.js";
-import { DEFINICION_MODOS, MODOS, MODO_INICIAL, ORDEN_VUELO } from "../src/config.js";
+import { leerEnlace, resolverModo, urlDeModo, buscarActivo, arranqueBloques } from "../src/modos.js";
+import { DEFINICION_MODOS, MODOS, MODO_INICIAL, ORDEN_VUELO, CAPA_BLOQUES } from "../src/config.js";
 
 test("resolverModo: ?modo=ciudadBolivar entra al modo // RF-1", () => {
   assert.equal(resolverModo("ciudadBolivar", MODOS, MODO_INICIAL), "ciudadBolivar");
@@ -154,4 +154,22 @@ test("config: RUTAS_PUBLICADAS, RECORRIDO y modo ruta // RF-79, 87, 107, 117", (
   for (const n of ["Merey 16", "Petropiar", "José", "Junín"]) assert.ok(RECORRIDO.nombresPropios.includes(n));
   for (const n of ["Alberta", "Texas", "Mar del Norte"]) assert.ok(RECORRIDO.ejemplosForaneos.includes(n));
   assert.deepEqual(RECORRIDO.niveles, ["divulgacion", "tecnico"]);
+});
+
+// Spec 004, RF-162: la capa de bloques arranca encendida junto al resto de los datos.
+test("arranqueBloques: capa publicada y fuera del recorrido, se enciende al inicio // RF-162", () => {
+  assert.equal(arranqueBloques({ activa: true, encendidaAlInicio: true, enRecorrido: false }), "encender");
+});
+
+test("arranqueBloques: con un recorrido abierto queda pendiente para la salida // RF-161, RF-162", () => {
+  assert.equal(arranqueBloques({ activa: true, encendidaAlInicio: true, enRecorrido: true }), "pendiente");
+});
+
+test("arranqueBloques: sin publicar o sin encendido inicial, no hace nada // RF-129", () => {
+  assert.equal(arranqueBloques({ activa: false, encendidaAlInicio: true, enRecorrido: false }), "nada");
+  assert.equal(arranqueBloques({ activa: true, encendidaAlInicio: false, enRecorrido: false }), "nada");
+});
+
+test("config: la capa de bloques publicada arranca encendida // RF-162", () => {
+  assert.equal(CAPA_BLOQUES.encendidaAlInicio, true);
 });
