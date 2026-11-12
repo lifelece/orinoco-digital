@@ -1044,7 +1044,7 @@ Hecha con Edge real controlado por CDP (no con la herramienta de lectura):
 
 ## 19. Capa "Bloques y contratos 2026" — Transparencia Venezuela y poligonos (spec 004, ADR-024)
 
-**Estado de la licencia: NO confirmada.** Atribucion obligatoria segun el README de la fuente. Sin permiso, los datos no se suben al repo ni se publican: viven en `data/raw/tv-2026/` (ignorado por git) y los dos archivos publicados estan en `.gitignore`.
+**Estado de la licencia: sin licencia expresa de la fuente; publicada con atribucion por decision del autor del proyecto (2026-11-12).** Ver "Permiso de redistribucion" mas abajo. Atribucion obligatoria segun el README de la fuente.
 
 - **Fuente de asignaciones:** Transparencia Venezuela, "Mapa del negocio petrolero en Venezuela 2026" (https://transparenciave.org/mapapetrolero/). Corte de datos: 2026-10-31. Extraido: 2026-11-11.
 - **Fuente de poligonos:** repositorio publico ESRI del prof. Carlos Gonzalez (datos del Ministerio de Petroleo, hoy de Hidrocarburos), segun el README de la fuente.
@@ -1059,7 +1059,7 @@ node scripts/bloques-tv-a-geojson.mjs --publicar # escribe en public/data/ (solo
 node scripts/validar-bloques.mjs                 # valida public/data/ si existe; si no, "capa no publicada"
 ```
 
-### Archivos publicados (excluidos de git hasta el permiso)
+### Archivos publicados (versionados desde el 2026-11-12)
 
 `public/data/bloques-2026.geojson` y `public/data/faja-divisiones-2026.geojson`. Esquema en `specs/004-capa-bloques-contratos/plan.md` §3.1. Los registros de contratos no se publican.
 
@@ -1067,4 +1067,6 @@ node scripts/validar-bloques.mjs                 # valida public/data/ si existe
 
 Formato de la linea (la exige el test RF-160 cuando el permiso esta registrado): `Permiso de redistribucion: AAAA-MM-DD — alcance`.
 
-Permiso de redistribucion: [pendiente — sin fecha ni alcance]
+Permiso de redistribucion: 2026-11-12 — decision del autor del proyecto: la fuente publica estos datos en abierto y sin costo; se redistribuyen con atribucion visible, sin alterar su contenido y con la fecha de corte.
+
+**Alcance y limite de esta linea.** No es una licencia otorgada por la fuente: ni Transparencia Venezuela ni el autor de los poligonos han dado una autorizacion expresa, y el README de la fuente pide atribucion obligatoria. El autor del proyecto decidio publicar la capa sobre esa base el 2026-11-12. Si cualquiera de los dos pide retirarla o cambiar la cita, se retira o se corrige de inmediato: basta volver `permisoRedistribucion` a `false`. La solicitud de confirmacion sigue redactada en `specs/004-capa-bloques-contratos/solicitud-permiso.md`.
