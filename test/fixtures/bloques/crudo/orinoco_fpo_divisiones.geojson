@@ -1,0 +1,86 @@
+{
+ "type": "FeatureCollection",
+ "name": "crudo-sintetico-div",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id_fpo": "FPO1",
+    "division": "DIVISIÓN UNO",
+    "area_km2": 1001,
+    "bloques_que_toca": 1
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -63,
+       8
+      ],
+      [
+       -62.876543211,
+       8
+      ],
+      [
+       -62.876543211,
+       8
+      ],
+      [
+       -62.876543211,
+       8.2
+      ],
+      [
+       -63,
+       8.2
+      ],
+      [
+       -63,
+       8
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id_fpo": "FPO2",
+    "division": "DIVISIÓN DOS",
+    "area_km2": 1002,
+    "bloques_que_toca": 2
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -62,
+       8
+      ],
+      [
+       -61.876543211,
+       8
+      ],
+      [
+       -61.876543211,
+       8
+      ],
+      [
+       -61.876543211,
+       8.2
+      ],
+      [
+       -62,
+       8.2
+      ],
+      [
+       -62,
+       8
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
