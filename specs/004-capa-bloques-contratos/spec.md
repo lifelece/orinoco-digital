@@ -6,7 +6,7 @@
 > Fuente de los datos: Transparencia Venezuela, "Mapa del negocio petrolero en Venezuela 2026" (corte 31/10/2026, publicado 10/11/2026, extraído 11/11/2026). Polígonos: repositorio público ESRI de un tercero (datos del Ministerio de Hidrocarburos). Descripción en `data/raw/tv-2026/orinoco_capa_2026/README.md` (no versionado).
 > **Gate de licencia (decisión de Luis):** la licencia de redistribución NO está confirmada. Los datos reales no entran al repo público ni a producción. Esta spec construye la capa **completa pero apagada**; se enciende en una tarea posterior al permiso (fuera de esta ejecución).
 > Constitución: `docs/constitution.md` (principios 1, 2, 3, 9, 10, 12 aplican directamente).
-> Numeración: la spec 003 llega a RF-128; esta spec usa RF-129 a RF-161. Los RNF son locales. `[ASI]` = suposición del planificador, a confirmar.
+> Numeración: la spec 003 llega a RF-128; esta spec usa RF-129 a RF-162. Los RNF son locales. `[ASI]` = suposición del planificador, a confirmar.
 
 ## 1. Contexto
 
@@ -84,6 +84,7 @@ Accesibilidad, búsqueda, idioma y neutralidad
 - RF-152. EL SISTEMA DEBE mostrar todos los textos de interfaz de la capa en ES y EN, traducir los valores normalizados (capa, estatus normalizado, grupo) y mostrar sin traducir los valores literales de la fuente (empresas, estatus de la fuente, licencia, tipo de alianza, municipios).
 - RF-153. EL SISTEMA DEBE usar en la capa los rótulos neutrales de §3 y ningún texto de interfaz de la capa DEBE contener una raíz de la lista prohibida.
 - RF-161. MIENTRAS hay un recorrido abierto (spec 003), EL SISTEMA DEBE retirar del mapa la capa de bloques, su leyenda y sus filtros, y al salir del recorrido DEBE devolverlos al estado que tenían.
+- RF-162. CUANDO la aplicación arranca con la capa publicada y sin un recorrido abierto, EL SISTEMA DEBE encender la capa de bloques sin que el usuario lo pida, después de cargar las capas base; SI arranca dentro de un recorrido, DEBE encenderla al salir de él. El interruptor sigue disponible para apagarla. (Decisión del autor del 2026-11-12: como capa aparte y apagada, el mapa abría pobre de información. El primer encendido de RF-131 pasa a ser este.)
 
 Datos, conversión y validación
 

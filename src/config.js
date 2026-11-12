@@ -604,6 +604,12 @@ export const CAPA_BLOQUES = {
     PERMISO_BLOQUES ||
     (MODO_DESARROLLO && import.meta.env.VITE_CAPA_BLOQUES_LOCAL === "1"),
   archivos: ["bloques-2026.geojson", "faja-divisiones-2026.geojson"],
+  /**
+   * La capa arranca encendida, junto al resto de los datos (RF-162, decision del
+   * autor del 2026-11-12: como capa aparte y apagada, el mapa abria pobre de
+   * informacion). El interruptor sigue ahi para apagarla.
+   */
+  encendidaAlInicio: true,
 };
 
 /**
