@@ -1301,3 +1301,10 @@ Cesium.
 - (-) La paleta (`COLOR_CAPA_BLOQUE`) queda SIN VERIFICAR hasta que la apruebe Luis.
 
 **Como se mide.** `npm test` (validador, nucleo, cruce, test de licencia RF-160); `git check-ignore` de los dos archivos publicados; `git ls-files` sin datos reales; Network con 0 peticiones de la capa mientras este apagada; tamanos crudo y gzip medidos en T16.
+
+**Constancia de activacion (2026-11-12, tarea T19).** El autor del proyecto decidio publicar la capa: la fuente
+ofrece estos datos en abierto y sin costo. Se activa `permisoRedistribucion`, se versionan los dos archivos
+publicados y `docs/DATA_SOURCES.md` §19 registra la fecha y el alcance. No hay licencia expresa de la fuente ni
+del autor de los poligonos: la capa se publica con atribucion visible, sin alterar el contenido y con la fecha de
+corte, y se retira o corrige si cualquiera de los dos lo pide (volver el flag a `false` la apaga sin tocar codigo).
+El relleno usa tres opacidades en vez de rayado (T13). La paleta sigue pendiente del gate en telefono.

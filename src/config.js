@@ -597,7 +597,7 @@ export const URL_MICROSITIO = "/expofaja/";
  * La vista previa local exige `vite dev` y VITE_CAPA_BLOQUES_LOCAL=1.
  * Test: test/bloques-licencia.test.mjs (RF-160).
  */
-const PERMISO_BLOQUES = false;
+const PERMISO_BLOQUES = true;
 export const CAPA_BLOQUES = {
   permisoRedistribucion: PERMISO_BLOQUES,
   activa:
@@ -624,8 +624,8 @@ export const RUTAS_BLOQUES = {
  * SIN VERIFICAR: paleta provisional, la aprueba Luis en el gate (spec 004).
  */
 export const COLOR_CAPA_BLOQUE = {
-  nabep: "#3b82c4",
-  chevron: "#d98a2b",
+  nabep: "#e0449a",
+  chevron: "#a3e635",
   acuerdo_2026: "#4aa56b",
   sin_registro: "#8b98a5",
 };

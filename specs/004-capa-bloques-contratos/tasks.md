@@ -40,4 +40,4 @@
 - [ ] Apruebas la paleta y envías (o no) la solicitud de permiso.
 
 ## Después del permiso (fuera de esta ejecución)
-- [ ] T19 · Activación (plan §7): flag, `.gitignore`, `--publicar`, línea de permiso, constancia en ADR-024, PR.
+- [x] T19 (2026-11-12: por decisión de Luis, sin licencia expresa de la fuente; ver DATA_SOURCES §19 y ADR-024) · Activación (plan §7): flag, `.gitignore`, `--publicar`, línea de permiso, constancia en ADR-024, PR.
