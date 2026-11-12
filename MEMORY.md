@@ -11,13 +11,13 @@
 - Identidad "instrumento de cuenca" (ADR-021) y carga diferida de Cesium (ADR-022, #11, #22): FCP 7,6 s -> 1,0 s aprox. en 4G lenta.
 - Datos: `datos-semanal` (lunes, abre PR; el #20 fijo `FECHA_DATOS = "2026-10-19"`) y `noticias-ccieb` (diario). GEM sigue manual.
 - `npm test`: 196/196 y `verificar:modulos` sin violaciones (2026-10-24).
-- Ruta de aprendizaje (spec 003, ADR-023 aceptado): P1 (piloto R5) implementada en la rama `ruta-r5` (T01, T03-T14), esperando el gate de Luis en telefono real; D3b (nota de Platts) pendiente de Chrome. Siguiente: P2.
+- Ruta de aprendizaje (spec 003, ADR-023 aceptado): P1 (piloto R5) implementada en la rama `ruta-r5` (T01, T03-T14), en produccion desde el PR #29 (2026-11-03) con el gate en telefono superado. Fuentes: D2 leida en navegador el 2026-11-12; las paginas de S&P Global (D3, D3b, D9) responden "Access Denied" tambien en navegador real, asi que D3b sigue retirado (`docs/DATA_SOURCES.md` §18). Siguiente: P2 (sin empezar; la decide el autor).
 - Bitacoras en Notion: "Bitacora 12-13 Oct 2026" y "Bitacora 24 Oct 2026".
 
 ## Abierto (del autor)
 
 - Gates M1, E1, E2, E3 (2026-10-13) y .ics, RF-78, RF-22/23 (2026-10-14): cerrados. ADR-020 y ADR-022 aceptados.
-- Pendientes: Lighthouse movil oficial (PageSpeed sin cuota el 24/10; medido por CDP con 4G lenta y CPU x4, una carga: mapa FCP y LCP 4,48 s, `/expofaja` FCP 1,45 s y LCP 3,07 s).
+- Lighthouse movil oficial MEDIDO el 2026-11-12 (pagespeed.web.dev, Lighthouse 13.6.0): mapa 60/100/96/100 con TBT 34.090 ms (Cesium en el hilo principal); `/expofaja` 100/100/100/100. Detalle en `docs/fases/FASE-6-7-DEPLOY.md`. Pendiente del autor: decidir si se invierte en bajar el TBT del mapa.
 - Refactor C3 (ADR-017): `src/ui/` tiene 5 modulos, pero `src/ui.js` sigue en 1.943 lineas y `src/map.js` en 1.831.
 
 ## Decisiones vigentes (no reabrir sin ADR)
